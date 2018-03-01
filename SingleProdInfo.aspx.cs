@@ -15,6 +15,7 @@ public partial class SingleProdInfo : System.Web.UI.Page
         {
             if (Request.QueryString["pid"] != null && Request.QueryString["pid"].ToString() != "")
             {
+                hf_ddl_Value.Value = "0";
                 load_image(Request.QueryString["pid"].ToString());
                 load_ProdInfo(Request.QueryString["pid"].ToString());
             }
@@ -103,6 +104,10 @@ public partial class SingleProdInfo : System.Web.UI.Page
                 string pid = commandArgs[0];
                 string rid = commandArgs[1];
                 string amt = commandArgs[2];
+                string costprice = commandArgs[3];
+                string discount = (Convert.ToDecimal(costprice) - Convert.ToDecimal(amt)).ToString("0.00");
+                string qty = "1";
+                string deliveryamt = "150";
 
                 obj = new DB();
                 string size = "";
@@ -114,7 +119,7 @@ public partial class SingleProdInfo : System.Web.UI.Page
                     size = ddlsize.SelectedValue;
                 }
                 string[] str = Session["loginid"].ToString().Split(',');
-                int i = obj.AddNewCartProdInfo(pid, str[0], rid, amt, size);
+                int i = obj.AddNewCartProdInfo(pid, str[0], rid, amt, size, costprice, discount, qty, deliveryamt);
                 if (i > 0)
                 {
                     string p = ((Label)Master.FindControl("lblcountcart")).Text;
@@ -212,26 +217,86 @@ public partial class SingleProdInfo : System.Web.UI.Page
 
             if (Request.QueryString["pid"] != null && Request.QueryString["pid"].ToString() != "")
             {
-                DataSet ds = obj.fillDataSet("select MFlag,Measurement from productdescription where PId=" +Request.QueryString["pid"].ToString());
-                if (ds.Tables[0].Rows.Count > 0)
+                //DataSet ds = obj.fillDataSet("select MFlag,Measurement from productdescription where PId=" +Request.QueryString["pid"].ToString());
+                //if (ds.Tables[0].Rows.Count > 0)
+                //{
+                //    if (ds.Tables[0].Rows[0]["MFlag"].ToString() != "0")
+                //    {
+                //        myDropDownList.Visible = true;
+                //        string[] sizelist = ds.Tables[0].Rows[0]["Measurement"].ToString().Split(',');
+
+
+                //        for (int i = 0; i < sizelist.Length; i++)
+                //        {
+                //            myDropDownList.Items.Add(new ListItem(sizelist[i], sizelist[i]));
+                //        }
+                //        myDropDownList.DataSource = null; //GetDDLDataSource(currentItemID);
+                //        myDropDownList.DataBind();
+                //    }
+                //    else
+                //        myDropDownList.Visible = false;
+                //}
+                if (myDropDownList.Items.Count == 0)
                 {
-                    if (ds.Tables[0].Rows[0]["MFlag"].ToString() != "0")
+                    DataSet ds = obj.fillDataSet("select id,[measurementTitle] from ProductMeasurementMapping where productid=" + Request.QueryString["pid"].ToString() + " and cast([measurementLeftQuantity] as int)>0 order by cast([measurementSellingPrice] as float)");
+                    if (ds.Tables[0].Rows.Count > 0)
                     {
                         myDropDownList.Visible = true;
-                        string[] sizelist = ds.Tables[0].Rows[0]["Measurement"].ToString().Split(',');
-
-
-                        for (int i = 0; i < sizelist.Length; i++)
-                        {
-                            myDropDownList.Items.Add(new ListItem(sizelist[i], sizelist[i]));
-                        }
-                        myDropDownList.DataSource = null; //GetDDLDataSource(currentItemID);
+                        myDropDownList.DataTextField = "measurementTitle";
+                        myDropDownList.DataValueField = "id";
+                        myDropDownList.DataSource = ds.Tables[0];
                         myDropDownList.DataBind();
+                        if (!string.IsNullOrEmpty(hf_ddl_Value.Value))
+                            myDropDownList.SelectedValue = hf_ddl_Value.Value;
                     }
                     else
+                    {
                         myDropDownList.Visible = false;
+                    }
+                }
+                else
+                {
+                    DataSet ds = obj.fillDataSet("select id,[measurementTitle] from ProductMeasurementMapping where productid=" + Request.QueryString["pid"].ToString() + " and cast([measurementLeftQuantity] as int)>0");
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        myDropDownList.Visible = true;
+                        myDropDownList.DataTextField = "measurementTitle";
+                        myDropDownList.DataValueField = "id";
+                        myDropDownList.DataSource = ds.Tables[0];
+                        myDropDownList.DataBind();
+                        myDropDownList.SelectedValue = hf_ddl_Value.Value;
+                    }
+                    else
+                    {
+                        myDropDownList.Visible = false;
+                    }
                 }
             }
+        }
+    }
+
+    protected void ddlSize_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            var ddl = (DropDownList)sender;
+            string ddl_selectedvalue = ((DropDownList)ddl.NamingContainer.FindControl("ddlSize")).SelectedValue;
+            hf_ddl_Value.Value = ddl_selectedvalue;
+            obj = new DB();
+            DataSet ds = obj.GetProtducsInfoRebind(Convert.ToInt64(ddl_selectedvalue)); //.fillDataSet("select top 1 pd.PId,pd.HeaderTitle,pd.SellingPrice,pd.CostPrice,pd.PDescription,pd.Discount,pd.title1,pd.value1,pd.title2,pd.value2,pd.title3,pd.value3,pd.title4,pd.value4,pd.title5,pd.value5,pd.title6,pd.value6,pd.title7,pd.value7,pd.title8,pd.value8,pd.title9,pd.Value9,pd.Title10,pd.value10,pimg.PImage from productdescription as pd inner join productimage as pimg on pd.Pid=pimg.Pid");
+            dlProdInfo.DataSource = ds.Tables[0];
+            dlProdInfo.DataBind();
+            //ddlProdDetail.DataSource = ds.Tables[0];
+            //ddlProdDetail.DataBind();
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            obj = null;
         }
     }
 }

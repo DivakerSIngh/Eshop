@@ -27,12 +27,20 @@ public partial class homeMasterPage : System.Web.UI.MasterPage
             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 btnUserName.Text = "Welcome, " + ds.Tables[0].Rows[0]["Name"].ToString();
             btnUserName.Enabled = false;
+            if (Convert.ToString(Session["userType"]).ToUpper() == "Free".ToUpper())
+            {
+                lnkMember.Visible = true;
+            }else
+            {
+                lnkMember.Visible = false; 
+            }
         }
         else
         {
             
             btnUserName.Visible = false;
             btnUserName.Enabled = false;
+            lnkMember.Visible = false;
         }
 
     }
@@ -47,7 +55,8 @@ public partial class homeMasterPage : System.Web.UI.MasterPage
                 //obj.LogoutSession(Session["sessionid"].ToString());
                 ////((Label)Master.FindControl("lblcountcart")).Text = "0";
                 Session["loginid"] = null;
-
+                Session["userType"] = null;
+                lnkMember.Visible = false;
                 lblcountcart.Text = "0";
                 btnSignUp.Visible = true;
                 btnMyOrder.Visible = false;
@@ -137,5 +146,10 @@ public partial class homeMasterPage : System.Web.UI.MasterPage
     protected void btnWishlist_Click(object sender, EventArgs e)
     {
         Response.Redirect("WishList.aspx");
+    }
+
+    protected void lnkMember_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("BecomePreUser.aspx");
     }
 }

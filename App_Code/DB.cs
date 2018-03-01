@@ -927,12 +927,13 @@ public class DB
         return i;
     }
 
-    public int AddNewCartProdInfo(string pid,string userid,string rid,string amt,string size)
+  
+    public int AddNewCartProdInfo(string pid, string userid, string rid, string amt, string size="", string costprice = "", string discount = "", string qty = "", string deleveryamt = "")
     {
         int i = 0;
         try
         {
-            i = CheckCartProductDuplicate(pid,userid);
+            i = CheckCartProductDuplicate(pid, userid);
             if (i == 0)
             {
                 i = 0;
@@ -949,7 +950,11 @@ public class DB
                 cmd.Parameters.AddWithValue("@userid", userid);
                 cmd.Parameters.AddWithValue("@amt", amt);
                 cmd.Parameters.AddWithValue("@size", size);
-                cmd.Parameters.AddWithValue("@damt", "150");
+                cmd.Parameters.AddWithValue("@damt", deleveryamt);
+                cmd.Parameters.AddWithValue("@costprice", costprice);
+                cmd.Parameters.AddWithValue("@discount", discount);
+                cmd.Parameters.AddWithValue("@qty", qty);
+
                 con.Open();
                 i = cmd.ExecuteNonQuery();
             }
@@ -3207,8 +3212,9 @@ public class DB
         return ds;
     }
 
-    public string ValidateUserLoginDetails(string userid, string pwd)
+    public Dictionary<string,string> ValidateUserLoginDetails(string userid, string pwd)
     {
+        var retruenObject = new Dictionary<string, string>();
         int i = 0; string logdetails = "";
         try
         {
@@ -3221,7 +3227,10 @@ public class DB
             cmd.CommandText = "EShop_ValidateUserLoginDetails";
             cmd.Parameters.AddWithValue("@userid", userid);
             cmd.Parameters.AddWithValue("@pwd", pwd);
+           
+             
             cmd.Parameters.Add("@loginid", SqlDbType.VarChar, 20).Direction = ParameterDirection.Output;
+            cmd.Parameters.Add("@userType", SqlDbType.VarChar, 20).Direction = ParameterDirection.Output;
 
 
             con.Open();
@@ -3230,7 +3239,8 @@ public class DB
                 logdetails = cmd.Parameters["@loginid"].Value.ToString();
             //else
             //    logdetails = "";
-
+            retruenObject.Add("loginid", logdetails);
+            retruenObject.Add("userType", cmd.Parameters["@userType"].Value.ToString());
         }
         catch (Exception ex)
         {
@@ -3240,7 +3250,7 @@ public class DB
         {
             con.Close();
         }
-        return logdetails;
+        return retruenObject;
 
     }
 

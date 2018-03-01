@@ -58,6 +58,7 @@ public partial class Login : System.Web.UI.Page
     }
     protected void btnLogin_Click(object sender, EventArgs e)
     {
+        var userObject = new Dictionary<string, string>();
         try
         {
 
@@ -66,12 +67,14 @@ public partial class Login : System.Web.UI.Page
                 btnLogin.Text = "Checking...";
                 btnLogin.Enabled = false;
                 obj = new DB();
-                string loginid = obj.ValidateUserLoginDetails(txtUName.Value, txtPwd.Value);
-                if (loginid != "")
+                userObject = obj.ValidateUserLoginDetails(txtUName.Value, txtPwd.Value);
+                if (userObject.ContainsKey("loginid") && userObject.ContainsKey("userType"))
                 {
-                    Session["loginid"] = loginid;
+                    Session["loginid"]=  userObject["loginid"];
+                    Session["userType"] = userObject["userType"];
+                   
                     Response.Redirect("Default.aspx");
-                }
+                }               
                 else
                 {
                     btnLogin.Text = "Login";

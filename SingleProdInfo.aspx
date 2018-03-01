@@ -28,35 +28,10 @@
     </script>
     <!--flex slider-->
     <script src="js/imagezoom.js"></script>
-    <style>
-       /*address by divaker*/
-        .imageSize{
-            /*max-width: 100% !important;
-    height: auto !important;*/
-        }
-
-        .flexslider img{
-            position: relative;
-    left: 50%;
-    top: 50%;
-    height: 100%;
-    width: auto;
-    -webkit-transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%);
-    transform: translate(-50%,-50%);
-        }
-
-        .flexslider{
-            position: relative;
-    width: 200px;
-    height: 200px;
-    overflow: hidden;
-        }
-    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
-
+    <asp:HiddenField ID="hf_ddl_Value" runat="server" />
     <!-- breadcrumbs -->
     <div class="container">
         <ol class="breadcrumb breadcrumb1">
@@ -78,22 +53,22 @@
                             <ul class="slides">
                                 <li data-thumb="" id="img11" runat="server">
                                     <div class="thumb-image detail_images">
-                                        <img src="" id="img1" runat="server" data-imagezoom="true" class="img-responsive imageSize" alt="" />
+                                        <img src="" id="img1" runat="server" data-imagezoom="true" class="img-responsive" alt="" />
                                     </div>
                                 </li>
                                 <li data-thumb="" id="img12" runat="server">
                                     <div class="thumb-image">
-                                        <img src="" id="img2" runat="server" data-imagezoom="true" class="img-responsive imageSize" alt="" />
+                                        <img src="" id="img2" runat="server" data-imagezoom="true" class="img-responsive" alt="" />
                                     </div>
                                 </li>
                                 <li data-thumb="" id="img13" runat="server">
                                     <div class="thumb-image">
-                                        <img src="" id="img3" runat="server" data-imagezoom="true" class="img-responsive imageSize" alt=""/>
+                                        <img src="" id="img3" runat="server" data-imagezoom="true" class="img-responsive" alt=""/>
                                     </div>
                                 </li>
                                 <li data-thumb="" id="img14" runat="server">
                                     <div class="thumb-image">
-                                        <img src="" data-imagezoom="true" id="img4" runat="server" class="img-responsive imageSize" alt="" />
+                                        <img src="" data-imagezoom="true" id="img4" runat="server" class="img-responsive" alt="" />
                                     </div>
                                 </li>
                             </ul>
@@ -131,7 +106,7 @@
                                 </div>
                             <div class="size-dropdown"><label>Seller Name: &nbsp;</label><asp:Label ID="lblRname" runat="server" Text='<%# Eval("org_name") %>'></asp:Label></div>
 
-                                 <div class="size-dropdown"><label>Choose Size: &nbsp;</label><asp:DropDownList ID="ddlSize" runat="server"></asp:DropDownList></div>
+                                 <div class="size-dropdown"><label>Choose Size: &nbsp;</label><asp:DropDownList ID="ddlSize" runat="server" OnSelectedIndexChanged="ddlSize_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList></div>
                             <div class="input-group message" style="margin-top:20px;color: red"></div>    
                             <div class="input-group pin-locate">
                                     <asp:TextBox ID="txtLocation" runat="server" CssClass="form-control" placeholder="enter pincode" style="z-index:auto;" TextMode="Number" ></asp:TextBox><br />
@@ -143,10 +118,10 @@
                                 </div>
 
                             <asp:Label ID="lblcid" runat="server" Text='<%# Eval("cid") %>' Visible="false"></asp:Label>
-                                <asp:LinkButton ID="btnAddCart" class="w3ls-cart" runat="server" CommandArgument='<%# Eval("pid")+","+Eval("UserId")+","+Eval("sellingprice") %>' OnCommand="btnAddCart_Command1"><i class="fa fa-cart-plus" aria-hidden="true"></i>Add to cart</asp:LinkButton>
+                                <asp:LinkButton ID="btnAddCart" class="w3ls-cart" runat="server" CommandArgument='<%# Eval("pid")+","+Eval("UserId")+","+Eval("sellingprice")+","+Eval("costprice") %>' OnCommand="btnAddCart_Command1"><i class="fa fa-cart-plus" aria-hidden="true"></i>Add to cart</asp:LinkButton>
 
 
-                                <asp:LinkButton ID="btnAddWishList" class="w3ls-cart w3ls-cart-like" runat="server" CommandArgument='<%# Eval("pid")+","+Eval("UserId")+","+Eval("sellingprice") %>' OnCommand="btnAddWishList_Command"><i class="fa fa-heart-o" aria-hidden="true"></i>Add to Wishlist</asp:LinkButton>
+                                <asp:LinkButton ID="btnAddWishList" class="w3ls-cart w3ls-cart-like" runat="server" CommandArgument='<%# Eval("pid")+","+Eval("UserId")+","+Eval("sellingprice")+","+Eval("costprice") %>' OnCommand="btnAddWishList_Command"><i class="fa fa-heart-o" aria-hidden="true"></i>Add to Wishlist</asp:LinkButton>
                             
                         </ItemTemplate>
                     </asp:DataList>

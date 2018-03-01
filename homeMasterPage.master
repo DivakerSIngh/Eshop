@@ -165,6 +165,10 @@
                         <li class="dropdown head-dpdn">
                             <a href="PanelLogin.aspx?mode=R" class="dropdown-toggle left-it" id="sellon"><i aria-hidden="true"></i>Sell On Villagers</a>
                         </li>
+                         <li class="dropdown head-dpdn">
+                             <asp:LinkButton class="dropdown-toggle left-it"  ID="lnkMember" Text="Not a member" OnClick="lnkMember_Click" runat="server"></asp:LinkButton>
+                         </li>
+                          
                         <li class="dropdown head-dpdn">
                             <a href="#" class="dropdown-toggle left-it" data-toggle="dropdown"><i class="fa fa-user" aria-hidden="true"></i>My Account<span class="caret"></span></a>
                             <ul class="dropdown-menu">

@@ -24,7 +24,7 @@
                  privacyPolicy = "No Return Policy";
             }
             return privacyPolicy;
-        }
+        } 
     </script>
       
 

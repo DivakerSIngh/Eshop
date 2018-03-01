@@ -4,6 +4,7 @@
 
 <%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
 
@@ -15,7 +16,77 @@
         function f() {
             toastr.error('Error occured Info cannot be viewd try later !');
         }
+        function filechange(event) {
+            
+        }
+
+        (function () {
+            var $;
+            var demo = window.demo = window.demo || {};
+
+            demo.initialize = function () {
+                $ = $telerik.$;
+            };
+
+            window.validationFailed = function (radAsyncUpload, args) {
+                
+                var $row = $(args.get_row());
+                var erorMessage = getErrorMessage(radAsyncUpload, args);
+                var span = createError(erorMessage);
+                $row.addClass("ruError");
+                $row.append(span);
+            }
+
+            function getErrorMessage(sender, args) {
+                
+                var fileExtention = args.get_fileName().substring(args.get_fileName().lastIndexOf('.') + 1, args.get_fileName().length);
+                if (args.get_fileName().lastIndexOf('.') != -1) {//this checks if the extension is correct
+                    if (sender.get_allowedFileExtensions().indexOf(fileExtention) == -1) {
+                        return ("This file type is not supported.");
+                    }
+                    else {
+                        return ("This file exceeds the maximum allowed size of 500 KB.");
+                    }
+                }
+                else {
+                    return ("not correct extension.");
+                }
+            }
+
+            function createError(erorMessage) {
+                
+                var input = '<span class="ruErrorMessage">' + erorMessage + ' </span>';
+                return input;
+            }
+
+
+
+        })();
+
+        function checkUploadedFilesSize(progressArea, args) {
+            debugger
+            //progressArea.confirmed is a custom variable,    
+            // you can use another if you want to    
+            if (!progressArea.confirmed &&
+            args.get_progressData().RadUpload.RequestSize > 1000000) {
+                if (confirm("The total size of the selected files" +
+                                  " is more than the limit." +
+                                                    " Do you want to cancel the upload?")) {
+                    progressArea.cancelRequest();
+                }
+                else {
+                    progressArea.confirmed = "confirmed";
+                }
+            }
+        }
     </script>
+     <script type="text/javascript">
+            //<![CDATA[
+            //Sys.Application.add_load(function () {
+            //    demo.initialize();
+            //});
+            //]]>
+        </script>
 
 
 
@@ -118,11 +189,16 @@
 
                                         <div class="form-group">
                                             <label for="focusedinput" class="col-sm-2 control-label" style="text-align: left;">Select Images
-                                                <asp:Label ID="Label4" runat="server" Text="*" ForeColor="Red" /></label>
+                                                <asp:Label ID="Label4" runat="server" Text="*     Image size should be less than 1 Mb" ForeColor="Red" /></label>
                                             <div class="col-sm-8">
 
-                                                <telerik:RadUpload ID="fileupload" runat="server" Skin="WebBlue"></telerik:RadUpload>
+                                                <%-- <telerik:RadAsyncUpload RenderMode="Lightweight" runat="server" ID="RadAsyncUpload1" AllowedFileExtensions="jpg,jpeg,png,gif" TargetFolder="" MultipleFileSelection="Automatic" 
+                MaxFileSize="524288" Skin="Silk" OnFileUploaded="RadAsyncUpload1_FileUploaded" OnClientValidationFailed="validationFailed" UploadedFilesRendering="BelowFileInput">
+            </telerik:RadAsyncUpload>--%>
 
+                                                <telerik:RadUpload ID="fileupload" ClientIDMode="Static" OnClientValidationFailed="validationFailed" runat="server" Skin="WebBlue"></telerik:RadUpload>
+                                                <telerik:RadProgressArea RenderMode="Lightweight" runat="server" id="RadProgressArea1"  OnClientProgressUpdating ="checkUploadedFilesSize" />
+<telerik:RadProgressManager runat="server" id="RadProgressManager1" />
                                             </div>
                                             <div class="col-sm-2" style="display: none;">
                                                 <p class="help-block">Your help text!</p>

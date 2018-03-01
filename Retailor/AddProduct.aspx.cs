@@ -207,31 +207,52 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
     }
     protected void btnPShiftSize_Click(object sender, EventArgs e)
     {
-        List<Measurment> list = new List<Measurment>();
-        var measurment = new Measurment
+        if (txtPSize.Text.Trim()=="" || txtMeasurementQuantity.Text.Trim()==""||txtMeasurementPrice.Text.Trim()=="" || txtSellingPrice.Text.Trim()=="")
         {
-            title = txtPSize.Text,
-            quantity = txtMeasurementQuantity.Text,
-            mrp = txtMeasurementPrice.Text,
-            sellingPrice = txtSellingPrice.Text
-        };
-
-        if (txtPSize.Text.Trim() != "")
+            ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.error('Please fill all mendatory field');", true);
+           
+        }else
         {
+            var sellingPrice = Convert.ToDecimal(txtSellingPrice.Text.Trim());
+            var mrp = Convert.ToDecimal(txtMeasurementPrice.Text.Trim());
+            if (sellingPrice > mrp)
+            {
+                //ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.error('Selling price  can't be greater than M.R.P');", true);
+                ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.error('Selling price cant be greater than MRP');", true);
 
-            lbPSizeList.Items.Add(measurment.title + "~" + measurment.quantity + "~" + measurment.mrp + "~" + measurment.sellingPrice);
-            txtPSize.Text = "";
-            txtMeasurementQuantity.Text = "";
-            txtMeasurementPrice.Text = "";
-            txtSellingPrice.Text = "";
+            }
+            else
+            {
+                List<Measurment> list = new List<Measurment>();
+                var measurment = new Measurment
+                {
+                    title = txtPSize.Text,
+                    quantity = txtMeasurementQuantity.Text,
+                    mrp = txtMeasurementPrice.Text,
+                    sellingPrice = txtSellingPrice.Text
+                };
+
+                if (txtPSize.Text.Trim() != "")
+                {
+
+                    lbPSizeList.Items.Add(measurment.title + "~" + measurment.quantity + "~" + measurment.mrp + "~" + measurment.sellingPrice);
+                    txtPSize.Text = "";
+                    txtMeasurementQuantity.Text = "";
+                    txtMeasurementPrice.Text = "";
+                    txtSellingPrice.Text = "";
+                }
+
+                if (Session["list"] != null)
+                {
+                    list = Session["list"] as List<Measurment>;
+                }
+                list.Add(measurment);
+                Session["list"] = list;
+            }
+           
         }
 
-        if (Session["list"] != null)
-        {
-            list = Session["list"] as List<Measurment>;
-        }
-        list.Add(measurment);
-        Session["list"] = list;
+      
     }
     class Measurment
     {
@@ -351,6 +372,7 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
                 && lbPSizeList.Items.Count >0
                 )
             {
+             
 
                 obj = new DB();
                 obj.PMeasurementFlag = rdbtnMeasurement.SelectedIndex == 0 ? "1" : "0";

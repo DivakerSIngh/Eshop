@@ -12,10 +12,10 @@
         a.myProLink:hover, a.myProLink:focus {
             color: white;
         }
-         .imageSize{
+         /*.imageSize{
             max-width: 100% !important;
     height: auto !important;
-        }
+        }*/
     </style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" type="text/javascript"></script>
     <script type="text/javascript">

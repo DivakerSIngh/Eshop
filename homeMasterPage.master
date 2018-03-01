@@ -111,6 +111,25 @@
 
             return false;
         }
+        $(function () {
+
+            $('#txtSearch').keyup(function (e) {
+                
+                if (e.keyCode === 13) {
+                    document.getElementById('btnSearch').click();
+                }
+            });
+
+        })
+        
+
+       
+        $(document).keypress(function (e) {
+            if (e.keyCode === 13) {
+                e.preventDefault();
+                return false;
+            }
+        });
     </script>
 
     <style>

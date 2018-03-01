@@ -23,6 +23,15 @@ public partial class homeMasterPage : System.Web.UI.MasterPage
                 case "U":
                          // Response.Redirect("")    
                     break;
+                case "E":
+                    // Response.Redirect("")    
+                    break;
+                case "R":
+                    Response.Redirect("Retailor/RetailorDashboard.aspx");  
+                    break;
+                case "A":
+                    Response.Redirect("Admin/SAdminDashboard.aspx");
+                    break;
             }
             obj = new DB();
             string[] str = Session["loginid"].ToString().Split(',');

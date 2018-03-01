@@ -1,0 +1,219 @@
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html,body {
+    color: #3c3535;
+    font-family: 'Lato','Arial',sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    text-rendering: optimizeLegibility;
+    background-color: #fcfcfc;
+    overflow-x: hidden;
+    background-color: #F3F3F4;
+}
+
+div.container {
+    margin:0;
+    margin-bottom: 3%;
+}
+
+.my-border {
+    min-height: 100%;
+    background-color: #fff;
+    height: 100%;
+    width: 20%;
+    position: fixed;
+/*    border-right: 2px solid #bcb7b7;*/
+    text-align: center;
+}
+
+.user-labels {
+    margin-top: 10%;
+}
+
+.info-panel{
+    margin-top: 10%;
+}
+
+.info-panel .box{
+    width: 42%;
+    margin-left: 29%;
+}
+
+.wallet-buttons{
+    margin-top: 1.5%;
+}
+
+.panel-acc{
+    margin-top: 10%;
+}
+
+.wallet-buttons a{
+    margin-left: 1%;
+    box-shadow: 1px solid #ddd;
+}
+
+.wallet-buttons a:active,.table-container .view-all>a:active {
+    position: relative;
+    top:1px;
+}
+
+.info-panel img {
+    width: 100%;
+}
+
+.details-acc {
+    text-align: center;
+    margin-left: 25%;
+}
+
+.table-container,.bot {
+    background-color: #fff;
+    border:1px solid #ddd;
+}
+
+.summary{
+    border-bottom: 1px solid #ddd;
+}
+
+.panel-acc h3{
+    margin-top: 10px;
+}
+
+.user-labels li{
+    border-left: 0;
+    border-right: 0;
+}
+
+.user-labels li:first-child{
+    border-top: 0;
+}
+
+.panel-acc tbody tr {
+    cursor: pointer;
+}
+
+.user-img {
+    border-radius: 50%;
+}
+
+.view-all:hover {
+    background-color: #fff;
+    cursor: auto;
+}
+
+.panel-acc th{
+    font-weight: 400;
+}
+
+.bot {
+    background-color: #fff;
+    padding: 2% 0;
+}
+
+.addMoney{
+    margin-bottom: 1%;
+    margin-top: 3%;
+}
+
+.money-form-panel {
+    margin-top: 10%;
+}
+
+#form1 .container .row {
+    margin-top: 49px;
+}
+
+.header {
+    position: fixed;
+    width: 100%;
+    z-index: 9999;
+}
+
+.container .row{
+    margin-top: 49px;
+}
+
+#myLofo {
+    position: absolute;
+    z-index: 9999;
+    width: 20%;
+    height: 48px;
+    text-align: center;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+}
+
+#myLofo img {
+    height: 100%;
+}
+
+table td{
+    text-align: left;
+
+}
+
+table td.view-all {
+    text-align: center;
+}
+
+.form-control:focus{
+    border-color: #cccccc;
+    box-shadow:none;
+    -webkit-box-shadow: none;
+    outline: none;
+}
+
+.tooltip-inner{
+    color: white;
+    background-color: red;
+}
+
+.tooltip.top .tooltip-arrow{
+    border-top-color: red;
+}
+
+.error,.login-page input.error {
+    border-color: red;
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.form-control.error:focus{
+    border-color: red;
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+#ContentPlaceHolder1_rbtnTransfer tr td{
+    text-align: center;
+}
+#ContentPlaceHolder1_rbtnTransfer tr td:first-child{
+    text-align:right;
+}
+
+#ContentPlaceHolder1_pnlTransferToBank label,#ContentPlaceHolder1_pnlTransferToUser label,#ContentPlaceHolder1_pnlReferEarn label{
+    font-size: 85%;
+}

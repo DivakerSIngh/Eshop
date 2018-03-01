@@ -1,0 +1,250 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="WalletAccount.master.cs" Inherits="WalletAccount" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+
+    <script src="/ToastMessage/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <link href="/ToastMessage/toastr.css" rel="stylesheet" type="text/css" />
+    <script src="/ToastMessage/toastr.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        function f() {
+            toastr.error('Error occured Info cannot be viewd try later !');
+        }
+    </script>
+
+
+
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+		function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- Custom Theme files -->
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/menu.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- menu style -->
+    <link href="css/ken-burns.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- banner slider -->
+    <link href="css/animate.min.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/owl.carousel.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- carousel slider -->
+    <!-- //Custom Theme files -->
+    <!-- font-awesome icons -->
+    <link href="css/font-awesome.css" rel="stylesheet" />
+    <!-- //font-awesome icons -->
+    <!-- js -->
+    <script src="js/jquery-2.2.3.min.js"></script>
+    <!-- //js -->
+    <!-- web-fonts -->
+    <link href='//fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css' />
+    <link href='//fonts.googleapis.com/css?family=Lovers+Quarrel' rel='stylesheet' type='text/css' />
+    <link href='//fonts.googleapis.com/css?family=Offside' rel='stylesheet' type='text/css' />
+    <link href='//fonts.googleapis.com/css?family=Tangerine:400,700' rel='stylesheet' type='text/css' />
+    <!-- web-fon    ts -->
+    <script src="js/owl.carousel.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#owl-demo").owlCarousel({
+                autoPlay: 3000, //Set AutoPlay to 3 seconds 
+                items: 4,
+                itemsDesktop: [640, 5],
+                itemsDesktopSmall: [480, 2],
+                navigation: true
+
+            });
+        });
+    </script>
+    <script src="js/jquery-scrolltofixed-min.js" type="text/javascript"></script>
+    <script>
+        $(document).ready(function () {
+
+            // Dock the header to the top of the window when scrolled past the banner. This is the default behaviour.
+
+            $('.header-two').scrollToFixed();
+            // previous summary up the page.
+
+            var summaries = $('.summary');
+            summaries.each(function (i) {
+                var summary = $(summaries[i]);
+                var next = summaries[i + 1];
+
+                summary.scrollToFixed({
+                    marginTop: $('.header-two').outerHeight(true) + 10,
+                    zIndex: 999
+                });
+            });
+        });
+    </script>
+    <!-- start-smooth-scrolling -->
+    <script type="text/javascript" src="js/move-top.js"></script>
+    <script type="text/javascript" src="js/easing.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+                $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1000);
+            });
+        });
+    </script>
+    <!-- //end-smooth-scrolling -->
+    <!-- smooth-scrolling-of-move-up -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var defaults = {
+                containerID: 'toTop', // fading element id
+                containerHoverID: 'toTopHover', // fading element hover id
+                scrollSpeed: 1200,
+                easingType: 'linear'
+            };
+
+            $().UItoTop({ easingType: 'easeOutQuart' });
+
+        });
+    </script>
+    <!-- //smooth-scrolling-of-move-up -->
+
+
+    
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+
+
+
+    <link href="css/animate.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/userwallet.css" rel="stylesheet" />
+    <link href="css/normalize.css" rel="stylesheet" />
+    <link href="css/userwalletqueries.css" rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,300i,400" rel="stylesheet" />
+
+
+
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+
+</head>
+<body>
+    
+      <form runat="server">
+        <!-- header -->
+          
+        <div class="header">
+            <div class="w3ls-header">
+                <!--header-one-->
+                <div class="w3ls-header-left">
+                    <p><a href="Default.aspx"><i class="fa fa-shopping-cart"></i> Villagers...</a></p>
+                </div>
+                <div class="w3ls-header-right">
+                    
+                    <ul>
+                       <%-- <li class="dropdown head-dpdn">
+                            <a href="PanelLogin.aspx?mode=R" class="dropdown-toggle"><i aria-hidden="true"></i>Sell On Villagers</a>
+                        </li>--%>
+                        <li class="dropdown head-dpdn">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user" aria-hidden="true"></i>My Account<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a>
+                                    <asp:LinkButton ID="btnLogin" runat="server" Text="Login" OnClick="LinkButton1_Click"></asp:LinkButton></a></li>
+                                <li><a><asp:LinkButton ID="btnSignup" runat="server" Text="Sign Up" OnClick="btnSignUp_Click" ></asp:LinkButton></a></li>
+                                <li><a><asp:LinkButton ID="btnMyorder" runat="server" Text="My Orders" OnClick="btnMyOrder_Click" ></asp:LinkButton></a></li>
+
+                            </ul>
+                        </li>
+                        <li class="dropdown head-dpdn">
+
+                            <a class="dropdown-toggle"><i class="fa fa-percent" aria-hidden="true"></i><asp:LinkButton ID="lbtnWallet" runat="server" Text="Wallet" ForeColor="White" OnClick="lbtnWallet_Click" ></asp:LinkButton><span class=""></span></a>
+
+                        </li>
+                        <li class="dropdown head-dpdn">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gift" aria-hidden="true"></i>Gift Cards<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                               <li><a href="CardInfo.aspx?type=G">Gift Voucher</a></li>
+                                <li><a href="CardInfo.aspx?type=P">Premium Card</a></li>
+                                <%--<li><a href="#">View Balance</a></li>--%>
+                            </ul>
+                        </li>
+                        <%--<li class="dropdown head-dpdn">
+						<a href="#" class="dropdown-toggle"><i class="fa fa-map-marker" aria-hidden="true"></i> Track Order</a>
+					</li> 
+                        --%><li class="dropdown head-dpdn" style="display: none;">
+                            <a href="#" class="dropdown-toggle"><i class="fa fa-credit-card-alt" aria-hidden="true"></i>Sale On Villagers</a>
+                        </li>
+                        <li class="dropdown head-dpdn">
+                            <a href="#" class="dropdown-toggle"><i class="fa fa-question-circle" aria-hidden="true"></i>Help</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+              
+
+            </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4 my-border">
+                
+                
+                <div class="info-panel">
+                    <div class="box">
+                        <img src="/images/new-user-image-default.png" class="user-img" id="imgDP" runat="server" />
+                    </div>
+                    <div class="user-labels">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <a href="UserProfile.aspx" style="text-decoration:none;outline:none"><asp:Label ID="lblName" runat="server" Text="name"></asp:Label></a></li>
+                      <li class="list-group-item">
+                          <asp:Label ID="lblUserid" runat="server" Text="userid"></asp:Label></li>
+                                       <li class="list-group-item">
+                                           <asp:Label ID="lblUType" runat="server" Text="usertye"></asp:Label></li>
+                            <li class="list-group-item">Wallet(<asp:Label ID="lblAmt" runat="server" Text="0"></asp:Label>)</li>
+     
+                        </ul>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="col-sm-12 details-acc">
+               
+
+                
+
+
+
+        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+    <%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/selectivizr/1.0.3b/selectivizr.min.js"></script>--%>
+          <script src="js/bootstrap.js"></script>
+    <script src="js/userwalletscripts.js"></script>
+
+
+     
+    </form>
+
+
+</body>
+</html>

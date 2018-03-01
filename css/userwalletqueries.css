@@ -1,0 +1,165 @@
+@media screen and (max-width: 1290px) {
+    .details-acc {
+       margin-left: 24%;
+        width: 94%;
+    }
+}
+
+@media screen and (max-width: 1213px) {
+    .details-acc {
+       margin-left: 24%;
+        width: 90%;
+    }
+    .panel-acc{
+        margin-top: 13%;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    div.details-acc {
+       margin-left: 23%;
+        width: 90%;
+    }
+    
+}
+
+@media screen and (max-width: 1199px) {
+    div.details-acc {
+       margin-left: 29%;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 1120px) {
+    div.details-acc {
+       margin-left: 26%;
+        width: 95%;
+    }
+}
+
+@media screen and (max-width: 1048px) {
+    div.details-acc {
+        margin-left: 24%;
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    div.details-acc {
+        margin-left: 27%;
+        width: 110%;
+    }
+}
+
+@media screen and (max-width: 891px) {
+    div.details-acc {
+        margin-left: 25%;
+        width: 110%;
+    }
+}
+
+@media screen and (max-width: 870px) {
+    div.details-acc {
+        margin-left: 25%;
+        width: 100%;
+    }
+    .table-container .col-sm-6{
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 832px) {
+    div.details-acc {
+        margin-left: 27%;
+        width: 85%;
+    }
+    .table-container .col-sm-6{
+        width: 100%;
+    }
+    .bot a:nth-child(5){
+        margin-top: 7px;
+    }
+    .panel-acc{
+        margin-top: 124px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .container .row {
+        margin-top: 84px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    div.details-acc {
+        margin-left: 22%;
+        width: 71%;
+    }
+    .table-container .col-sm-6{
+        width: 100%;
+    }
+    
+    .table-container h2{
+        font-size: 90%;
+    }
+    .table-container h3{
+        font-size: 80%;
+    }
+    .table-container tr,li {
+        font-size: 70%;
+    }
+    
+    .wallet-buttons a.btn,.view-all a.btn{
+        font-size: 65%;
+        margin-left: 0;
+    }
+
+    .bot a:nth-child(5){
+        margin-top: 0;
+    }
+    
+    .panel-acc{
+        margin-top: 3%;
+    }
+}
+
+
+
+@media screen and (max-width: 491px) {
+    .my-border,div.details-acc{
+            width: 80%;
+            margin-left: 10%;
+            padding: 0.5%;
+            position: relative;
+            height: auto;
+            margin-top: 5%;
+            font-size: 126%;
+            border: 1px solid #ddd;
+    }
+    
+    div.details-acc{
+        border:0;
+    }
+    
+    div.details-acc .col-sm-10,div.panel-acc .col-sm-10{
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+}
+
+@media screen and (max-width: 384px) {
+    .my-border,div.details-acc{
+            width: 100%;
+            padding: 0.5%;
+            margin-left: 0;
+    }
+    .table-container .col-sm-6 {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .table-container .table>tbody>tr>td {
+        padding-left: 0;
+    }
+
+}

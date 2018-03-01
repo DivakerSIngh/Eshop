@@ -1,0 +1,56 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="SAdminPanel.master.cs" Inherits="SAdminPanel" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Villagers...</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/animate.css" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/style2.css" />
+    
+    <link rel="stylesheet" type="text/css" href="/css/queries.css" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,300i,400" rel="stylesheet" />
+    <asp:ContentPlaceHolder id="head" runat="server">
+        
+        
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <header>
+
+            <nav class="sticky">
+                <div class="row">
+                    <a href="Default.aspx"><img src="images/villagerslogo.png" alt="Villagers logo" class="logo-black js--wp-1" /></a>
+                </div>
+            </nav>
+        </header>
+        <section class="panel-bb">   
+        
+        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        
+
+
+
+        </asp:ContentPlaceHolder>
+    </section>
+        <footer>
+            <h4>&copy; Villagers...</h4>
+        </footer>
+        <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap-3.3.5.min.js" /></script>
+        <script type="text/javascript" src="js/jquery.validate-1.14.0.min.js" /></script>
+        <script type="text/javascript" src="js/jquery-validate.bootstrap-tooltip.js" /></script>
+        <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/selectivizr/1.0.3b/selectivizr.min.js"></script>
+        <script src="js2/sidscript.js"></script>
+        
+    </form>
+</body>
+</html>

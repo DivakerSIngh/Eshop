@@ -2,6 +2,8 @@
 
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<%@ Register Src="~/ReviewUserControl.ascx" TagPrefix="uc1" TagName="ReviewUserControl" %>
+
 
 <!DOCTYPE html>
 
@@ -10,7 +12,7 @@
     <title></title>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
-
+    <uc1:ReviewUserControl runat="server" ID="ReviewUserControl" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="" />

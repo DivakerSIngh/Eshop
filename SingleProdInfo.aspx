@@ -26,11 +26,36 @@
             });
         });
     </script>
+    <style>
+    .loader {
+     border: 4px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 4px solid #3498db;
+    width: 25px;
+    height: 25px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+    left: 42%;
+    position: absolute;
+    margin: -27px 0px 0px 0px;
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+</style>
     <!--flex slider-->
     <script src="js/imagezoom.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-
+    <asp:ScriptManager ID="sm1" runat="server"></asp:ScriptManager>
     <asp:HiddenField ID="hf_ddl_Value" runat="server" />
     <!-- breadcrumbs -->
     <div class="container">
@@ -75,6 +100,11 @@
                         </div>
                     </div>
                 <div class="col-md-6 single-top-right">
+                    <asp:UpdatePanel ID="up1" runat="server">
+                        
+                        <ContentTemplate>
+                           
+                       
                     <asp:DataList ID="dlProdInfo" runat="server" RepeatDirection="Horizontal" CellPadding="10" CellSpacing="6" OnItemDataBound="dlProdInfo_ItemDataBound">
 
                         <ItemTemplate>
@@ -106,7 +136,19 @@
                                 </div>
                             <div class="size-dropdown"><label>Seller Name: &nbsp;</label><asp:Label ID="lblRname" runat="server" Text='<%# Eval("org_name") %>'></asp:Label></div>
 
-                                 <div class="size-dropdown"><label>Choose Size: &nbsp;</label><asp:DropDownList ID="ddlSize" runat="server" OnSelectedIndexChanged="ddlSize_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList></div>
+                                 <div class="size-dropdown">
+                                     <label>Choose Size: &nbsp;</label>
+                                     <asp:DropDownList ID="ddlSize" runat="server" OnSelectedIndexChanged="ddlSize_SelectedIndexChanged" AutoPostBack="true">
+
+                                     </asp:DropDownList>
+                                     <asp:UpdateProgress runat="server">
+                                    <ProgressTemplate>
+                                    <span>
+                                        <div class="loader"></div>
+                                    </span>
+                                </ProgressTemplate>
+                            </asp:UpdateProgress>
+                                 </div>
                             <div class="input-group message" style="margin-top:20px;color: red"></div>    
                             <div class="input-group pin-locate">
                                     <asp:TextBox ID="txtLocation" runat="server" CssClass="form-control" placeholder="enter pincode" style="z-index:auto;" TextMode="Number" ></asp:TextBox><br />
@@ -125,6 +167,8 @@
                             
                         </ItemTemplate>
                     </asp:DataList>
+                             </ContentTemplate>
+                    </asp:UpdatePanel>
                 </div>
                     <div class="clearfix"></div>
                 </div>

@@ -16,6 +16,8 @@ public partial class homeMasterPage : System.Web.UI.MasterPage
     {
         if (Session["loginid"] != null && Session["loginid"].ToString() != "")
         {
+
+            var loginUserId = Session["loginid"];
             obj = new DB();
             string[] str = Session["loginid"].ToString().Split(',');
             int count = obj.GetCartCount(str[0]);

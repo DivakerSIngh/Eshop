@@ -111,25 +111,6 @@
 
             return false;
         }
-        $(function () {
-
-            $('#txtSearch').keyup(function (e) {
-                
-                if (e.keyCode === 13) {
-                    document.getElementById('btnSearch').click();
-                }
-            });
-
-        })
-        
-
-       
-        $(document).keypress(function (e) {
-            if (e.keyCode === 13) {
-                e.preventDefault();
-                return false;
-            }
-        });
     </script>
 
     <style>
@@ -168,7 +149,6 @@
                          <li class="dropdown head-dpdn">
                              <asp:LinkButton class="dropdown-toggle left-it"  ID="lnkMember" Text="Not a member" OnClick="lnkMember_Click" runat="server"></asp:LinkButton>
                          </li>
-                          
                         <li class="dropdown head-dpdn">
                             <a href="#" class="dropdown-toggle left-it" data-toggle="dropdown"><i class="fa fa-user" aria-hidden="true"></i>My Account<span class="caret"></span></a>
                             <ul class="dropdown-menu">

@@ -204,7 +204,7 @@
                       <li class="list-group-item">
                           <asp:Label ID="lblUserid" runat="server" Text="userid"></asp:Label></li>
                                        <li class="list-group-item">
-                                           <asp:Label ID="lblUType" runat="server" Text="usertye"></asp:Label></li>
+                                           <asp:Label ID="lblUType" runat="server" Text="UserType"></asp:Label></li>
                             <li class="list-group-item">Wallet(<asp:Label ID="lblAmt" runat="server" Text="0"></asp:Label>)</li>
      
                         </ul>

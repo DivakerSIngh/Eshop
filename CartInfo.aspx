@@ -126,6 +126,14 @@
                         </div>
                         <div class="third-cart-right2">
                             <div class="third-cart-right21">
+                                <div class="priTex">MRP (<asp:Label ID="lblQuantity1" runat="server" ></asp:Label> item)</div>
+                                <div class="priAm"><asp:Label ID="lblMrpAmpt" runat="server" ></asp:Label></div>
+                            </div>
+                            <div class="third-cart-right21">
+                                <div class="priTex">Total Discount</div>
+                                <div class="priAm"><asp:Label ID="lblDiscount" runat="server" ></asp:Label></div>
+                            </div>
+                            <div class="third-cart-right21">
                                 <div class="priTex">Price (<asp:Label ID="lblQuantity" runat="server" ></asp:Label> item)</div>
                                 <div class="priAm"><asp:Label ID="lblPriceAmt" runat="server" ></asp:Label></div>
                             </div>
@@ -143,6 +151,9 @@
                             <asp:LinkButton ID="btnUseCoupon" OnCommand="btnUseCoupon_Command" runat="server"><span>Apply Coupon</span></asp:LinkButton>
                         </div>
                         
+                        <div class="third-cart-right1">
+                            <asp:Label ID="lblSaveAmt" runat="server"></asp:Label>
+                        </div>
                         
                         <div>
                             <asp:Panel ID="pnlApplyCoupon" runat="server">

@@ -82,6 +82,11 @@ public partial class CartInfo : System.Web.UI.Page
             rptCart.DataBind();
             lblCartNum.Text = "My Cart(" + ds.Tables[0].Rows.Count.ToString() + ")";
             lblQuantity.Text = dss.Tables[0].Rows[0]["qty"].ToString();
+            lblQuantity1.Text= dss.Tables[0].Rows[0]["qty"].ToString();
+            lblMrpAmpt.Text= dss.Tables[0].Rows[0]["costprice"].ToString();
+            lblDiscount.Text= dss.Tables[0].Rows[0]["discount"].ToString();
+
+            
             //decimal amt = 0;
             //for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
             //{
@@ -89,6 +94,8 @@ public partial class CartInfo : System.Web.UI.Page
             //}
             lblPriceAmt.Text = dss.Tables[0].Rows[0]["totalamount"].ToString();
             lblTotAmt.Text = dss.Tables[0].Rows[0]["totalamount"].ToString();
+            lblSaveAmt.Text = "You have saved amount : " + (Convert.ToDecimal(lblPriceAmt.Text) - Convert.ToDecimal(lblMrpAmpt.Text)).ToString("0.00");
+            lblSaveAmt.ForeColor = System.Drawing.Color.DarkGreen;
             string usersid = Session["loginid"].ToString() + "," + ds.Tables[0].Rows.Count.ToString() + "," + dss.Tables[0].Rows[0]["totalamount"].ToString();
             Session["loginid"] = usersid;
         }

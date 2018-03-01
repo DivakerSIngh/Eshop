@@ -2335,9 +2335,10 @@ public class DB
         return i;
     }
 
-    public string VerifyLoginInfo(string mobile, string pwd, string mode)
+    public Dictionary<string,string> VerifyLoginInfo(string mobile, string pwd, string mode)
     {
-        string i = "";
+        var reponse =new  Dictionary<string, string>();
+           string i = "";
         try
         {
             con = new SqlConnection(DB.constr);
@@ -2351,11 +2352,13 @@ public class DB
             cmd.Parameters.AddWithValue("@pwd", pwd);
             cmd.Parameters.AddWithValue("@flag", mode);
             cmd.Parameters.Add("@loginid", SqlDbType.VarChar, 10).Direction = ParameterDirection.Output;
+            cmd.Parameters.Add("@userType", SqlDbType.VarChar, 10).Direction = ParameterDirection.Output;
 
             con.Open();
             cmd.ExecuteNonQuery();
             i = cmd.Parameters["@loginid"].Value.ToString();
-
+            reponse.Add("loginid", i);
+            reponse.Add("userType", cmd.Parameters["@userType"].Value.ToString());
             //con.Close();
 
         }
@@ -2368,7 +2371,7 @@ public class DB
             con.Close();
         }
 
-        return i;
+        return reponse;
     }
 
     public DataSet GetLogisticDetails(string lid)

@@ -15,6 +15,13 @@ public partial class Retailor_RetailorPanel : System.Web.UI.MasterPage
     {
         if (Session["loginid"] != null && Session["loginid"].ToString() != "")
         {
+            if (Convert.ToString(Session["userType"]).ToUpper() == "Free".ToUpper())
+            {
+                btnPremium.Visible = true;
+            }else
+            {
+                btnPremium.Visible = false;
+            }
             if (!IsPostBack)
             {
                 obj = new DB();
@@ -80,4 +87,6 @@ public partial class Retailor_RetailorPanel : System.Web.UI.MasterPage
     {
         Response.Redirect("BecomePreUser.aspx");
     }
+
+   
 }

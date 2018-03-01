@@ -103,6 +103,10 @@
 
                                 </ul>
                             </li>
+                            <li>
+                                <asp:LinkButton ID="btnPremium" OnClick="btnPremium_Click" class=" hvr-bounce-to-right" runat="server"><i class="fa fa-map-marker nav_icon"></i>Become Premium</asp:LinkButton>
+
+                            </li>
                          
                             
                         </ul>

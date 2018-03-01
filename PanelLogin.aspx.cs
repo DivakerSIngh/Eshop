@@ -37,6 +37,7 @@ public partial class PanelLogin : System.Web.UI.Page
         {
             if (Request.QueryString["mode"] != "" && Request.QueryString["mode"].ToString() != "")
             {
+                var response = new Dictionary<string, string>();
                 obj = new DB();
                 if (btnLogin.Text == "Login")
                 {
@@ -45,10 +46,12 @@ public partial class PanelLogin : System.Web.UI.Page
                     if (txtMob.Value.Trim() != "" && txtPwd.Value.Trim() != "")
                     {
 
-                        string loginid = obj.VerifyLoginInfo(txtMob.Value, txtPwd.Value, mode);
-                        if (loginid != "")
+                        response = obj.VerifyLoginInfo(txtMob.Value, txtPwd.Value, mode);
+                        if (response.Count>0)
                         {
-                            Session["loginid"] = loginid;
+                            Session["loginid"] = response["loginid"];
+                            Session["userType"] = response["userType"];
+                           
                             Session["mode"] = mode;
                             if (mode == "L")
                             {

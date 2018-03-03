@@ -14,9 +14,11 @@ public partial class homeMasterPage : System.Web.UI.MasterPage
     DB obj;
     protected void Page_Load(object sender, EventArgs e)
     {
+       
         if (Session["loginid"] != null && Session["loginid"].ToString() != "")
         {
-
+            hdnlastProductId.Value= getLastPurchaseProductId(Convert.ToString(Session["loginid"]));
+            hdnStatusToCheck.Value =Convert.ToString(new DB().statusToCheckReview(Convert.ToString(Session["loginid"]), Convert.ToInt32(hdnlastProductId.Value.Split('~')[0])));
             var loginUserId = Convert.ToString(Session["loginid"]).ToCharArray()[0];
             switch (loginUserId.ToString())
             {
@@ -60,6 +62,10 @@ public partial class homeMasterPage : System.Web.UI.MasterPage
             lnkMember.Visible = false;
         }
 
+    }
+    private string getLastPurchaseProductId(string userId)
+    {
+        return new DB().getLastPurchaseProductId(userId);
     }
     protected void lnkbtnLogin_Click(object sender, EventArgs e)
     {

@@ -652,10 +652,10 @@ public class DB
             cmd.Parameters.AddWithValue("@gender", gender);
             SqlParameter outputParam = cmd.Parameters.Add("@Product_Id", SqlDbType.Int);
             outputParam.Direction = ParameterDirection.Output;
-           
+
             con.Open();
             i = cmd.ExecuteNonQuery();
-             id =Convert.ToInt32(outputParam.Value);
+            id = Convert.ToInt32(outputParam.Value);
 
         }
         catch (Exception ex)
@@ -669,10 +669,10 @@ public class DB
 
         return id;
     }
-   
 
 
-    public int UpdateProdInfo(string subcid,string gender)
+
+    public int UpdateProdInfo(string subcid, string gender)
     {
         int i = 0;
         try
@@ -766,7 +766,7 @@ public class DB
         return i;
     }
 
-    public int ErrorLog(string  query)
+    public int ErrorLog(string query)
     {
         int i = 0;
         try
@@ -893,7 +893,7 @@ public class DB
     }
 
 
-    private int CheckCartProductDuplicate(string pid,string userid)
+    private int CheckCartProductDuplicate(string pid, string userid)
     {
         int i = 0;
         try
@@ -902,10 +902,10 @@ public class DB
             da = new SqlDataAdapter("EShop_CheckCartDuplicacy", con);
             da.SelectCommand.CommandType = CommandType.StoredProcedure;
             da.SelectCommand.Parameters.Clear();
-            
+
             da.SelectCommand.Parameters.AddWithValue("@prodid", pid);
             da.SelectCommand.Parameters.AddWithValue("@userid", userid);
-            
+
             ds = new DataSet();
             da.Fill(ds);
             if (ds.Tables[0].Rows.Count > 0)
@@ -927,8 +927,8 @@ public class DB
         return i;
     }
 
-  
-    public int AddNewCartProdInfo(string pid, string userid, string rid, string amt, string size="", string costprice = "", string discount = "", string qty = "", string deleveryamt = "")
+
+    public int AddNewCartProdInfo(string pid, string userid, string rid, string amt, string size = "", string costprice = "", string discount = "", string qty = "", string deleveryamt = "")
     {
         int i = 0;
         try
@@ -977,12 +977,12 @@ public class DB
     }
 
 
-    public int UpdateUserNewAddress(string userid, string name ,string mobile ,string uaddress ,string city,string ustate ,string pincode ,string landmark,string totamt,string deliveryamt)
+    public int UpdateUserNewAddress(string userid, string name, string mobile, string uaddress, string city, string ustate, string pincode, string landmark, string totamt, string deliveryamt)
     {
         int i = 0;
         try
         {
-            string add= name +"?"+ mobile +"?"+ uaddress +"?"+ city+"?"+ ustate +"?"+ pincode +"?"+ landmark;
+            string add = name + "?" + mobile + "?" + uaddress + "?" + city + "?" + ustate + "?" + pincode + "?" + landmark;
             con = new SqlConnection(DB.constr);
             cmd = new SqlCommand();
             cmd.Connection = con;
@@ -992,7 +992,7 @@ public class DB
 
             cmd.Parameters.AddWithValue("@userid", userid);
             cmd.Parameters.AddWithValue("@address", add);
-            
+
             con.Open();
             i = cmd.ExecuteNonQuery();
 
@@ -1010,7 +1010,7 @@ public class DB
     }
 
 
-    public int UpdateQuantityInCartInfo(string cartid, string quantity,string amt)
+    public int UpdateQuantityInCartInfo(string cartid, string quantity, string amt)
     {
         int i = 0;
         try
@@ -1161,7 +1161,7 @@ public class DB
             da = new SqlDataAdapter("EShop_GetCartCount", con);
             da.SelectCommand.CommandType = CommandType.StoredProcedure;
             da.SelectCommand.Parameters.Clear();
-            
+
             da.SelectCommand.Parameters.AddWithValue("@userid", userid);
 
             ds = new DataSet();
@@ -1378,7 +1378,7 @@ public class DB
 
         body = body.Replace("{username}", userid); //replacing the required things  
         body = body.Replace("{password}", pwd);
-    
+
 
         return body;
 
@@ -1399,7 +1399,7 @@ public class DB
 
         }
 
-       // body = body.Replace("{name}", uname); //replacing the required things  
+        // body = body.Replace("{name}", uname); //replacing the required things  
         body = body.Replace("{card}", CardNum);
 
 
@@ -1436,7 +1436,7 @@ public class DB
 
     }
 
-    public string createEmailBodyforConfirmOrder(string tid, string billingaddress,string grandtotalamt,DataSet ds,string deliveryamt,string couponamt)
+    public string createEmailBodyforConfirmOrder(string tid, string billingaddress, string grandtotalamt, DataSet ds, string deliveryamt, string couponamt)
     {
 
         string body = string.Empty;
@@ -1453,8 +1453,8 @@ public class DB
 
 
 
-         //replacing the required things  
-        
+        //replacing the required things  
+
         body = body.Replace("{Address}", billingaddress);
         body = body.Replace("{Date}", tid);
         body = body.Replace("{Date1}", DateTime.Now.ToShortDateString());
@@ -1462,7 +1462,7 @@ public class DB
         body = body.Replace("{Delivery}", deliveryamt);
 
         string div = "";
-        for (int i = 0; i < ds.Tables[0].Rows.Count;i++ )
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
         {
             prodrow = "";
             using (StreamReader reader = new StreamReader(HttpContext.Current.Server.MapPath("~/ProductRow.html")))
@@ -1478,14 +1478,14 @@ public class DB
         }
 
 
-            body = body.Replace("{div}", div);
+        body = body.Replace("{div}", div);
 
 
         return body;
 
     }
 
-    public string createEmailBodyforRetailerndLogistic(string tid, string raddress, string name, string qty, string prodname, string mobile,string pid,string email,string price,string city,string landmark,string pincode,string state,string billingaddress)
+    public string createEmailBodyforRetailerndLogistic(string tid, string raddress, string name, string qty, string prodname, string mobile, string pid, string email, string price, string city, string landmark, string pincode, string state, string billingaddress)
     {
 
         string body = string.Empty;
@@ -1515,7 +1515,7 @@ public class DB
         body = body.Replace("{Price}", price);
         body = body.Replace("{Name}", name);
         body = body.Replace("{billingaddress}", billingaddress);
-        
+
 
 
         return body;
@@ -1540,7 +1540,7 @@ public class DB
             message.BodyEncoding = System.Text.Encoding.UTF8;
 
 
-           // string msg = createEmailBodyforLogistic(tid, headertitle, sp, quantity, totalprice, size, uname, umobile, pincode, uaddress, paymentmode, rname, raddress, rmobile, remail);
+            // string msg = createEmailBodyforLogistic(tid, headertitle, sp, quantity, totalprice, size, uname, umobile, pincode, uaddress, paymentmode, rname, raddress, rmobile, remail);
             //msg = "\n\n Order Related Information : \n\n";
             //msg += "Transaction Id : "+tid+"\n";
             //msg += "Product Id : " + pid + "\n";
@@ -1976,7 +1976,7 @@ public class DB
     }
 
 
-    public DataSet GetProducts(string subcid=null, string search=null,string cid=null,string gender=null)
+    public DataSet GetProducts(string subcid = null, string search = null, string cid = null, string gender = null)
     {
 
         try
@@ -1990,7 +1990,7 @@ public class DB
             da.SelectCommand.Parameters.AddWithValue("@gender", gender);
             da.SelectCommand.Parameters.AddWithValue("@search", search);
             da.SelectCommand.Parameters.AddWithValue("@cid", cid);
-            
+
             ds = new DataSet();
             da.Fill(ds);
 
@@ -2335,10 +2335,10 @@ public class DB
         return i;
     }
 
-    public Dictionary<string,string> VerifyLoginInfo(string mobile, string pwd, string mode)
+    public Dictionary<string, string> VerifyLoginInfo(string mobile, string pwd, string mode)
     {
-        var reponse =new  Dictionary<string, string>();
-           string i = "";
+        var reponse = new Dictionary<string, string>();
+        string i = "";
         try
         {
             con = new SqlConnection(DB.constr);
@@ -2496,7 +2496,7 @@ public class DB
     }
 
 
-    public int AddRetailerInfo(string rname, string raddress, string city, string state, string landmark, string pincode, string district, string rcategory, string rtype, string orgname, string orgregnumber, string email, string mobile, string tinnum, string staxnum, string accholdername, string accnumber, string bname, string ifsc, string pan, string loginid,string gender,string size,string gst,string refid)
+    public int AddRetailerInfo(string rname, string raddress, string city, string state, string landmark, string pincode, string district, string rcategory, string rtype, string orgname, string orgregnumber, string email, string mobile, string tinnum, string staxnum, string accholdername, string accnumber, string bname, string ifsc, string pan, string loginid, string gender, string size, string gst, string refid)
     {
         int i = 0;
         try
@@ -2552,7 +2552,7 @@ public class DB
     }
 
 
-    public int UpdateRetailerInfo(string rname, string raddress, string city, string state, string landmark, string pincode, string district, string rcategory, string rtype, string orgname, string orgregnumber, string email, string mobile, string tinnum, string staxnum, string accholdername, string accnumber, string bname, string ifsc, string pan, string loginid, string rid,string gst,string gender,string refid)
+    public int UpdateRetailerInfo(string rname, string raddress, string city, string state, string landmark, string pincode, string district, string rcategory, string rtype, string orgname, string orgregnumber, string email, string mobile, string tinnum, string staxnum, string accholdername, string accnumber, string bname, string ifsc, string pan, string loginid, string rid, string gst, string gender, string refid)
     {
         int i = 0;
         try
@@ -2606,7 +2606,7 @@ public class DB
 
     }
 
-    public DataSet GetSubCategoryList(string cid,string gender)
+    public DataSet GetSubCategoryList(string cid, string gender)
     {
 
         try
@@ -2616,8 +2616,8 @@ public class DB
             da.SelectCommand.CommandType = CommandType.StoredProcedure;
             da.SelectCommand.Parameters.Clear();
             da.SelectCommand.Parameters.AddWithValue("@cid", cid);
-            if(!string.IsNullOrEmpty(gender))
-             da.SelectCommand.Parameters.AddWithValue("@Gender", gender);
+            if (!string.IsNullOrEmpty(gender))
+                da.SelectCommand.Parameters.AddWithValue("@Gender", gender);
 
             ds = new DataSet();
             da.Fill(ds);
@@ -2807,7 +2807,7 @@ public class DB
     }
 
 
-    public string UserRegistrationInfo(string mobile, string upwd, string regmode, string regtype, string usertype, string name, string email, string address, string city, string state, string pincode, string landmark, string referalid,string gender,string size)
+    public string UserRegistrationInfo(string mobile, string upwd, string regmode, string regtype, string usertype, string name, string email, string address, string city, string state, string pincode, string landmark, string referalid, string gender, string size)
     {
         int i = 0; string logdetails = "";
         try
@@ -2834,7 +2834,7 @@ public class DB
             cmd.Parameters.AddWithValue("@referalid", referalid);
             cmd.Parameters.AddWithValue("@size", size);
             cmd.Parameters.AddWithValue("@gender", gender);
-           
+
 
             cmd.Parameters.Add("@logdetails", SqlDbType.VarChar, 20).Direction = ParameterDirection.Output;
 
@@ -2862,7 +2862,7 @@ public class DB
     public string GenerateOTP()
     {
         string[] saAllowedCharacters = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
-        
+
         string sOTP = String.Empty;
 
         string sTempChars = String.Empty;
@@ -2880,7 +2880,7 @@ public class DB
 
         }
 
-        return sOTP;  
+        return sOTP;
 
     }
 
@@ -2888,7 +2888,7 @@ public class DB
     public string Get8DigitRandomNumber1()
     {
         Random rnd = new Random();
-        int myRandomNo= rnd.Next(10000000, 99999999); // creates a 8 digit random no.
+        int myRandomNo = rnd.Next(10000000, 99999999); // creates a 8 digit random no.
         return myRandomNo.ToString();
     }
 
@@ -2930,7 +2930,7 @@ public class DB
     }
 
 
-    public string AddRetailerInfo_UsingExcelSheet(string org_mobile,string rname, string raddress, string city, string state, string landmark, string pincode, string district, string rcategory, string rtype, string orgname, string orgregnumber, string email, string mobile, string tinnum, string staxnum, string accholdername, string accnumber, string bname, string ifsc, string pan, string loginid, string pwd, string empid, string regmode, string regtype)
+    public string AddRetailerInfo_UsingExcelSheet(string org_mobile, string rname, string raddress, string city, string state, string landmark, string pincode, string district, string rcategory, string rtype, string orgname, string orgregnumber, string email, string mobile, string tinnum, string staxnum, string accholdername, string accnumber, string bname, string ifsc, string pan, string loginid, string pwd, string empid, string regmode, string regtype)
     {
         int i = 0; string logdetails = "";
         try
@@ -2995,7 +2995,7 @@ public class DB
     }
 
 
-    public void SendOTP(string mobile,string otp)
+    public void SendOTP(string mobile, string otp)
     {
         ///Send SMS using C#
 
@@ -3006,7 +3006,7 @@ public class DB
         //Sender ID,While using route4 sender id should be 6 characters long.
         string senderId = "VILGRS";
         //Your message to send, Add URL encoding here.
-        string message = HttpUtility.UrlEncode("Your unique verification code for Villagers Registration is : "+otp);
+        string message = HttpUtility.UrlEncode("Your unique verification code for Villagers Registration is : " + otp);
 
         //Prepare you post parameters
         StringBuilder sbPostData = new StringBuilder();
@@ -3045,8 +3045,8 @@ public class DB
         }
         catch (SystemException ex)
         {
-           
-        } 
+
+        }
 
     }
 
@@ -3120,71 +3120,71 @@ public class DB
     //    client.Execute(request);
     //}
 
-    public void SendEmail(string toemailid,string body,string subject)
+    public void SendEmail(string toemailid, string body, string subject)
     {
         try
         {
-            
-                //string msg = createEmailBodyforRegistrationUPwd(uid, pwd);
-                SendSimpleMessagRegistratione(toemailid,body,subject);
+
+            //string msg = createEmailBodyforRegistrationUPwd(uid, pwd);
+            SendSimpleMessagRegistratione(toemailid, body, subject);
             //}
             //else
             //{
             //    SendSimpleMessage(toemailid, body, subject).Content.ToString();
             //}
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
 
         }
-        
+
     }
 
 
-    
-    public static IRestResponse SendSimpleMessage(string touseremailid,string body,string subject)
+
+    public static IRestResponse SendSimpleMessage(string touseremailid, string body, string subject)
     {
-        
-            RestClient client = new RestClient();
-            client.BaseUrl = new Uri("https://api.mailgun.net/v3");
-            client.Authenticator =
-                new HttpBasicAuthenticator("api",
-                                            "key-1af08f68460c7a0f1b5b0c68406f05d2");
-            RestRequest request = new RestRequest();
-            request.AddParameter("domain", "www.skynexindia.com", ParameterType.UrlSegment);
-            request.Resource = "{domain}/messages";
-            request.AddParameter("from", "skynexindia@gmail.com");
-            
-            request.AddParameter("to", touseremailid);
-            request.AddParameter("to", "TeamSkynex@www.skynexindia.com");
-            request.AddParameter("subject", subject);
-            request.AddParameter("text", body);
-            request.Method = Method.POST;
-            return client.Execute(request);   
-        
+
+        RestClient client = new RestClient();
+        client.BaseUrl = new Uri("https://api.mailgun.net/v3");
+        client.Authenticator =
+            new HttpBasicAuthenticator("api",
+                                        "key-1af08f68460c7a0f1b5b0c68406f05d2");
+        RestRequest request = new RestRequest();
+        request.AddParameter("domain", "www.skynexindia.com", ParameterType.UrlSegment);
+        request.Resource = "{domain}/messages";
+        request.AddParameter("from", "skynexindia@gmail.com");
+
+        request.AddParameter("to", touseremailid);
+        request.AddParameter("to", "TeamSkynex@www.skynexindia.com");
+        request.AddParameter("subject", subject);
+        request.AddParameter("text", body);
+        request.Method = Method.POST;
+        return client.Execute(request);
+
     }
 
-    public static IRestResponse SendSimpleMessagRegistratione(string touseremailid,string body,string subject)
+    public static IRestResponse SendSimpleMessagRegistratione(string touseremailid, string body, string subject)
     {
-        
-            RestClient client = new RestClient();
-            client.BaseUrl = new Uri("https://api.mailgun.net/v3");
-            client.Authenticator =
-                new HttpBasicAuthenticator("api",
-                                            "key-1af08f68460c7a0f1b5b0c68406f05d2");
-            RestRequest request = new RestRequest();
-            request.AddParameter("domain", "www.skynexindia.com", ParameterType.UrlSegment);
-            request.Resource = "{domain}/messages";
-            request.AddParameter("from", "skynexindia@gmail.com");
-            
-            request.AddParameter("to", touseremailid);
-            request.AddParameter("to", "TeamSkynex@www.skynexindia.com");
-            request.AddParameter("subject", subject);
-            request.AddParameter("text", "this is a test mail.");
-            request.AddParameter("html", body);
-            request.Method = Method.POST;
-            return client.Execute(request);   
-        
+
+        RestClient client = new RestClient();
+        client.BaseUrl = new Uri("https://api.mailgun.net/v3");
+        client.Authenticator =
+            new HttpBasicAuthenticator("api",
+                                        "key-1af08f68460c7a0f1b5b0c68406f05d2");
+        RestRequest request = new RestRequest();
+        request.AddParameter("domain", "www.skynexindia.com", ParameterType.UrlSegment);
+        request.Resource = "{domain}/messages";
+        request.AddParameter("from", "skynexindia@gmail.com");
+
+        request.AddParameter("to", touseremailid);
+        request.AddParameter("to", "TeamSkynex@www.skynexindia.com");
+        request.AddParameter("subject", subject);
+        request.AddParameter("text", "this is a test mail.");
+        request.AddParameter("html", body);
+        request.Method = Method.POST;
+        return client.Execute(request);
+
     }
 
 
@@ -3215,7 +3215,7 @@ public class DB
         return ds;
     }
 
-    public Dictionary<string,string> ValidateUserLoginDetails(string userid, string pwd)
+    public Dictionary<string, string> ValidateUserLoginDetails(string userid, string pwd)
     {
         var retruenObject = new Dictionary<string, string>();
         int i = 0; string logdetails = "";
@@ -3230,16 +3230,16 @@ public class DB
             cmd.CommandText = "EShop_ValidateUserLoginDetails";
             cmd.Parameters.AddWithValue("@userid", userid);
             cmd.Parameters.AddWithValue("@pwd", pwd);
-           
-             
+
+
             cmd.Parameters.Add("@loginid", SqlDbType.VarChar, 20).Direction = ParameterDirection.Output;
             cmd.Parameters.Add("@userType", SqlDbType.VarChar, 20).Direction = ParameterDirection.Output;
 
 
             con.Open();
             i = cmd.ExecuteNonQuery();
-          // if (i > 0)
-                logdetails = cmd.Parameters["@loginid"].Value.ToString();
+            // if (i > 0)
+            logdetails = cmd.Parameters["@loginid"].Value.ToString();
             //else
             //    logdetails = "";
             retruenObject.Add("loginid", logdetails);
@@ -3265,7 +3265,7 @@ public class DB
             da = new SqlDataAdapter(query, con);
             da.SelectCommand.CommandType = CommandType.Text;
             da.SelectCommand.Parameters.Clear();
-//            da.SelectCommand.Parameters.AddWithValue("@prodid", prodid);
+            //            da.SelectCommand.Parameters.AddWithValue("@prodid", prodid);
 
             ds = new DataSet();
             da.Fill(ds);
@@ -3371,10 +3371,10 @@ public class DB
             cmd.Parameters.Clear();
             cmd.CommandText = "EShop_DeleteProductfromCart";
             cmd.Parameters.AddWithValue("@cartid", cartid);
-            
+
             con.Open();
             i = cmd.ExecuteNonQuery();
-            
+
         }
         catch (Exception ex)
         {
@@ -3476,7 +3476,7 @@ public class DB
         return ds;
     }
 
-    public DataSet CheckMobileNumDuplicacy(string mobile,string mode)
+    public DataSet CheckMobileNumDuplicacy(string mobile, string mode)
     {
 
         try
@@ -3506,7 +3506,7 @@ public class DB
     }
 
 
-    public string TransactionConfirmation(string userid,string camt,string damt,string ttype,string ttypeid,string status,string bal,string receiveramt=null,string qty=null)
+    public string TransactionConfirmation(string userid, string camt, string damt, string ttype, string ttypeid, string status, string bal, string receiveramt = null, string qty = null)
     {
         int i = 0;
         string tid = "";
@@ -3575,7 +3575,7 @@ public class DB
         return ds;
     }
 
-    public string FreeUserGiftVoucher(string userid,string name,string amt)
+    public string FreeUserGiftVoucher(string userid, string name, string amt)
     {
         int i = 0; string gvid = "";
         try
@@ -3594,14 +3594,14 @@ public class DB
             cmd.Parameters.AddWithValue("@id", pwd);
             cmd.Parameters.Add("@gvid", SqlDbType.VarChar, 20).Direction = ParameterDirection.Output;
 
-            
+
             con.Open();
             i = cmd.ExecuteNonQuery();
             gvid = cmd.Parameters["@gvid"].Value.ToString();
         }
         catch (Exception ex)
         {
-            gvid="";
+            gvid = "";
         }
         finally
         {
@@ -3619,7 +3619,7 @@ public class DB
             con = new SqlConnection(DB.constr);
             cmd = new SqlCommand();
             cmd.Connection = con;
-            
+
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Clear();
             cmd.CommandText = "EShopAssignCouponToUser";
@@ -3629,7 +3629,7 @@ public class DB
             s2 = Get8DigitRandomNumber2();
             cardid = s1 + s2;
             cmd.Parameters.AddWithValue("@cardid", cardid);
-           
+
             con.Open();
             i = cmd.ExecuteNonQuery();
 
@@ -3642,7 +3642,7 @@ public class DB
         {
             con.Close();
         }
-        return i > 0? cardid:"";
+        return i > 0 ? cardid : "";
 
     }
 
@@ -3660,7 +3660,7 @@ public class DB
             cmd.CommandText = "EShop_ReferredToNewUser";
             cmd.Parameters.AddWithValue("@userid", userid);
             cmd.Parameters.AddWithValue("@mob", mob);
-    
+
             con.Open();
             i = cmd.ExecuteNonQuery();
 
@@ -3844,7 +3844,7 @@ public class DB
         return ds;
     }
 
-    public string TransferToBankInfo(string userid, string acc_number,string ifsc,string accholdername,string amt)
+    public string TransferToBankInfo(string userid, string acc_number, string ifsc, string accholdername, string amt)
     {
         int i = 0; string id = "";
         try
@@ -3883,7 +3883,7 @@ public class DB
 
     public int UpdateEmail(string userid, string email)
     {
-        int i = 0; 
+        int i = 0;
         try
         {
             con = new SqlConnection(DB.constr);
@@ -3895,11 +3895,11 @@ public class DB
             cmd.CommandText = "EShop_UpdateEmail";
             cmd.Parameters.AddWithValue("@userid", userid);
             cmd.Parameters.AddWithValue("@email", email);
-    
+
             con.Open();
             i = cmd.ExecuteNonQuery();
 
-    
+
 
         }
         catch (Exception ex)
@@ -4000,7 +4000,7 @@ public class DB
         return ds;
     }
 
-    public DataSet VerifyCoupon(string userid,string cardid,string flag)
+    public DataSet VerifyCoupon(string userid, string cardid, string flag)
     {
         try
         {
@@ -4026,7 +4026,7 @@ public class DB
         return ds;
     }
 
-    public int ApplyCouponIDonCart(string userid, string cardid,string amt)
+    public int ApplyCouponIDonCart(string userid, string cardid, string amt)
     {
         int i = 0;
         try
@@ -4073,7 +4073,7 @@ public class DB
             cmd.Parameters.Clear();
             cmd.CommandText = "DeleteTransferToBankRequest";
             cmd.Parameters.AddWithValue("@tbankid", bankid);
-            
+
             con.Open();
             i = cmd.ExecuteNonQuery();
 
@@ -4093,7 +4093,7 @@ public class DB
     }
 
 
-    public DataSet CheckImageDuplicacy(string userid,string pid)
+    public DataSet CheckImageDuplicacy(string userid, string pid)
     {
         try
         {
@@ -4103,7 +4103,7 @@ public class DB
             da.SelectCommand.Parameters.Clear();
             da.SelectCommand.Parameters.AddWithValue("@userid", userid);
             da.SelectCommand.Parameters.AddWithValue("@pid", pid);
-            
+
             ds = new DataSet();
             da.Fill(ds);
 
@@ -4119,7 +4119,7 @@ public class DB
         return ds;
     }
 
-    public int UpdateRetailerPassword(string userid,string pwd)
+    public int UpdateRetailerPassword(string userid, string pwd)
     {
         int i = 0;
         try
@@ -4368,7 +4368,7 @@ public class DB
             cmd.Parameters.Clear();
             cmd.CommandText = "EShop_RemoveProdFromWishList";
             cmd.Parameters.AddWithValue("@wid", wid);
-           // cmd.Parameters.AddWithValue("@size", size);
+            // cmd.Parameters.AddWithValue("@size", size);
 
             con.Open();
             i = cmd.ExecuteNonQuery();
@@ -4553,7 +4553,7 @@ public class DB
             da = new SqlDataAdapter("EShop_GetLogisticInfoforMail", con);
             da.SelectCommand.CommandType = CommandType.StoredProcedure;
             da.SelectCommand.Parameters.Clear();
-//            da.SelectCommand.Parameters.AddWithValue("@cartid", cartid);
+            //            da.SelectCommand.Parameters.AddWithValue("@cartid", cartid);
 
             ds = new DataSet();
             da.Fill(ds);
@@ -4570,7 +4570,7 @@ public class DB
         return ds;
     }
 
-    public int UpdateUserProfileInfo(string pincode, string city, string state, string uaddress, string landmark,string userid)
+    public int UpdateUserProfileInfo(string pincode, string city, string state, string uaddress, string landmark, string userid)
     {
         int i = 0;
         try
@@ -4588,7 +4588,7 @@ public class DB
             cmd.Parameters.AddWithValue("@uadd", uaddress);
             cmd.Parameters.AddWithValue("@land", landmark);
             cmd.Parameters.AddWithValue("@userid", userid);
-            
+
             con.Open();
             i = cmd.ExecuteNonQuery();
 
@@ -4606,7 +4606,7 @@ public class DB
 
     }
 
-    public int UpdateUserProfileImg(string userid,byte[] bytes)
+    public int UpdateUserProfileImg(string userid, byte[] bytes)
     {
         int i = 0;
         try
@@ -4620,7 +4620,7 @@ public class DB
             cmd.CommandText = "EShop_UpdateUserProfileImg";
             cmd.Parameters.AddWithValue("@img", bytes);
             cmd.Parameters.AddWithValue("@userid", userid);
-            
+
             con.Open();
             i = cmd.ExecuteNonQuery();
 
@@ -4705,7 +4705,7 @@ public class DB
         List<Brand> lst = new List<Brand>();
         try
         {
-           
+
             con = new SqlConnection(DB.constr);
             string str = "select Brand_Id,Brand_Title from Brand_Category";
             cmd = new SqlCommand(str);
@@ -4765,7 +4765,7 @@ public class DB
         }
         return lst;
     }
-    
+
 
 
 
@@ -5056,7 +5056,7 @@ public class DB
 
 
     }
-    public int AddProdMeasurment(int productId, string title,string quantity,string price,string sellingPrice)
+    public int AddProdMeasurment(int productId, string title, string quantity, string price, string sellingPrice)
     {
         int i = 0;
         try
@@ -5121,6 +5121,91 @@ public class DB
         return id;
     }
 
+
+    public void saveReview(int productId,string userID,int rating,string review,string userName,int action=1)
+    {
+
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "ESHOP_PRODUCT_REVIEW";
+            cmd.Parameters.AddWithValue("@PRODUCT_ID", productId);
+            cmd.Parameters.AddWithValue("@USER_ID", userID);
+            cmd.Parameters.AddWithValue("@RATING", rating);
+            cmd.Parameters.AddWithValue("@REVIEW", review);
+            cmd.Parameters.AddWithValue("@USERNAME", userName);
+            cmd.Parameters.AddWithValue("@ACTION", action);
+
+            con.Open();
+            cmd.ExecuteNonQuery();
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+
+      
+    }
+    public string getLastPurchaseProductId(string userId)
+    {
+
+
+        string productId = "";
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            string str = string.Format("select top 1 c.ProdId +'~'+c.UserId +'~'+p.HeaderTitle+'~'+u.Name as product from Cart_Info c inner join ProductDescription p on p.PId=c.ProdId inner join User_Info u on u.UserId=c.UserId where c.UserId='" + userId + "'  order by CartId desc");
+            cmd = new SqlCommand(str);
+            cmd.Connection = con;
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+                productId = Convert.ToString(dr["product"]);
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+            con.Close();
+        }
+        return productId;
+    }
+    public bool statusToCheckReview(string userId,int productId)
+    {
+        var returnId = "";
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            string str = string.Format("select top 1 id from Product_Review where user_id='"+ userId + "' and product_id="+ productId);
+            cmd = new SqlCommand(str);
+            cmd.Connection = con;
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+                returnId = Convert.ToString(dr["id"]);
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+            con.Close();
+        }
+        return string.IsNullOrEmpty(returnId) ? true : false; ;
+    }
     public List<Brand> getAllBrands(string brandName)
     {
 

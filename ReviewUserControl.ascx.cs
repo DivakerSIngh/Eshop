@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -9,6 +10,18 @@ public partial class ReviewUserControl : System.Web.UI.UserControl
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+
+    }
+    protected void btnSave_Click(object sender, EventArgs e)
+    {
+        var product = userControlProduct.Value;
+        new DB().saveReview(Convert.ToInt32(product.Split('~')[0]),
+            product.Split('~')[1],
+            Convert.ToInt32(txtrating.Text),
+             Convert.ToString(txtReview.Text),
+            product.Split('~')[3],
+           1);
+        Response.Redirect("Default.aspx");
 
     }
 }

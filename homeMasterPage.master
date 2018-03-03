@@ -12,7 +12,7 @@
     <title></title>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
-    <uc1:ReviewUserControl runat="server" ID="ReviewUserControl" />
+   
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="" />
@@ -43,6 +43,9 @@
     <link href='//fonts.googleapis.com/css?family=Tangerine:400,700' rel='stylesheet' type='text/css' />
     <!-- web-fon    ts -->
     <script src="js/owl.carousel.js"></script>
+    <script src="js2/bootstrap.min.js"></script>
+    <link href="js/Stars/rating.css" rel="stylesheet" />
+    <script src="js/Stars/rating.js"></script>
     <script>
         $(document).ready(function () {
             $("#owl-demo").owlCarousel({
@@ -75,6 +78,20 @@
                 });
             });
         });
+        $(window).load(function () {
+            debugger
+            $('.rating').rating();
+           
+            var productId = '<%=hdnlastProductId.Value%>';
+            var status='<%=hdnStatusToCheck.Value %>';
+            if (productId != "" && status == 'True') {
+                
+                $('#myModal').modal('show');
+                $('#userControlProduct').val(productId);
+                $('#headingProduct').text('Product Review For:' + productId.split('~')[2])
+            }          
+
+        })
     </script>
     <!-- start-smooth-scrolling -->
     <script type="text/javascript" src="js/move-top.js"></script>
@@ -130,7 +147,7 @@
 </head>
 <body>
     <form runat="server">
-
+         <uc1:ReviewUserControl runat="server" ID="ReviewUserControl" />
 
         <!-- header -->
         <div class="header">
@@ -1490,6 +1507,8 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="clearfix"></div>
+                <asp:HiddenField ID="hdnlastProductId" runat="server" ClientIDMode="Static" />
+                  <asp:HiddenField ID="hdnStatusToCheck" runat="server" ClientIDMode="Static" />
             </div>
         </div>
         <!-- //subscribe -->

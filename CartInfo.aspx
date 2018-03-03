@@ -76,13 +76,13 @@
                     <div class="boddy21">
                         <div class="boddy211">
                             <%--<asp:Button ID="btnDecreQty" OnCommand="btnDecreQty_Command" CommandArgument='<%# Eval("CartId") %>' class="button1 pandm" Text="-"  runat="server"></asp:Button>--%>
-                             <asp:Button ID="btnDecryment" class="button2 pandm" CommandArgument='<%# Eval("CartId") %>' OnCommand="btnDecryment_Command" Text="-" runat="server"></asp:Button>
+                             <asp:Button ID="btnDecryment" class="button2 pandm" CommandArgument='<%# Eval("CartId")+","+Eval("cquantity")+","+Eval("sellingprice")+","+Eval("costprice") %>' OnCommand="btnDecryment_Command" Text="-" runat="server"></asp:Button>
                            <%-- <button class="button1 pandm" type="button">-</button>--%>
                             <div class="boddy2111">
                                 <asp:TextBox ID="txtQuantity" runat="server" CssClass="input1 quantity" Text='<%# Eval("cquantity") %>' value="1" TextMode="Number" MaxLength="3" min="1"></asp:TextBox>
                             </div>
                            <%-- <asp:Button ID="btnIncreQty" class="button2 pandm" CommandArgument='<%# Eval("CartId") %>' OnCommand="btnIncreQty_Command" Text="+" runat="server"></asp:Button>--%>
-                             <asp:Button ID="btnIncrease" class="button2 pandm" CommandArgument='<%# Eval("CartId")+","+Eval("cquantity")+","+Eval("sellingprice") %>' OnCommand="btnIncrease_Command" Text="+" runat="server"></asp:Button>
+                             <asp:Button ID="btnIncrease" class="button2 pandm" CommandArgument='<%# Eval("CartId")+","+Eval("cquantity")+","+Eval("sellingprice")+","+Eval("costprice") %>' OnCommand="btnIncrease_Command" Text="+" runat="server"></asp:Button>
                            <%-- <button class="button2 pandm"  type="button">+</button>--%>
                         </div>
                     </div>
@@ -129,28 +129,28 @@
                         <div class="third-cart-right2">
                             <div class="third-cart-right21">
                                 <div class="priTex1">MRP (<asp:Label ID="lblQuantity1" runat="server" ></asp:Label> item)</div>
-                                <div class="priAmt1"><asp:Label ID="lblMrpAmpt" CssClass="pricedetailMrp" runat="server" ></asp:Label></div>
+                                <div class="priAmt1">₹<asp:Label ID="lblMrpAmpt" CssClass="pricedetailMrp" runat="server" ></asp:Label></div>
                             </div>
                             <div class="third-cart-right21">
                                 <div class="priTex1">Total Discount</div>
-                                <div class="priAmt1"><asp:Label ID="lblDiscount" CssClass="pricedetailTotalDiscount" runat="server" ></asp:Label></div>
+                                <div class="priAmt1">₹<asp:Label ID="lblDiscount" CssClass="pricedetailTotalDiscount" runat="server" ></asp:Label></div>
                             </div>
                             <div class="third-cart-right21">
                                 <div class="priTex1">Coupon Discount</div>
                                 <div class="priAmt1"><asp:Label ID="lblPriceAmt" CssClass="pricedetailPriceAmt" Visible="false" runat="server" ></asp:Label>
-                                    <asp:Label ID="lblCouponDiscount"  runat="server" CssClass="pricedetailDiscount"></asp:Label>
+                                    ₹<asp:Label ID="lblCouponDiscount"  runat="server" CssClass="pricedetailDiscount"></asp:Label>
                                 </div>
                             </div>
                              <div class="third-cart-right21">
                                 <div class="priTex1">Delivery Charges</div>
-                                <div class="priDel"><asp:Label ID="lblDeleiveryCharge" CssClass="pricedetailDeleiveryCharge" runat="server" ></asp:Label></div>
+                                <div class="priDel">₹<asp:Label ID="lblDeleiveryCharge" CssClass="pricedetailDeleiveryCharge" runat="server" ></asp:Label></div>
                             </div>
                             
 
                             <div class="third-cart-right22">
                                 <div class="third-cart-right21">
                                     <div class="priTex1">Amount Payable</div>
-                                    <div class="priAmt1"><asp:Label ID="lblTotAmt" CssClass="pricedetailTotAmt" runat="server" ></asp:Label></div>
+                                    <div class="priAmt1">₹<asp:Label ID="lblTotAmt" CssClass="pricedetailTotAmt" runat="server" ></asp:Label></div>
                                 </div>
                             </div>
                         </div>
@@ -280,37 +280,37 @@
             //    return false;
             //});
             var count = 1;
-            $('.pandm').on('click', function (e) {
+            $('.pandmold').on('click', function (e) {
                 
                 //code by divaker
 
-                var selectedQuantity = $(this).closest('div').find('.quantity').val();
-                var sellingPrice = $(this).closest('div.boddy').find('.sellingPrice').text();
-                var mrpPrice = $(this).closest('div.boddy').find('.mrpPrice').text();
-                var discount = parseFloat(mrpPrice) - parseFloat(sellingPrice);
+                                    //var selectedQuantity = $(this).closest('div').find('.quantity').val();
+                                    //var sellingPrice = $(this).closest('div.boddy').find('.sellingPrice').text();
+                                    //var mrpPrice = $(this).closest('div.boddy').find('.mrpPrice').text();
+                                    //var discount = parseFloat(mrpPrice) - parseFloat(sellingPrice);
 
-                if ($(this).text() == '+') {
-                    count = count+1
-                    $(this).closest('div').find('.quantity').val(count)
-                         var price = parseFloat($('.pricedetailMrp').text()) + parseFloat(mrpPrice)
-                    $('.pricedetailMrp').text(price);
-                        // $('.pricedetailMrp').text('asdasd');
-                         $('.pricedetailTotalDiscount').text((parseFloat($('.pricedetailTotalDiscount').text()) + discount));
-                } else {
-                    count =count==1?1: count-1;
-                    $(this).closest('div').find('.quantity').val(count)
-                    if (parseInt(selectedQuantity) > 1)
-                    {
-                        var price = parseFloat($('.pricedetailMrp').text()) - parseFloat(mrpPrice);
-                        $('.pricedetailTotalDiscount').text(parseFloat($('.pricedetailTotalDiscount').text()) - discount);
-                        $('.pricedetailMrp').text(price);
-                       // $('.pricedetailMrp').text('1213');
-                    }
-                }
+                                    //if ($(this).text() == '+') {
+                                    //    count = count+1
+                                    //    $(this).closest('div').find('.quantity').val(count)
+                                    //         var price = parseFloat($('.pricedetailMrp').text()) + parseFloat(mrpPrice)
+                                    //    $('.pricedetailMrp').text(price);
+                                    //        // $('.pricedetailMrp').text('asdasd');
+                                    //         $('.pricedetailTotalDiscount').text((parseFloat($('.pricedetailTotalDiscount').text()) + discount));
+                                    //} else {
+                                    //    count =count==1?1: count-1;
+                                    //    $(this).closest('div').find('.quantity').val(count)
+                                    //    if (parseInt(selectedQuantity) > 1)
+                                    //    {
+                                    //        var price = parseFloat($('.pricedetailMrp').text()) - parseFloat(mrpPrice);
+                                    //        $('.pricedetailTotalDiscount').text(parseFloat($('.pricedetailTotalDiscount').text()) - discount);
+                                    //        $('.pricedetailMrp').text(price);
+                                    //       // $('.pricedetailMrp').text('1213');
+                                    //    }
+                                    //}
 
-                var totalAmount = (parseFloat($('.pricedetailMrp').text()) - parseFloat($('.pricedetailTotalDiscount').text())) + (parseFloat($('.pricedetailDiscount').text()+parseFloat($('.pricedetailDeleiveryCharge').text() )));
-                $('.pricedetailTotAmt').text(totalAmount);
-                //
+                                    //var totalAmount = (parseFloat($('.pricedetailMrp').text()) - parseFloat($('.pricedetailTotalDiscount').text())) + (parseFloat($('.pricedetailDiscount').text()+parseFloat($('.pricedetailDeleiveryCharge').text() )));
+                                    //$('.pricedetailTotAmt').text(totalAmount);
+                //End
 
                 //var inp;
                 //var quant = +$(this).parent().parent().parent().prev().children('div.boddy11').children('div.boddy111').children('span.myQuant').text();

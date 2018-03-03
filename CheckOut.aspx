@@ -121,6 +121,14 @@
                                 <div><asp:Label ID="lblPriceAmt" runat="server" Text="Price"></asp:Label> (<asp:Label ID="lblQuantity" runat="server" Text="1"></asp:Label> item)</div>
                                 <div>₹<asp:Label ID="lblprice" runat="server" ></asp:Label></div>
                             </div>
+                            <div class="third-cart-right21">
+                                <div><asp:Label ID="lblCoupon" runat="server" Text="Coupon Discount"></asp:Label></div>
+                                <div>₹<asp:Label ID="lblCouponAmt" runat="server"></asp:Label></div>
+                            </div>
+                            <div class="third-cart-right21">
+                                <div><asp:Label ID="lblDelivery" runat="server" Text="Delivery Charges"></asp:Label></div>
+                                <div>₹<asp:Label ID="lblDeliveryAmt" runat="server"></asp:Label></div>
+                            </div>
                             <div class="third-cart-right22">
                                 <div class="third-cart-right21">
                                     <div>Amount Payable</div>

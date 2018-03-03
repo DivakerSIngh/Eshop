@@ -4,8 +4,8 @@ using System;
 using System.Web;
 
 public class SingleProductHandler : IHttpHandler {
-    
-    public void ProcessRequest (HttpContext context) 
+
+    public void ProcessRequest (HttpContext context)
     {
         //context.Response.ContentType = "text/plain";
         //context.Response.Write("Hello World");
@@ -38,19 +38,32 @@ public class SingleProductHandler : IHttpHandler {
         if (context.Request.QueryString["UserDp"] != null)
         {
             string id = context.Request.QueryString["UserDp"].ToString();
-            
+
             DB obj = new DB();
             System.Data.DataSet ds = obj.fillDataSet("select Img from user_info where userid='" + id+"'");
             if (ds.Tables[0].Rows.Count > 0)
-                context.Response.BinaryWrite((Byte[])ds.Tables[0].Rows[0]["Img"]);
+            {
+                if (!string.IsNullOrEmpty(ds.Tables[0].Rows[0]["img"].ToString()))
+                {
+                    context.Response.BinaryWrite((Byte[])ds.Tables[0].Rows[0]["Img"]);
+                }
+                else
+                {
+                    context.Response.WriteFile("~/images/new-user-image-default.png");
+                }
+            }
+
             else
+            {
                 context.Response.WriteFile("~/images/new-user-image-default.png");
+            }
+
             context.Response.End();
             ds.Clear();
         }
-        
+
     }
- 
+
     public bool IsReusable {
         get {
             return false;

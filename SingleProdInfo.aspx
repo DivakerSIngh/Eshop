@@ -25,8 +25,61 @@
                 controlNav: "thumbnails"
             });
         });
+        $(function () {
+            
+
+              var productId='<%=Request.QueryString["pid"]%>'
+            var param = { productId: productId };
+            $.ajax({
+                url: "SingleProdInfo.aspx/getReviewList",
+                data: JSON.stringify(param),
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    var ratingHtml = "<span><i class='fa fa-star'></i></span>"
+                    var html="";
+                    $(data.d).each(function (index, item) {
+                        switch (item.rating) {
+                            case 1:
+                                ratingHtml = "<span><i class='fa fa-star'></i></span>"
+                                break;
+                            case 2:
+                                ratingHtml = "<span><i class='fa fa-star'><i class='fa fa-star'></i></i></span>"
+                                break;
+                            case 3:
+                                ratingHtml = "<span><i class='fa fa-star'><i class='fa fa-star'></i><i class='fa fa-star'></i></i></span>"
+                                break;
+                            case 4:
+                                ratingHtml = "<span><i class='fa fa-star'><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i></i></span>"
+                                break;
+                            case 5:
+                                ratingHtml = "<span><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i></span>"
+                                break;
+
+                        }
+                        
+
+                        html = html + '<div class="row"><div class="main"></div><span>' + ratingHtml + '</span><p class="_2xg6Ul" data-reactid="757">' + item.productName + '</p></div><div class="row"><div class="qwjRop">' +
+                                                  '<div><div>' + item.review + '</div><span class="_1EPkIx"></span></div></div></div><div class="row"><p>' + item.user_name + '</p></div>';
+
+                        })
+                            $('#divReview').html(html)
+                  
+                 
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    var err = eval("(" + XMLHttpRequest.responseText + ")");
+                
+                }
+            });
+
+        })
     </script>
     <style>
+        #divReview{
+            padding: 32px;
+        }
     .loader {
      border: 4px solid #f3f3f3;
     border-radius: 50%;

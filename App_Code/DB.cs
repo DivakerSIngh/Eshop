@@ -5162,7 +5162,7 @@ public class DB
         try
         {
             con = new SqlConnection(DB.constr);
-            string str = string.Format("select top 1 c.ProdId +'~'+c.UserId +'~'+p.HeaderTitle+'~'+u.Name as product from Cart_Info c inner join ProductDescription p on p.PId=c.ProdId inner join User_Info u on u.UserId=c.UserId where c.UserId='" + userId + "'  order by CartId desc");
+            string str = string.Format("select top 1 c.ProdId +'~'+c.UserId +'~'+p.HeaderTitle+'~'+u.Name as product from Cart_Info c inner join ProductDescription p on p.PId=c.ProdId inner join User_Info u on u.UserId=c.UserId where c.UserId='" + userId + "' and c.PaymentStatus='Y'  order by CartId desc");
             cmd = new SqlCommand(str);
             cmd.Connection = con;
             con.Open();
@@ -5205,6 +5205,43 @@ public class DB
             con.Close();
         }
         return string.IsNullOrEmpty(returnId) ? true : false; ;
+    }
+    public List<Review> getAllReview(string productId)
+    {
+        List<Review> lst = new List<Review>();
+    
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            string str = string.Format("select p.review,p.user_name,p.rating,pd.HeaderTitle from Product_Review p inner join ProductDescription pd on p.product_id=pd.PId where p.product_id="+Convert.ToInt32(productId));
+            cmd = new SqlCommand(str);
+            cmd.Connection = con;
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                var review = new Review()
+                {
+                    rating = Convert.ToInt32(dr["rating"]),
+                    review = Convert.ToString(dr["review"]),
+                    user_name = Convert.ToString(dr["user_name"]),
+                    productName = Convert.ToString(dr["HeaderTitle"]),
+                    
+                };
+                lst.Add(review);
+            }
+              
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+            con.Close();
+        }
+        return lst;
     }
     public List<Brand> getAllBrands(string brandName)
     {

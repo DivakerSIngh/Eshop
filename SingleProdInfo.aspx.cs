@@ -6,6 +6,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using System.Data.SqlClient;
+using System.Web.Services;
+
 public partial class SingleProdInfo : System.Web.UI.Page
 {
     DB obj;
@@ -20,6 +22,12 @@ public partial class SingleProdInfo : System.Web.UI.Page
                 load_ProdInfo(Request.QueryString["pid"].ToString());
             }
         }
+    }
+
+    [WebMethod]
+    public static List<Review> getReviewList(string productId)
+    {
+      return  new DB().getAllReview(productId);
     }
 
     private void load_ProdInfo(string pid)

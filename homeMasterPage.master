@@ -62,7 +62,7 @@
     <script>
         
         function keyPress(val) {
-            debugger
+            
             $('#hdnSearch').val($('#txtSearch').val());
         }
         $(document).ready(function () {
@@ -84,7 +84,7 @@
             });
         });
         $(window).load(function () {
-            debugger
+            
             $('.rating').rating();
            
             var productId = '<%=hdnlastProductId.Value%>';

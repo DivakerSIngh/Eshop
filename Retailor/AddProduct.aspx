@@ -36,8 +36,9 @@
      <script>  
          $(document).ready(function () {  
              $("#txtBrand").autocomplete({
-                 source: function (request, response) {  
-                     var param = { brandName: $('#txtBrand').val() };
+                 source: function (request, response) {
+                     var productId='<%=Request.QueryString["pid"]%>'
+                     var param = { brandName: productId };
                      $.ajax({  
                          url: "AddProduct.aspx/getBrands",
                          data: JSON.stringify(param),  

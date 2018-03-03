@@ -37,7 +37,25 @@ public class Brand
     public int id { get; set; }
     public string brandName { get; set; }
 
+
 }
+
+public class Review
+{
+   
+    
+public int rating { get; set; }
+    
+public string review { get; set; }
+    
+public string user_name { get; set; }
+    
+    
+public string productName { get; set; }
+    
+
+}
+
 
 public class SalesReprot
 {

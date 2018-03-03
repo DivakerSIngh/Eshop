@@ -286,6 +286,8 @@ public partial class CartInfo : System.Web.UI.Page
                         int i = obj.ApplyCouponIDonCart(usersid[0], txtCouponId.Text, "100");
                         if (i > 0)
                         {
+                            lblCouponDiscount.Text = "100";
+                            lblTotAmt.Text = (Convert.ToDecimal(lblTotAmt.Text) - Convert.ToDecimal(lblCouponDiscount.Text)).ToString();
                             ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Coupon Applied Successfully !');", true);
                             txtCouponId.Text = "";
                             pnlApplyCoupon.Visible = false;
@@ -312,6 +314,8 @@ public partial class CartInfo : System.Web.UI.Page
                         int i = obj.ApplyCouponIDonCart(usersid[0], txtCouponId.Text, "500");
                         if (i > 0)
                         {
+                            lblCouponDiscount.Text = "500";
+                            lblTotAmt.Text = (Convert.ToDecimal(lblTotAmt.Text) - Convert.ToDecimal(lblCouponDiscount.Text)).ToString();
                             ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Coupon Applied Successfully !');", true);
                             txtCouponId.Text = "";
                             pnlApplyCoupon.Visible = false;

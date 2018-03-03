@@ -43,7 +43,7 @@
                     </a>
                     <div class="boddy11">
                         <div class="boddy111">
-                            <asp:Label ID="lblHeaderTitle" CssClass="headerText" runat="server" Text='<%# Eval("headertitle") %>' ></asp:Label>
+                            <a href="SingleProdInfo.aspx?pid=<%# Eval("prodid") %>"><asp:Label ID="lblHeaderTitle" CssClass="headerText" runat="server" Text='<%# Eval("headertitle") %>' ></asp:Label></a>
                             <asp:Label ID="lblAvailableQuantity" CssClass="myQuant" style="display: none"  runat="server" Text='<%# Eval("quantity") %>'></asp:Label>
                             <asp:Label ID="lblpid" Visible="false" runat="server" Text='<%# Eval("prodid") %>'></asp:Label>
                             <asp:Label ID="lblCartId" Visible="false" runat="server" Text='<%# Eval("CartId") %>'></asp:Label>
@@ -79,7 +79,7 @@
                              <asp:Button ID="btnDecryment" class="button2 pandm" CommandArgument='<%# Eval("CartId")+","+Eval("cquantity")+","+Eval("sellingprice")+","+Eval("costprice") %>' OnCommand="btnDecryment_Command" Text="-" runat="server"></asp:Button>
                            <%-- <button class="button1 pandm" type="button">-</button>--%>
                             <div class="boddy2111">
-                                <asp:TextBox ID="txtQuantity" runat="server" CssClass="input1 quantity" Text='<%# Eval("cquantity") %>' value="1" TextMode="Number" MaxLength="3" min="1"></asp:TextBox>
+                                <asp:TextBox ID="txtQuantity" ReadOnly="true" runat="server" CssClass="input1 quantity" Text='<%# Eval("cquantity") %>' value="1" TextMode="Number" MaxLength="3" min="1"></asp:TextBox>
                             </div>
                            <%-- <asp:Button ID="btnIncreQty" class="button2 pandm" CommandArgument='<%# Eval("CartId") %>' OnCommand="btnIncreQty_Command" Text="+" runat="server"></asp:Button>--%>
                              <asp:Button ID="btnIncrease" class="button2 pandm" CommandArgument='<%# Eval("CartId")+","+Eval("cquantity")+","+Eval("sellingprice")+","+Eval("costprice") %>' OnCommand="btnIncrease_Command" Text="+" runat="server"></asp:Button>

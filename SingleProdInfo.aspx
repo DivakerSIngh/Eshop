@@ -9,8 +9,9 @@
     <!-- js -->
     <script src="js/jquery-2.2.3.min.js"></script> 
     <script src="js/owl.carousel.js"></script>
+   
     <!--flex slider-->
-    <script defer src="js/jquery.flexslider.js"></script>
+    <script  src="js/jquery.flexslider.js"></script>
     <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" />
     <style>
         a.myProLink:hover , a.myProLink:focus {
@@ -20,6 +21,7 @@
     <script>
         // Can also be used with $(document).ready()
         $(window).load(function () {
+
             $('.flexslider').flexslider({
                 animation: "slide",
                 controlNav: "thumbnails"
@@ -30,49 +32,52 @@
 
               var productId='<%=Request.QueryString["pid"]%>'
             var param = { productId: productId };
-            $.ajax({
-                url: "SingleProdInfo.aspx/getReviewList",
-                data: JSON.stringify(param),
-                dataType: "json",
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    var ratingHtml = "<span><i class='fa fa-star'></i></span>"
-                    var html="";
-                    $(data.d).each(function (index, item) {
-                        switch (item.rating) {
-                            case 1:
-                                ratingHtml = "<span><i class='fa fa-star'></i></span>"
-                                break;
-                            case 2:
-                                ratingHtml = "<span><i class='fa fa-star'><i class='fa fa-star'></i></i></span>"
-                                break;
-                            case 3:
-                                ratingHtml = "<span><i class='fa fa-star'><i class='fa fa-star'></i><i class='fa fa-star'></i></i></span>"
-                                break;
-                            case 4:
-                                ratingHtml = "<span><i class='fa fa-star'><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i></i></span>"
-                                break;
-                            case 5:
-                                ratingHtml = "<span><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i></span>"
-                                break;
+            if (productId != "") {
+                $.ajax({
+                    url: "SingleProdInfo.aspx/getReviewList",
+                    data: JSON.stringify(param),
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        var ratingHtml = "<span><i class='fa fa-star'></i></span>"
+                        var html = "";
+                        $(data.d).each(function (index, item) {
+                            switch (item.rating) {
+                                case 1:
+                                    ratingHtml = "<span><i class='fa fa-star'></i></span>"
+                                    break;
+                                case 2:
+                                    ratingHtml = "<span><i class='fa fa-star'><i class='fa fa-star'></i></i></span>"
+                                    break;
+                                case 3:
+                                    ratingHtml = "<span><i class='fa fa-star'><i class='fa fa-star'></i><i class='fa fa-star'></i></i></span>"
+                                    break;
+                                case 4:
+                                    ratingHtml = "<span><i class='fa fa-star'><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i></i></span>"
+                                    break;
+                                case 5:
+                                    ratingHtml = "<span><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i><i class='fa fa-star'></i></span>"
+                                    break;
 
-                        }
-                        
+                            }
 
-                        html = html + '<div class="row"><div class="main"></div><span>' + ratingHtml + '</span><p class="_2xg6Ul" data-reactid="757">' + item.productName + '</p></div><div class="row"><div class="qwjRop">' +
-                                                  '<div><div>' + item.review + '</div><span class="_1EPkIx"></span></div></div></div><div class="row"><p>' + item.user_name + '</p></div>';
+
+                            html = html + '<div class="row"><div class="main"></div><span>' + ratingHtml + '</span><p class="_2xg6Ul" data-reactid="757">' + item.productName + '</p></div><div class="row"><div class="qwjRop">' +
+                                                      '<div><div>' + item.review + '</div><span class="_1EPkIx"></span></div></div></div><div class="row"><p>' + item.user_name + '</p></div>';
 
                         })
-                            $('#divReview').html(html)
-                  
-                 
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    var err = eval("(" + XMLHttpRequest.responseText + ")");
-                
-                }
-            });
+                        $('#divReview').html(html)
+
+
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        var err = eval("(" + XMLHttpRequest.responseText + ")");
+
+                    }
+                });
+            }
+            
 
         })
     </script>
@@ -163,6 +168,7 @@
                         <ItemTemplate>
                                 <h3 class="item_name">
                                     <asp:Label ID="lblHeaderTitle" runat="server" Text='<%# Eval("HeaderTitle") %>' ></asp:Label></h3>
+                            <asp:HiddenField id="hdnSubCid" runat="server"  Value='<%# Eval("SubCId") %>'/>
                                 <%--<p>Processing Time: Item will be shipped out within 2-3 working days. </p>--%>
                                 <div class="single-rating">
                                     <%--<ul>
@@ -529,119 +535,7 @@
 						</div> 
 					</div>
 
-                   <%-- <div class="item">
-                        <div class="glry-w3agile-grids agileits">
-                            <a href="#">
-                                <img id="imgRecommend2" runat="server" alt="img"></a>
-                            <div class="view-caption agileits-w3layouts">
-                                <h4><a href="#"><asp:Label ID="lblRHeaderTitle2" runat="server" Text='<%# Eval("HeaderTitle") %>' ></asp:Label></a></h4>
-                                <p>Lorem ipsum dolor sit amet consectetur</p>
-                                <h5><asp:Label ID="lblRSP2" runat="server" Text='<%# Eval("SellingPrice") %>'></asp:Label></h5>
-                                <form action="#" method="post">
-                                    
-                                    <asp:LinkButton ID="btnView2" class="w3ls-cart" CommandArgument='<%# Eval("pid") %>' runat="server" OnCommand="btnView2_Command"><i class="fa fa-cart-plus" aria-hidden="true"></i>View</asp:LinkButton>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="glry-w3agile-grids agileits">
-                            <div class="new-tag">
-                                <h6>New</h6>
-                            </div>
-                            <a href="#">
-                                <img id="imgRecommend3" runat="server" alt="img"></a>
-                            <div class="view-caption agileits-w3layouts">
-                                <h4><a href="#"><asp:Label ID="lblRHeaderTitle3" runat="server" Text='<%# Eval("HeaderTitle") %>' ></asp:Label></a></h4>
-                                <p>Lorem ipsum dolor sit amet consectetur</p>
-                                <h5><asp:Label ID="lblRSP3" runat="server" Text='<%# Eval("SellingPrice") %>'></asp:Label></h5>
-                                <form action="#" method="post">
-                                    <asp:LinkButton ID="btnView3" class="w3ls-cart" CommandArgument='<%# Eval("pid") %>' runat="server" OnCommand="btnView3_Command"><i class="fa fa-cart-plus" aria-hidden="true"></i>View</asp:LinkButton>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="glry-w3agile-grids agileits">
-                            <a href="#">
-                                <img id="imgRecommend4" runat="server" alt="img"></a>
-                            <div class="view-caption agileits-w3layouts">
-                                <h4><a href="#"><asp:Label ID="lblRHeaderTitle4" runat="server" Text='<%# Eval("HeaderTitle") %>' ></asp:Label></a></h4>
-                                <p>Lorem ipsum dolor sit amet consectetur</p>
-                                <h5><asp:Label ID="lblRSP" runat="server" Text='<%# Eval("SellingPrice") %>'></asp:Label></h5>
-                                <form action="#" method="post">
-                                   <asp:LinkButton ID="btnView4" class="w3ls-cart" CommandArgument='<%# Eval("pid") %>' runat="server" OnCommand="btnView4_Command"><i class="fa fa-cart-plus" aria-hidden="true"></i>View</asp:LinkButton>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="glry-w3agile-grids agileits">
-                            <div class="new-tag">
-                                <h6>New</h6>
-                            </div>
-                            <a href="#">
-                                <img id="imgRecommend5" runat="server" alt="img"></a>
-                            <div class="view-caption agileits-w3layouts">
-                                <h4><a href="#"><asp:Label ID="lblRHeaderTitle5" runat="server" Text='<%# Eval("HeaderTitle") %>' ></asp:Label></a></h4>
-                                <p>Lorem ipsum dolor sit amet consectetur</p>
-                                <h5>$14</h5>
-                                <form action="#" method="post">
-                                   <asp:LinkButton ID="btnView5" class="w3ls-cart" CommandArgument='<%# Eval("pid") %>' runat="server" OnCommand="btnView5_Command" ><i class="fa fa-cart-plus" aria-hidden="true"></i>View</asp:LinkButton>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="glry-w3agile-grids agileits">
-                            <div class="new-tag">
-                                <h6>20%
-                                    <br>
-                                    Off</h6>
-                            </div>
-                            <a href="#">
-                                <img id="imgRecommend6" runat="server" alt="img"></a>
-                            <div class="view-caption agileits-w3layouts">
-                                <h4><a href="#"><asp:Label ID="lblRHeaderTitle6" runat="server" Text='<%# Eval("HeaderTitle") %>' ></asp:Label></a></h4>
-                                <p>Lorem ipsum dolor sit amet consectetur</p>
-                                <h5>$20</h5>
-                                <form action="#" method="post">
-                                    <asp:LinkButton ID="btnView6" class="w3ls-cart" CommandArgument='<%# Eval("pid") %>' OnCommand="btnView6_Command" runat="server" ><i class="fa fa-cart-plus" aria-hidden="true"></i>View</asp:LinkButton>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="glry-w3agile-grids agileits">
-                            <a href="#">
-                                <img id="imgRecommend7" runat="server" alt="img"></a>
-                            <div class="view-caption agileits-w3layouts">
-                                <h4><a href="#"><asp:Label ID="lblRHeaderTitle7" runat="server" Text='<%# Eval("HeaderTitle") %>' ></asp:Label></a></h4>
-                                <p>Lorem ipsum dolor sit amet consectetur</p>
-                                <h5>$70</h5>
-                                <form action="#" method="post">
-                                    <asp:LinkButton ID="btnView7" class="w3ls-cart" CommandArgument='<%# Eval("pid") %>' runat="server" OnCommand="btnView7_Command"><i class="fa fa-cart-plus" aria-hidden="true"></i>View</asp:LinkButton>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="glry-w3agile-grids agileits">
-                            <div class="new-tag">
-                                <h6>Sale</h6>
-                            </div>
-                            <a href="#">
-                                <img id="imgRecommend8" runat="server" alt="img"></a>
-                            <div class="view-caption agileits-w3layouts">
-                                <h4><a href="#"><asp:Label ID="lblRHeaderTitle8" runat="server" Text='<%# Eval("HeaderTitle") %>' ></asp:Label></a></h4>
-                                <p>Lorem ipsum dolor sit amet consectetur</p>
-                                <h5>$80</h5>
-                                <form action="#" method="post">
-                                    <asp:LinkButton ID="btnView8" class="w3ls-cart" CommandArgument='<%# Eval("pid") %>' runat="server" OnCommand="btnView8_Command"><i class="fa fa-cart-plus" aria-hidden="true"></i>View</asp:LinkButton>
-                                </form>
-                            </div>
-                        </div>
-                    </div>--%>
+                  
                 
            
 

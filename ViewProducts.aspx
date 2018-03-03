@@ -331,7 +331,7 @@
 
 
             <!-- recommendations -->
-            <div class="recommend">
+            <div class="recommend" style="display:none;">
                 <h3 class="w3ls-title">Our Recommendations </h3>
                 <script>
                     $(document).ready(function () {

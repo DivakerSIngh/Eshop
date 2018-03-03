@@ -83,7 +83,7 @@
                 });
             });
         });
-        $(window).load(function () {
+       <%-- $(window).load(function () {
             
             $('.rating').rating();
            
@@ -97,7 +97,7 @@
                 $('#headingProduct').text('Product Review For:' + productId.split('~')[2])
             }          
 
-        })
+        })--%>
     </script>
     <!-- start-smooth-scrolling -->
     <script type="text/javascript" src="js/move-top.js"></script>

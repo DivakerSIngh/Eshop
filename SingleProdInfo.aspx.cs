@@ -213,10 +213,11 @@ public partial class SingleProdInfo : System.Web.UI.Page
             var myDropDownList = e.Item.FindControl("ddlsize") as DropDownList;
 
             var myrecommendprodlist = e.Item.FindControl("lblcid") as Label;
+            var hdnSubCid= e.Item.FindControl("hdnSubCid") as HiddenField;
 
             if (myrecommendprodlist.Text != "")
             {
-                DataSet dss = obj.GetProductsRecommended(myrecommendprodlist.Text);
+                DataSet dss = obj.GetProducts(hdnSubCid.Value,null, myrecommendprodlist.Text,  null);
                 gvRecommendedProd.DataSource = dss.Tables[0];
 
                 gvRecommendedProd.DataBind();

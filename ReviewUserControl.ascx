@@ -1,21 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ReviewUserControl.ascx.cs" Inherits="ReviewUserControl" %>
 
-<%-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-<script src="http://code.jquery.com/jquery-1.11.3.min.js" charset="utf-8"></script>--%>
-
-<%--<script src="js/rating.js"></script>--%>
-<script src="js/jquery-1.11.3.min.js"></script>
-<script src="js/bootstrap.js"></script>
-<link href="js/Stars/rating.css" rel="stylesheet" />
-<script src="js/Stars/rating.js"></script>
-<script>
-    $(document).ready(function () {
-        
-      
-        //setTimeout(function () { $('.rating').rating(); }, 300)
-    });
-    
-    </script>
 
 <div id="myModal" class="modal fade" role="dialog" style="width:50%;left: 23%;">
   <div class="modal-dialog">

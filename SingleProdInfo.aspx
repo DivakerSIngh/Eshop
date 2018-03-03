@@ -11,7 +11,7 @@
     <script src="js/owl.carousel.js"></script>
    
     <!--flex slider-->
-    <script  src="js/jquery.flexslider.js"></script>
+    
     <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" />
     <style>
         a.myProLink:hover , a.myProLink:focus {

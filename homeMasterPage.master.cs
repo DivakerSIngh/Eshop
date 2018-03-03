@@ -18,7 +18,8 @@ public partial class homeMasterPage : System.Web.UI.MasterPage
         if (Session["loginid"] != null && Session["loginid"].ToString() != "")
         {
             hdnlastProductId.Value= getLastPurchaseProductId(Convert.ToString(Session["loginid"]));
-            hdnStatusToCheck.Value =Convert.ToString(new DB().statusToCheckReview(Convert.ToString(Session["loginid"]), Convert.ToInt32(hdnlastProductId.Value.Split('~')[0])));
+            if(!string.IsNullOrEmpty(hdnlastProductId.Value))
+                 hdnStatusToCheck.Value =Convert.ToString(new DB().statusToCheckReview(Convert.ToString(Session["loginid"]), Convert.ToInt32(hdnlastProductId.Value.Split('~')[0])));
             var loginUserId = Convert.ToString(Session["loginid"]).ToCharArray()[0];
             switch (loginUserId.ToString())
             {

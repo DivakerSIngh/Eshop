@@ -379,13 +379,23 @@
                                     <div class="panel-heading" role="tab" id="headingThree">
                                         <h4 class="panel-title">
                                             <a class="collapsed pa_italic" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                <i class="fa fa-check-square-o fa-icon" aria-hidden="true"></i>reviews (0) <span class="fa fa-angle-down fa-arrow" aria-hidden="true"></span><i class="fa fa-angle-up fa-arrow" aria-hidden="true"></i>
+                                                <i class="fa fa-check-square-o fa-icon" aria-hidden="true"></i>reviews (0) 
+                                                <span class="fa fa-angle-down fa-arrow" aria-hidden="true">
+                                                </span><i class="fa fa-angle-up fa-arrow" aria-hidden="true"></i>
                                             </a>
                                         </h4>
                                     </div>
                                     <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                                        <div class="panel-body">
-                                            No Review is available.
+                                        <div class="panel-body" id="divReview">
+                                            <div class="row"><div class="hGSR34 _1x2VEC E_uFuv">
+                                                </div>
+                                                <p class="_2xg6Ul" data-reactid="757">Product 1</p></div>
+                                           <div class="row">
+                                               <div class="qwjRop">
+                                                   <div><div>hello</div><span class="_1EPkIx">
+
+                                                                        </span></div></div></div>
+                                            <div class="row"><p>Vijay Singh</p></div>
                                         </div>
                                     </div>
                                 </div>

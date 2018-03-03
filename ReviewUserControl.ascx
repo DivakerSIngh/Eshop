@@ -22,6 +22,7 @@
    
     <!-- Modal content-->
       <asp:HiddenField id="userControlProduct" runat="server" ClientIDMode="Static"/>
+       <asp:HiddenField id="hdnSearch" runat="server" ClientIDMode="Static"/>
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -41,7 +42,7 @@
           
       </div>
       <div class="modal-footer">
-          <asp:Button ID="btnSave" runat="server" class="btn btn-default" Text="Submit Review"  OnClick="btnSave_Click" />
+          <asp:Button ID="btnSave" UseSubmitBehavior="false" runat="server" class="btn btn-default" Text="Submit Review"  OnClick="btnSave_Click" />
         
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>

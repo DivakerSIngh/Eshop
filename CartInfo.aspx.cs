@@ -81,19 +81,21 @@ public partial class CartInfo : System.Web.UI.Page
             rptCart.DataSource = ds.Tables[0];
             rptCart.DataBind();
             lblCartNum.Text = "My Cart(" + ds.Tables[0].Rows.Count.ToString() + ")";
-            lblQuantity.Text = dss.Tables[0].Rows[0]["qty"].ToString();
+            //lblQuantity.Text = dss.Tables[0].Rows[0]["qty"].ToString();
             lblQuantity1.Text= dss.Tables[0].Rows[0]["qty"].ToString();
             lblMrpAmpt.Text= dss.Tables[0].Rows[0]["costprice"].ToString();
             lblDiscount.Text= dss.Tables[0].Rows[0]["discount"].ToString();
-
-            
+            lblDeleiveryCharge.Text = dss.Tables[0].Rows[0]["Delivery_Amount"].ToString();
+            lblPriceAmt.Text= dss.Tables[0].Rows[0]["PriceAmount"].ToString();
+            lblCouponDiscount.Text= dss.Tables[0].Rows[0]["Coupon_Amt"].ToString();
             //decimal amt = 0;
             //for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
             //{
             //    amt += Convert.ToDecimal(ds.Tables[0].Rows[i]["sellingprice"].ToString()) * Convert.ToDecimal(ds.Tables[0].Rows[i]["cquantity"].ToString());
             //}
-            lblPriceAmt.Text = dss.Tables[0].Rows[0]["totalamount"].ToString();
-            lblTotAmt.Text = dss.Tables[0].Rows[0]["totalamount"].ToString();
+            //lblPriceAmt.Text = dss.Tables[0].Rows[0]["totalamount"].ToString();
+           // lblTotAmt.Text = ((Convert.ToDecimal(lblMrpAmpt.Text) - (Convert.ToDecimal(lblDiscount.Text) + Convert.ToDecimal(lblCouponDiscount.Text))) + Convert.ToDecimal(lblDeleiveryCharge.Text)).ToString(); //dss.Tables[0].Rows[0]["totalamount"].ToString();
+            
             lblSaveAmt.Text = "You have saved amount : " + (Convert.ToDecimal(lblPriceAmt.Text) - Convert.ToDecimal(lblMrpAmpt.Text)).ToString("0.00");
             lblSaveAmt.ForeColor = System.Drawing.Color.DarkGreen;
             string usersid = Session["loginid"].ToString() + "," + ds.Tables[0].Rows.Count.ToString() + "," + dss.Tables[0].Rows[0]["totalamount"].ToString();
@@ -188,6 +190,7 @@ public partial class CartInfo : System.Web.UI.Page
             string quantity = lab1.Text;
             decimal amt = Convert.ToDecimal(labsp.Text) * Convert.ToDecimal(quantity);
             i = obj.UpdateQuantityInCartInfo(cartid,quantity,amt.ToString());
+
         }
         if (i > 0)
         {
@@ -320,5 +323,56 @@ public partial class CartInfo : System.Web.UI.Page
         {
             obj = null;
         }
+    }
+
+    protected void btnDecryment_Command(object sender, CommandEventArgs e)
+    {
+        obj = new DB();
+        string cartid = e.CommandArgument.ToString();
+        int i = 0;
+        foreach (RepeaterItem item in rptCart.Items)
+        {
+            Label lab = item.FindControl("lblCartId") as Label;
+            Label labsp = item.FindControl("lblSP") as Label;
+           // string cartid = lab.Text;
+            TextBox lab1 = item.FindControl("txtQuantity") as TextBox;
+            string quantity = lab1.Text;
+            decimal amt = Convert.ToDecimal(labsp.Text) * Convert.ToDecimal(quantity);
+            i = obj.UpdateQuantityInCartInfo(cartid, quantity, amt.ToString());
+
+        }
+    }
+
+    protected void btnIncrease_Command(object sender, CommandEventArgs e)
+    {
+
+        decimal mrpAmount = 0;
+        //decimal discount = 0;
+        decimal sellingprice = 0;
+        obj = new DB();
+
+        string cartid = e.CommandArgument.ToString().Split(',')[0];
+        int i = 0;
+        foreach (RepeaterItem item in rptCart.Items)
+        {
+            Label lblCP = item.FindControl("lblCP") as Label;
+            Label lab = item.FindControl("lblCartId") as Label;
+            Label labsp = item.FindControl("lblSP") as Label;
+            //string cartid = lab.Text;
+            TextBox lab1 = item.FindControl("txtQuantity") as TextBox;
+            string quantity = lab1.Text;
+            decimal amt = Convert.ToDecimal(labsp.Text) * Convert.ToDecimal(quantity);
+            i = obj.UpdateQuantityInCartInfo(cartid, quantity, amt.ToString());
+            mrpAmount += Convert.ToDecimal(lblCP.Text);
+            sellingprice += Convert.ToDecimal(labsp.Text);
+            //discount+= Convert.ToDecimal(lblCP.Text)- Convert.ToDecimal(labsp.Text);
+        }
+        lblMrpAmpt.Text = mrpAmount.ToString();
+        lblDiscount.Text = (mrpAmount - sellingprice).ToString();
+        lblPriceAmt.Text = sellingprice.ToString();
+        //lblCouponDiscount.Text
+        //lblDeleiveryCharge.Text
+        lblTotAmt.Text = (sellingprice - Convert.ToDecimal(lblCouponDiscount.Text)).ToString();
+
     }
 }

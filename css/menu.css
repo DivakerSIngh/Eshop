@@ -642,7 +642,9 @@
     color: #3f8654;
   }
   .cd-dropdown-content .cd-secondary-dropdown ul { 
-    overflow: hidden;
+   /*overflow: hidden;*/
+    overflow-x:hidden;
+    overflow-y:auto;
     height: auto;
   }
   .cd-dropdown-content .cd-secondary-dropdown .go-back a {

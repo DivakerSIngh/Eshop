@@ -44,7 +44,7 @@
     <link href='//fonts.googleapis.com/css?family=Tangerine:400,700' rel='stylesheet' type='text/css' />
     <!-- web-fon    ts -->
     <script src="js/owl.carousel.js"></script>
-    <script src="js2/bootstrap.min.js"></script>
+   <%-- <script src="js2/bootstrap.min.js"></script>--%>
     <link href="js/Stars/rating.css" rel="stylesheet" />
     <script src="js/Stars/rating.js"></script>
     <script>
@@ -87,7 +87,7 @@
         $(window).load(function () {
             
             $('.rating').rating();
-           debugger
+           
             var productId = '<%=hdnlastProductId.Value%>';
             var status = '<%=hdnStatusToCheck.Value %>';
            

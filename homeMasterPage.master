@@ -87,7 +87,7 @@
         $(window).load(function () {
             
             $('.rating').rating();
-           
+           debugger
             var productId = '<%=hdnlastProductId.Value%>';
             var status = '<%=hdnStatusToCheck.Value %>';
            

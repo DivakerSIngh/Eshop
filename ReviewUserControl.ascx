@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="ReviewUserControl.ascx.cs" Inherits="ReviewUserControl" %>
 
 
-<div id="myModal" class="modal fade" role="dialog" style="width:50%;left: 23%;">
+<div id="myModal" class="modal fade" role="dialog" style="width:50%;left: 23%;z-index: 99999;">
   <div class="modal-dialog">
    
     <!-- Modal content-->

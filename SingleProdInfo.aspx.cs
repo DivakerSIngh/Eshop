@@ -15,6 +15,9 @@ public partial class SingleProdInfo : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
+            if(Session["loginid"]!=null)
+                hdnProductStatusid.Value = new DB().getLastPurchaseProductId(Convert.ToString(Session["loginid"]), "N"); 
+
             if (Request.QueryString["pid"] != null && Request.QueryString["pid"].ToString() != "")
             {
                 hf_ddl_Value.Value = "0";
@@ -23,6 +26,7 @@ public partial class SingleProdInfo : System.Web.UI.Page
             }
         }
     }
+   
 
     [WebMethod]
     public static List<Review> getReviewList(string productId)

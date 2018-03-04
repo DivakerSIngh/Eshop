@@ -24,7 +24,8 @@ public partial class ReviewUserControl : System.Web.UI.UserControl
                  Convert.ToString(txtReview.Text),
                 product.Split('~')[3],
                1);
-            Response.Redirect("Default.aspx");
+            Response.Redirect(Request.Url.ToString());
+           // Response.Redirect("Default.aspx");
         }else
         {
             if (hdnSearch.Value.Trim() != "")

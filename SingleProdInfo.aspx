@@ -17,16 +17,32 @@
         a.myProLink:hover , a.myProLink:focus {
             color: white;
         }
+       #btnReview {
+            margin-left: -1px;
+    margin-top: 10px;
+        }
     </style>
     <script>
         // Can also be used with $(document).ready()
         $(window).load(function () {
-
+            
             $('.flexslider').flexslider({
                 animation: "slide",
                 controlNav: "thumbnails"
             });
+            if ($('#hdnProductStatusid').val() != "") {
+                $('#btnReview').show();
+            } else {
+                $('#btnReview').hide();
+            }
+            
         });
+        function clickReview() {
+            
+            $('#userControlProduct').val($('#hdnProductStatusid').val());
+            $('#headingProduct').text('Product Review For:' + $('#hdnProductStatusid').val().split('~')[2])
+            $('#myModal').modal('show');
+        }
         $(function () {
             
 
@@ -40,8 +56,10 @@
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
+                        debugger
                         var ratingHtml = "<span><i class='fa fa-star'></i></span>"
                         var html = "";
+                        $('#spnReviewCount').text('Review (' + data.d.length + ')')
                         $(data.d).each(function (index, item) {
                             switch (item.rating) {
                                 case 1:
@@ -129,7 +147,7 @@
         <div class="container">
             <div class="single-page">
                 <div class="single-page-row" id="detail-21">
-
+                    <asp:HiddenField ID="hdnProductStatusid" runat="server" ClientIDMode="Static" />
 
                     <div class="col-md-6 single-top-left">
                         <div class="flexslider">
@@ -223,6 +241,9 @@
 
 
                                 <asp:LinkButton ID="btnAddWishList" class="w3ls-cart w3ls-cart-like" runat="server" CommandArgument='<%# Eval("pid")+","+Eval("UserId")+","+Eval("sellingprice")+","+Eval("costprice") %>' OnCommand="btnAddWishList_Command"><i class="fa fa-heart-o" aria-hidden="true"></i>Add to Wishlist</asp:LinkButton>
+
+                            <a id="btnReview" onclick="clickReview();" class="w3ls-cart w3ls-cart-like">Review</a>
+                               
                             
                         </ItemTemplate>
                     </asp:DataList>
@@ -438,7 +459,7 @@
                                     <div class="panel-heading" role="tab" id="headingThree">
                                         <h4 class="panel-title">
                                             <a class="collapsed pa_italic" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                <i class="fa fa-check-square-o fa-icon" aria-hidden="true"></i>reviews (0) 
+                                                <i class="fa fa-check-square-o fa-icon" aria-hidden="true"></i><span id="spnReviewCount">reviews (0) </span> 
                                                 <span class="fa fa-angle-down fa-arrow" aria-hidden="true">
                                                 </span><i class="fa fa-angle-up fa-arrow" aria-hidden="true"></i>
                                             </a>

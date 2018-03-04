@@ -5154,7 +5154,7 @@ public class DB
 
       
     }
-    public string getLastPurchaseProductId(string userId)
+    public string getLastPurchaseProductId(string userId,string status="Y")
     {
 
 
@@ -5162,7 +5162,7 @@ public class DB
         try
         {
             con = new SqlConnection(DB.constr);
-            string str = string.Format("select top 1 c.ProdId +'~'+c.UserId +'~'+p.HeaderTitle+'~'+u.Name as product from Cart_Info c inner join ProductDescription p on p.PId=c.ProdId inner join User_Info u on u.UserId=c.UserId where c.UserId='" + userId + "' and c.PaymentStatus='Y'  order by CartId desc");
+            string str = string.Format("select top 1 c.ProdId +'~'+c.UserId +'~'+p.HeaderTitle+'~'+u.Name as product from Cart_Info c inner join ProductDescription p on p.PId=c.ProdId inner join User_Info u on u.UserId=c.UserId where c.UserId='" + userId + "' and c.PaymentStatus='"+ status + "'  order by CartId desc");
             cmd = new SqlCommand(str);
             cmd.Connection = con;
             con.Open();

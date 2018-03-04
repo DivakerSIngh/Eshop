@@ -218,6 +218,7 @@
                                      <asp:DropDownList ID="ddlSize" runat="server" OnSelectedIndexChanged="ddlSize_SelectedIndexChanged" AutoPostBack="true">
 
                                      </asp:DropDownList>
+                                   
                                      <asp:UpdateProgress runat="server">
                                     <ProgressTemplate>
                                     <span>
@@ -225,6 +226,11 @@
                                     </span>
                                 </ProgressTemplate>
                             </asp:UpdateProgress>
+                                 </div>
+
+                             <div class="size-dropdown">
+                                     <label>Return policy: &nbsp;</label>
+                                     <asp:Label ID="Label1" Text='<%#Eval("returnpolicy") %>' ForeColor="Red" runat="server"></asp:Label>
                                  </div>
                             <div class="input-group message" style="margin-top:20px;color: red"></div>    
                             <div class="input-group pin-locate">

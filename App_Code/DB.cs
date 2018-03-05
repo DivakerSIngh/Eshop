@@ -5162,7 +5162,10 @@ public class DB
         try
         {
             con = new SqlConnection(DB.constr);
-            string str = string.Format("select top 1 c.ProdId +'~'+c.UserId +'~'+p.HeaderTitle+'~'+u.Name as product from Cart_Info c inner join ProductDescription p on p.PId=c.ProdId inner join User_Info u on u.UserId=c.UserId where c.UserId='" + userId + "' and c.PaymentStatus='"+ status + "'  order by CartId desc");
+
+            string str = status=="Y"?
+                string.Format("select top 1 c.ProdId +'~'+c.UserId +'~'+p.HeaderTitle+'~'+u.Name as product from Cart_Info c inner join ProductDescription p on p.PId=c.ProdId inner join User_Info u on u.UserId=c.UserId where c.UserId='" + userId + "' and c.PaymentStatus='"+ status + "'  order by CartId desc")
+                : string.Format("select top 1 c.ProdId +'~'+c.UserId +'~'+p.HeaderTitle+'~'+u.Name as product from Cart_Info c inner join ProductDescription p on p.PId=c.ProdId inner join User_Info u on u.UserId=c.UserId where c.UserId='" + userId + "' order by CartId desc");
             cmd = new SqlCommand(str);
             cmd.Connection = con;
             con.Open();
@@ -5205,6 +5208,28 @@ public class DB
             con.Close();
         }
         return string.IsNullOrEmpty(returnId) ? true : false; ;
+    }
+    public bool cancelOrder(int cardId)
+    {
+       
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            string str = string.Format("update cart_info set status=5 where cartId="+cardId);
+            cmd = new SqlCommand(str);
+            cmd.Connection = con;
+            con.Open();
+            cmd.ExecuteNonQuery();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+            con.Close();
+        }
+        return true;
     }
     public List<Review> getAllReview(string productId)
     {

@@ -12,7 +12,44 @@
             toastr.error('Error occured Info cannot be viewd try later !');
         }
     </script>
+    <style>
+       .btn-cancel {
+            float: right;
+    margin-top: -11%;
+        }
+       .btn-canceled{
+           color: white;
+    float: right;
+    margin-top: -11%;
+    background: #f44336;
+    border: none;
+    padding: 6px;
+       }
+    </style>
+    <script runat="server">
+        private bool cancelOrderVisible(object status)
+        {
+            var boolStatus = false;
+            if (Convert.ToInt32(status) < 4)
+            {
+            boolStatus = true;
+            }
 
+            return boolStatus;
+        }
+         private bool canceledOrderVisible(object status)
+        {
+            var boolStatus = false;
+            if (Convert.ToInt32(status) == 5)
+            {
+              boolStatus = true;
+            }
+
+            return boolStatus;
+        }
+
+        
+    </script>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -67,7 +104,10 @@
 
                             </div>
                             <div class="body12"></div>
-
+                            <asp:HiddenField ID="hdnOrderId" runat="server" Value='<%# Eval("CartId") %>' />
+                            <asp:Button ID="btnCancelOrder" Visible='<%#cancelOrderVisible(Eval("Status")) %>' CommandArgument='<%# Eval("CartId") %>' OnCommand="btnCancelOrder_Command" CssClass="btn btn-primary btn-cancel" Text="Cancel Order" runat="server" />
+                             <asp:Button ID="Button1" Visible='<%#canceledOrderVisible(Eval("Status")) %>'  CssClass="btn-canceled" Text="Canceled" runat="server" />
+                             
 
                         </div>
                         <div class="boddy2">
@@ -81,6 +121,7 @@
                                 </div>
                             </div>
                         </div>
+                       
                     </div>
 
                 </ItemTemplate>

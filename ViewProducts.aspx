@@ -317,6 +317,17 @@
                     </ul>--%>
                 </div>
 
+                <div class="related-row">
+                    <h4>Filter By Brand</h4>
+                    
+
+                    <asp:CheckBoxList ID="chkNBrandList" runat="server" RepeatDirection="Vertical" AutoPostBack="True" OnSelectedIndexChanged="chkNBrandList_SelectedIndexChanged">
+
+                        
+                    </asp:CheckBoxList>
+
+                </div>
+
                 <%--<div class="related-row">
                     <h4>YOU MAY ALSO LIKE</h4>
                     <div class="galry-like">  

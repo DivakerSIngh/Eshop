@@ -18,6 +18,7 @@ public partial class ViewProducts : System.Web.UI.Page
 
         if (!Page.IsPostBack)
         {
+            BindBrand();
             rbtnPrice.SelectedIndex = -1;
             if ((Request.QueryString["cid"] != null && Request.QueryString["cid"].ToString() != "") || (Request.QueryString["subcid"] != null && Request.QueryString["subcid"].ToString() != "") || (Request.QueryString["gender"] != null && Request.QueryString["gender"].ToString() != "") || (Request.QueryString["search"] != null && Request.QueryString["search"].ToString() != ""))
             {
@@ -39,6 +40,15 @@ public partial class ViewProducts : System.Web.UI.Page
 
     }
 
+    private void BindBrand()
+    {
+        var lst = obj.bindBrand();
+        chkNBrandList.DataSource = lst;
+        chkNBrandList.DataValueField = "id";
+        chkNBrandList.DataTextField = "brandName";
+        chkNBrandList.DataBind();
+    }
+
 
     protected void btnAddToCart1_Command(object sender, CommandEventArgs e)
     {
@@ -50,7 +60,7 @@ public partial class ViewProducts : System.Web.UI.Page
         (lvProd.FindControl("DataPager1") as DataPager).SetPageProperties(e.StartRowIndex, e.MaximumRows, false);
         this.BindListView();
     }
-    private void BindListView()
+    private void BindListView(string brandId=null)
     {
         try
         {
@@ -78,7 +88,7 @@ public partial class ViewProducts : System.Web.UI.Page
             if (cid != null || subcid != null || gender != null || search != null)
             {
                 obj = new DB();
-                DataSet ds = obj.GetProducts(subcid,search,cid,gender);
+                DataSet ds = obj.GetProducts(subcid,search,cid,gender,brandId);
 
                 string pid = "";
                 for (int i = 0; i < ds.Tables[0].Rows.Count;i++ )
@@ -116,8 +126,22 @@ public partial class ViewProducts : System.Web.UI.Page
             }
             else
             {
-                lvProd.DataSource =null;
+                obj = new DB();
+                DataSet ds = obj.GetProducts(subcid, search, cid, gender, brandId);
+                string pid = "";
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    pid += ds.Tables[0].Rows[i]["pid"].ToString() + ",";
+                }
+                pid = pid.Substring(0, pid.Length - 1);
+                Session["pid"] = pid;
+
+
+                lvProd.DataSource = ds.Tables[0];
                 lvProd.DataBind();
+
+                //lvProd.DataSource =null;
+                //lvProd.DataBind();
             }
         }
         catch(Exception ex)
@@ -180,5 +204,11 @@ public partial class ViewProducts : System.Web.UI.Page
         {
 
         }
+    }
+
+    protected void chkNBrandList_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        string selectedItems = String.Join(",", chkNBrandList.Items.OfType<ListItem>().Where(r => r.Selected).Select(r => r.Value));
+        BindListView(selectedItems);
     }
 }

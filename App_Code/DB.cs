@@ -1976,7 +1976,7 @@ public class DB
     }
 
 
-    public DataSet GetProducts(string subcid = null, string search = null, string cid = null, string gender = null)
+    public DataSet GetProducts(string subcid = null, string search = null, string cid = null, string gender = null,string brandIds=null)
     {
 
         try
@@ -1990,6 +1990,7 @@ public class DB
             da.SelectCommand.Parameters.AddWithValue("@gender", gender);
             da.SelectCommand.Parameters.AddWithValue("@search", search);
             da.SelectCommand.Parameters.AddWithValue("@cid", cid);
+            da.SelectCommand.Parameters.AddWithValue("@brandId", brandIds);
 
             ds = new DataSet();
             da.Fill(ds);

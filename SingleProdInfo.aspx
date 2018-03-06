@@ -24,9 +24,48 @@
     </style>
     <script>
         if (localStorage.getItem('postalCode') != "") {
-            //document.getElementById('<%%>')
+            document.getElementById("hf_user_pincode").value = localStorage.getItem('postalCode');
         }
     </script>
+
+     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAPGIvYpvs7ETQHWcfHnJjLBLH5XNF0OZs"></script>                  
+     <script type="text/javascript">
+        <!--
+            function GetLocationUsingPincode(pincode) {
+                var geocoder = new google.maps.Geocoder();
+                //var address = document.getElementById("txtAddress").value;
+                geocoder.geocode({ 'address': pincode }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        var latitude = results[0].geometry.location.lat();
+                        var longitude = results[0].geometry.location.lng();
+
+                        document.getElementById("hf_latitute1").value = latitude;
+                        document.getElementById("hf_longitute1").value = longitude;
+                        //alert("Latitude: " + latitude + "\nLongitude: " + longitude);
+                    } else {
+                        //alert("Request failed.")
+                    }
+                });
+            };
+
+            function GetLocationUsingPincode1(pincode) {
+                var geocoder = new google.maps.Geocoder();
+                //var address = document.getElementById("txtAddress").value;
+                geocoder.geocode({ 'address': pincode }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        var latitude = results[0].geometry.location.lat();
+                        var longitude = results[0].geometry.location.lng();
+
+                        document.getElementById("hf_latitute2").value = latitude;
+                        document.getElementById("hf_longitute2").value = longitude;
+                        //alert("Latitude: " + latitude + "\nLongitude: " + longitude);
+                    } else {
+                        //alert("Request failed.")
+                    }
+                });
+            };
+            //-->
+        </script>
     <script>
         // Can also be used with $(document).ready()
         $(window).load(function () {
@@ -138,6 +177,13 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:ScriptManager ID="sm1" runat="server"></asp:ScriptManager>
     <asp:HiddenField ID="hf_ddl_Value" runat="server" />
+    <asp:HiddenField ID="hf_logistic_id" runat="server" />
+    <asp:HiddenField ID="hf_user_pincode" runat="server" />
+    <asp:HiddenField ID="hf_latitute1" runat="server" />
+    <asp:HiddenField ID="hf_longitute1" runat="server" />
+     <asp:HiddenField ID="hf_latitute2" runat="server" />
+    <asp:HiddenField ID="hf_longitute2" runat="server" />
+    <asp:HiddenField ID="hf_deliveryAmt" runat="server" />
     <!-- breadcrumbs -->
     <div class="container">
         <ol class="breadcrumb breadcrumb1">
@@ -245,6 +291,7 @@
                                     <div class="input-group-btn">
                                         <asp:LinkButton ID="btnCheckPincode" class="btn btn-primary" runat="server" CommandArgument='<%# Eval("Pincode") %>' OnCommand="btnCheckPincode_Command">Check Pincode</asp:LinkButton>
                                         <asp:Label ID="lblPincode" runat="server" Text='<%# Eval("Pincode") %>'></asp:Label>
+                                        <asp:Label ID="lblWt" Visible="false" runat="server" Text='<%# Eval("weight") %>'></asp:Label>
                                     </div>
                            
                                 </div>

@@ -15,8 +15,8 @@ public partial class SingleProdInfo : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            if(Session["loginid"]!=null)
-                hdnProductStatusid.Value = new DB().getLastPurchaseProductId(Convert.ToString(Session["loginid"]), "N"); 
+            if (Session["loginid"] != null)
+                hdnProductStatusid.Value = new DB().getLastPurchaseProductId(Convert.ToString(Session["loginid"]), "N");
 
             if (Request.QueryString["pid"] != null && Request.QueryString["pid"].ToString() != "")
             {
@@ -26,12 +26,12 @@ public partial class SingleProdInfo : System.Web.UI.Page
             }
         }
     }
-   
+
 
     [WebMethod]
     public static List<Review> getReviewList(string productId)
     {
-      return  new DB().getAllReview(productId);
+        return new DB().getAllReview(productId);
     }
 
     private void load_ProdInfo(string pid)
@@ -45,15 +45,15 @@ public partial class SingleProdInfo : System.Web.UI.Page
             dlProdInfo.DataBind();
             ddlProdDetail.DataSource = ds.Tables[0];
             ddlProdDetail.DataBind();
-            
+
 
             //DataSet ds2 = new DataSet();
             //for (int i = 1; i < 8;i++)
             //    ds2.Merge(ds);
 
-           
+
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
 
         }
@@ -63,14 +63,14 @@ public partial class SingleProdInfo : System.Web.UI.Page
         }
     }
 
-    
+
     private void load_image(string pid)
     {
         try
         {
             obj = new DB();
             DataSet ds = obj.GetProductImage(pid);
-            
+
             //the following can be improved by adding a
             //new method to get image types
             //byte[] imgArray = ;
@@ -90,11 +90,11 @@ public partial class SingleProdInfo : System.Web.UI.Page
             img4.Src = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[3][0]);
             img14.Attributes["data-thumb"] = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[3][0]);
 
-            
-           
+
+
 
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
 
         }
@@ -103,9 +103,7 @@ public partial class SingleProdInfo : System.Web.UI.Page
             obj = null;
         }
     }
-    
-   
-   
+
     protected void btnAddCart_Command1(object sender, CommandEventArgs e)
     {
         try
@@ -139,14 +137,14 @@ public partial class SingleProdInfo : System.Web.UI.Page
                     //Button btncart = ddlPrdoDescription.FindControl("btnAddToCart") as Button;
                     //btncart.Enabled = false;
                 }
-          
+
             }
             else
             {
                 Server.Transfer("Login.aspx");
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         { }
         finally
         {
@@ -206,9 +204,18 @@ public partial class SingleProdInfo : System.Web.UI.Page
         {
             obj = new DB();
             int i = 0;
-            var txtRpin = (TextBox)sender;
-            string ddl_selectedvalue = ((TextBox)txtRpin.NamingContainer.FindControl("txtLocation")).Text.Trim();
-            string retailer_pincode= e.CommandArgument.ToString();
+            //var txtRpin = (TextBox)sender;
+            string UserPincode = "";
+            double weight = 0.00;
+            foreach (DataListItem item in this.dlProdInfo.Items)
+            {
+                UserPincode = (item.FindControl("txtLocation") as TextBox).Text;
+                weight = Convert.ToDouble((item.FindControl("lblWt") as Label).Text);
+            }
+            //TextBox txtuserpin = (TextBox)dlProdInfo.FindControl("txtLocation");
+            //string ddl_selectedvalue = ((TextBox)txtRpin.NamingContainer.FindControl("txtLocation")).Text.Trim();
+            
+            string retailer_pincode = e.CommandArgument.ToString();
             DataSet ds = obj.GetAllPincodeListfromLogistic();
             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
@@ -217,15 +224,24 @@ public partial class SingleProdInfo : System.Web.UI.Page
                     string[] stringArray = ds.Tables[0].Rows[i]["pincodelist"].ToString().Split(',');
                     //string stringToCheck=txtPincode.Text.Trim();
 
-                    string stringToCheck = ddl_selectedvalue;
-                    if (stringArray.Any(stringToCheck.Contains)&& stringArray.Any(retailer_pincode.Contains))
+                    string stringToCheck = UserPincode;
+                    if (stringArray.Any(stringToCheck.Contains) && stringArray.Any(retailer_pincode.Contains))
                     {
-                        var lblmsg = (Label)sender;
-                        var labelmsg = ((Label)lblmsg.NamingContainer.FindControl("lblPincodeMsg"));
-                        labelmsg.Visible = false;
+                        hf_logistic_id.Value = ds.Tables[0].Rows[i]["userid"].ToString();
+                        //var lblmsg = (Label)sender;
+                        //var labelmsg = ((Label)lblmsg.NamingContainer.FindControl("lblPincodeMsg"));
+                        //labelmsg.Visible = false;
                         return;
                     }
                 }
+
+                Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "GetLocationUsingPincode('"+ UserPincode + "')", true);
+                Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "GetLocationUsingPincode1('" + retailer_pincode + "')", true);
+
+                double distance = getDistanceUsinLongAndLat(Convert.ToDouble(hf_latitute1.Value), Convert.ToDouble(hf_longitute1.Value), Convert.ToDouble(hf_latitute2.Value), Convert.ToDouble(hf_longitute2.Value), 'K');
+               
+                string logisticid = hf_logistic_id.Value;
+                hf_deliveryAmt.Value = Convert.ToString(getDeliveryAmt(logisticid, weight, distance));
             }
         }
         catch
@@ -233,11 +249,11 @@ public partial class SingleProdInfo : System.Web.UI.Page
 
         }
     }
-    
+
     protected void btnview_Command(object sender, CommandEventArgs e)
     {
         string pid = e.CommandArgument.ToString();
-        Response.Redirect("SingleProdInfo.aspx?pid="+pid);
+        Response.Redirect("SingleProdInfo.aspx?pid=" + pid);
     }
     protected void dlProdInfo_ItemDataBound(object sender, DataListItemEventArgs e)
     {
@@ -246,11 +262,11 @@ public partial class SingleProdInfo : System.Web.UI.Page
             var myDropDownList = e.Item.FindControl("ddlsize") as DropDownList;
 
             var myrecommendprodlist = e.Item.FindControl("lblcid") as Label;
-            var hdnSubCid= e.Item.FindControl("hdnSubCid") as HiddenField;
+            var hdnSubCid = e.Item.FindControl("hdnSubCid") as HiddenField;
 
             if (myrecommendprodlist.Text != "")
             {
-                DataSet dss = obj.GetProducts(hdnSubCid.Value,null, myrecommendprodlist.Text,  null);
+                DataSet dss = obj.GetProducts(hdnSubCid.Value, null, myrecommendprodlist.Text, null);
                 gvRecommendedProd.DataSource = dss.Tables[0];
 
                 gvRecommendedProd.DataBind();
@@ -340,5 +356,44 @@ public partial class SingleProdInfo : System.Web.UI.Page
         {
             obj = null;
         }
+    }
+
+    private double getDistanceUsinLongAndLat(double lat1, double lon1, double lat2, double lon2, char unit)
+    {
+        double theta = lon1 - lon2;
+        double dist = Math.Sin(deg2rad(lat1)) * Math.Sin(deg2rad(lat2)) + Math.Cos(deg2rad(lat1)) * Math.Cos(deg2rad(lat2)) * Math.Cos(deg2rad(theta));
+        dist = Math.Acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        if (unit == 'K')
+        {
+            dist = dist * 1.609344;
+        }
+        else if (unit == 'N')
+        {
+            dist = dist * 0.8684;
+        }
+        return (dist);
+    }
+
+    //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    //::  This function converts decimal degrees to radians             :::
+    //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    private double deg2rad(double deg)
+    {
+        return (deg * Math.PI / 180.0);
+    }
+
+    //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    //::  This function converts radians to decimal degrees             :::
+    //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    private double rad2deg(double rad)
+    {
+        return (rad / Math.PI * 180.0);
+    }
+
+    private decimal getDeliveryAmt(string logistic_id,double wt,double distance)
+    {
+        return 0;
     }
 }

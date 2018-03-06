@@ -66,6 +66,10 @@
                                 <span class="percent">% Off</span>
                             </div>
                         </div>
+                        <div class="boddy114">
+                            <label>Return policy: &nbsp;</label>
+                                     <asp:Label ID="Label1" Text='<%#Eval("returnpolicy") %>' ForeColor="Red" runat="server"></asp:Label>
+                        </div>
                         
                     </div>
                     <div class="body12"></div>

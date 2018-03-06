@@ -202,7 +202,36 @@ public partial class SingleProdInfo : System.Web.UI.Page
     }
     protected void btnCheckPincode_Command(object sender, CommandEventArgs e)
     {
+        try
+        {
+            obj = new DB();
+            int i = 0;
+            var txtRpin = (TextBox)sender;
+            string ddl_selectedvalue = ((TextBox)txtRpin.NamingContainer.FindControl("txtLocation")).Text.Trim();
+            string retailer_pincode= e.CommandArgument.ToString();
+            DataSet ds = obj.GetAllPincodeListfromLogistic();
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                for (i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    string[] stringArray = ds.Tables[0].Rows[i]["pincodelist"].ToString().Split(',');
+                    //string stringToCheck=txtPincode.Text.Trim();
 
+                    string stringToCheck = ddl_selectedvalue;
+                    if (stringArray.Any(stringToCheck.Contains)&& stringArray.Any(retailer_pincode.Contains))
+                    {
+                        var lblmsg = (Label)sender;
+                        var labelmsg = ((Label)lblmsg.NamingContainer.FindControl("lblPincodeMsg"));
+                        labelmsg.Visible = false;
+                        return;
+                    }
+                }
+            }
+        }
+        catch
+        {
+
+        }
     }
     
     protected void btnview_Command(object sender, CommandEventArgs e)

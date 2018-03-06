@@ -23,6 +23,11 @@
         }
     </style>
     <script>
+        if (localStorage.getItem('postalCode') != "") {
+            //document.getElementById('<%%>')
+        }
+    </script>
+    <script>
         // Can also be used with $(document).ready()
         $(window).load(function () {
             
@@ -232,11 +237,13 @@
                                      <label>Return policy: &nbsp;</label>
                                      <asp:Label ID="Label1" Text='<%#Eval("returnpolicy") %>' ForeColor="Red" runat="server"></asp:Label>
                                  </div>
-                            <div class="input-group message" style="margin-top:20px;color: red"></div>    
+                            <div class="input-group message" style="margin-top:20px;color: red">
+                                <asp:Label ID="lblPincodeMsg" runat="server" Visible="false"></asp:Label>
+                            </div>    
                             <div class="input-group pin-locate">
                                     <asp:TextBox ID="txtLocation" runat="server" CssClass="form-control" placeholder="enter pincode" style="z-index:auto;" TextMode="Number" ></asp:TextBox><br />
                                     <div class="input-group-btn">
-                                        <asp:LinkButton ID="btnCheckPincode" class="btn btn-primary" runat="server" CommandArgument='<%# Eval("pid") %>' OnCommand="btnCheckPincode_Command">Check Pincode</asp:LinkButton>
+                                        <asp:LinkButton ID="btnCheckPincode" class="btn btn-primary" runat="server" CommandArgument='<%# Eval("Pincode") %>' OnCommand="btnCheckPincode_Command">Check Pincode</asp:LinkButton>
                                         <asp:Label ID="lblPincode" runat="server" Text='<%# Eval("Pincode") %>'></asp:Label>
                                     </div>
                            
@@ -600,7 +607,7 @@
         </div>
     </div>
     <script type="text/javascript" src="/js2/stdis.js"></script>
-    <script>
+    <%--<script>
         $(document).ready(function () {
             $('li[data-thumb]').each(function () {
                 if ($(this).attr('data-thumb') == "") {
@@ -620,7 +627,7 @@
                 e.preventDefault();
             })
         })
-    </script>
+    </script>--%>
     <!--//products-->
 
 

@@ -5307,6 +5307,29 @@ public class DB
 
 
     }
+
+    public DataTable getdt(string query)
+    {
+        DataTable dt = new DataTable();
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            da = new SqlDataAdapter(query, con);
+            da.SelectCommand.CommandType = CommandType.Text;
+            da.SelectCommand.Parameters.Clear();
+            da.Fill(dt);
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+        return dt;
+    }
     #endregion
 
 

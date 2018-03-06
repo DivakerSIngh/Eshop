@@ -27,8 +27,8 @@ public partial class CheckOut : System.Web.UI.Page
                     {
                         lblQuantity.Text = ds.Tables[0].Rows[0]["qty"].ToString();
                         lblprice.Text = ds.Tables[0].Rows[0]["totalamount"].ToString();
-                        lblCouponAmt.Text= ds.Tables[0].Rows[0]["Coupon_Amt"].ToString();
-                        lblDeliveryAmt.Text= ds.Tables[0].Rows[0]["Delivery_Amount"].ToString();
+                        lblCouponAmt.Text = ds.Tables[0].Rows[0]["Coupon_Amt"].ToString();
+                        lblDeliveryAmt.Text = ds.Tables[0].Rows[0]["Delivery_Amount"].ToString();
                         lblTotAmt.Text = (Convert.ToDecimal(lblprice.Text) + Convert.ToDecimal(lblDeliveryAmt.Text) - Convert.ToDecimal(lblCouponAmt.Text)).ToString();
                     }
                     Load_DefaultAddress(usersid[0]);
@@ -111,69 +111,70 @@ public partial class CheckOut : System.Web.UI.Page
         {
             obj = new DB();
             int i = 0;
-            DataSet ds=obj.GetAllPincodeListfromLogistic();
-            if(ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            DataSet ds = obj.GetAllPincodeListfromLogistic();
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
-            string[] stringArray=ds.Tables[0].Rows[0]["pincodelist"].ToString().Split(',');
-            string stringToCheck=txtPincode.Text.Trim();
-            if(stringArray.Any(stringToCheck.Contains))
+                string[] stringArray = ds.Tables[0].Rows[0]["pincodelist"].ToString().Split(',');
+                //string stringToCheck=txtPincode.Text.Trim();
+                string stringToCheck = "201301";
+                if (stringArray.Any(stringToCheck.Contains))
                 {
-            if(rbtnAddress.SelectedIndex == 0)
-            {
-                
-                string totamt = "", deliveryamt = "150";
-                string[] usersid = Session["loginid"].ToString().Split(',');
-                totamt = usersid[2];
-                i = obj.UpdateUserNewAddress(usersid[0], txtName.Text, txtPhone.Text, txtAddress.Text, txtCity.Text, txtState.Text, txtPincode.Text, txtLandmark.Text, totamt, deliveryamt);
-                if (i > 0)
-                {
-                    Session["loginid"] = usersid[0] + "," + usersid[1] + "," + usersid[2] + "," + deliveryamt;
-                    Response.Redirect("ConfirmOrder.aspx");
-                }
-                else
-                {
-                    ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.error('Cannot Checkout Please Try Later !');", true);
-                }
-
-            }
-            else
-            {
-                if(txtAddress.Text.Trim() != "" && txtCity.Text.Trim() != "" && txtLandmark.Text.Trim() != "" && txtName.Text.Trim() != "" && txtPhone.Text.Trim() != "" && txtPincode.Text.Trim() != "" && txtState.Text.Trim() != "")
-                {
-                    string totamt="", deliveryamt = "250";
-                    string[] usersid=Session["loginid"].ToString().Split(',');
-                    totamt = usersid[2];
-                    i = obj.UpdateUserNewAddress(usersid[0],txtName.Text,txtPhone.Text,txtAddress.Text,txtCity.Text,txtState.Text,txtPincode.Text,txtLandmark.Text,totamt,deliveryamt);
-                    if(i > 0)
+                    if (rbtnAddress.SelectedIndex == 0)
                     {
-                        Session["loginid"] = usersid[0] + "," + usersid[1] + "," + usersid[2] + "," + deliveryamt;
-                        Response.Redirect("ConfirmOrder.aspx");
+
+                        string totamt = "", deliveryamt = "150";
+                        string[] usersid = Session["loginid"].ToString().Split(',');
+                        totamt = usersid[2];
+                        i = obj.UpdateUserNewAddress(usersid[0], txtName.Text, txtPhone.Text, txtAddress.Text, txtCity.Text, txtState.Text, txtPincode.Text, txtLandmark.Text, totamt, deliveryamt);
+                        if (i > 0)
+                        {
+                            Session["loginid"] = usersid[0] + "," + usersid[1] + "," + usersid[2] + "," + deliveryamt;
+                            Response.Redirect("ConfirmOrder.aspx");
+                        }
+                        else
+                        {
+                            ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.error('Cannot Checkout Please Try Later !');", true);
+                        }
+
                     }
                     else
                     {
-                        ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.error('Cannot Checkout Please Try Later !');", true);
-                    }
+                        if (txtAddress.Text.Trim() != "" && txtCity.Text.Trim() != "" && txtLandmark.Text.Trim() != "" && txtName.Text.Trim() != "" && txtPhone.Text.Trim() != "" && txtPincode.Text.Trim() != "" && txtState.Text.Trim() != "")
+                        {
+                            string totamt = "", deliveryamt = "250";
+                            string[] usersid = Session["loginid"].ToString().Split(',');
+                            totamt = usersid[2];
+                            i = obj.UpdateUserNewAddress(usersid[0], txtName.Text, txtPhone.Text, txtAddress.Text, txtCity.Text, txtState.Text, txtPincode.Text, txtLandmark.Text, totamt, deliveryamt);
+                            if (i > 0)
+                            {
+                                Session["loginid"] = usersid[0] + "," + usersid[1] + "," + usersid[2] + "," + deliveryamt;
+                                Response.Redirect("ConfirmOrder.aspx");
+                            }
+                            else
+                            {
+                                ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.error('Cannot Checkout Please Try Later !');", true);
+                            }
 
+
+                        }
+                        else
+                        {
+                            ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.warning('All Fields are compulsory !');", true);
+                        }
+                    }
 
                 }
                 else
                 {
-                    ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.warning('All Fields are compulsory !');", true);
+                    ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.warning('Delivery of products not available at provided pincode.Please change Pincode !');", true);
                 }
-                }
-                
             }
             else
             {
-                ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.warning('Delivery of products not available at provided pincode.Please change Pincode !');", true);
-            }
-            }
-            else
-            {
-                    ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.error('No Pincode Avialable from Logistic to check !');", true);
+                ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.error('No Pincode Avialable from Logistic to check !');", true);
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         { }
         finally
         {

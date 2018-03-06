@@ -198,7 +198,7 @@ public partial class SingleProdInfo : System.Web.UI.Page
             obj = null;
         }
     }
-    protected void btnCheckPincode_Command(object sender, CommandEventArgs e)
+    protected  void btnCheckPincode_Command(object sender, CommandEventArgs e)
     {
         try
         {
@@ -214,7 +214,7 @@ public partial class SingleProdInfo : System.Web.UI.Page
             }
             //TextBox txtuserpin = (TextBox)dlProdInfo.FindControl("txtLocation");
             //string ddl_selectedvalue = ((TextBox)txtRpin.NamingContainer.FindControl("txtLocation")).Text.Trim();
-            
+
             string retailer_pincode = e.CommandArgument.ToString();
             DataSet ds = obj.GetAllPincodeListfromLogistic();
             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -234,21 +234,27 @@ public partial class SingleProdInfo : System.Web.UI.Page
                         return;
                     }
                 }
+                hdnWeight.Value = weight.ToString();
+                 ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "MyFun1", "GetLocationUsingPincode('" + UserPincode + "','"+ retailer_pincode + "','"+ hf_logistic_id.Value + "','"+ hdnWeight.Value + "');", true);
+                // ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "MyFun1", "GetLocationUsingPincode1('" + retailer_pincode + "');", true);
 
-                Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "GetLocationUsingPincode('"+ UserPincode + "')", true);
-                Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "GetLocationUsingPincode1('" + retailer_pincode + "')", true);
+                //ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "MyFun1", "trigger('" + weight + "');", true);
+                //Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "GetLocationUsingPincode('"+ UserPincode + "')", true);
+                //Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "GetLocationUsingPincode1('" + retailer_pincode + "')", true);
 
-                double distance = getDistanceUsinLongAndLat(Convert.ToDouble(hf_latitute1.Value), Convert.ToDouble(hf_longitute1.Value), Convert.ToDouble(hf_latitute2.Value), Convert.ToDouble(hf_longitute2.Value), 'K');
-               
-                string logisticid = hf_logistic_id.Value;
-                hf_deliveryAmt.Value = Convert.ToString(getDeliveryAmt(logisticid, weight, distance));
+                //double distance = getDistanceUsinLongAndLat(Convert.ToDouble(hf_latitute1.Value), Convert.ToDouble(hf_longitute1.Value), Convert.ToDouble(hf_latitute2.Value), Convert.ToDouble(hf_longitute2.Value), 'K');
+
+                //string logisticid = hf_logistic_id.Value;
+                //hf_deliveryAmt.Value = Convert.ToString(getDeliveryAmt(logisticid, weight, distance));
             }
         }
-        catch
+        catch (Exception ex)
         {
 
         }
     }
+
+    
 
     protected void btnview_Command(object sender, CommandEventArgs e)
     {
@@ -395,5 +401,12 @@ public partial class SingleProdInfo : System.Web.UI.Page
     private decimal getDeliveryAmt(string logistic_id,double wt,double distance)
     {
         return 0;
+    }
+
+    protected void btnfireEventJS_Click(object sender, EventArgs e)
+    {
+        double distance = getDistanceUsinLongAndLat(Convert.ToDouble(hf_latitute1.Value), Convert.ToDouble(hf_longitute1.Value), Convert.ToDouble(hf_latitute2.Value), Convert.ToDouble(hf_longitute2.Value), 'K');
+        string logisticid = hf_logistic_id.Value;
+        hf_deliveryAmt.Value = Convert.ToString(getDeliveryAmt(logisticid, Convert.ToDouble(hdnWeight.Value), distance));
     }
 }

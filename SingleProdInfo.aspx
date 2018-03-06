@@ -24,41 +24,48 @@
     </style>
     <script>
         if (localStorage.getItem('postalCode') != "") {
-            document.getElementById("hf_user_pincode").value = localStorage.getItem('postalCode');
+            
+            $('#hf_user_pincode').val(localStorage.getItem('postalCode'));
+           // document.getElementById("hf_user_pincode").value = localStorage.getItem('postalCode');
         }
     </script>
 
      <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAPGIvYpvs7ETQHWcfHnJjLBLH5XNF0OZs"></script>                  
      <script type="text/javascript">
         <!--
-            function GetLocationUsingPincode(pincode) {
+         function trigger() {
+             document.getElementById("btnfireEventJS").click();
+         }
+         function GetLocationUsingPincode(pincode,pincode2,logisticId,weight) {
+             
+             $('#hdnWeight').val(weight);
+             $('#hf_logistic_id').val(logisticId);
                 var geocoder = new google.maps.Geocoder();
                 //var address = document.getElementById("txtAddress").value;
                 geocoder.geocode({ 'address': pincode }, function (results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
+                        
                         var latitude = results[0].geometry.location.lat();
                         var longitude = results[0].geometry.location.lng();
-
-                        document.getElementById("hf_latitute1").value = latitude;
-                        document.getElementById("hf_longitute1").value = longitude;
-                        //alert("Latitude: " + latitude + "\nLongitude: " + longitude);
+                        $('#hf_latitute1').val(latitude);
+                        $('#hf_longitute1').val(longitude)
+                        GetLocationUsingPincode1(pincode2);
                     } else {
                         //alert("Request failed.")
                     }
                 });
             };
 
-            function GetLocationUsingPincode1(pincode) {
+         function GetLocationUsingPincode1(pincode) {
                 var geocoder = new google.maps.Geocoder();
                 //var address = document.getElementById("txtAddress").value;
                 geocoder.geocode({ 'address': pincode }, function (results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
                         var latitude = results[0].geometry.location.lat();
                         var longitude = results[0].geometry.location.lng();
-
-                        document.getElementById("hf_latitute2").value = latitude;
-                        document.getElementById("hf_longitute2").value = longitude;
-                        //alert("Latitude: " + latitude + "\nLongitude: " + longitude);
+                        $('#hf_latitute2').val(latitude);
+                        $('#hf_longitute2').val(longitude);
+                        trigger()
                     } else {
                         //alert("Request failed.")
                     }
@@ -100,7 +107,6 @@
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
-                        debugger
                         var ratingHtml = "<span><i class='fa fa-star'></i></span>"
                         var html = "";
                         $('#spnReviewCount').text('Review (' + data.d.length + ')')
@@ -176,14 +182,16 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:ScriptManager ID="sm1" runat="server"></asp:ScriptManager>
-    <asp:HiddenField ID="hf_ddl_Value" runat="server" />
-    <asp:HiddenField ID="hf_logistic_id" runat="server" />
-    <asp:HiddenField ID="hf_user_pincode" runat="server" />
-    <asp:HiddenField ID="hf_latitute1" runat="server" />
-    <asp:HiddenField ID="hf_longitute1" runat="server" />
-     <asp:HiddenField ID="hf_latitute2" runat="server" />
-    <asp:HiddenField ID="hf_longitute2" runat="server" />
-    <asp:HiddenField ID="hf_deliveryAmt" runat="server" />
+    
+    <asp:HiddenField ID="hf_ddl_Value" runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hdnWeight" runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hf_logistic_id" runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hf_user_pincode" runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hf_latitute1" runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hf_longitute1" runat="server" ClientIDMode="Static"/>
+     <asp:HiddenField ID="hf_latitute2" runat="server"  ClientIDMode="Static"/>
+    <asp:HiddenField ID="hf_longitute2" runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hf_deliveryAmt" runat="server" ClientIDMode="Static" />
     <!-- breadcrumbs -->
     <div class="container">
         <ol class="breadcrumb breadcrumb1">
@@ -194,6 +202,7 @@
     </div>
     <!-- //breadcrumbs -->
     <!-- products -->
+    <asp:Button ID="btnfireEventJS" ClientIDMode="Static" runat="server" OnClick="btnfireEventJS_Click" style="display:none;" />
     <div class="products">
         <div class="container">
             <div class="single-page">

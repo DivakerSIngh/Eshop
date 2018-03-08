@@ -65,6 +65,17 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count > 0)
             {
                 ddlCategory.SelectedValue = ds.Tables[0].Rows[0]["CId"].ToString();
+                ddlColor.SelectedValue= Convert.ToString(ds.Tables[0].Rows[0]["colors"]);
+                ddlGender.SelectedValue= Convert.ToString(ds.Tables[0].Rows[0]["Gender"]);
+                if (string.IsNullOrEmpty(Convert.ToString(ds.Tables[0].Rows[0]["Gender"])))
+                {
+                    ddlGender.SelectedValue = "0";
+                    ddlGender.Visible = false;
+                }else
+                {
+                    ddlGender.Visible = true;
+                }
+                txtBrand.Text= Convert.ToString(ds.Tables[0].Rows[0]["Brand_Title"]);
                 fill_ddl_Subcategory(ds.Tables[0].Rows[0]["CId"].ToString(), ds.Tables[0].Rows[0]["Gender"].ToString());
                 ddlSubCategory.SelectedValue = ds.Tables[0].Rows[0]["subcid"].ToString();
                 if (ddlCategory.SelectedIndex == 1)
@@ -128,7 +139,7 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
                 {
                     rdbtnMeasurement.SelectedIndex = 1;
                     lbPSizeList.Items.Clear();
-                    pnlMeasurement.Visible = false;
+                   // pnlMeasurement.Visible = false;
                 }
 
 
@@ -153,6 +164,30 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
                 txtValue9.Text = ds.Tables[0].Rows[0]["Value9"].ToString();
                 txtTitle10.Text = ds.Tables[0].Rows[0]["Title10"].ToString();
                 txtValue10.Text = ds.Tables[0].Rows[0]["Value10"].ToString();
+
+                //
+                var lstMeasurment = new DB().getMeasurementByProductId(Request.QueryString["pid"].ToString());
+                List<Measurment> lstMeasurementList = new List<Measurment>();
+                foreach (var item in lstMeasurment)
+                {
+                    var data = item.Split('~');
+                    var measurment = new Measurment
+                    {
+                        title = data[0],
+                        quantity = data[1],
+                        mrp = data[2],
+                        sellingPrice = data[3]
+                    };
+                    lstMeasurementList.Add(measurment);
+                    lbPSizeList.Items.Add(item);
+                }
+                Session["list"] = lstMeasurementList;
+                txtweight.Text = Convert.ToString(ds.Tables[0].Rows[0]["weight"]);
+                var dimesion = Convert.ToString(ds.Tables[0].Rows[0]["dimension"]);
+                //dimesion.Replace("*", "~");
+                txtL.Text = dimesion.Split('*')[0];
+                    txtB.Text= dimesion.Split('*')[1];
+                txtH.Text= dimesion.Split('*')[2];
             }
 
 
@@ -254,15 +289,7 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
 
       
     }
-    class Measurment
-    {
-        public int id { get; set; }
-        public int productId { get; set; }
-        public string title { get; set; }
-        public string quantity { get; set; }
-        public string mrp { get; set; }
-        public string sellingPrice { get; set; }
-    }
+   
     protected void btnPRemoveSize_Click(object sender, EventArgs e)
     {
         var list = Session["list"] as List<Measurment>;
@@ -498,7 +525,16 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
                 else
                 {
                     obj.ProdId = Request.QueryString["pid"].ToString();
+                    obj.deleteMeasurement(obj.ProdId);
+
                     s = obj.UpdateProdInfo(ddlSubCategory.SelectedValue, gender);
+                    List<Measurment> lst = new List<Measurment>();
+                    lst = Session["list"] as List<Measurment>;
+                    foreach (var item in lst)
+                    {
+                        obj.AddProdMeasurment(Convert.ToInt32(obj.ProdId), item.title, item.quantity, item.mrp, item.sellingPrice);
+                    }
+
                     if (s > 0)
                     {
                         ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Updation Done Successfully !');", true);

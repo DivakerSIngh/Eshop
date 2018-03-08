@@ -126,41 +126,41 @@
                             <Columns>
                                 <asp:TemplateField HeaderText="SNo">
                                     <ItemTemplate>
-                                        <asp:Label ID="Label1" runat="server" ForeColor="#003366" Text='<%#Eval("Pid") %>' ></asp:Label>
+                                        <asp:Label ID="lblproductId" runat="server" ForeColor="#003366" Text='<%#Eval("Pid") %>' ></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Title">
                                     <ItemTemplate>
-                                        <asp:Label ID="Label2" runat="server" ForeColor="#003366" Text='<%#Eval("HeaderTitle") %>'></asp:Label>
+                                        <asp:Label ID="lblTitle" runat="server" ForeColor="#003366" Text='<%#Eval("HeaderTitle") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
                                <asp:TemplateField HeaderText="Color">
                                     <ItemTemplate>
-                                        <asp:Label ID="Label2" runat="server" ForeColor="#003366" Text='<%#Eval("colors") %>'></asp:Label>
+                                        <asp:Label ID="lblColor" runat="server" ForeColor="#003366" Text='<%#Eval("colors") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
                                   <asp:TemplateField HeaderText="Brand Name">
                                     <ItemTemplate>
-                                        <asp:Label ID="Label2" runat="server" ForeColor="#003366" Text='<%#Eval("BrandName") %>'></asp:Label>
+                                        <asp:Label ID="lblBrandName" runat="server" ForeColor="#003366" Text='<%#Eval("BrandName") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
                                         <asp:TemplateField HeaderText="Policy">
                                     <ItemTemplate>
-                                        <asp:Label ID="Label2" runat="server" ForeColor="#003366" Text='<%#getPrivacyPolicy(Eval("IsReturnPolicy")) %>'></asp:Label>
+                                        <asp:Label ID="lblIsreturn" runat="server" ForeColor="#003366" Text='<%#getPrivacyPolicy(Eval("IsReturnPolicy")) %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             
                                 <asp:TemplateField HeaderText="Selling Price">
                                     <ItemTemplate>
-                                        <asp:Label ID="Label3" runat="server" ForeColor="#003366" Text='<%#Eval("SellingPrice") %>'></asp:Label>
+                                        <asp:Label ID="lblSellingPrice" runat="server" ForeColor="#003366" Text='<%#Eval("SellingPrice") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Cost Price">
                                     <ItemTemplate>
-                                        <asp:Label ID="Label4" runat="server" ForeColor="#003366" Text='<%#Eval("CostPrice") %>'></asp:Label>
+                                        <asp:Label ID="lblCostprice" runat="server" ForeColor="#003366" Text='<%#Eval("CostPrice") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Edit">

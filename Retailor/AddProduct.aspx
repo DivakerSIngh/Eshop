@@ -36,8 +36,9 @@
      <script>  
          $(document).ready(function () {  
              $("#txtBrand").autocomplete({
+                 
                  source: function (request, response) {
-                     var productId='<%=Request.QueryString["pid"]%>'
+                     var productId = $("#txtBrand").val();//  '<%=Request.QueryString["pid"]%>'
                      var param = { brandName: productId };
                      $.ajax({  
                          url: "AddProduct.aspx/getBrands",
@@ -46,7 +47,8 @@
                          type: "POST",  
                          contentType: "application/json; charset=utf-8",  
                          dataFilter: function (data) { return data; },  
-                         success: function (data) {  
+                         success: function (data) {
+                             
                              console.log(JSON.stringify(data));  
                              response($.map(data.d, function (item) {  
                                  return {  
@@ -54,7 +56,8 @@
                                  }  
                              }))  
                          },  
-                         error: function (XMLHttpRequest, textStatus, errorThrown) {  
+                         error: function (XMLHttpRequest, textStatus, errorThrown) {
+                             
                              var err = eval("(" + XMLHttpRequest.responseText + ")");  
                              alert(err.Message)  
                              // console.log("Ajax Error!");    
@@ -107,13 +110,7 @@
         }
         function checkBrandExist(evt) {
             
-            $.ajax({
-                contentType: "",
-                method: "get",
-                url:""
-                
-
-            })
+           
         }
 
     </script>
@@ -308,7 +305,7 @@
                                     </div>
                                     <div class="form-group form-group col-sm-6 col-md-6" style="display:none;">
                                         <label for="focusedinput" class="col-sm-2 control-label" style="text-align: left;">Quantity
-                                            <asp:Label ID="Label2" runat="server" Text="*" ForeColor="Red" /></label>
+                                            <asp:Label ID="lblRequired" runat="server" Text="*" ForeColor="Red" /></label>
                                         <div class="col-sm-8">
                                             <asp:TextBox ID="txtPQuantity" onkeypress="return /\d/.test(String.fromCharCode(((event||window.event).which||(event||window.event).which)));" class="form-control1" placeholder="Enter Quantity of Product" runat="server" TextMode="Number"></asp:TextBox>
 

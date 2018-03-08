@@ -689,6 +689,14 @@ public class DB
             cmd.Parameters.AddWithValue("@PDescription", ProdDesc);
             cmd.Parameters.AddWithValue("@Quantity", ProdQuantity);
             cmd.Parameters.AddWithValue("@Discount", ProdDiscount);
+
+            cmd.Parameters.AddWithValue("@Brand_Id", BrandId);
+            cmd.Parameters.AddWithValue("@colors", Color);
+            cmd.Parameters.AddWithValue("@IsReturnPolicy", isReturnPolicy);
+            cmd.Parameters.AddWithValue("@weight", Wieght);
+            cmd.Parameters.AddWithValue("@dimension", Dimension);
+
+
             cmd.Parameters.AddWithValue("@Title1", ProdTitle1);
             cmd.Parameters.AddWithValue("@Value1", ProdValue1);
             cmd.Parameters.AddWithValue("@Title2", ProdTitle2);
@@ -720,6 +728,30 @@ public class DB
             i = cmd.ExecuteNonQuery();
 
 
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+
+        return i;
+    }
+
+    public int deleteMeasurement(string pid)
+    {
+        int i = 0;
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            string str = string.Format("delete ProductMeasurementMapping where productId=" + pid);
+            cmd = new SqlCommand(str);
+            cmd.Connection = con;
+            con.Open();
+            i = cmd.ExecuteNonQuery();
         }
         catch (Exception ex)
         {
@@ -2666,7 +2698,7 @@ public class DB
 
 
     }
-
+    
 
     public DataSet GetProductDetailforUpdation(string pid, string userid)
     {
@@ -2698,6 +2730,36 @@ public class DB
 
 
     }
+
+    public List<string> getMeasurementByProductId(string productId)
+    {
+        List<string> lst = new List<string>();
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            string str = string.Format(" select measurementTitle+'~'+measurementQuantity+'~'+measurementPrice+'~'+measurementSellingPrice as measurement from ProductMeasurementMapping where productId=" + productId);
+            cmd = new SqlCommand(str);
+            cmd.Connection = con;
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                lst.Add(Convert.ToString(dr["measurement"]));
+            }
+                
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+            con.Close();
+        }
+        return lst;
+    }
+  
 
 
     public DataSet GetProdListforRetailer(string userid)

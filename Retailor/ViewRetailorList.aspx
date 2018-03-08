@@ -56,7 +56,7 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Title">
                                     <ItemTemplate>
-                                        <asp:Label ID="Label2" runat="server" ForeColor="#003366" Text='<%#Eval("Org_Name") %>'></asp:Label>
+                                        <asp:Label ID="lblOrgName" runat="server" ForeColor="#003366" Text='<%#Eval("Org_Name") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Edit">

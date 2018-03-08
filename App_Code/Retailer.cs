@@ -32,6 +32,15 @@ public  class Retailer
 
 }
 
+public class Measurment
+{
+    public int id { get; set; }
+    public int productId { get; set; }
+    public string title { get; set; }
+    public string quantity { get; set; }
+    public string mrp { get; set; }
+    public string sellingPrice { get; set; }
+}
 public class Brand
 {
     public int id { get; set; }

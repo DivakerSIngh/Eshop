@@ -1,9 +1,9 @@
 ﻿<%@ Page Title="Add Product" Language="C#" MasterPageFile="~/Admin/SAdminPanel.master" AutoEventWireup="true" CodeFile="AddProduct.aspx.cs" Inherits="Retailor_AddProduct" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+    
 
-
-    <script src="/ToastMessage/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <%--<script src="/ToastMessage/jquery-1.9.1.min.js" type="text/javascript"></script>--%>
     <link href="/ToastMessage/toastr.css" rel="stylesheet" type="text/css" />
     <script src="/ToastMessage/toastr.js" type="text/javascript"></script>
 
@@ -23,7 +23,7 @@
     <!-- Custom Theme files -->
     <link href="/css2/style.css" rel='stylesheet' type='text/css' />
     <link href="/css2/font-awesome.css" rel="stylesheet" />
-    <script src="/js2/jquery.min.js"> </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> </script>
     <!-- Mainly scripts -->
     <script src="/js2/jquery.metisMenu.js"></script>
     <script src="/js2/jquery.slimscroll.min.js"></script>
@@ -31,14 +31,16 @@
     <link href="/css2/custom.css" rel="stylesheet" />
     <script src="/js2/custom.js"></script>
     <script src="/js2/screenfull.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js"></script> 
+    <%-- <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js"></script> --%>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.js"></script>    
     <link rel="Stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/themes/redmond/jquery-ui.css" />  
      <script>  
-         $(document).ready(function () {  
-             $("#txtBrand").autocomplete({
-                 source: function (request, response) {  
-                     var param = { brandName: $('#txtBrand').val() };
+
+         function checkBrandExist(value) {
+              $("#txtBrand").autocomplete({
+                 source: function (request, response) {
+                     var productId = $(value).val() == "" ? $("#txtBrand").val() : $(value).val() //  '<%=Request.QueryString["pid"]%>'
+                     var param = { brandName: productId };
                      $.ajax({  
                          url: "AddProduct.aspx/getBrands",
                          data: JSON.stringify(param),  
@@ -46,7 +48,8 @@
                          type: "POST",  
                          contentType: "application/json; charset=utf-8",  
                          dataFilter: function (data) { return data; },  
-                         success: function (data) {  
+                         success: function (data) {
+                             
                              console.log(JSON.stringify(data));  
                              response($.map(data.d, function (item) {  
                                  return {  
@@ -54,17 +57,23 @@
                                  }  
                              }))  
                          },  
-                         error: function (XMLHttpRequest, textStatus, errorThrown) {  
+                         error: function (XMLHttpRequest, textStatus, errorThrown) {
+                             
                              var err = eval("(" + XMLHttpRequest.responseText + ")");  
-                             alert(err.Message)  
+                             //alert(err.Message)  
                              // console.log("Ajax Error!");    
                          }  
                      });  
                  },  
                  minLength: 1 //This is the Char length of inputTextBox    
-             });  
+             }); 
+         }
+         $(document).ready(function () {  
+             checkBrandExist('');
          });  
     </script>  
+    
+    
     <script>
         $(function () {
             $('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
@@ -91,35 +100,7 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            $('#demo-pie-1').pieChart({
-                barColor: '#3bb2d0',
-                trackColor: '#eee',
-                lineCap: 'round',
-                lineWidth: 8,
-                onStep: function (from, to, percent) {
-                    $(this.element).find('.pie-value').text(Math.round(percent) + '%');
-                }
-            });
-
-            $('#demo-pie-2').pieChart({
-                barColor: '#fbb03b',
-                trackColor: '#eee',
-                lineCap: 'butt',
-                lineWidth: 8,
-                onStep: function (from, to, percent) {
-                    $(this.element).find('.pie-value').text(Math.round(percent) + '%');
-                }
-            });
-
-            $('#demo-pie-3').pieChart({
-                barColor: '#ed6498',
-                trackColor: '#eee',
-                lineCap: 'square',
-                lineWidth: 8,
-                onStep: function (from, to, percent) {
-                    $(this.element).find('.pie-value').text(Math.round(percent) + '%');
-                }
-            });
+            
 
 
         });
@@ -131,6 +112,7 @@
 
             return true;
         }
+       
 
     </script>
     <!--skycons-icons-->
@@ -144,12 +126,12 @@
     <!--content-->
     <!---->
 
-    <form runat="server" id="frmAddprduct" class="form-horizontal">
-
+  
+    <form runat="server">
         <asp:ScriptManager ID="scriptmanager1" runat="server">
         </asp:ScriptManager>
 
-        <asp:UpdatePanel ID="updatepnl" runat="server">
+       <asp:UpdatePanel ID="updatepnl" runat="server">
             <ContentTemplate>
 
 
@@ -193,9 +175,6 @@
                                                         </asp:DropDownList>
                                                     </td>
 
-
-                                                    
-
                                                 </tr>
 
                                             </table>
@@ -223,7 +202,8 @@
 										<p class="help-block">Your help text!</p>
 									</div>
 								</div>--%>
-                                     
+
+                                    
                                       <div class="form-group col-sm-6 col-md-6">
                                         <label for="focusedinput" class="col-sm-2 control-label" style="text-align: left;">Choose Retailer
                                             <asp:Label ID="Label13" runat="server" Text="*" ForeColor="Red" /></label>
@@ -247,7 +227,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group col-sm-6 col-md-6" style="display: none;">
+                                    <div class="form-group col-sm-6 col-md-6" style="display:none;">
                                         <label for="focusedinput" class="col-sm-2 control-label" style="text-align: left;">Selling Price
                                             <asp:Label ID="Label5" runat="server" Text="*" ForeColor="Red" /></label>
                                         <div class="col-sm-8">
@@ -261,9 +241,12 @@
 
                                     <div class="form-group col-sm-6 col-md-6">
                                         <label for="focusedinput" class="col-sm-2 control-label" style="text-align: left;">Brand Name
-                                            <asp:Label ID="Label8" runat="server" Text="" ForeColor="Red" /></label>
+                                           <asp:Label ID="Label8" runat="server" Text="" ForeColor="Red" /></label>
                                         <div class="col-sm-8">
-                                           <asp:TextBox ID="txtBrand" ClientIDMode="Static" class="form-control1" placeholder="Enter Brand Name" runat="server" TextMode="SingleLine"></asp:TextBox>
+                                           <%-- <asp:DropDownList ID="ddlBrand" runat="server"  CssClass="form-control1">
+                                                
+                                            </asp:DropDownList>--%>
+                                            <asp:TextBox ID="txtBrand" ClientIDMode="Static" class="form-control1" onkeypress="checkBrandExist(this)" placeholder="Enter Brand Name" runat="server" TextMode="SingleLine"></asp:TextBox>
 
                                            <%-- <asp:TextBox ID="txtBrand" class="form-control1" placeholder="Enter Brand Name" runat="server" TextMode="SingleLine"></asp:TextBox>--%>
 
@@ -279,11 +262,12 @@
                                             <asp:Label ID="Label9" runat="server" Text="" ForeColor="Red" /></label>
                                         <div class="col-sm-8">
                                               <asp:DropDownList ID="ddlColor" runat="server"  CssClass="form-control1">
-                                                <asp:ListItem Value="1" Text="Red"></asp:ListItem>
-                                                 <asp:ListItem Value="2" Text="Yellow"></asp:ListItem>
-                                                 <asp:ListItem Value="3" Text="Green"></asp:ListItem>
-                                                 <asp:ListItem Value="4" Text="Pink"></asp:ListItem>
-                                                 <asp:ListItem Value="5" Text="Blue"></asp:ListItem>
+                                                <asp:ListItem Value="#FF0000" Text="Red">
+                                                </asp:ListItem>
+                                                 <asp:ListItem Value="#FFFF00" Text="Yellow"></asp:ListItem>
+                                                 <asp:ListItem Value="#00FF00" Text="Green"></asp:ListItem>
+                                                 <asp:ListItem Value="#9400D3" Text="Pink"></asp:ListItem>
+                                                 <asp:ListItem Value="#0000FF" Text="Blue"></asp:ListItem>
                                             </asp:DropDownList>
                                            <%-- <asp:TextBox ID="txtColor" class="form-control1" placeholder="Enter Color" runat="server" TextMode="SingleLine"></asp:TextBox>--%>
 
@@ -294,8 +278,8 @@
                                     </div>
 
                                     <div class="form-group col-sm-6 col-md-6">
-                                        <label for="focusedinput" class="col-sm-2 control-label" style="text-align: left;">Weight
-                                            <asp:Label ID="Label10" runat="server" Text="" ForeColor="Red" /></label>
+                                        <label for="focusedinput" class="col-sm-2 control-label" style="text-align: left;">Weight(gm)
+                                            <asp:Label ID="Label10" runat="server" Text="*" ForeColor="Red" /></label>
                                         <div class="col-sm-8">
                                             <asp:TextBox ID="txtweight" onkeypress="return isNumberKey(event)" class="form-control1" placeholder="Enter Weight" runat="server" TextMode="SingleLine"></asp:TextBox>
 
@@ -304,7 +288,7 @@
                                             <p class="help-block">Your help text!</p>
                                         </div>
                                     </div>
-                                    <div class="form-group col-sm-6 col-md-6" style="display: none;">
+                                    <div class="form-group col-sm-6 col-md-6" style="display:none;">
                                         <label for="focusedinput" class="col-sm-2 control-label" style="text-align: left;">MRP
                                             <asp:Label ID="Label7" runat="server" Text="*" ForeColor="Red" /></label>
                                         <div class="col-sm-8">
@@ -331,9 +315,9 @@
                                             <p class="help-block">Your help text!</p>
                                         </div>
                                     </div>
-                                    <div class="form-group form-group col-sm-6 col-md-6" style="display: none;">
+                                    <div class="form-group form-group col-sm-6 col-md-6" style="display:none;">
                                         <label for="focusedinput" class="col-sm-2 control-label" style="text-align: left;">Quantity
-                                            <asp:Label ID="Label2" runat="server" Text="*" ForeColor="Red" /></label>
+                                            <asp:Label ID="lblRequired" runat="server" Text="*" ForeColor="Red" /></label>
                                         <div class="col-sm-8">
                                             <asp:TextBox ID="txtPQuantity" onkeypress="return /\d/.test(String.fromCharCode(((event||window.event).which||(event||window.event).which)));" class="form-control1" placeholder="Enter Quantity of Product" runat="server" TextMode="Number"></asp:TextBox>
 
@@ -403,7 +387,7 @@
                                         <div class="row">
 
                                             <div class="col-sm-2 col-xs-12">
-                                                <label  class="col-sm-2 control-label" style="text-align: left;">Title: <span style="color:red">*</span> </label>
+                                                <label  class="col-sm-2 control-label" style="text-align: left;">Measurement: <span style="color:red">*</span> </label>
                                                 <div class="formInputWrap">
                                                     <asp:TextBox ID="txtPSize" CssClass="form-control1" placeholder="Measurement Title" runat="server"></asp:TextBox>
                                                 </div>
@@ -464,7 +448,7 @@
 
                                             <div class="col-sm-8">
                                                 <asp:RadioButtonList ID="rbReturnPolicy" runat="server" AutoPostBack="True" RepeatDirection="Horizontal">
-                                                    <asp:ListItem Value="1">Yes</asp:ListItem>
+                                                    <asp:ListItem Selected="True" Value="1">Yes</asp:ListItem>
                                                     <asp:ListItem Value="0">No</asp:ListItem>
                                                 </asp:RadioButtonList>
 
@@ -703,12 +687,17 @@
             </ContentTemplate>
         </asp:UpdatePanel>
 
+    <!--//content-->
 
     </form>
 
-    <!--//content-->
-
-
-
 </asp:Content>
+
+
+
+
+
+
+
+
 

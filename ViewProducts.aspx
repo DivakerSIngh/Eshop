@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="Products" Language="C#" MasterPageFile="~/homeMasterPage.master" AutoEventWireup="true" CodeFile="ViewProducts.aspx.cs" Inherits="ViewProducts" EnableEventValidation="false" %>
 
+<%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
     <script type="text/javascript">
@@ -17,7 +18,10 @@
     height: auto !important;
         }*/
     </style>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
+    
+    <script src="js/bootstrap-3.3.5.min.js"></script>
+
     <script type="text/javascript">
         function ShowCurrentTime() {
             $.ajax({
@@ -35,6 +39,22 @@
         function OnSuccess(response) {
             alert(response.d);
         }
+        $(function () {
+            //$("#ex13").slider({
+            //    ticks: [0, 100, 200, 300, 400],
+            //    ticks_labels: ['$0', '$100', '$200', '$300', '$400'],
+            //    ticks_snap_bounds: 30
+            //});
+
+            // Without JQuery
+            //debugger
+            //var slider = new Slider("#ex13", {
+            //    ticks: [0, 100, 200, 300, 400],
+            //    ticks_labels: ['$0', '$100', '$200', '$300', '$400'],
+            //    ticks_snap_bounds: 30
+            //});
+        });
+       
     </script>
 
 
@@ -150,71 +170,7 @@
 
                     </asp:ListView>
 
-                    <%--</ContentTemplate>
-            </asp:UpdatePanel>--%>
-
-                    <%--
-                        <div class="col-md-3 product-grids">
-                            <div class="agile-products">
-                                <div class="new-tag">
-                                    <h6>Sale</h6>
-                                </div>
-                                <a href="single.html">
-                                    <img src="images/p2.png" class="img-responsive" alt="img"></a>
-                                <div class="agile-product-text">
-                                    <h5><a href="single.html">Teddy bear</a></h5>
-                                    <h6><del>$25</del> $20</h6>
-                                    <form action="#" method="post">
-                                        <input type="hidden" name="cmd" value="_cart" />
-                                        <input type="hidden" name="add" value="1" />
-                                        <input type="hidden" name="w3ls_item" value="Teddy bear" />
-                                        <input type="hidden" name="amount" value="20.00" />
-                                        <button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i>Add to cart</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 product-grids">
-                            <div class="agile-products">
-                                <div class="new-tag">
-                                    <h6>25%<br>
-                                        Off</h6>
-                                </div>
-                                <a href="single.html">
-                                    <img src="images/p3.png" class="img-responsive" alt="img"></a>
-                                <div class="agile-product-text">
-                                    <h5><a href="single.html">Chocolates</a></h5>
-                                    <h6><del>$80</del> $60</h6>
-                                    <form action="#" method="post">
-                                        <input type="hidden" name="cmd" value="_cart" />
-                                        <input type="hidden" name="add" value="1" />
-                                        <input type="hidden" name="w3ls_item" value="Chocolates" />
-                                        <input type="hidden" name="amount" value="60.00" />
-                                        <button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i>Add to cart</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 product-grids">
-                            <div class="agile-products">
-                                <div class="new-tag">
-                                    <h6>OFF</h6>
-                                </div>
-                                <a href="single.html">
-                                    <img src="images/p4.png" class="img-responsive" alt="img"></a>
-                                <div class="agile-product-text">
-                                    <h5><a href="single.html">Gift Card</a></h5>
-                                    <h6><del>$25</del> $22</h6>
-                                    <form action="#" method="post">
-                                        <input type="hidden" name="cmd" value="_cart" />
-                                        <input type="hidden" name="add" value="1" />
-                                        <input type="hidden" name="w3ls_item" value="Gift Card" />
-                                        <input type="hidden" name="amount" value="22.00" />
-                                        <button type="submit" class="w3ls-cart pw3ls-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i>Add to cart</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>--%>
+                    
 
 
 
@@ -303,18 +259,11 @@
                         <asp:ListItem  Value="d">5000 - 10000</asp:ListItem>
                     </asp:RadioButtonList>
 
-                    <%--<ul>
-                        <li><a href="ViewProducts.aspx?cid=1">Travel Bags</a></li>
-                        <li><a href="ViewProducts.aspx?cid=1">Casual Wear</a></li>
-                        <li><a href="ViewProducts.aspx?cid=1">Beauty Gift Hampers</a></li>
-                        <li><a href="ViewProducts.aspx?cid=1">T-Shirts</a></li>
-                        <li><a href="ViewProducts.aspx?cid=1">Blazers</a></li>
-                        <li><a href="ViewProducts.aspx?cid=1">Parkas</a></li>
-                        <li><a href="ViewProducts.aspx?cid=1">Shoes</a></li>
-                        <li><a href="ViewProducts.aspx?cid=1">Hair Care</a></li>
-                        <li><a href="ViewProducts.aspx?cid=1">Bath & Spa</a></li>
-                        <li><a href="ViewProducts.aspx?cid=1">Handbags</a></li>
-                    </ul>--%>
+                <%--  <input id="ex13" type="text" data-slider-ticks="[0, 100, 200, 300, 400]" data-slider-ticks-snap-bounds="30" data-slider-ticks-labels='["$0", "$100", "$200", "$300", "$400"]'/>
+                                  
+
+                  Filter by price interval: <b>€ 10</b> <input id="ex2" type="text" class="span2" value="" data-slider-min="10" data-slider-max="1000" data-slider-step="5" data-slider-value="[250,450]"/> <b>€ 1000</b>--%>
+                   
                 </div>
 
                 <div class="related-row">

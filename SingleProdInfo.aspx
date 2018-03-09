@@ -7,7 +7,8 @@
     <link href="css/font-awesome.css" rel="stylesheet"> 
     <!-- //font-awesome icons -->
     <!-- js -->
-    <script src="js/jquery-2.2.3.min.js"></script> 
+    <%--<script src="js/jquery-2.2.3.min.js"></script> --%>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="js/owl.carousel.js"></script>
    
     <!--flex slider-->
@@ -89,14 +90,17 @@
             
         });
         function clickReview() {
-            
+            var productId = '<%=Request.QueryString["pid"]%>';
+            var productName = $('#ContentPlaceHolder1_dlProdInfo_lblHeaderTitle_0').text();
+            var productdetails = $('#hdnProductStatusid').val();
+            var data = productdetails.split('~');
+            var newData = productId + '~' + data[1] + '~' + productName + '~' + data[3];            
+            $('#hdnProductStatusid').val(newData);
             $('#userControlProduct').val($('#hdnProductStatusid').val());
             $('#headingProduct').text('Product Review For:' + $('#hdnProductStatusid').val().split('~')[2])
             $('#myModal').modal('show');
         }
         $(function () {
-            
-
               var productId='<%=Request.QueryString["pid"]%>'
             var param = { productId: productId };
             if (productId != "") {

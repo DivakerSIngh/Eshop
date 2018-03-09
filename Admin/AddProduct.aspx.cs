@@ -8,16 +8,18 @@ using System.Web.Services;
 public partial class Retailor_AddProduct : System.Web.UI.Page
 {
     DB obj;
-    
+
     protected void Page_Load(object sender, EventArgs e)
     {
-       
+        //ScriptManager scriptManager = ScriptManager.GetCurrent(this.Page);
+        //scriptManager.RegisterPostBackControl(this.btnUploadDoc);
+        //Page.Form.Attributes.Add("enctype", "multipart/form-data");
+        bindRetailer();
+        bindBrand();
         if (Session["loginid"] != null && Session["loginid"].ToString() != "")
         {
             if (!IsPostBack)
             {
-                bindBrand();
-                bindRetailer();
                 Session["list"] = null;
                 ddlSubCategory.Visible = false;
                 ddlGender.Visible = false;
@@ -42,37 +44,16 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
         }
 
     }
-
-    [WebMethod]
-    public static List<Brand> getBrands(string brandName)
-    {
-        List<Brand> empObj = new List<Brand>();
-        var obj = new DB();
-        return obj.getAllBrands(brandName);
-
-    }
     private void bindBrand()
     {
         obj = new DB();
-        var lst=  obj.bindBrand();
+        var lst = obj.bindBrand();
         //ddlBrand.DataSource = lst;
         //ddlBrand.DataValueField = "id";
         //ddlBrand.DataTextField = "brandName";
         //ddlBrand.DataBind();
 
     }
-    private void bindRetailer()
-    {
-        obj = new DB();
-        var lst = obj.bindRetailer();
-        ddlRetailer.DataSource = lst;
-        ddlRetailer.DataValueField = "USERID";
-        ddlRetailer.DataTextField = "USER_NAME";
-        ddlRetailer.DataBind();
-
-    }
-
-    
 
     private void load_data_to_update()
     {
@@ -84,6 +65,18 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
             if (ds.Tables[0].Rows.Count > 0)
             {
                 ddlCategory.SelectedValue = ds.Tables[0].Rows[0]["CId"].ToString();
+                ddlColor.SelectedValue = Convert.ToString(ds.Tables[0].Rows[0]["colors"]);
+                ddlGender.SelectedValue = Convert.ToString(ds.Tables[0].Rows[0]["Gender"]);
+                if (string.IsNullOrEmpty(Convert.ToString(ds.Tables[0].Rows[0]["Gender"])))
+                {
+                    ddlGender.SelectedValue = "0";
+                    ddlGender.Visible = false;
+                }
+                else
+                {
+                    ddlGender.Visible = true;
+                }
+                txtBrand.Text = Convert.ToString(ds.Tables[0].Rows[0]["Brand_Title"]);
                 fill_ddl_Subcategory(ds.Tables[0].Rows[0]["CId"].ToString(), ds.Tables[0].Rows[0]["Gender"].ToString());
                 ddlSubCategory.SelectedValue = ds.Tables[0].Rows[0]["subcid"].ToString();
                 if (ddlCategory.SelectedIndex == 1)
@@ -147,7 +140,7 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
                 {
                     rdbtnMeasurement.SelectedIndex = 1;
                     lbPSizeList.Items.Clear();
-                    pnlMeasurement.Visible = false;
+                    // pnlMeasurement.Visible = false;
                 }
 
 
@@ -172,6 +165,30 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
                 txtValue9.Text = ds.Tables[0].Rows[0]["Value9"].ToString();
                 txtTitle10.Text = ds.Tables[0].Rows[0]["Title10"].ToString();
                 txtValue10.Text = ds.Tables[0].Rows[0]["Value10"].ToString();
+
+                //
+                var lstMeasurment = new DB().getMeasurementByProductId(Request.QueryString["pid"].ToString());
+                List<Measurment> lstMeasurementList = new List<Measurment>();
+                foreach (var item in lstMeasurment)
+                {
+                    var data = item.Split('~');
+                    var measurment = new Measurment
+                    {
+                        title = data[0],
+                        quantity = data[1],
+                        mrp = data[2],
+                        sellingPrice = data[3]
+                    };
+                    lstMeasurementList.Add(measurment);
+                    lbPSizeList.Items.Add(item);
+                }
+                Session["list"] = lstMeasurementList;
+                txtweight.Text = Convert.ToString(ds.Tables[0].Rows[0]["weight"]);
+                var dimesion = Convert.ToString(ds.Tables[0].Rows[0]["dimension"]);
+                //dimesion.Replace("*", "~");
+                txtL.Text = dimesion.Split('*')[0];
+                txtB.Text = dimesion.Split('*')[1];
+                txtH.Text = dimesion.Split('*')[2];
             }
 
 
@@ -226,43 +243,58 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
     }
     protected void btnPShiftSize_Click(object sender, EventArgs e)
     {
-        List<Measurment> list = new List<Measurment>();
-        var measurment = new Measurment
+        if (txtPSize.Text.Trim() == "" || txtMeasurementQuantity.Text.Trim() == "" || txtMeasurementPrice.Text.Trim() == "" || txtSellingPrice.Text.Trim() == "")
         {
-            title = txtPSize.Text,
-            quantity = txtMeasurementQuantity.Text,
-            mrp = txtMeasurementPrice.Text,
-            sellingPrice = txtSellingPrice.Text
-        };
+            ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.error('Please fill all mendatory field');", true);
 
-        if (txtPSize.Text.Trim() != "")
+        }
+        else
         {
+            var sellingPrice = Convert.ToDecimal(txtSellingPrice.Text.Trim());
+            var mrp = Convert.ToDecimal(txtMeasurementPrice.Text.Trim());
+            if (sellingPrice > mrp)
+            {
+                //ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.error('Selling price  can't be greater than M.R.P');", true);
+                ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.error('Selling price cant be greater than MRP');", true);
 
-            lbPSizeList.Items.Add(measurment.title+"~"+ measurment.quantity+"~"+ measurment.mrp+"~"+ measurment.sellingPrice);
-            txtPSize.Text = "";
-            txtMeasurementQuantity.Text = "";
-            txtMeasurementPrice.Text = "";
+            }
+            else
+            {
+                List<Measurment> list = new List<Measurment>();
+                var measurment = new Measurment
+                {
+                    title = txtPSize.Text,
+                    quantity = txtMeasurementQuantity.Text,
+                    mrp = txtMeasurementPrice.Text,
+                    sellingPrice = txtSellingPrice.Text
+                };
+
+                if (txtPSize.Text.Trim() != "")
+                {
+
+                    lbPSizeList.Items.Add(measurment.title + "~" + measurment.quantity + "~" + measurment.mrp + "~" + measurment.sellingPrice);
+                    txtPSize.Text = "";
+                    txtMeasurementQuantity.Text = "";
+                    txtMeasurementPrice.Text = "";
+                    txtSellingPrice.Text = "";
+                }
+
+                if (Session["list"] != null)
+                {
+                    list = Session["list"] as List<Measurment>;
+                }
+                list.Add(measurment);
+                Session["list"] = list;
+            }
+
         }
-      
-        if (Session["list"] != null)
-        {
-            list = Session["list"] as List<Measurment>;
-        }
-        list.Add(measurment);
-        Session["list"] = list;
+
+
     }
-    class Measurment
-    {
-        public int id { get; set; }
-        public int productId { get; set; }
-        public string title { get; set; }
-        public string quantity { get; set; }
-        public string mrp { get; set; }
-        public string sellingPrice { get; set; }
-    }
+
     protected void btnPRemoveSize_Click(object sender, EventArgs e)
     {
-       var list = Session["list"] as List<Measurment>;
+        var list = Session["list"] as List<Measurment>;
         var data = lbPSizeList.SelectedItem.Value.Split('~');
         var measurment = new Measurment
         {
@@ -286,6 +318,7 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
     {
         txtB.Text = "";
         txtH.Text = ""; txtL.Text = ""; txtweight.Text = "";
+
         ddlCategory.SelectedIndex = 0;
         ddlSubCategory.SelectedIndex = 0;
         ddlGender.SelectedIndex = 0;
@@ -321,6 +354,7 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
         rdbtnMeasurement.SelectedIndex = 1;
         lbPSizeList.Items.Clear();
         txtSellingPrice.Text = "";
+        // pnlMeasurement.Visible = false;
     }
     protected void ddlCategory_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -341,22 +375,33 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
         }
 
     }
+
+    [WebMethod]
+    public static List<Brand> getBrands(string brandName)
+    {
+        List<Brand> empObj = new List<Brand>();
+        var obj = new DB();
+        return obj.getAllBrands(brandName);
+
+    }
     protected void btnProdSubmit_Click(object sender, EventArgs e)
     {
+
+
         try
         {
             if (
-                //txtPCostPrice.Text.Trim() != "" 
+                 //txtPCostPrice.Text.Trim() != ""
                  txtPDescription.Text.Trim() != ""
-                //&& txtPQuantity.Text.Trim() != "" 
-                //&& txtPSellingPrice.Text.Trim() != "" 
-                && txtPTitle.Text.Trim() != "" 
-                && ddlCategory.SelectedIndex != 0 
+                //&& txtPQuantity.Text.Trim() != ""
+                //&& txtPSellingPrice.Text.Trim() != ""
+                && txtPTitle.Text.Trim() != ""
+                && ddlCategory.SelectedIndex != 0
                 && ddlSubCategory.SelectedIndex != 0
-                && lbPSizeList.Items.Count>0
-                && ddlRetailer.SelectedItem.Value!=""
+                && lbPSizeList.Items.Count > 0
                 )
             {
+
 
                 obj = new DB();
                 obj.PMeasurementFlag = rdbtnMeasurement.SelectedIndex == 0 ? "1" : "0";
@@ -373,7 +418,7 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
                 List<Measurment> list = new List<Measurment>();
                 for (int i = 0; i < lbPSizeList.Items.Count; i++)
                 {
-                    var data= lbPSizeList.Items[i].ToString().Split('~');
+                    var data = lbPSizeList.Items[i].ToString().Split('~');
                     var measurment = new Measurment
                     {
                         title = data[0],
@@ -385,13 +430,13 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
                 }
                 Session["list"] = list;
 
-
                 var brandId = obj.addNewBrand(txtBrand.Text);
-                obj.EmpId = ddlRetailer.SelectedItem.Value;// Session["loginid"].ToString();
+
+                obj.EmpId = Session["loginid"].ToString();
                 obj.ProdCP = txtPCostPrice.Text;
                 obj.BrandId = brandId;// Convert.ToInt32(txtBrand.Text);
                 obj.Color = ddlColor.SelectedItem.Text;// txtColor.Text;
-                obj.isReturnPolicy = false;
+                obj.isReturnPolicy = rbReturnPolicy.SelectedItem.Value == "1" ? true : false;// false;
                 obj.Wieght = Convert.ToDecimal(txtweight.Text);
                 obj.Dimension = txtL.Text + "*" + txtB.Text + "*" + txtH.Text;
 
@@ -468,7 +513,7 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
                         {
                             obj.AddProdMeasurment(s, item.title, item.quantity, item.mrp, item.sellingPrice);
                         }
-                        
+
 
                         ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Record Added Successfully !');", true);
                         btnProdReset_Click(null, null);
@@ -482,7 +527,16 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
                 else
                 {
                     obj.ProdId = Request.QueryString["pid"].ToString();
+                    obj.deleteMeasurement(obj.ProdId);
+
                     s = obj.UpdateProdInfo(ddlSubCategory.SelectedValue, gender);
+                    List<Measurment> lst = new List<Measurment>();
+                    lst = Session["list"] as List<Measurment>;
+                    foreach (var item in lst)
+                    {
+                        obj.AddProdMeasurment(Convert.ToInt32(obj.ProdId), item.title, item.quantity, item.mrp, item.sellingPrice);
+                    }
+
                     if (s > 0)
                     {
                         ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Updation Done Successfully !');", true);
@@ -508,9 +562,22 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
             obj = null;
         }
     }
+    private void bindRetailer()
+    {
+        obj = new DB();
+        var lst = obj.bindRetailer();
+        ddlRetailer.DataSource = lst;
+        ddlRetailer.DataValueField = "USERID";
+        ddlRetailer.DataTextField = "USER_NAME";
+        ddlRetailer.DataBind();
+
+    }
 
     protected void ddlGender_SelectedIndexChanged(object sender, EventArgs e)
     {
         fill_ddl_Subcategory(ddlCategory.SelectedValue, ddlGender.SelectedValue);
     }
+
+
+
 }

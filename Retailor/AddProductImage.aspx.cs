@@ -106,15 +106,15 @@ public partial class Retailor_AddProductImage : System.Web.UI.Page
                             {
                                 int width = originalImage.Width;
                                 int height = originalImage.Height;
-                                if(width >= 500 && height >= 500)
-                                {
-                                    ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.warning('Image size is too long please use another image !');", true);
-                                    break;
-                                }
-                                else
-                                {
+                                //if(width >= 500 && height >= 500)
+                                //{
+                                //    ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.warning('Image size is too long please use another image !');", true);
+                                //    break;
+                                //}
+                                //else
+                                //{
 
-                                }
+                                //}
                             }
                                 if (f <= 4)
                         {

@@ -25,7 +25,7 @@
     <!-- Custom Theme files -->
     <link href="/css2/style.css" rel='stylesheet' type='text/css' />
     <link href="/css2/font-awesome.css" rel="stylesheet" />
-    <script src="/js2/jquery.min.js"> </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> </script>
     <!-- Mainly scripts -->
     <script src="/js2/jquery.metisMenu.js"></script>
     <script src="/js2/jquery.slimscroll.min.js"></script>

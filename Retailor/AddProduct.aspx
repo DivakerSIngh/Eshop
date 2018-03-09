@@ -22,7 +22,7 @@
     <!-- Custom Theme files -->
     <link href="/css2/style.css" rel='stylesheet' type='text/css' />
     <link href="/css2/font-awesome.css" rel="stylesheet" />
-    <script src="/js2/jquery.min.js"> </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> </script>
     <!-- Mainly scripts -->
     <script src="/js2/jquery.metisMenu.js"></script>
     <script src="/js2/jquery.slimscroll.min.js"></script>
@@ -30,15 +30,14 @@
     <link href="/css2/custom.css" rel="stylesheet" />
     <script src="/js2/custom.js"></script>
     <script src="/js2/screenfull.js"></script>
-     <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js"></script> 
+     <%--<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js"></script> --%>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.js"></script>    
     <link rel="Stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/themes/redmond/jquery-ui.css" />  
      <script>  
-         $(document).ready(function () {  
-             $("#txtBrand").autocomplete({
-                 
+         function checkBrandExist(value) {
+              $("#txtBrand").autocomplete({
                  source: function (request, response) {
-                     var productId = $("#txtBrand").val();//  '<%=Request.QueryString["pid"]%>'
+                     var productId = $(value).val() == "" ? $("#txtBrand").val() : $(value).val();
                      var param = { brandName: productId };
                      $.ajax({  
                          url: "AddProduct.aspx/getBrands",
@@ -59,13 +58,16 @@
                          error: function (XMLHttpRequest, textStatus, errorThrown) {
                              
                              var err = eval("(" + XMLHttpRequest.responseText + ")");  
-                             alert(err.Message)  
+                             //alert(err.Message)  
                              // console.log("Ajax Error!");    
                          }  
                      });  
                  },  
                  minLength: 1 //This is the Char length of inputTextBox    
-             });  
+             }); 
+         }
+         $(document).ready(function () {  
+             checkBrandExist('');
          });  
     </script>  
     
@@ -108,10 +110,7 @@
 
             return true;
         }
-        function checkBrandExist(evt) {
-            
-           
-        }
+      
 
     </script>
     <!--skycons-icons-->

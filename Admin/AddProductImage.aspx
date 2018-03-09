@@ -27,7 +27,7 @@
     <!-- Custom Theme files -->
     <link href="/css2/style.css" rel='stylesheet' type='text/css' />
     <link href="/css2/font-awesome.css" rel="stylesheet" />
-    <script src="/js2/jquery.min.js"> </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> </script>
     <!-- Mainly scripts -->
     <script src="/js2/jquery.metisMenu.js"></script>
     <script src="/js2/jquery.slimscroll.min.js"></script>
@@ -118,7 +118,7 @@
 
                                         <div class="form-group">
                                             <label for="focusedinput" class="col-sm-2 control-label" style="text-align: left;">Select Images
-                                                <asp:Label ID="Label4" runat="server" Text="*" ForeColor="Red" /></label>
+                                                <asp:Label ID="Label4" runat="server" Text="*   Image size should be less than 1 Mb" ForeColor="Red" /></label>
                                             <div class="col-sm-8">
 
                                                 <telerik:RadUpload ID="fileupload" runat="server" Skin="WebBlue"></telerik:RadUpload>

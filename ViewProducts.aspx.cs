@@ -211,4 +211,9 @@ public partial class ViewProducts : System.Web.UI.Page
         string selectedItems = String.Join(",", chkNBrandList.Items.OfType<ListItem>().Where(r => r.Selected).Select(r => r.Value));
         BindListView(selectedItems);
     }
+
+    protected void RadSlider1_ValueChanged(object sender, EventArgs e)
+    {
+
+    }
 }

@@ -117,7 +117,8 @@ public partial class SingleProdInfo : System.Web.UI.Page
                 string costprice = commandArgs[3];
                 string discount = (Convert.ToDecimal(costprice) - Convert.ToDecimal(amt)).ToString("0.00");
                 string qty = "1";
-                string deliveryamt = "150";
+                string deliveryamt = hf_deliveryAmt.Value;//"150";
+                string lid = "";
 
                 obj = new DB();
                 string size = "";
@@ -129,7 +130,7 @@ public partial class SingleProdInfo : System.Web.UI.Page
                     size = ddlsize.SelectedValue;
                 }
                 string[] str = Session["loginid"].ToString().Split(',');
-                int i = obj.AddNewCartProdInfo(pid, str[0], rid, amt, size, costprice, discount, qty, deliveryamt);
+                int i = obj.AddNewCartProdInfo(pid, str[0], rid, amt, size, costprice, discount, qty, deliveryamt, lid);
                 if (i > 0)
                 {
                     string p = ((Label)Master.FindControl("lblcountcart")).Text;
@@ -204,6 +205,7 @@ public partial class SingleProdInfo : System.Web.UI.Page
         {
             obj = new DB();
             int i = 0;
+            int count = 0;
             //var txtRpin = (TextBox)sender;
             string UserPincode = "";
             double weight = 0.00;
@@ -228,24 +230,39 @@ public partial class SingleProdInfo : System.Web.UI.Page
                     if (stringArray.Any(stringToCheck.Contains) && stringArray.Any(retailer_pincode.Contains))
                     {
                         hf_logistic_id.Value = ds.Tables[0].Rows[i]["userid"].ToString();
+                        count += 1;
                         //var lblmsg = (Label)sender;
                         //var labelmsg = ((Label)lblmsg.NamingContainer.FindControl("lblPincodeMsg"));
                         //labelmsg.Visible = false;
-                        return;
+                        break;
                     }
                 }
-                hdnWeight.Value = weight.ToString();
-                 ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "MyFun1", "GetLocationUsingPincode('" + UserPincode + "','"+ retailer_pincode + "','"+ hf_logistic_id.Value + "','"+ hdnWeight.Value + "');", true);
-                // ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "MyFun1", "GetLocationUsingPincode1('" + retailer_pincode + "');", true);
+                if (count > 0)
+                {
+                    hdnWeight.Value = weight.ToString();
+                    ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "MyFun1", "GetLocationUsingPincode('" + UserPincode + "','" + retailer_pincode + "','" + hf_logistic_id.Value + "','" + hdnWeight.Value + "');", true);
+                    // ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "MyFun1", "GetLocationUsingPincode1('" + retailer_pincode + "');", true);
 
-                //ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "MyFun1", "trigger('" + weight + "');", true);
-                //Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "GetLocationUsingPincode('"+ UserPincode + "')", true);
-                //Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "GetLocationUsingPincode1('" + retailer_pincode + "')", true);
+                    //ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "MyFun1", "trigger('" + weight + "');", true);
+                    //Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "GetLocationUsingPincode('"+ UserPincode + "')", true);
+                    //Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "GetLocationUsingPincode1('" + retailer_pincode + "')", true);
 
-                //double distance = getDistanceUsinLongAndLat(Convert.ToDouble(hf_latitute1.Value), Convert.ToDouble(hf_longitute1.Value), Convert.ToDouble(hf_latitute2.Value), Convert.ToDouble(hf_longitute2.Value), 'K');
+                    //double distance = getDistanceUsinLongAndLat(Convert.ToDouble(hf_latitute1.Value), Convert.ToDouble(hf_longitute1.Value), Convert.ToDouble(hf_latitute2.Value), Convert.ToDouble(hf_longitute2.Value), 'K');
 
-                //string logisticid = hf_logistic_id.Value;
-                //hf_deliveryAmt.Value = Convert.ToString(getDeliveryAmt(logisticid, weight, distance));
+                    //string logisticid = hf_logistic_id.Value;
+                    //hf_deliveryAmt.Value = Convert.ToString(getDeliveryAmt(logisticid, weight, distance));
+                }
+                else
+                {
+                    foreach (DataListItem item in this.dlProdInfo.Items)
+                    {
+                        Label lblmsg = (item.FindControl("lblPincodeMsg") as Label);
+                        lblmsg.Text = "Sorry This Product Not available on your Location";
+                        lblmsg.ForeColor = System.Drawing.Color.Red;
+                    }
+                    
+                }
+
             }
         }
         catch (Exception ex)
@@ -400,7 +417,27 @@ public partial class SingleProdInfo : System.Web.UI.Page
 
     private decimal getDeliveryAmt(string logistic_id,double wt,double distance)
     {
-        return 0;
+        DataTable dt = new DataTable();
+        SqlConnection con = new SqlConnection(DB.constr);
+        SqlCommand cmd = new SqlCommand();
+        cmd.CommandText = "EShop_Logistic_Rate";
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.Parameters.AddWithValue("@Lid",logistic_id);
+        cmd.Parameters.AddWithValue("@wt", wt);
+        cmd.Parameters.AddWithValue("@distance", distance);
+        cmd.Parameters.AddWithValue("@Action", 1);
+
+        SqlDataAdapter da = new SqlDataAdapter(cmd);
+        da.Fill(dt);
+        if(dt.Rows.Count>0)
+        {
+            return Convert.ToDecimal(dt.Rows[0][0]);
+        }
+        else
+        {
+            return 0;
+        }
+        
     }
 
     protected void btnfireEventJS_Click(object sender, EventArgs e)

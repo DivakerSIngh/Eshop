@@ -960,7 +960,7 @@ public class DB
     }
 
 
-    public int AddNewCartProdInfo(string pid, string userid, string rid, string amt, string size = "", string costprice = "", string discount = "", string qty = "", string deleveryamt = "")
+    public int AddNewCartProdInfo(string pid, string userid, string rid, string amt, string size = "", string costprice = "", string discount = "", string qty = "", string deleveryamt = "",string lid="")
     {
         int i = 0;
         try
@@ -986,6 +986,7 @@ public class DB
                 cmd.Parameters.AddWithValue("@costprice", costprice);
                 cmd.Parameters.AddWithValue("@discount", discount);
                 cmd.Parameters.AddWithValue("@qty", qty);
+                cmd.Parameters.AddWithValue("@lid", lid);
 
                 con.Open();
                 i = cmd.ExecuteNonQuery();

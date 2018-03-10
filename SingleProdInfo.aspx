@@ -27,6 +27,7 @@
         if (localStorage.getItem('postalCode') != "") {
             
             $('#hf_user_pincode').val(localStorage.getItem('postalCode'));
+            alert('user pin code ' + localStorage.getItem('postalCode'));
            // document.getElementById("hf_user_pincode").value = localStorage.getItem('postalCode');
         }
     </script>
@@ -35,10 +36,12 @@
      <script type="text/javascript">
         <!--
          function trigger() {
+             
+             $('#hf_logistic_id').val(localStorage.getItem('logisticId'))
              document.getElementById("btnfireEventJS").click();
          }
          function GetLocationUsingPincode(pincode,pincode2,logisticId,weight) {
-             
+             localStorage.setItem('logisticId', logisticId);
              $('#hdnWeight').val(weight);
              $('#hf_logistic_id').val(logisticId);
                 var geocoder = new google.maps.Geocoder();
@@ -50,15 +53,16 @@
                         var longitude = results[0].geometry.location.lng();
                         $('#hf_latitute1').val(latitude);
                         $('#hf_longitute1').val(longitude)
-                        GetLocationUsingPincode1(pincode2);
+                        GetLocationUsingPincode1(pincode2, logisticId);
                     } else {
                         //alert("Request failed.")
                     }
                 });
             };
 
-         function GetLocationUsingPincode1(pincode) {
-                var geocoder = new google.maps.Geocoder();
+         function GetLocationUsingPincode1(pincode, logisticId) {
+             var geocoder = new google.maps.Geocoder();
+             $('#hf_logistic_id').val(logisticId);
                 //var address = document.getElementById("txtAddress").value;
                 geocoder.geocode({ 'address': pincode }, function (results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {

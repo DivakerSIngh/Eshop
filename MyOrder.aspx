@@ -13,7 +13,7 @@
         }
     </script>
     <style>
-        .btn-returned{
+        .btn-return{
             color: white;
     float: right;
     margin-top: -11%;
@@ -22,6 +22,17 @@
     padding: 6px;
     margin-right: 100px;
         }
+
+        .btn-returned{
+            color: white;
+    float: right;
+    margin-top: -11%;
+    background: #f44336;
+    border: none;
+    padding: 6px;
+    margin-right: 100px;
+        }
+
        .btn-cancel {
             float: right;
     margin-top: -11%;
@@ -51,17 +62,17 @@
          private bool canceledOrderVisible(object status)
         {
             var boolStatus = false;
-            if (Convert.ToInt32(status) == 5)
+            if (Convert.ToInt32(status)>= 5)
             {
               boolStatus = true;
             }
 
             return boolStatus;
         }
-         private bool returnProduct(object status)
+         private bool returnProduct(object returnPolicy,object status)
         {
             var boolStatus = false;
-            if (status.ToString() == "true")
+            if (returnPolicy.ToString() == "true")
             {
               boolStatus = true;
             }
@@ -137,7 +148,8 @@
                             <asp:HiddenField ID="hdnOrderId" runat="server" Value='<%# Eval("CartId") %>' />
                             <asp:Button ID="btnCancelOrder" Visible='<%#cancelOrderVisible(Eval("Status")) %>' CommandArgument='<%# Eval("CartId") %>' OnCommand="btnCancelOrder_Command" CssClass="btn-primary btn-cancel" Text="Cancel Order" runat="server" />
                              <asp:Button ID="Button1" Visible='<%#canceledOrderVisible(Eval("Status")) %>'  CssClass="btn-canceled" Text="Canceled" runat="server" />
-                             <asp:Button ID="btnReturn" Visible='<%# returnProduct(Eval("IsReturnPolicy"))%>' CommandArgument='<%# Eval("CartId") %>'  CssClass="btn-returned" Text="Return Product" runat="server" OnCommand="btnReturn_Command" />
+                             <asp:Button ID="btnReturn" Visible='<%# (Convert.ToInt32(Eval("ReturnStatus"))==0)?true:false%>' CommandArgument='<%# Eval("CartId") %>'  CssClass="btn-return" Text="Return Product" runat="server" OnCommand="btnReturn_Command" />
+                             <asp:Button ID="Button2" Visible='<%# (Convert.ToInt32(Eval("ReturnStatus"))==1)?true:false%>'  CssClass="btn-returned" Text="Returned" runat="server"    />
                              
 
                         </div>

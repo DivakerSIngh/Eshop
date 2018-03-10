@@ -11,6 +11,11 @@
 <head runat="server">
     <title></title>
     <asp:ContentPlaceHolder ID="head" runat="server">
+        <style>
+            li.go-back a {
+    color: green;
+}
+        </style>
     </asp:ContentPlaceHolder>
    
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -300,16 +305,7 @@
                                             <li class="has-children">
                                                 <a href="#">Women</a>
                                                 <ul class="is-hidden">
-                                                    <li class="go-back"><a href="#">All LifeStyle</a></li>
-                                                    <%--<li class="has-children">
-														<a href="#0">NEW IN</a>
-														<ul class="is-hidden">
-															<li class="go-back"><a href="#"></a></li>
-															<li><a href="ViewProducts.aspx?cid=1&gender=W">NEW IN CLOTHING</a></li>
-															<li><a href="ViewProducts.aspx?cid=1&subcid=19&gender=W">NEW IN SHOES</a></li>
-															<li><a href="ViewProducts.aspx?cid=1&gender=W">NEW IN BAGS</a></li>
-														</ul>
-													</li>--%>
+                                                    <li class="go-back"><a href="#">Women</a></li>
                                                     <li class="has-children">
                                                         <a href="#0">CLOTHING</a>
                                                         <ul class="is-hidden">
@@ -404,46 +400,13 @@
 
                                                         </ul>
                                                     </li>
-                                                    <%--<li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>--%>
-                                                    <%--													<li><a href="ViewProducts.aspx?search=lingerie&gen=F">LINGERIE & NIGHTWEAR</a></li>
-													<li><a href="ViewProducts.aspx?cid=1&subcid=26&gender=W">THE WINTER WRAP</a></li>
-													<li><a href="ViewProducts.aspx?cid=1&gender=W">BRANDS</a></li>
-													<li><a href="ViewProducts.aspx?cid=1&gender=W">INTERNATIONAL BRANDS</a></li>
-													<li><a href="ViewProducts.aspx?cid=1&subcid=27&gender=W">DESIGNERS</a></li>
-													<li><a href="ViewProducts.aspx?cid=1&subcid=28&gender=W">BOUTIQUES</a></li>
-													<li><a href="ViewProducts.aspx?cid=1&subcid=29&gender=W">FASHION JEWELLERY</a></li>
-													<li><a href="#">CLEARANCE SALE</a></li>
-													<li><a href="#">UNDER 999/- STORE</a></li>--%>
+                                                   
                                                 </ul>
                                             </li>
                                             <li class="has-children">
                                                 <a href="#">MEN</a>
                                                 <ul class="is-hidden">
-                                                    <%--<li class="has-children">
-														<a href="#0">NEW IN</a>
-														<ul class="is-hidden">
-															<li class="go-back"><a href="#"></a></li>
-															<li><a href="ViewProducts.aspx?cid=1&gender=M">NEW IN CLOTHING</a></li>
-															<li><a href="ViewProducts.aspx?cid=1&gender=M">NEW IN SHOES</a></li>
-															<li><a href="ViewProducts.aspx?cid=1&gender=M">NEW IN BAGS</a></li>
-															
-														</ul>
-													</li>--%>
+                                                   <li class="go-back"><a href="#">MEN</a></li>
                                                     <li class="has-children">
                                                         <a href="#0">FOOTWEARS</a>
                                                         <ul class="is-hidden">
@@ -536,24 +499,13 @@
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=33&gender=M">CAPS</a></li>
                                                         </ul>
                                                     </li>
-                                                    <%--<li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>--%>
+                                                   
                                                 </ul>
                                             </li>
                                             <li class="has-children">
                                                 <a href="#">KIDS</a>
                                                 <ul class="is-hidden">
+                                                     <li class="go-back"><a href="#">KIDS</a></li>
                                                     <li class="has-children">
                                                         <a href="#0">CLOTHING</a>
                                                         <ul class="is-hidden">
@@ -568,7 +520,7 @@
                                                     <li class="has-children">
                                                         <a href="#">Footwear</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">Footwear</a></li>
                                                             <%--<li><a href="ViewProducts.aspx?search=shoe&gen=M">All Footwear</a></li>--%>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=97&gender=K">All Footwear</a></li>
                                                         </ul>
@@ -614,93 +566,10 @@
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=106&gender=K">Educational Toy</a></li>
                                                         </ul>
                                                     </li>
-                                                    <%--<li><a href="ViewProducts.aspx?cid=1&subcid=43&gender=KG">GIRLS SHOES</a></li>
-													<li><a href="ViewProducts.aspx?cid=1&subcid=44&gender=KB">KIDS HOME FASHION</a></li>
-                                                    		<li><a href="ViewProducts.aspx?cid=1&subcid=45&gender=KG">Wallets</a></li>
-                                                    <li><a href="ViewProducts.aspx?cid=1&subcid=45&gender=KG">Belts</a></li>
-                                                    <li><a href="ViewProducts.aspx?cid=1&subcid=45&gender=KG">Ties</a></li>
-                                                    <li><a href="ViewProducts.aspx?cid=1&subcid=45&gender=KG">Sunglassess</a></li>
-                                                    <li><a href="ViewProducts.aspx?cid=1&subcid=45&gender=KG">TRIMMER</a></li>
-                                                    <li><a href="ViewProducts.aspx?cid=1&subcid=45&gender=KG">GROOMING KIT</a></li>
-                                                    <li><a href="ViewProducts.aspx?cid=1&subcid=45&gender=KG">SHAVERS</a></li>
-                                                    <li><a href="ViewProducts.aspx?cid=1&subcid=45&gender=KG">CAPS</a></li>
-                                                    --%>
-
-                                                    <%--<li class="has-children">
-														<a href="#">GIRLS CLOTHING</a>
-														<ul class="is-hidden">
-															<li class="go-back"><a href="#"></a></li>
-															<li><a href="ViewProducts.aspx?cid=1&subcid=44&gender=KG">TOPS & TUNICS </a></li>
-															<li><a href="ViewProducts.aspx?cid=1&subcid=45&gender=KG">SHORTS</a></li>
-															<li><a href="ViewProducts.aspx?cid=1&subcid=46&gender=KG">CAPRIS</a></li>
-															
-															
-															<li><a href="ViewProducts.aspx?cid=1&subcid=47&gender=KG">LEGGINGS</a></li>
-															
-														</ul>
-													</li>--%>
-                                                    <%--<li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>
-                                                    <li style="color:white;display:none;">a</li>--%>
+                                                   
                                                 </ul>
                                             </li>
-                                            <%--<li class="has-children">
-												<a href="#">ACCESSORIES</a>
-												<ul class="is-hidden">
-													<li class="go-back"><a href="#0">LifeStyle</a></li>
-													<li class="has-children"><a href="#">WOMEN BAGS</a>
-														<ul class="is-hidden">
-															<li class="go-back"><a href="#0"></a></li>
-															<li><a href="ViewProducts.aspx?cid=1&subcid=10&gender=W">HAND BAGS</a></li>
-															<li><a href="ViewProducts.aspx?cid=1&subcid=11&gender=W">SLING BAGS</a></li>
-															<li><a href="ViewProducts.aspx?cid=1&subcid=12&gender=W">CLUTCHES</a></li>
-															<li><a href="ViewProducts.aspx?cid=1&subcid=149&gender=W">BACKPACKS</a></li>
-															<li><a href="ViewProducts.aspx?cid=1&subcid=48&gender=W">PURSES</a></li>
-															
-														</ul>
-													</li>
-													<li><a href="ViewProducts.aspx?cid=1&subcid=49&gender=W">WOMEN WATCHES</a></li>
-													<li><a href="ViewProducts.aspx?cid=1&subcid=50&gender=W">WOMEN SUNGLASSES</a></li>
-													<li><a href="#">WOMEN BELTSWOMEN BEAUTY</a></li>
-													<li><a href="#">FASHION JEWELLERY</a></li>
-													<li><a href="ViewProducts.aspx?cid=51&gender=W">WOMEN BAGS</a></li>
-													
-												</ul>
-											</li>--%>
-                                            <%--<li class="has-children">
-												<a href="#">BRANDS</a>
-												<ul class="is-hidden">
-													<li class="go-back"><a href="#0">LifeStyle</a></li>
-													<li><a href="#">INTERNATIONAL</a></li>
-													<li><a href="#">FEATURED</a></li>
-
-													<li><a href="#">BOUTIQUES</a></li>
-													<li><a href="#">VILLAGERS</a></li>
-													
-												</ul>
-											</li>
-											<li class="has-children">
-												<a href="#">SPORTS</a>
-												<ul class="is-hidden">
-													<li class="go-back"><a href="#0">LifeStyle </a></li>
-													<li><a href="ViewProducts.aspx?cid=1&gender=M">MEN SHOES</a></li>
-													<li><a href="ViewProducts.aspx?cid=1&gender=M">MEN CLOTHING</a></li>
-													<li><a href="ViewProducts.aspx?cid=1&gender=W">WOMEN SHOES</a></li>
-													<li><a href="ViewProducts.aspx?cid=1&gender=M,W">Sports Tshirt</a></li>
-                                                    <li><a href="ViewProducts.aspx?cid=1&gender=M,W">track pants</a></li>
-                                                    <li><a href="ViewProducts.aspx?cid=1&gender=M,W">track suit </a></li>
-                                                    <li><a href="ViewProducts.aspx?cid=1&gender=M,W">Shorts </a></li>
-                                                    
-													
-												</ul>
-											</li>--%>
+                                           
                                         </ul>
                                         <!-- .cd-secondary-dropdown -->
                                     </li>

@@ -33,10 +33,16 @@
     </script>
     <script type="text/javascript">
         function CheckPincode() {
-            if ($('#hf_CheckPin').val == '')
+            if ($('#hf_CheckPin').val() == '') {
+                alert('value nahi hai' + $('#hf_CheckPin').val());
                 return false;
-            else
+            }else
+            {
+                alert('value hai' + $('#hf_CheckPin').val());
                 return true;
+            }
+            
+               
         }
     </script>
      <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAPGIvYpvs7ETQHWcfHnJjLBLH5XNF0OZs"></script>                  

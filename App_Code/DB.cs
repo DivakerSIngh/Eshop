@@ -4583,6 +4583,34 @@ public class DB
         return ds;
     }
 
+    public DataSet getDeliveryAmt(string logistic_id, double wt, double distance)
+    {
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            da = new SqlDataAdapter("EShop_Logistic_Rate", con);
+            da.SelectCommand.CommandType = CommandType.StoredProcedure;
+            da.SelectCommand.Parameters.Clear();
+            cmd.Parameters.AddWithValue("@Lid", logistic_id);
+            cmd.Parameters.AddWithValue("@wt", wt);
+            cmd.Parameters.AddWithValue("@distance", distance);
+            cmd.Parameters.AddWithValue("@Action", 1);
+
+            ds = new DataSet();
+            da.Fill(ds);
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+        return ds;
+    }
+
 
     public DataSet GetReatilerEmailndMobileInfo(string cartid)
     {
@@ -5273,13 +5301,15 @@ public class DB
         }
         return string.IsNullOrEmpty(returnId) ? true : false; ;
     }
-    public bool cancelOrder(int cardId,int status=5)
+    public bool cancelOrder(int cardId,int status=5,int type=1)
     {
        
         try
         {
             con = new SqlConnection(DB.constr);
-            string str = string.Format("update cart_info set status="+status+" where cartId="+cardId);
+
+            string str = type==1? string.Format("update cart_info set status="+status+" where cartId="+cardId) 
+                : string.Format("update cart_info set ReturnStatus=" + status + " where cartId=" + cardId);
             cmd = new SqlCommand(str);
             cmd.Connection = con;
             con.Open();

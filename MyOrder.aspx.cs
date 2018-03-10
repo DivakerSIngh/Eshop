@@ -74,7 +74,7 @@ public partial class MyOrder : System.Web.UI.Page
 
     protected void btnCancelOrder_Command(object sender, CommandEventArgs e)
     {
-        new DB().cancelOrder(Convert.ToInt32(e.CommandArgument));
+        new DB().cancelOrder(Convert.ToInt32(e.CommandArgument),5,1);
         string[] usersid = Session["loginid"].ToString().Split(',');
         load_myorderList(usersid[0]);
 
@@ -84,7 +84,7 @@ public partial class MyOrder : System.Web.UI.Page
 
     protected void btnReturn_Command(object sender, CommandEventArgs e)
     {
-        new DB().cancelOrder(Convert.ToInt32(e.CommandArgument),6);
+        new DB().cancelOrder(Convert.ToInt32(e.CommandArgument),1,2);
         string[] usersid = Session["loginid"].ToString().Split(',');
         load_myorderList(usersid[0]);
     }

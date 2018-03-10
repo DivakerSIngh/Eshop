@@ -5,7 +5,9 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
-
+ li.go-back a {
+    color: green !important;
+}
 .cd-dropdown-trigger {
     display: block;
     position: relative;

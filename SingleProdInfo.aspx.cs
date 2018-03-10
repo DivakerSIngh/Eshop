@@ -418,21 +418,11 @@ public partial class SingleProdInfo : System.Web.UI.Page
 
     private decimal getDeliveryAmt(string logistic_id,double wt,double distance)
     {
-        DataTable dt = new DataTable();
-        SqlConnection con = new SqlConnection(DB.constr);
-        SqlCommand cmd = new SqlCommand();
-        cmd.CommandText = "EShop_Logistic_Rate";
-        cmd.CommandType = CommandType.StoredProcedure;
-        cmd.Parameters.AddWithValue("@Lid",logistic_id);
-        cmd.Parameters.AddWithValue("@wt", wt);
-        cmd.Parameters.AddWithValue("@distance", distance);
-        cmd.Parameters.AddWithValue("@Action", 1);
-
-        SqlDataAdapter da = new SqlDataAdapter(cmd);
-        da.Fill(dt);
-        if(dt.Rows.Count>0)
+        obj = new DB();
+        DataSet ds = obj.getDeliveryAmt(logistic_id, wt, distance);
+        if(ds!=null && ds.Tables[0].Rows.Count>0)
         {
-            return Convert.ToDecimal(dt.Rows[0][0]);
+            return Convert.ToDecimal(ds.Tables[0].Rows[0][0]);
         }
         else
         {

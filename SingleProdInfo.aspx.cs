@@ -216,7 +216,7 @@ public partial class SingleProdInfo : System.Web.UI.Page
             }
             //TextBox txtuserpin = (TextBox)dlProdInfo.FindControl("txtLocation");
             //string ddl_selectedvalue = ((TextBox)txtRpin.NamingContainer.FindControl("txtLocation")).Text.Trim();
-
+            hf_CheckPin.Value = UserPincode;
             string retailer_pincode = e.CommandArgument.ToString();
             DataSet ds = obj.GetAllPincodeListfromLogistic();
             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -257,6 +257,7 @@ public partial class SingleProdInfo : System.Web.UI.Page
                     foreach (DataListItem item in this.dlProdInfo.Items)
                     {
                         Label lblmsg = (item.FindControl("lblPincodeMsg") as Label);
+                        lblmsg.Visible = true;
                         lblmsg.Text = "Sorry This Product Not available on your Location";
                         lblmsg.ForeColor = System.Drawing.Color.Red;
                     }

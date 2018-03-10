@@ -24,14 +24,21 @@
         }
     </style>
     <script>
-        if (localStorage.getItem('postalCode') != "") {
+        if (localStorage.getItem('postalCode') != '') {
             
             $('#hf_user_pincode').val(localStorage.getItem('postalCode'));
             alert('user pin code ' + localStorage.getItem('postalCode'));
            // document.getElementById("hf_user_pincode").value = localStorage.getItem('postalCode');
         }
     </script>
-
+    <script type="text/javascript">
+        function CheckPincode() {
+            if ($('#hf_CheckPin').val == '')
+                return false;
+            else
+                return true;
+        }
+    </script>
      <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAPGIvYpvs7ETQHWcfHnJjLBLH5XNF0OZs"></script>                  
      <script type="text/javascript">
         <!--
@@ -200,6 +207,7 @@
      <asp:HiddenField ID="hf_latitute2" runat="server"  ClientIDMode="Static"/>
     <asp:HiddenField ID="hf_longitute2" runat="server" ClientIDMode="Static" />
     <asp:HiddenField ID="hf_deliveryAmt" runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hf_CheckPin" runat="server" ClientIDMode="Static" />
     <!-- breadcrumbs -->
     <div class="container">
         <ol class="breadcrumb breadcrumb1">
@@ -306,7 +314,7 @@
                             <div class="input-group pin-locate">
                                     <asp:TextBox ID="txtLocation" runat="server" CssClass="form-control" placeholder="enter pincode" style="z-index:auto;" TextMode="Number" ></asp:TextBox><br />
                                     <div class="input-group-btn">
-                                        <asp:LinkButton ID="btnCheckPincode" class="btn btn-primary" runat="server" CommandArgument='<%# Eval("Pincode") %>' OnCommand="btnCheckPincode_Command">Check Pincode</asp:LinkButton>
+                                        <asp:LinkButton ID="btnCheckPincode" class="btn btn-primary" runat="server" CommandArgument='<%# Eval("Pincode") %>' OnCommand="btnCheckPincode_Command" >Check Pincode</asp:LinkButton>
                                         <asp:Label ID="lblPincode" runat="server" Text='<%# Eval("Pincode") %>'></asp:Label>
                                         <asp:Label ID="lblWt" Visible="false" runat="server" Text='<%# Eval("weight") %>'></asp:Label>
                                     </div>
@@ -314,7 +322,7 @@
                                 </div>
 
                             <asp:Label ID="lblcid" runat="server" Text='<%# Eval("cid") %>' Visible="false"></asp:Label>
-                                <asp:LinkButton ID="btnAddCart" class="w3ls-cart" runat="server" CommandArgument='<%# Eval("pid")+","+Eval("UserId")+","+Eval("sellingprice")+","+Eval("costprice") %>' OnCommand="btnAddCart_Command1"><i class="fa fa-cart-plus" aria-hidden="true"></i>Add to cart</asp:LinkButton>
+                                <asp:LinkButton ID="btnAddCart" class="w3ls-cart" runat="server" CommandArgument='<%# Eval("pid")+","+Eval("UserId")+","+Eval("sellingprice")+","+Eval("costprice") %>' OnCommand="btnAddCart_Command1" OnClientClick="CheckPincode();"><i class="fa fa-cart-plus" aria-hidden="true"></i>Add to cart</asp:LinkButton>
 
 
                                 <asp:LinkButton ID="btnAddWishList" class="w3ls-cart w3ls-cart-like" runat="server" CommandArgument='<%# Eval("pid")+","+Eval("UserId")+","+Eval("sellingprice")+","+Eval("costprice") %>' OnCommand="btnAddWishList_Command"><i class="fa fa-heart-o" aria-hidden="true"></i>Add to Wishlist</asp:LinkButton>

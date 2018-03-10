@@ -79,4 +79,13 @@ public partial class MyOrder : System.Web.UI.Page
         load_myorderList(usersid[0]);
 
     }
+
+  
+
+    protected void btnReturn_Command(object sender, CommandEventArgs e)
+    {
+        new DB().cancelOrder(Convert.ToInt32(e.CommandArgument),6);
+        string[] usersid = Session["loginid"].ToString().Split(',');
+        load_myorderList(usersid[0]);
+    }
 }

@@ -5273,13 +5273,13 @@ public class DB
         }
         return string.IsNullOrEmpty(returnId) ? true : false; ;
     }
-    public bool cancelOrder(int cardId)
+    public bool cancelOrder(int cardId,int status=5)
     {
        
         try
         {
             con = new SqlConnection(DB.constr);
-            string str = string.Format("update cart_info set status=5 where cartId="+cardId);
+            string str = string.Format("update cart_info set status="+status+" where cartId="+cardId);
             cmd = new SqlCommand(str);
             cmd.Connection = con;
             con.Open();

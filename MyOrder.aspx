@@ -13,9 +13,20 @@
         }
     </script>
     <style>
+        .btn-returned{
+            color: white;
+    float: right;
+    margin-top: -11%;
+    background: #337ab7;
+    border: none;
+    padding: 6px;
+    margin-right: 100px;
+        }
        .btn-cancel {
             float: right;
     margin-top: -11%;
+    border: none;
+    padding: 6px;
         }
        .btn-canceled{
            color: white;
@@ -47,6 +58,25 @@
 
             return boolStatus;
         }
+         private bool returnProduct(object status)
+        {
+            var boolStatus = false;
+            if (status.ToString() == "true")
+            {
+              boolStatus = true;
+            }
+
+            return boolStatus;
+        }
+          private string productDetails(object title,object returnPolicy)
+        {
+            return Convert.ToString(title)+"        ("+ Convert.ToString(returnPolicy)+")";
+        }
+
+        
+        
+      
+        
 
         
     </script>
@@ -83,7 +113,7 @@
                             </a>
                             <div class="boddy11">
                                 <div class="boddy111">
-                                    <asp:Label ID="lblHeaderTitle" CssClass="headerText" runat="server" Text='<%# Eval("headertitle") %>'></asp:Label>
+                                    <asp:Label ID="lblHeaderTitle" CssClass="headerText" runat="server" Text='<%# productDetails(Eval("headertitle"),Eval("returnpolicy"))%>'></asp:Label>
                                     
                                     <asp:Label ID="lblpid" Visible="false" runat="server" Text='<%# Eval("prodid") %>'></asp:Label>
                                     <asp:Label ID="lblCartId" Visible="false" runat="server" Text='<%# Eval("CartId") %>'></asp:Label>
@@ -105,8 +135,9 @@
                             </div>
                             <div class="body12"></div>
                             <asp:HiddenField ID="hdnOrderId" runat="server" Value='<%# Eval("CartId") %>' />
-                            <asp:Button ID="btnCancelOrder" Visible='<%#cancelOrderVisible(Eval("Status")) %>' CommandArgument='<%# Eval("CartId") %>' OnCommand="btnCancelOrder_Command" CssClass="btn btn-primary btn-cancel" Text="Cancel Order" runat="server" />
+                            <asp:Button ID="btnCancelOrder" Visible='<%#cancelOrderVisible(Eval("Status")) %>' CommandArgument='<%# Eval("CartId") %>' OnCommand="btnCancelOrder_Command" CssClass="btn-primary btn-cancel" Text="Cancel Order" runat="server" />
                              <asp:Button ID="Button1" Visible='<%#canceledOrderVisible(Eval("Status")) %>'  CssClass="btn-canceled" Text="Canceled" runat="server" />
+                             <asp:Button ID="btnReturn" Visible='<%# returnProduct(Eval("IsReturnPolicy"))%>' CommandArgument='<%# Eval("CartId") %>'  CssClass="btn-returned" Text="Return Product" runat="server" OnCommand="btnReturn_Command" />
                              
 
                         </div>

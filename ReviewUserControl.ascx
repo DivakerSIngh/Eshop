@@ -17,7 +17,7 @@
 
         </p>
           Rate : <div class="rate"> 
-              <asp:TextBox  ID="txtrating" ClientIDMode="Static" runat="server" class="rating rating5"></asp:TextBox>
+              <asp:TextBox  ID="txtrating" ClientIDMode="Static" runat="server" Text="0" class="rating rating5"></asp:TextBox>
              <%-- <input type="text" class="rating rating5" id="rating" />--%>
 
                  </div>

@@ -142,7 +142,9 @@ public partial class SingleProdInfo : System.Web.UI.Page
             }
             else
             {
-                Server.Transfer("Login.aspx");
+                //Context.ApplicationInstance.CompleteRequest();
+                Response.Redirect("Login.aspx", false);
+               
             }
         }
         catch (Exception ex)

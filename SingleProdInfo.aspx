@@ -35,7 +35,7 @@
            // document.getElementById("hf_user_pincode").value = localStorage.getItem('postalCode');
         }
     </script>
-    <script type="text/javascript">
+    <%--<script type="text/javascript">
 
 
         function CheckPincode() {
@@ -53,7 +53,7 @@
             
                
         }
-    </script>
+    </script>--%>
      <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAPGIvYpvs7ETQHWcfHnJjLBLH5XNF0OZs"></script>                  
      <script type="text/javascript">
         <!--

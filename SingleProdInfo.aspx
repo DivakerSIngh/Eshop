@@ -10,7 +10,11 @@
     <%--<script src="js/jquery-2.2.3.min.js"></script> --%>
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="js/owl.carousel.js"></script>
-   
+  
+     <script src="/ToastMessage/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <link href="/ToastMessage/toastr.css" rel="stylesheet" type="text/css" />
+    <script src="/ToastMessage/toastr.js" type="text/javascript"></script>
+
     <!--flex slider-->
     
     <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" />
@@ -27,18 +31,20 @@
         if (localStorage.getItem('postalCode') != '') {
             
             $('#hf_user_pincode').val(localStorage.getItem('postalCode'));
-            alert('user pin code ' + localStorage.getItem('postalCode'));
+            //alert('user pin code ' + localStorage.getItem('postalCode'));
            // document.getElementById("hf_user_pincode").value = localStorage.getItem('postalCode');
         }
     </script>
     <script type="text/javascript">
         function CheckPincode() {
             if ($('#hf_CheckPin').val() == '') {
-                alert('value nahi hai' + $('#hf_CheckPin').val());
+                //alert('value nahi hai' + $('#hf_CheckPin').val());
+                $("#ContentPlaceHolder1_dlProdInfo_txtLocation_0").focus();
+                toastr.error('Please Check Pincode for product availablity');
                 return false;
             }else
             {
-                alert('value hai' + $('#hf_CheckPin').val());
+                //alert('value hai' + $('#hf_CheckPin').val());
                 return true;
             }
             
@@ -57,6 +63,7 @@
              localStorage.setItem('logisticId', logisticId);
              $('#hdnWeight').val(weight);
              $('#hf_logistic_id').val(logisticId);
+             $('#hf_CheckPin').val(pincode);
                 var geocoder = new google.maps.Geocoder();
                 //var address = document.getElementById("txtAddress").value;
                 geocoder.geocode({ 'address': pincode }, function (results, status) {
@@ -328,7 +335,7 @@
                                 </div>
 
                             <asp:Label ID="lblcid" runat="server" Text='<%# Eval("cid") %>' Visible="false"></asp:Label>
-                                <asp:LinkButton ID="btnAddCart" class="w3ls-cart" runat="server" CommandArgument='<%# Eval("pid")+","+Eval("UserId")+","+Eval("sellingprice")+","+Eval("costprice") %>' OnCommand="btnAddCart_Command1" OnClientClick="CheckPincode();"><i class="fa fa-cart-plus" aria-hidden="true"></i>Add to cart</asp:LinkButton>
+                                <asp:LinkButton ID="btnAddCart" class="w3ls-cart" runat="server" CommandArgument='<%# Eval("pid")+","+Eval("UserId")+","+Eval("sellingprice")+","+Eval("costprice") %>' OnCommand="btnAddCart_Command1" ><i class="fa fa-cart-plus" aria-hidden="true"></i>Add to cart</asp:LinkButton>
 
 
                                 <asp:LinkButton ID="btnAddWishList" class="w3ls-cart w3ls-cart-like" runat="server" CommandArgument='<%# Eval("pid")+","+Eval("UserId")+","+Eval("sellingprice")+","+Eval("costprice") %>' OnCommand="btnAddWishList_Command"><i class="fa fa-heart-o" aria-hidden="true"></i>Add to Wishlist</asp:LinkButton>

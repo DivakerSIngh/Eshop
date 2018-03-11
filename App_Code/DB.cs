@@ -4591,10 +4591,10 @@ public class DB
             da = new SqlDataAdapter("EShop_Logistic_Rate", con);
             da.SelectCommand.CommandType = CommandType.StoredProcedure;
             da.SelectCommand.Parameters.Clear();
-            cmd.Parameters.AddWithValue("@Lid", logistic_id);
-            cmd.Parameters.AddWithValue("@wt", wt);
-            cmd.Parameters.AddWithValue("@distance", distance);
-            cmd.Parameters.AddWithValue("@Action", 1);
+            da.SelectCommand.Parameters.AddWithValue("@Lid", logistic_id);
+            da.SelectCommand.Parameters.AddWithValue("@wt", wt);
+            da.SelectCommand.Parameters.AddWithValue("@distance", distance);
+            da.SelectCommand.Parameters.AddWithValue("@Action", 1);
 
             ds = new DataSet();
             da.Fill(ds);

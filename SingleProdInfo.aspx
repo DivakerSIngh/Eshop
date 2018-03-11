@@ -104,7 +104,7 @@
     <script>
         // Can also be used with $(document).ready()
         $(window).load(function () {
-            
+                      
             $('.flexslider').flexslider({
                 animation: "slide",
                 controlNav: "thumbnails"
@@ -114,6 +114,14 @@
             } else {
                 $('#btnReview').hide();
             }
+            setTimeout(function () {
+                $($('.flexslider .flex-control-nav li img')).each(function () {
+                    if ($(this).attr('src') == "") {
+                        $(this).remove();
+                    }
+                })
+
+            }, 200)
             
         });
         function clickReview() {

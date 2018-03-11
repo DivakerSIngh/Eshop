@@ -118,7 +118,7 @@ public partial class SingleProdInfo : System.Web.UI.Page
                 string discount = (Convert.ToDecimal(costprice) - Convert.ToDecimal(amt)).ToString("0.00");
                 string qty = "1";
                 string deliveryamt = hf_deliveryAmt.Value;//"150";
-                string lid = "";
+                string lid = hf_logistic_id.Value;
 
                 obj = new DB();
                 string size = "";
@@ -216,7 +216,7 @@ public partial class SingleProdInfo : System.Web.UI.Page
             }
             //TextBox txtuserpin = (TextBox)dlProdInfo.FindControl("txtLocation");
             //string ddl_selectedvalue = ((TextBox)txtRpin.NamingContainer.FindControl("txtLocation")).Text.Trim();
-            hf_CheckPin.Value = UserPincode;
+            //hf_CheckPin.Value = UserPincode;
             string retailer_pincode = e.CommandArgument.ToString();
             DataSet ds = obj.GetAllPincodeListfromLogistic();
             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -240,6 +240,13 @@ public partial class SingleProdInfo : System.Web.UI.Page
                 if (count > 0)
                 {
                     hdnWeight.Value = weight.ToString();
+                    foreach (DataListItem item in this.dlProdInfo.Items)
+                    {
+                        Label lblmsg = (item.FindControl("lblPincodeMsg") as Label);
+                        lblmsg.Visible = true;
+                        lblmsg.Text = "This Product available on your Location";
+                        lblmsg.ForeColor = System.Drawing.Color.ForestGreen;
+                    }
                     ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "MyFun1", "GetLocationUsingPincode('" + UserPincode + "','" + retailer_pincode + "','" + hf_logistic_id.Value + "','" + hdnWeight.Value + "');", true);
                     // ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "MyFun1", "GetLocationUsingPincode1('" + retailer_pincode + "');", true);
 

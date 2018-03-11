@@ -428,7 +428,7 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
                 }
                 Session["list"] = list;
 
-               var brandId= obj.addNewBrand(txtBrand.Text);
+               var brandId= txtBrand.Text!=""? obj.addNewBrand(txtBrand.Text):0;
 
                 obj.EmpId = Session["loginid"].ToString();
                 obj.ProdCP = txtPCostPrice.Text;

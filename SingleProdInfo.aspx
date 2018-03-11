@@ -11,7 +11,7 @@
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="js/owl.carousel.js"></script>
   
-     <script src="/ToastMessage/jquery-1.9.1.min.js" type="text/javascript"></script>
+    
     <link href="/ToastMessage/toastr.css" rel="stylesheet" type="text/css" />
     <script src="/ToastMessage/toastr.js" type="text/javascript"></script>
 

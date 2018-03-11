@@ -16,8 +16,12 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
-
-
+    <asp:HiddenField ID="hf_logistic_id" runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hf_latitute1" runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hf_longitute1" runat="server" ClientIDMode="Static"/>
+     <asp:HiddenField ID="hf_latitute2" runat="server"  ClientIDMode="Static"/>
+    <asp:HiddenField ID="hf_longitute2" runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hf_Delivery_Rate" Value="0" runat="server" ClientIDMode="Static" />
     
 <%--                        <asp:ScriptManager ID="scriptmanager1" runat="server">
 </asp:ScriptManager>
@@ -80,12 +84,12 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-12">
-                                    <asp:TextBox ID="txtCity" runat="server" class="form-control" placeholder="City" disabled="disabled"></asp:TextBox>
+                                    <asp:TextBox ID="txtCity" runat="server" class="form-control" placeholder="City"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-12">
-                                    <asp:TextBox ID="txtState" runat="server" class="form-control" placeholder="State" disabled="disabled"></asp:TextBox>
+                                    <asp:TextBox ID="txtState" runat="server" class="form-control" placeholder="State"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="form-group">

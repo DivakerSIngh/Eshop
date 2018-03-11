@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using GoogleMaps.LocationServices;
 
 public partial class CheckOut : System.Web.UI.Page
 {
@@ -109,20 +110,53 @@ public partial class CheckOut : System.Web.UI.Page
     {
         try
         {
+            
             obj = new DB();
             int i = 0;
+            int count = 0;
             DataSet ds = obj.GetAllPincodeListfromLogistic();
             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
-                string[] stringArray = ds.Tables[0].Rows[0]["pincodelist"].ToString().Split(',');
+                for (i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    string[] stringArray = ds.Tables[0].Rows[i]["pincodelist"].ToString().Split(',');
+                    //string stringToCheck=txtPincode.Text.Trim();
+
+                    string stringToCheck = txtPincode.Text;
+                    string[] rPin = Session["RPin"].ToString().Split(',');
+                    string[] pWt = Session["Wt"].ToString().Split(',');
+                    if (stringArray.Any(stringToCheck.Contains) && stringArray.Any(rPin[0].Contains))
+                    {
+                        for (int j = 0; j < rPin.Length; j++)
+                        {
+                            //================================================================//
+                            // latitude and longitude
+                            var pincode1 = rPin[j];
+                            var pincode2 = txtPincode.Text;
+                            var locationService = new GoogleLocationService();
+                            var point1 = locationService.GetLatLongFromAddress(pincode1);
+                            var point2 = locationService.GetLatLongFromAddress(pincode2);
+                            double distance = getDistanceUsinLongAndLat(point1.Latitude, point1.Longitude, point2.Latitude, point2.Longitude, 'K');
+                            double wt = Convert.ToDouble(pWt[j]);
+                            //=================================================================//
+
+                            hf_logistic_id.Value = ds.Tables[0].Rows[i]["userid"].ToString();
+                            hf_Delivery_Rate.Value = Convert.ToString(Convert.ToDecimal(hf_Delivery_Rate.Value) + getDeliveryAmt(hf_logistic_id.Value, wt, distance));
+                        }
+                        count += 1;
+                        break;
+                    }
+                }
+
+                //string[] stringArray = ds.Tables[0].Rows[0]["pincodelist"].ToString().Split(',');
                 //string stringToCheck=txtPincode.Text.Trim();
-                string stringToCheck = "201301";
-                if (stringArray.Any(stringToCheck.Contains))
+                //string stringToCheck = "201301";
+                if (count>0)
                 {
                     if (rbtnAddress.SelectedIndex == 0)
                     {
 
-                        string totamt = "", deliveryamt = "150";
+                        string totamt = "", deliveryamt = hf_Delivery_Rate.Value;//"150";
                         string[] usersid = Session["loginid"].ToString().Split(',');
                         totamt = usersid[2];
                         i = obj.UpdateUserNewAddress(usersid[0], txtName.Text, txtPhone.Text, txtAddress.Text, txtCity.Text, txtState.Text, txtPincode.Text, txtLandmark.Text, totamt, deliveryamt);
@@ -141,7 +175,7 @@ public partial class CheckOut : System.Web.UI.Page
                     {
                         if (txtAddress.Text.Trim() != "" && txtCity.Text.Trim() != "" && txtLandmark.Text.Trim() != "" && txtName.Text.Trim() != "" && txtPhone.Text.Trim() != "" && txtPincode.Text.Trim() != "" && txtState.Text.Trim() != "")
                         {
-                            string totamt = "", deliveryamt = "250";
+                            string totamt = "", deliveryamt = hf_Delivery_Rate.Value;//"250";
                             string[] usersid = Session["loginid"].ToString().Split(',');
                             totamt = usersid[2];
                             i = obj.UpdateUserNewAddress(usersid[0], txtName.Text, txtPhone.Text, txtAddress.Text, txtCity.Text, txtState.Text, txtPincode.Text, txtLandmark.Text, totamt, deliveryamt);
@@ -196,5 +230,54 @@ public partial class CheckOut : System.Web.UI.Page
         {
             NewAddressUserInfo();
         }
+    }
+
+    private double getDistanceUsinLongAndLat(double lat1, double lon1, double lat2, double lon2, char unit)
+    {
+        double theta = lon1 - lon2;
+        double dist = Math.Sin(deg2rad(lat1)) * Math.Sin(deg2rad(lat2)) + Math.Cos(deg2rad(lat1)) * Math.Cos(deg2rad(lat2)) * Math.Cos(deg2rad(theta));
+        dist = Math.Acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        if (unit == 'K')
+        {
+            dist = dist * 1.609344;
+        }
+        else if (unit == 'N')
+        {
+            dist = dist * 0.8684;
+        }
+        return (dist);
+    }
+
+    //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    //::  This function converts decimal degrees to radians             :::
+    //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    private double deg2rad(double deg)
+    {
+        return (deg * Math.PI / 180.0);
+    }
+
+    //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    //::  This function converts radians to decimal degrees             :::
+    //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    private double rad2deg(double rad)
+    {
+        return (rad / Math.PI * 180.0);
+    }
+
+    private decimal getDeliveryAmt(string logistic_id, double wt, double distance)
+    {
+        obj = new DB();
+        DataSet ds = obj.getDeliveryAmt(logistic_id, wt, distance);
+        if (ds != null && ds.Tables[0].Rows.Count > 0)
+        {
+            return Convert.ToDecimal(ds.Tables[0].Rows[0][0]);
+        }
+        else
+        {
+            return 0;
+        }
+
     }
 }

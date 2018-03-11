@@ -201,8 +201,15 @@ public partial class CartInfo : System.Web.UI.Page
         {
             obj = new DB();
             int i = 0;
+            string RetailerPin = "";
+            string weight = "";
             foreach (RepeaterItem item in rptCart.Items)
             {
+                Label lblPin = item.FindControl("lblRetalorPin") as Label;
+                Label lblWt = item.FindControl("lblWt") as Label;
+                RetailerPin = RetailerPin + "," + lblPin.Text;
+                weight = weight + "," + lblWt.Text;
+
                 Label lab = item.FindControl("lblCartId") as Label;
                 Label labsp = item.FindControl("lblSP") as Label;
                 string cartid = lab.Text;
@@ -214,6 +221,10 @@ public partial class CartInfo : System.Web.UI.Page
             }
             if (i > 0)
             {
+                string finalRPin = RetailerPin.Remove(0, 1);
+                string finalWt = weight.Remove(0, 1);
+                Session["RPin"] = finalRPin;
+                Session["Wt"] = finalWt;
                 Response.Redirect("CheckOut.aspx");
             }
             else

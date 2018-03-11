@@ -224,7 +224,7 @@
 
           <div class="row col-sm-12 col-xs-12">
                <div class="row">
-        <div class="col-sm-12">
+       <%-- <div class="col-sm-12">
             <div  class="col-sm-4">
                 <label>Start Date</label>
                  <input type="date" class="form-control" />
@@ -238,7 +238,7 @@
                <input type="button" value="Search" id="btnSearch" />
             </div>
            
-        </div>
+        </div>--%>
     </div>
          <div id="chartData" style="min-width: 310px; height: 389px; margin: 0 auto"></div>
         

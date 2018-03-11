@@ -309,7 +309,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">CLOTHING</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">CLOTHING</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=43&gender=W">Tops</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=44&gender=W">T-Shirts</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=45&gender=W">Jeans</a></li>
@@ -331,7 +331,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">FOOTWEAR</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">FOOTWEAR</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=58&gender=W">Flats</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=59&gender=W">HEELS</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=60&gender=W">CASUAL SHOES</a></li>
@@ -347,7 +347,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">WATCHES</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">WATCHES</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=83&gender=W">ANALOG</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=85&gender=W">CHRONOGRAPH</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=84&gender=W">DIGITAL</a></li>
@@ -358,7 +358,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">BAG PACKS</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">BAG PACKS</a></li>
 
 
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=87&gender=W">LAPTOP BAG</a></li>
@@ -372,7 +372,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">ACCESSORIES</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">ACCESSORIES</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=67&gender=W">WALLETS </a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=68&gender=W">GROOMING</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=69&gender=W">SUNGLASSES</a></li>
@@ -387,7 +387,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">SPORTS</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">SPORTS</a></li>
 
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=75&gender=W">SPORTS T-SHIRTS</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=76&gender=W">TRACK PANTS</a></li>
@@ -410,7 +410,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">FOOTWEARS</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">FOOTWEARS</a></li>
 
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=18&gender=M">CASUAL SHOES</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=19&gender=M">Formal Shoes</a></li>
@@ -426,7 +426,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">CLOTHING</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">CLOTHING</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=13&gender=M">POLOS & TEES</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=1&gender=M">Shorts</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=9&gender=M">Casual Shirts</a></li>
@@ -449,7 +449,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">WATCHES</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">WATCHES</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=34&gender=M">ANALOG</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=36&gender=M">CHRONOGRAPH</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=35&gender=M">DIGITAL</a></li>
@@ -460,7 +460,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">BAGS PACKS</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">BAGS PACKS</a></li>
 
 
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=38&gender=M">LAPTOP BAGS</a></li>
@@ -474,7 +474,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">Sports Wear</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">Sports Wear</a></li>
 
 
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=14&gender=M">Sports T-Shirt</a></li>
@@ -487,7 +487,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">Accessories</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">Accessories</a></li>
 
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=26&gender=M">Wallets</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=27&gender=M">Belts</a></li>
@@ -509,7 +509,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">CLOTHING</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">CLOTHING</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=92&gender=K">BODY SUIT</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=93&gender=K">SHORTS & SKIRTS</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=94&gender=K">SHIRTS</a></li>
@@ -528,7 +528,7 @@
                                                     <li class="has-children">
                                                         <a href="#">Books</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">Books</a></li>
                                                             <%--<li><a href="ViewProducts.aspx?cid=1&subcid=248">All Books</a></li>--%>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=98&gender=K">All Books</a></li>
                                                         </ul>
@@ -536,7 +536,7 @@
                                                     <li class="has-children">
                                                         <a href="#">BABY CARE</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">BABY CARE</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=107&gender=K">DIAPER </a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=108&gender=K">BATH AND SKIN </a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=109&gender=K">BEDDING </a></li>
@@ -545,7 +545,7 @@
                                                     <li class="has-children">
                                                         <a href="#">SCHOOL SUPPLIES</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">SCHOOL SUPPLIES</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=110&gender=K">WATER BOTTLES </a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=111&gender=K">SCHOOL BAGS </a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=112&gender=K">LUNCH BOX </a></li>
@@ -555,7 +555,7 @@
                                                     <li class="has-children">
                                                         <a href="#">Toys</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">Toys</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=99&gender=K">PULL ALONG VEHICLE</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=100&gender=K">SOFT TOYS</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=1&subcid=101&gender=K">DOLLS AND HOUSES</a></li>
@@ -596,7 +596,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">Anti-Convulsant</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">Anti-Convulsant</a></li>
                                                             <li><a href="#">Anti-Convulsant</a></li>
                                                             <li><a href="#">Pain Relievers</a></li>
                                                             <li><a href="#">Analgesic</a></li>
@@ -606,7 +606,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">Pain Relievers</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">Pain Relievers</a></li>
                                                             <li><a href="#">Anti-Convulsant</a></li>
                                                             <li><a href="#">Pain Relievers</a></li>
                                                             <li><a href="#">Analgesic</a></li>
@@ -616,7 +616,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">Analgesic</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">Analgesic</a></li>
                                                             <li><a href="#">Anti-Convulsant</a></li>
                                                             <li><a href="#">Pain Relievers</a></li>
                                                             <li><a href="#">Analgesic</a></li>
@@ -626,7 +626,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">Anti-Depresant</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">Anti-Depresant</a></li>
                                                             <li><a href="#">Anti-Convulsant</a></li>
                                                             <li><a href="#">Pain Relievers</a></li>
                                                             <li><a href="#">Analgesic</a></li>
@@ -651,7 +651,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">Supplement</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">Supplement</a></li>
                                                             <li><a href="#">Blood Glusoce</a></li>
                                                             <li><a href="#">Diabetes Medication</a></li>
                                                             <li><a href="#">ED/Impotence</a></li>
@@ -660,7 +660,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">Blood Glusoce</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">Blood Glusoce</a></li>
                                                             <li><a href="#">Blood Glusoce</a></li>
                                                             <li><a href="#">Diabetes Medication</a></li>
                                                             <li><a href="#">ED/Impotence</a></li>
@@ -669,7 +669,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">Diabetes Medicationt</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">Diabetes Medicationt</a></li>
                                                             <li><a href="#">Blood Glusoce</a></li>
                                                             <li><a href="#">Diabetes Medication</a></li>
                                                             <li><a href="#">ED/Impotence</a></li>
@@ -678,7 +678,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">ED/Impotence</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">ED/Impotence</a></li>
                                                             <li><a href="#">Blood Glusoce</a></li>
                                                             <li><a href="#">Diabetes Medication</a></li>
                                                             <li><a href="#">ED/Impotence</a></li>
@@ -693,7 +693,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">PFizer</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">PFizer</a></li>
                                                             <li><a href="#">Blood Glusoce</a></li>
                                                             <li><a href="#">Diabetes Medication</a></li>
                                                             <li><a href="#">ED/Impotence</a></li>
@@ -702,7 +702,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">Medication</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">Medication</a></li>
                                                             <li><a href="#">Blood Glusoce</a></li>
                                                             <li><a href="#">Diabetes Medication</a></li>
                                                             <li><a href="#">ED/Impotence</a></li>
@@ -711,7 +711,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">Lupin</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">Lupin</a></li>
                                                             <li><a href="#">Blood Glusoce</a></li>
                                                             <li><a href="#">Diabetes Medication</a></li>
                                                             <li><a href="#">ED/Impotence</a></li>
@@ -720,7 +720,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">AntiBiotics</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">AntiBiotics</a></li>
                                                             <li><a href="#">Blood Glusoce</a></li>
                                                             <li><a href="#">Diabetes Medication</a></li>
                                                             <li><a href="#">ED/Impotence</a></li>
@@ -729,7 +729,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">Novartis</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">Novartis</a></li>
                                                             <li><a href="#">Blood Glusoce</a></li>
                                                             <li><a href="#">Diabetes Medication</a></li>
                                                             <li><a href="#">ED/Impotence</a></li>
@@ -744,7 +744,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">Fitness</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">Fitness</a></li>
                                                             <li><a href="#">Blood Glusoce</a></li>
                                                             <li><a href="#">Diabetes Medication</a></li>
                                                             <li><a href="#">ED/Impotence</a></li>
@@ -753,7 +753,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">Supplement</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">Supplement</a></li>
                                                             <li><a href="#">Blood Glusoce</a></li>
                                                             <li><a href="#">Diabetes Medication</a></li>
                                                             <li><a href="#">ED/Impotence</a></li>
@@ -762,7 +762,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">Speciality</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">Speciality</a></li>
                                                             <li><a href="#">Blood Glusoce</a></li>
                                                             <li><a href="#">Diabetes Medication</a></li>
                                                             <li><a href="#">ED/Impotence</a></li>
@@ -771,7 +771,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">Nutrition</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">Nutrition</a></li>
                                                             <li><a href="#">Blood Glusoce</a></li>
                                                             <li><a href="#">Diabetes Medication</a></li>
                                                             <li><a href="#">ED/Impotence</a></li>
@@ -780,7 +780,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">Supplement</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">Supplement</a></li>
                                                             <li><a href="#">Blood Glusoce</a></li>
                                                             <li><a href="#">Diabetes Medication</a></li>
                                                             <li><a href="#">ED/Impotence</a></li>
@@ -822,7 +822,7 @@
                                             <li class="has-children">
                                                 <a href="#">Beverages</a>
                                                 <ul class="is-hidden">
-                                                    <li class="go-back"><a href="#"></a></li>
+                                                    <li class="go-back"><a href="#">Beverages</a></li>
 
                                                     <li class="go-back"><a href="#"></a></li>
                                                     <li><a href="ViewProducts.aspx?cid=3&subcid=115">Tea & Coffee</a></li>
@@ -841,43 +841,7 @@
 
 
                                             </li>
-                                            <%--	<li class="has-children">
-														<a href="#0">Tea </a>
-													<ul class="is-hidden">
-															<li class="go-back"><a href="#"></a></li>
-															<li><a href="ViewProducts.aspx?cid=3&subcid=56">Lemon Tea</a></li>
-															<li><a href="ViewProducts.aspx?cid=3&subcid=57">Green Tea</a></li>
-															<li><a href="ViewProducts.aspx?cid=3&subcid=58">Limpton Tea</a></li>
-												
-														</ul>
-													</li>
-													<li class="has-children">
-														<a href="#0">Fruit Drinks</a>
-														<ul class="is-hidden">
-															<li class="go-back"><a href="#"></a></li>
-															<li><a href="ViewProducts.aspx?cid=3&subcid=59">Fruit Drinks</a></li>
-															<li><a href="ViewProducts.aspx?cid=3&subcid=60">Jucies</a></li>
-															<li><a href="ViewProducts.aspx?cid=3&subcid=55">Soft Drinks</a></li>
-												
-														</ul>
-													</li>
-													<li class="has-children">
-														<a href="#0">Organic Beverages</a>
-														<ul class="is-hidden">
-															<li class="go-back"><a href="#"></a></li>
-															<li><a href="ViewProducts.aspx?cid=3&subcid=54">Mineral Water</a></li>
-															<li><a href="ViewProducts.aspx?cid=3&subcid=59">Fruit Drinks</a></li>
-															<li><a href="ViewProducts.aspx?cid=3&subcid=60">Juices</a></li>
-															
-												
-														</ul>
-													</li>
-													<li>
-														<a href="ViewProducts.aspx?cid=3">Juices</a>
-													  
-													</li>
-												</ul>
-											</li>--%>
+                                          
                                             <li class="has-children">
                                                 <a href="#">Biscuit and Snacks</a>
                                                 <ul class="is-hidden">
@@ -891,51 +855,14 @@
                                                         <a href="ViewProducts.aspx?cid=3&subcid=125">Baking Needs</a>
 
                                                     </li>
-                                                    <%--<li>
-														<a href="ViewProducts.aspx?cid=3&subcid=66">Jam and Honey</a>
-														
-													</li>        
-                                                    --%>
-                                                    <%--<li class="has-children">
-														<a href="#0">Snacks</a>
-														<ul class="is-hidden">
-															<li class="go-back"><a href="#"></a></li>
-															
-												
-														</ul>
-													</li>
-													<li>
-														<a href="ViewProducts.aspx?cid=3&subcid=62">Cakes</a>
-														
-													</li>
-													
-													<li>
-														<a href="ViewProducts.aspx?cid=3&subcid=65">Baking Needs</a>
-														
-													</li>
-													<li>
-														<a href="ViewProducts.aspx?cid=3&subcid=66">Jam and Honey</a>
-														
-													</li>--%>
+                                                   
                                                 </ul>
                                             </li>
                                             <li class="has-children">
                                                 <a href="#">Grocery </a>
                                                 <ul class="is-hidden">
                                                     <li class="go-back"><a href="#">Grocery</a></li>
-                                                    <%--<li class="has-children">
-														<a href="#">Dal and Pulse</a>
-														<ul class="is-hidden">
-															<li class="go-back"><a href="#"></a></li>
-															
-															<li><a href="ViewProducts.aspx?cid=3&subcid=68">Flours</a></li>
-															<li><a href="ViewProducts.aspx?cid=3&subcid=69">Sooji</a></li>
-															<li><a href="ViewProducts.aspx?cid=3&subcid=70">Masalas</a></li>
-															<li><a href="ViewProducts.aspx?cid=3&subcid=71">Spices</a></li>
-                                                         
-                                                            
-														</ul>
-													</li>--%>
+                                                   
                                                     <li><a href="ViewProducts.aspx?cid=3&subcid=128">Dal & Pulse</a></li>
                                                     <li><a href="ViewProducts.aspx?cid=3&subcid=132">Rice & Rice products</a></li>
                                                     <li><a href="ViewProducts.aspx?cid=3&subcid=133">Wheat Flour</a></li>
@@ -954,10 +881,7 @@
                                                         <a href="ViewProducts.aspx?cid=3&subcid=129">Flours</a>
 
                                                     </li>
-                                                    <%--<li>
-														<a href="ViewProducts.aspx?cid=3&subcid=72">Organic Staples</a>
-														
-													</li>--%>
+                                                   
                                                     <li>
                                                         <a href="ViewProducts.aspx?cid=3&subcid=130">Edible Oils</a>
 
@@ -972,14 +896,7 @@
                                                 <a href="#">Dairy</a>
                                                 <ul class="is-hidden">
                                                     <li class="go-back"><a href="#">Grocery</a></li>
-                                                    <%--<li class="has-children">
-														<a href="ViewProducts.aspx?cid=3&subcid=75">Bread Dairy</a>
-														<ul class="is-hidden">
-															<li class="go-back"><a href="#"></a></li>
-															
-												
-														</ul>
-													</li>--%>
+                                                   
                                                     <li><a href="ViewProducts.aspx?cid=3&subcid=146">Bread and Dairy</a></li>
                                                     <%--<li><a href="ViewProducts.aspx?cid=3&subcid=77">Eggs</a></li>--%>
                                                     <li><a href="ViewProducts.aspx?cid=3&subcid=149">Fresh Foods</a></li>
@@ -1001,13 +918,7 @@
                                                 <a href="#">BEAUTY</a>
                                                 <ul class="is-hidden">
                                                     <li class="go-back"><a href="#">All Fashion Stores</a></li>
-                                                    <%--<li><a href="ViewProducts.aspx?cid=3&subcid=80">Perfumes</a></li>
-													<li><a href="ViewProducts.aspx?cid=3&subcid=81">Deos</a></li>
-													<li><a href="ViewProducts.aspx?cid=3&subcid=83">Lipsticks</a></li>
-													<li><a href="ViewProducts.aspx?cid=3&subcid=84">Nail Polish</a></li>
-													<li><a href="ViewProducts.aspx?cid=3&subcid=85">Beauty Gift Hampers</a></li>
-													<li><a href="ViewProducts.aspx?cid=3&subcid=86">Personal Grooming</a></li>
-													<li><a href="ViewProducts.aspx?cid=3&subcid=87">Travel bags</a></li>--%>
+                                                   
                                                     <li><a href="ViewProducts.aspx?cid=3&subcid=152">Oral Care</a></li>
                                                     <li><a href="ViewProducts.aspx?cid=3&subcid=153">Bath,Face wash & Hand wash</a></li>
                                                     <li><a href="ViewProducts.aspx?cid=3&subcid=154">Health & Medicine</a></li>
@@ -1049,17 +960,7 @@
 
                                                 </ul>
                                             </li>
-                                            <%--<li class="has-children">
-												<a href="#">PERSONAL CARE</a>
-												<ul class="is-hidden">
-													<li class="go-back"><a href="#">All Fashion Stores</a></li>
-													<li><a href="ViewProducts.aspx?cid=3&subcid=88">Face Care</a></li>
-													<li><a href="ViewProducts.aspx?cid=3&subcid=89">Nail Care</a></li>
-													<li><a href="ViewProducts.aspx?cid=3&subcid=90">Hair Care</a></li>
-													<li><a href="ViewProducts.aspx?cid=3&subcid=91">Body Care</a></li>
-													<li><a href="ViewProducts.aspx?cid=3&subcid=92">Bath & Spa</a></li>
-												</ul>
-											</li>--%>
+                                        
                                         </ul>
                                         <!-- .cd-secondary-dropdown -->
                                     </li>
@@ -1088,7 +989,7 @@
                                                     <li class="has-children">
                                                         <a href="#0" class="hbrvg">Hybrid Vegetables</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#" class="go-backhbrvg"></a></li>
+                                                            <li class="go-back"><a href="#" class="go-backhbrvg">Hybrid Vegetables</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=4&subcid=188">Beetroot</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=4&subcid=191">Bhindi</a></li>
 
@@ -1121,7 +1022,7 @@
                                                     <li class="has-children">
                                                         <a href="#0">Selection verities</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">Selection verities</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=4&subcid=213">GroundNut</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=4&subcid=214">Mustard</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=4&subcid=215">Paddy</a></li>
@@ -1131,19 +1032,13 @@
                                                     <li class="has-children">
                                                         <a href="#0">Research Wheats</a>
                                                         <ul class="is-hidden">
-                                                            <li class="go-back"><a href="#"></a></li>
+                                                            <li class="go-back"><a href="#">Research Wheats</a></li>
                                                             <li><a href="ViewProducts.aspx?cid=4&subcid=217">Wheat Super</a></li>
                                                         </ul>
                                                     </li>
                                                     <li class="">
                                                         <a href="ViewProducts.aspx?cid=4&subcid=249">Research Paddy</a>
-                                                        <%--<ul class="is-hidden"> 
-														<li class="go-back"><a href="#"> </a></li>
-														<li><a href="#">Anti-Convulsant</a></li>
-														<li><a href="#">Pain Relievers</a></li>
-														<li><a href="#">Analgesic</a></li>
-														<li><a href="#">Anti-Depresant</a></li>
-													</ul>--%>
+                                                       
                                                     </li>
                                                 </ul>
                                             </li>
@@ -1153,21 +1048,11 @@
                                                     <li class="go-back"><a href="#">Mop</a></li>
                                                     <li class="">
                                                         <a href="ViewProducts.aspx?cid=4&subcid=225">MOP</a>
-                                                        <%--<ul class="is-hidden"> 
-														<li class="go-back"><a href="#"> </a></li>
-														<li><a href="#">Blood Glusoce</a></li>
-														<li><a href="#">Diabetes Medication</a></li>
-														<li><a href="#">ED/Impotence</a></li>
-													</ul>--%>
+                                                        
                                                     </li>
                                                     <li class="">
                                                         <a href="ViewProducts.aspx?cid=4&subcid=218">Urea</a>
-                                                        <%--	<ul class="is-hidden"> 
-														<li class="go-back"><a href="#"> </a></li>
-														<li><a href="#">Blood Glusoce</a></li>
-														<li><a href="#">Diabetes Medication</a></li>
-														<li><a href="#">ED/Impotence</a></li>
-													</ul>--%>
+                                                       
                                                     </li>
                                                     <li class="">
                                                         <a href="ViewProducts.aspx?cid=4&subcid=219">Phosphate</a>
@@ -1219,7 +1104,7 @@
                                             <li class="has-children">
                                                 <a href="#">Organic Seed</a>
                                                 <ul class="is-hidden">
-                                                    <li class="go-back"><a href="#"></a></li>
+                                                    <li class="go-back"><a href="#">Organic Seed</a></li>
                                                     <li class="">
                                                         <a href="ViewProducts.aspx?cid=4&subcid=231">Organic Fruits </a>
                                                     </li>

@@ -7,6 +7,8 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Data.SqlClient;
 using System.Web.Services;
+using GoogleMaps.LocationServices;
+using System.Threading;
 
 public partial class SingleProdInfo : System.Web.UI.Page
 {
@@ -117,8 +119,8 @@ public partial class SingleProdInfo : System.Web.UI.Page
                 string costprice = commandArgs[3];
                 string discount = (Convert.ToDecimal(costprice) - Convert.ToDecimal(amt)).ToString("0.00");
                 string qty = "1";
-                string deliveryamt = hf_deliveryAmt.Value;//"150";
-                string lid = hf_logistic_id.Value;
+                string deliveryamt = string.IsNullOrEmpty(ViewState["delAmt"].ToString()) ? "0" : ViewState["delAmt"].ToString();// hf_deliveryAmt.Value;//"150";
+                string lid = string.IsNullOrEmpty(ViewState["lid"].ToString()) ? "0" : ViewState["lid"].ToString(); //hf_logistic_id.Value;
 
                 obj = new DB();
                 string size = "";
@@ -137,6 +139,11 @@ public partial class SingleProdInfo : System.Web.UI.Page
                     ((Label)Master.FindControl("lblcountcart")).Text = (Convert.ToInt32(((Label)Master.FindControl("lblcountcart")).Text) + 1).ToString();
                     //Button btncart = ddlPrdoDescription.FindControl("btnAddToCart") as Button;
                     //btncart.Enabled = false;
+                    ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Item Successfully added in Cart !');", true);
+                }
+                else
+                {
+                    ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.error('Item Already added in cart !');", true);
                 }
 
             }
@@ -144,6 +151,7 @@ public partial class SingleProdInfo : System.Web.UI.Page
             {
                 //Context.ApplicationInstance.CompleteRequest();
                 Response.Redirect("Login.aspx", false);
+                //Server.Transfer("Login.aspx", false);
                
             }
         }
@@ -203,6 +211,7 @@ public partial class SingleProdInfo : System.Web.UI.Page
     }
     protected  void btnCheckPincode_Command(object sender, CommandEventArgs e)
     {
+        START:
         try
         {
             obj = new DB();
@@ -232,10 +241,19 @@ public partial class SingleProdInfo : System.Web.UI.Page
                     if (stringArray.Any(stringToCheck.Contains) && stringArray.Any(retailer_pincode.Contains))
                     {
                         hf_logistic_id.Value = ds.Tables[0].Rows[i]["userid"].ToString();
+                        //================================================================//
+                        // latitude and longitude
+                        var locationService = new GoogleLocationService();
+                        var point1 = locationService.GetLatLongFromAddress(retailer_pincode);
+                        var point2 = locationService.GetLatLongFromAddress(UserPincode);
+                        double distance = getDistanceUsinLongAndLat(point1.Latitude, point1.Longitude, point2.Latitude, point2.Longitude, 'K');
+                        
+                        //=================================================================//
+
+                        hf_deliveryAmt.Value = Convert.ToString(getDeliveryAmt(hf_logistic_id.Value, weight, distance));
+                        ViewState["lid"] = hf_logistic_id.Value;
+                        ViewState["delAmt"] = hf_deliveryAmt.Value;
                         count += 1;
-                        //var lblmsg = (Label)sender;
-                        //var labelmsg = ((Label)lblmsg.NamingContainer.FindControl("lblPincodeMsg"));
-                        //labelmsg.Visible = false;
                         break;
                     }
                 }
@@ -249,17 +267,6 @@ public partial class SingleProdInfo : System.Web.UI.Page
                         lblmsg.Text = "This Product available on your Location";
                         lblmsg.ForeColor = System.Drawing.Color.ForestGreen;
                     }
-                    ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "MyFun1", "GetLocationUsingPincode('" + UserPincode + "','" + retailer_pincode + "','" + hf_logistic_id.Value + "','" + hdnWeight.Value + "');", true);
-                    // ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "MyFun1", "GetLocationUsingPincode1('" + retailer_pincode + "');", true);
-
-                    //ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "MyFun1", "trigger('" + weight + "');", true);
-                    //Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "GetLocationUsingPincode('"+ UserPincode + "')", true);
-                    //Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "GetLocationUsingPincode1('" + retailer_pincode + "')", true);
-
-                    //double distance = getDistanceUsinLongAndLat(Convert.ToDouble(hf_latitute1.Value), Convert.ToDouble(hf_longitute1.Value), Convert.ToDouble(hf_latitute2.Value), Convert.ToDouble(hf_longitute2.Value), 'K');
-
-                    //string logisticid = hf_logistic_id.Value;
-                    //hf_deliveryAmt.Value = Convert.ToString(getDeliveryAmt(logisticid, weight, distance));
                 }
                 else
                 {
@@ -277,7 +284,11 @@ public partial class SingleProdInfo : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-
+            if (ex.Message == "Request Not Authorized or Over QueryLimit")
+            {
+                Thread.Sleep(200);
+                goto START;
+            }
         }
     }
 
@@ -438,12 +449,5 @@ public partial class SingleProdInfo : System.Web.UI.Page
             return 0;
         }
         
-    }
-
-    protected void btnfireEventJS_Click(object sender, EventArgs e)
-    {
-        double distance = getDistanceUsinLongAndLat(Convert.ToDouble(hf_latitute1.Value), Convert.ToDouble(hf_longitute1.Value), Convert.ToDouble(hf_latitute2.Value), Convert.ToDouble(hf_longitute2.Value), 'K');
-        string logisticid = hf_logistic_id.Value;
-        hf_deliveryAmt.Value = Convert.ToString(getDeliveryAmt(logisticid, Convert.ToDouble(hdnWeight.Value), distance));
     }
 }

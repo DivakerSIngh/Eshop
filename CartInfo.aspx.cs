@@ -69,6 +69,50 @@ public partial class CartInfo : System.Web.UI.Page
             {
                 btnApplyCoupon.Visible = true;
                 btnPlaceOrder.Visible = true; btnUseCoupon.Visible = true;
+
+                //DataSet dss = obj.GetCartInfoQtyNdAmt(userid);
+                rptCart.DataSource = ds.Tables[0];
+                rptCart.DataBind();
+                lblCartNum.Text = "My Cart(" + ds.Tables[0].Rows.Count.ToString() + ")";
+
+                int qty = 0, qty1 = 0;
+                decimal mrp_amt = 0, discount = 0, price_amt = 0;
+
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    qty += Convert.ToInt32(ds.Tables[0].Rows[i]["cquantity"].ToString());
+                    qty1 = Convert.ToInt32(ds.Tables[0].Rows[i]["cquantity"].ToString());
+                    mrp_amt += Convert.ToDecimal(ds.Tables[0].Rows[i]["costprice"].ToString()) * qty1;
+                    discount += Convert.ToDecimal(ds.Tables[0].Rows[i]["discount_price"].ToString()) * qty1;
+                    price_amt += Convert.ToDecimal(ds.Tables[0].Rows[i]["sellingprice"].ToString()) * qty1;
+                }
+
+                lblQuantity1.Text = qty.ToString();
+                lblMrpAmpt.Text = mrp_amt.ToString();
+                lblDiscount.Text = discount.ToString();
+                lblDeleiveryCharge.Text = ds.Tables[0].Rows[0]["Delivery_Amount"].ToString();
+                lblPriceAmt.Text = price_amt.ToString();
+                lblCouponDiscount.Text = ds.Tables[0].Rows[0]["Coupon_Amt"].ToString();
+
+                //lblQuantity.Text = dss.Tables[0].Rows[0]["qty"].ToString();
+                //lblQuantity1.Text = dss.Tables[0].Rows[0]["qty"].ToString();
+                //lblMrpAmpt.Text = dss.Tables[0].Rows[0]["costprice"].ToString();
+                //lblDiscount.Text = dss.Tables[0].Rows[0]["discount"].ToString();
+                //lblDeleiveryCharge.Text = dss.Tables[0].Rows[0]["Delivery_Amount"].ToString();
+                //lblPriceAmt.Text = dss.Tables[0].Rows[0]["PriceAmount"].ToString();
+                //lblCouponDiscount.Text = dss.Tables[0].Rows[0]["Coupon_Amt"].ToString();
+                //decimal amt = 0;
+                //for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                //{
+                //    amt += Convert.ToDecimal(ds.Tables[0].Rows[i]["sellingprice"].ToString()) * Convert.ToDecimal(ds.Tables[0].Rows[i]["cquantity"].ToString());
+                //}
+                //lblPriceAmt.Text = dss.Tables[0].Rows[0]["totalamount"].ToString();
+                lblTotAmt.Text = ((Convert.ToDecimal(lblMrpAmpt.Text) - (Convert.ToDecimal(lblDiscount.Text) + Convert.ToDecimal(lblCouponDiscount.Text))) + Convert.ToDecimal(lblDeleiveryCharge.Text)).ToString(); //dss.Tables[0].Rows[0]["totalamount"].ToString();
+
+                lblSaveAmt.Text = "You have saved amount : " + (Convert.ToDecimal(lblMrpAmpt.Text) - Convert.ToDecimal(lblPriceAmt.Text)).ToString();
+                lblSaveAmt.ForeColor = System.Drawing.Color.DarkGreen;
+                string usersid = Session["loginid"].ToString() + "," + ds.Tables[0].Rows.Count.ToString() + "," + lblTotAmt.Text;//dss.Tables[0].Rows[0]["totalamount"].ToString();
+                Session["loginid"] = usersid;
             }
             else
             {
@@ -77,49 +121,7 @@ public partial class CartInfo : System.Web.UI.Page
                 btnPlaceOrder.Visible = false;
                 btnUseCoupon.Visible = false;
             }
-            //DataSet dss = obj.GetCartInfoQtyNdAmt(userid);
-            rptCart.DataSource = ds.Tables[0];
-            rptCart.DataBind();
-            lblCartNum.Text = "My Cart(" + ds.Tables[0].Rows.Count.ToString() + ")";
-
-            int qty = 0, qty1 = 0;
-            decimal mrp_amt = 0, discount = 0, price_amt = 0;
-
-            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-            {
-                qty += Convert.ToInt32(ds.Tables[0].Rows[i]["cquantity"].ToString());
-                qty1 = Convert.ToInt32(ds.Tables[0].Rows[i]["cquantity"].ToString());
-                mrp_amt += Convert.ToDecimal(ds.Tables[0].Rows[i]["costprice"].ToString()) * qty1;
-                discount += Convert.ToDecimal(ds.Tables[0].Rows[i]["discount_price"].ToString()) * qty1;
-                price_amt += Convert.ToDecimal(ds.Tables[0].Rows[i]["sellingprice"].ToString()) * qty1;
-            }
-
-            lblQuantity1.Text = qty.ToString();
-            lblMrpAmpt.Text = mrp_amt.ToString();
-            lblDiscount.Text = discount.ToString();
-            lblDeleiveryCharge.Text = ds.Tables[0].Rows[0]["Delivery_Amount"].ToString();
-            lblPriceAmt.Text = price_amt.ToString();
-            lblCouponDiscount.Text = ds.Tables[0].Rows[0]["Coupon_Amt"].ToString();
-
-            //lblQuantity.Text = dss.Tables[0].Rows[0]["qty"].ToString();
-            //lblQuantity1.Text = dss.Tables[0].Rows[0]["qty"].ToString();
-            //lblMrpAmpt.Text = dss.Tables[0].Rows[0]["costprice"].ToString();
-            //lblDiscount.Text = dss.Tables[0].Rows[0]["discount"].ToString();
-            //lblDeleiveryCharge.Text = dss.Tables[0].Rows[0]["Delivery_Amount"].ToString();
-            //lblPriceAmt.Text = dss.Tables[0].Rows[0]["PriceAmount"].ToString();
-            //lblCouponDiscount.Text = dss.Tables[0].Rows[0]["Coupon_Amt"].ToString();
-            //decimal amt = 0;
-            //for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-            //{
-            //    amt += Convert.ToDecimal(ds.Tables[0].Rows[i]["sellingprice"].ToString()) * Convert.ToDecimal(ds.Tables[0].Rows[i]["cquantity"].ToString());
-            //}
-            //lblPriceAmt.Text = dss.Tables[0].Rows[0]["totalamount"].ToString();
-            lblTotAmt.Text = ((Convert.ToDecimal(lblMrpAmpt.Text) - (Convert.ToDecimal(lblDiscount.Text) + Convert.ToDecimal(lblCouponDiscount.Text))) + Convert.ToDecimal(lblDeleiveryCharge.Text)).ToString(); //dss.Tables[0].Rows[0]["totalamount"].ToString();
-
-            lblSaveAmt.Text = "You have saved amount : " + (Convert.ToDecimal(lblMrpAmpt.Text) - Convert.ToDecimal(lblPriceAmt.Text)).ToString();
-            lblSaveAmt.ForeColor = System.Drawing.Color.DarkGreen;
-            string usersid = Session["loginid"].ToString() + "," + ds.Tables[0].Rows.Count.ToString() + "," + lblTotAmt.Text;//dss.Tables[0].Rows[0]["totalamount"].ToString();
-            Session["loginid"] = usersid;
+           
         }
         catch (Exception ex)
         {

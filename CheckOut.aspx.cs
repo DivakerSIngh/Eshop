@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using GoogleMaps.LocationServices;
+using System.Threading;
 
 public partial class CheckOut : System.Web.UI.Page
 {
@@ -52,7 +53,6 @@ public partial class CheckOut : System.Web.UI.Page
 
     private void NewAddressUserInfo()
     {
-
         txtAddress.Enabled = true;
         txtCity.Enabled = true;
         txtLandmark.Enabled = true;
@@ -108,6 +108,7 @@ public partial class CheckOut : System.Web.UI.Page
 
     protected void btnNewAddDelivery_Command(object sender, CommandEventArgs e)
     {
+        START:
         try
         {
             
@@ -209,7 +210,13 @@ public partial class CheckOut : System.Web.UI.Page
             }
         }
         catch (Exception ex)
-        { }
+        {
+            if (ex.Message == "Request Not Authorized or Over QueryLimit")
+            {
+                Thread.Sleep(200);
+                goto START;
+            }
+        }
         finally
         {
             obj = null;

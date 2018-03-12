@@ -24,7 +24,7 @@ function successFunction(position) {
 }
 
 function errorFunction(){
-    alert("Geocoder failed");
+    //alert("Geocoder failed");
 }
 function initialize() {
     geocoder = new google.maps.Geocoder();
@@ -51,12 +51,12 @@ function initialize() {
              }
              localStorage.setItem('postalCode', city.long_name)
         //city data
-        alert(city.short_name + " " + city.long_name)
+        //alert(city.short_name + " " + city.long_name)
         } else {
-          alert("No results found");
+          //alert("No results found");
         }
       } else {
-        alert("Geocoder failed due to: " + status);
+        //alert("Geocoder failed due to: " + status);
       }
     });
   }

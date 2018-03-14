@@ -85,19 +85,26 @@ function initialize() {
 	    if (window.location.search.includes('flag=ts')) {
 	        $('#myModal88 .modal-header h4').text('Payment Status');
 	        $('#myModal88 .modal-body-sub').html('<div id="w"><div id="content"><div class="notify successbox"><h1>Success!</h1><span class="alerticon"><img src="images/check.png" alt="checkmark" /></span><p>Transaction Completed Successfully</p></div></div></div>');
-	    } else if (window.location.search.includes('flag=tf')) {
+	        callGiftVoucherMethod();
+	    }
+	    else if (window.location.search.includes('flag=tf')) {
 	        $('#myModal88 .modal-header h4').text('Payment Status');
 	        $('#myModal88 .modal-body-sub').html('<div id="w"><div id="content"><div class="notify errorbox"><h1>Failure!</h1><span class="alerticon"><img src="images/error.png" alt="error" /></span><p>Transaction Failed</p></div></div></div>');
-	    } else {
-
+	        callGiftVoucherMethod();
+	    }
+	    else {
 	        $('#myModal88 .modal-body-sub').html('<p>The internet is the most powerful tool available to mankind today and we, at Villagers, believe in leveraging it to its utmost potential. Our company&acute;s tagline <strong>(Farmers to Customers)</strong> aptly describes our motivation, vision, and mission behind the business.</p><p>We dream of a country where a farmer won&acute;t have to struggle for the right marketplace or price for his produce</p><p>Our objective is to empower farmers of the country to become an independent retailer on our portal and introduce their produce to our huge customer base present across the country. At Villagers, we believe in the YCYP policy which is &Prime;Your Crop Your Price.&Prime;</p><p>Quote</p><ul><li>No Middlemen</li><li>No Transportation Cost</li><li>Hassle Free Process</li></ul><br><p>Join the movement. Be Villagers!</p><p>"What seems like dirt to most of the people is opportunity for the farmers."</p><div style="border-top: 1px solid #e5e5e5;padding-top:30px;width:100%;text-align:center"><a href="Register.aspx" class="close2">Join Now</a></div>');
 	    }
 	    if ($('#btnUserName').text().trim() === '' || window.location.search.includes('flag=tf') || window.location.search.includes('flag=ts')) {
 	        $('#myModal88').modal('show');
-	    } 
+	    }
+	    function callGiftVoucherMethod() {
+	        document.getElementById("sendGiftVoucher").click();
+	    }
 	</script>
     	<!-- banner -->
 	<div class="banner">
+        <asp:Button ID="sendGiftVoucher" runat="server" ClientIDMode="Static" OnClick="sendGiftVoucher_Click" Style="display:none;" />
 		<div id="kb" class="carousel kb_elastic animate_text kb_wrapper" data-ride="carousel" data-interval="6000" data-pause="hover">
 			<!-- Wrapper-for-Slides -->
             <div class="carousel-inner" role="listbox">  

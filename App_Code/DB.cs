@@ -960,7 +960,7 @@ public class DB
     }
 
 
-    public int AddNewCartProdInfo(string pid, string userid, string rid, string amt, string size = "", string costprice = "", string discount = "", string qty = "", string deleveryamt = "",string lid="")
+    public int AddNewCartProdInfo(string pid, string userid, string rid, string amt, string size = "", string costprice = "", string discount = "", string qty = "", string deleveryamt = "", string lid = "")
     {
         int i = 0;
         try
@@ -1442,31 +1442,40 @@ public class DB
 
     public string createEmailBodyforPremiumCard(string CardNum, string uname)
     {
-
         string body = string.Empty;
-        //using streamreader for reading my htmltemplate   
-        // string path = HttpContext.Current.Server.MapPath("~/files/sample.html");
-        //string content = System.IO.File.ReadAllText(path);
-        using (StreamReader reader = new StreamReader(HttpContext.Current.Server.MapPath("~/MailForPremiumCard.html")))
+        try
+        {
+            //using streamreader for reading my htmltemplate   
+            // string path = HttpContext.Current.Server.MapPath("~/files/sample.html");
+            //string content = System.IO.File.ReadAllText(path);
+            using (StreamReader reader = new StreamReader(HttpContext.Current.Server.MapPath("~/MailForPremiumCard.html")))
+            {
+
+                body = reader.ReadToEnd();
+
+            }
+
+            body = body.Replace("{name}", uname); //replacing the required things  
+
+            string[] cardsnum = CardNum.Split(',');
+            //string c1 = CardNum.Substring(0, 4);
+            //string c2 = CardNum.Substring(4, 4);
+            //string c3 = CardNum.Substring(8, 4);
+            //string c4 = CardNum.Substring(12, 4);
+            body = body.Replace("{card1}", cardsnum[0]);
+            body = body.Replace("{card2}", cardsnum[1]);
+            body = body.Replace("{card3}", cardsnum[2]);
+            body = body.Replace("{card4}", cardsnum[3]);
+            body = body.Replace("{card5}", cardsnum[4]);
+
+
+            return body;
+        }
+        catch (Exception)
         {
 
-            body = reader.ReadToEnd();
-
         }
-
-        body = body.Replace("{name}", uname); //replacing the required things  
-        string c1 = CardNum.Substring(0, 4);
-        string c2 = CardNum.Substring(4, 4);
-        string c3 = CardNum.Substring(8, 4);
-        string c4 = CardNum.Substring(12, 4);
-        body = body.Replace("{card1}", c1);
-        body = body.Replace("{card2}", c2);
-        body = body.Replace("{card3}", c3);
-        body = body.Replace("{card4}", c4);
-
-
         return body;
-
     }
 
     public string createEmailBodyforConfirmOrder(string tid, string billingaddress, string grandtotalamt, DataSet ds, string deliveryamt, string couponamt)

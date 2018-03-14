@@ -227,7 +227,7 @@ public partial class SingleProdInfo : System.Web.UI.Page
             }
             //TextBox txtuserpin = (TextBox)dlProdInfo.FindControl("txtLocation");
             //string ddl_selectedvalue = ((TextBox)txtRpin.NamingContainer.FindControl("txtLocation")).Text.Trim();
-            //hf_CheckPin.Value = UserPincode;
+            
             string retailer_pincode = e.CommandArgument.ToString();
             DataSet ds = obj.GetAllPincodeListfromLogistic();
             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -247,9 +247,9 @@ public partial class SingleProdInfo : System.Web.UI.Page
                         var point1 = locationService.GetLatLongFromAddress(retailer_pincode);
                         var point2 = locationService.GetLatLongFromAddress(UserPincode);
                         double distance = getDistanceUsinLongAndLat(point1.Latitude, point1.Longitude, point2.Latitude, point2.Longitude, 'K');
-                        
-                        //=================================================================//
 
+                        //=================================================================//
+                        hf_CheckPin.Value = UserPincode;
                         hf_deliveryAmt.Value = Convert.ToString(getDeliveryAmt(hf_logistic_id.Value, weight, distance));
                         ViewState["lid"] = hf_logistic_id.Value;
                         ViewState["delAmt"] = hf_deliveryAmt.Value;

@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
     
 <%--<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script> --%>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAPGIvYpvs7ETQHWcfHnJjLBLH5XNF0OZs"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyB-5cJyX-HtudCegVcU-TyGY_8U-rycTNk"></script>
 <script type="text/javascript"> 
 
     if ( localStorage.getItem('postalCode')=="") {
@@ -11,7 +11,7 @@
     }
     
 
-    var geocoder;
+    var geocoder = new google.maps.Geocoder();
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(successFunction, errorFunction);

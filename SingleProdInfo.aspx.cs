@@ -77,20 +77,46 @@ public partial class SingleProdInfo : System.Web.UI.Page
             //new method to get image types
             //byte[] imgArray = ;
             //logoImg.Src =  Convert.ToBase64String(imgArray);
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                switch (i)
+                {
+                    case 0:
+                        img1.Src = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[0][0]);
+                        img11.Attributes["data-thumb"] = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[0][0]);
+                        break;
 
-            img1.Src = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[0][0]);
-            img11.Attributes["data-thumb"] = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[0][0]);
+                    case 1:
+                        img2.Src = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[1][0]);
+                        img12.Attributes["data-thumb"] = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[1][0]);
+                        break;
+
+                    case 2:
+                        img3.Src = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[2][0]);
+                        img13.Attributes["data-thumb"] = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[2][0]);
+                        break;
+
+                    case 3:
+                        img4.Src = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[3][0]);
+                        img14.Attributes["data-thumb"] = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[3][0]);
+                        break;
+                }
+
+            }
+
+            //img1.Src = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[0][0]);
+            //img11.Attributes["data-thumb"] = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[0][0]);
 
 
-            img2.Src = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[1][0]);
-            img12.Attributes["data-thumb"] = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[1][0]);
+            //img2.Src = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[1][0]);
+            //img12.Attributes["data-thumb"] = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[1][0]);
 
-            img3.Src = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[2][0]);
-            img13.Attributes["data-thumb"] = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[2][0]);
+            //img3.Src = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[2][0]);
+            //img13.Attributes["data-thumb"] = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[2][0]);
 
 
-            img4.Src = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[3][0]);
-            img14.Attributes["data-thumb"] = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[3][0]);
+            //img4.Src = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[3][0]);
+            //img14.Attributes["data-thumb"] = "data:image/png;base64," + Convert.ToBase64String((byte[])ds.Tables[0].Rows[3][0]);
 
 
 

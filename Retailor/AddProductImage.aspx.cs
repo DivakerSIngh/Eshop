@@ -15,7 +15,7 @@ public partial class Retailor_AddProductImage : System.Web.UI.Page
     DB obj;
     protected void Page_Load(object sender, EventArgs e)
     {
-       
+
         if (Session["loginid"] != null && Session["loginid"].ToString() != "")
         {
 
@@ -24,12 +24,12 @@ public partial class Retailor_AddProductImage : System.Web.UI.Page
         {
             Response.Redirect("~/PanelLogin.aspx?mode=R");
         }
-        if(!IsPostBack)
+        if (!IsPostBack)
         {
             rbImage.SelectedIndex = 0;
             load_product_list();
             pnladd.Visible = false;
-        
+
         }
     }
 
@@ -47,7 +47,7 @@ public partial class Retailor_AddProductImage : System.Web.UI.Page
             ddlProdImage.DataBind();
             ddlProdImage.Items.Insert(0, new ListItem("Select", "Select"));
         }
-        catch(Exception ex)
+        catch (Exception ex)
         { }
         finally
         {
@@ -57,19 +57,19 @@ public partial class Retailor_AddProductImage : System.Web.UI.Page
 
     protected void ddlProdImage_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if(ddlProdImage.SelectedIndex != 0)
+        if (ddlProdImage.SelectedIndex != 0)
         {
             if (rbImage.SelectedIndex == 0)
             {
                 pnladd.Visible = true;
                 pnlUpdate.Visible = false;
-               
+
             }
             else
             {
                 pnladd.Visible = false;
                 pnlUpdate.Visible = true;
-                bind_imagegrid();    
+                bind_imagegrid();
             }
         }
         else
@@ -87,62 +87,55 @@ public partial class Retailor_AddProductImage : System.Web.UI.Page
         try
         {
             obj = new DB();
-            if ( ddlProdImage.SelectedIndex != 0)
+            if (ddlProdImage.SelectedIndex != 0)
             {
 
                 obj.EmpId = Session["loginid"].ToString();
-                
-                    obj.ProdId = ddlProdImage.SelectedValue;
-                //check image duplicacy
-                    DataSet ds = obj.CheckImageDuplicacy(obj.EmpId,obj.ProdId);
-                if(ds.Tables[0].Rows.Count == 0)
-                {
-                    if (fileupload.UploadedFiles.Count > 0)
-                    {
-                    int i = 0, f = 1;
-                    foreach (UploadedFile file in fileupload.UploadedFiles)
-                    {
-                            using (System.Drawing.Bitmap originalImage = new System.Drawing.Bitmap(file.InputStream))
-                            {
-                                int width = originalImage.Width;
-                                int height = originalImage.Height;
-                                //if(width >= 500 && height >= 500)
-                                //{
-                                //    ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.warning('Image size is too long please use another image !');", true);
-                                //    break;
-                                //}
-                                //else
-                                //{
 
-                                //}
-                            }
-                                if (f <= 4)
+                obj.ProdId = ddlProdImage.SelectedValue;
+                //check image duplicacy
+                DataSet ds = obj.CheckImageDuplicacy(obj.EmpId, obj.ProdId);
+                if (ds.Tables[0].Rows.Count == 0)
+                {
+                    if (fileupload.HasFiles)
+                    {
+                        int i = 0;
+                        foreach (HttpPostedFile uploadedFile in fileupload.PostedFiles)
                         {
-                            byte[] bytes = null;
-                            bytes = new byte[file.ContentLength];
-                            file.InputStream.Read(bytes, 0, bytes.Length);
-                            i = obj.AddNewProdImgInfo(bytes);
-                            if (i == 0)
-                                break;
-                            f++;
+                            //Is the file too big to upload?
+                            int fileSize = uploadedFile.ContentLength;
+                            string fileExtension= Path.GetExtension(uploadedFile.FileName);
+                            if (fileSize > (1024 * 1024))
+                            {
+                                ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.error('Filesize of some image is too large. Maximum file size permitted is 1 MB');", true);
+                                return;
+                            }
+                            else if(fileExtension.ToLower()==".jpg"|| fileExtension.ToLower() == ".png"|| fileExtension.ToLower() == ".jpeg")
+                            {
+                                byte[] bytes = null;
+                                bytes = new byte[uploadedFile.ContentLength];
+                                uploadedFile.InputStream.Read(bytes, 0, bytes.Length);
+                                i = obj.AddNewProdImgInfo(bytes);
+                            }
+                            else
+                            {
+                                ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.error('File Type of some image is invalid. File should be in .jpg, .jpeg, .png Format');", true);
+                                return;
+                            }
+                            
+                        }
+                        if (i != 0)
+                        {
+                            ddlProdImage.SelectedIndex = 0;
+                            ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Record Added Successfully !');", true);
+
                         }
                         else
                         {
-                            break;
+                            ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.error('Record not Added Successfully !');", true);
                         }
                     }
-                    if (i != 0)
-                    {
-                        ddlProdImage.SelectedIndex = 0;
-                        ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Record Added Successfully !');", true);
-                        
-                    }
                     else
-                    {
-                        ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.error('Record not Added Successfully !');", true);
-                    }
-                    }
-                else
                     {
                         ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.warning('Choose Images to upload !');", true);
                     }
@@ -152,9 +145,9 @@ public partial class Retailor_AddProductImage : System.Web.UI.Page
                     ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.warning('Image Already Uploaded !');", true);
                 }
             }
-           
+
         }
-        catch(Exception ex)
+        catch (Exception ex)
         { }
         finally
         {
@@ -167,7 +160,7 @@ public partial class Retailor_AddProductImage : System.Web.UI.Page
 
         obj = new DB();
         string[] str = Session["loginid"].ToString().Split(',');
-        DataSet ds = obj.fillDataSet("select pimgid from productimage where pid=" + ddlProdImage.SelectedValue + " and userid='" + str[0] +"'");
+        DataSet ds = obj.fillDataSet("select pimgid from productimage where pid=" + ddlProdImage.SelectedValue + " and userid='" + str[0] + "'");
         if (ds.Tables[0].Rows.Count > 1)
         {
             gv_Images.DataSource = ds.Tables[0];
@@ -209,7 +202,7 @@ public partial class Retailor_AddProductImage : System.Web.UI.Page
         }
         return null;
     }
-  
+
 
     protected void gv_Images_RowCommand(object sender, GridViewCommandEventArgs e)
     {
@@ -230,7 +223,7 @@ public partial class Retailor_AddProductImage : System.Web.UI.Page
     }
     protected void rbImage_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if(rbImage.SelectedIndex == 0)
+        if (rbImage.SelectedIndex == 0)
         {
             pnladd.Visible = true;
             pnlUpdate.Visible = false;

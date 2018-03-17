@@ -72,8 +72,15 @@ public partial class Login : System.Web.UI.Page
                 {
                     Session["loginid"]=  userObject["loginid"];
                     Session["userType"] = userObject["userType"];
-                   
-                    Response.Redirect("Default.aspx");
+
+                    if (Request.QueryString["pid"] != null)
+                    {
+                        Response.Redirect("SingleProdInfo.aspx?pid=" + Request.QueryString["pid"].ToString() + "&p=" + Request.QueryString["p"].ToString() + "&r=" + Request.QueryString["r"].ToString() + "&l=" + Request.QueryString["l"].ToString() + "");
+                    }
+                    else
+                    {
+                        Response.Redirect("Default.aspx");
+                    }
                 }               
                 else
                 {

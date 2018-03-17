@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="Product Info" Language="C#" MasterPageFile="~/homeMasterPage.master" AutoEventWireup="true" CodeFile="SingleProdInfo.aspx.cs" Inherits="SingleProdInfo" EnableEventValidation="false" %>
-
+<%@ MasterType VirtualPath="~/homeMasterPage.master" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server"> 
     <link href="css/owl.carousel.css" rel="stylesheet" type="text/css" media="all"> <!-- carousel slider -->  
     <!-- //Custom Theme files -->

@@ -176,4 +176,16 @@ public partial class homeMasterPage : System.Web.UI.MasterPage
     {
         Response.Redirect("BecomePreUser.aspx");
     }
+
+    public string cartCount
+    {
+        get
+        {
+            return lblcountcart.Text;
+        }
+        set
+        {
+            lblcountcart.Text = value;
+        }
+    }
 }

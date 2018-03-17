@@ -25,10 +25,17 @@ public partial class SingleProdInfo : System.Web.UI.Page
                 hf_ddl_Value.Value = "0";
                 load_image(Request.QueryString["pid"].ToString());
                 load_ProdInfo(Request.QueryString["pid"].ToString());
+
+                if(Request.QueryString["p"]!=null)
+                {
+                    hf_CheckPin.Value = Request.QueryString["p"].ToString();
+                    ViewState["delAmt"] = Request.QueryString["r"].ToString();
+                    ViewState["CheckPin"]= Request.QueryString["p"].ToString();
+                    ViewState["lid"]= Request.QueryString["l"].ToString();
+                }
             }
         }
     }
-
 
     [WebMethod]
     public static List<Review> getReviewList(string productId)
@@ -64,7 +71,6 @@ public partial class SingleProdInfo : System.Web.UI.Page
             obj = null;
         }
     }
-
 
     private void load_image(string pid)
     {
@@ -145,8 +151,8 @@ public partial class SingleProdInfo : System.Web.UI.Page
                 string costprice = commandArgs[3];
                 string discount = (Convert.ToDecimal(costprice) - Convert.ToDecimal(amt)).ToString("0.00");
                 string qty = "1";
-                string deliveryamt = string.IsNullOrEmpty(ViewState["delAmt"].ToString()) ? "0" : ViewState["delAmt"].ToString();// hf_deliveryAmt.Value;//"150";
-                string lid = string.IsNullOrEmpty(ViewState["lid"].ToString()) ? "0" : ViewState["lid"].ToString(); //hf_logistic_id.Value;
+                string deliveryamt = ViewState["delAmt"]==null ? "0" : ViewState["delAmt"].ToString();// hf_deliveryAmt.Value;//"150";
+                string lid = ViewState["lid"]==null ? "0" : ViewState["lid"].ToString(); //hf_logistic_id.Value;
 
                 obj = new DB();
                 string size = "";
@@ -161,8 +167,9 @@ public partial class SingleProdInfo : System.Web.UI.Page
                 int i = obj.AddNewCartProdInfo(pid, str[0], rid, amt, size, costprice, discount, qty, deliveryamt, lid);
                 if (i > 0)
                 {
-                    string p = ((Label)Master.FindControl("lblcountcart")).Text;
-                    ((Label)Master.FindControl("lblcountcart")).Text = (Convert.ToInt32(((Label)Master.FindControl("lblcountcart")).Text) + 1).ToString();
+                    this.Master.cartCount = (Convert.ToInt32(this.Master.cartCount) + 1).ToString();
+                    //string p = ((Label)Master.FindControl("lblcountcart")).Text;
+                    //((Label)Master.FindControl("lblcountcart")).Text = (Convert.ToInt32(((Label)Master.FindControl("lblcountcart")).Text) + 1).ToString();
                     //Button btncart = ddlPrdoDescription.FindControl("btnAddToCart") as Button;
                     //btncart.Enabled = false;
                     ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Item Successfully added in Cart !');", true);
@@ -171,18 +178,21 @@ public partial class SingleProdInfo : System.Web.UI.Page
                 {
                     ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.error('Item Already added in cart !');", true);
                 }
-
             }
             else
             {
+                string pid = Request.QueryString["pid"].ToString();
+                string damt = ViewState["delAmt"] == null ? "0" : ViewState["delAmt"].ToString();
+                string pincode = ViewState["CheckPin"] == null ? "0" : ViewState["CheckPin"].ToString();
+                string lid = ViewState["lid"] == null ? "0" : ViewState["lid"].ToString();
                 //Context.ApplicationInstance.CompleteRequest();
-                Response.Redirect("Login.aspx", false);
-                //Server.Transfer("Login.aspx", false);
-               
+                Response.Redirect("Login.aspx?flag=SP&pid=" + pid + "&p=" + pincode + "&r=" + damt + "&l=" + lid + "", false);
+                //Server.Execute("Login.aspx",false);
             }
         }
         catch (Exception ex)
-        { }
+        {
+        }
         finally
         {
             obj = null;
@@ -276,6 +286,7 @@ public partial class SingleProdInfo : System.Web.UI.Page
 
                         //=================================================================//
                         hf_CheckPin.Value = UserPincode;
+                        ViewState["CheckPin"]= UserPincode;
                         hf_deliveryAmt.Value = Convert.ToString(getDeliveryAmt(hf_logistic_id.Value, weight, distance));
                         ViewState["lid"] = hf_logistic_id.Value;
                         ViewState["delAmt"] = hf_deliveryAmt.Value;

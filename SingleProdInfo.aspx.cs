@@ -167,7 +167,9 @@ public partial class SingleProdInfo : System.Web.UI.Page
                 int i = obj.AddNewCartProdInfo(pid, str[0], rid, amt, size, costprice, discount, qty, deliveryamt, lid);
                 if (i > 0)
                 {
-                    this.Master.cartCount = (Convert.ToInt32(this.Master.cartCount) + 1).ToString();
+                    //this.Master.cartCount = (Convert.ToInt32(this.Master.cartCount) + 1).ToString();
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "setValueToCardButton()", true);
+                    // ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Item Successfully added in Cart !');", true);
                     //string p = ((Label)Master.FindControl("lblcountcart")).Text;
                     //((Label)Master.FindControl("lblcountcart")).Text = (Convert.ToInt32(((Label)Master.FindControl("lblcountcart")).Text) + 1).ToString();
                     //Button btncart = ddlPrdoDescription.FindControl("btnAddToCart") as Button;

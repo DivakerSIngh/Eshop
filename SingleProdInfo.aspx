@@ -78,6 +78,11 @@
             }, 200)
             
         });
+
+        function setValueToCardButton() {
+            var val = parseInt($('#lblcountcart').text());
+            $('#lblcountcart').text(val + 1);
+        }
         function clickReview() {
             var productId = '<%=Request.QueryString["pid"]%>';
             var productName = $('#ContentPlaceHolder1_dlProdInfo_lblHeaderTitle_0').text();

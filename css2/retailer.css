@@ -1,0 +1,77 @@
+﻿.columngroup {
+    float: left;
+    width: 33.3%;
+}
+.columngroup.users.inner{
+    background: #e91e63;
+}
+a:focus, a:hover {
+    color: #23527c;
+    cursor: pointer;
+}
+span.dispatch{
+    background: #022343;
+    padding: 7px;
+    border-radius: 4px;
+}
+.columngroup .inner {
+  
+    position: relative;
+    padding: 20px 20px 0;
+    margin: 12px;
+    border-radius: 2px;
+    /*box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.17);*/
+}
+a.columngroup.totalUser:hover,a.columngroup.procedure:hover,a.columngroup.condition:hover {
+    color: white;
+    text-decoration: none;
+}
+th {
+    color: white !important;
+}
+table thead {
+    background: #8c9192cc;
+}
+.paginbutton{
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    color: white;
+    border: none;
+    padding: 6px;
+    border-radius: 3px;
+}
+.columngroup figure {
+    font-size: 7em;
+    margin: 0;
+    position: absolute;
+    right: 50px;
+    top: 0;
+    opacity: 0.4;
+    color: #fff;
+}
+.columngroup h2 {
+    margin: 6px;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 100;
+}
+.totalUser{
+   background: #2199f1a3;
+    height: 173px;
+    color: white;
+    margin-top: 12px;
+    border-radius: 2px;
+}
+.totalpayment{
+    background: #2199f1a3;
+    height: 173px;
+    color: white;
+}
+.totaltarnsaction{
+    background: #2199f1a3;
+    height: 173px;
+    color: white;
+}
+g.highcharts-button.highcharts-contextbutton.highcharts-button-normal {
+    display: none !important;
+}

@@ -36,7 +36,7 @@
 </head>
 <body>
     
-    <form id="f1" class="form-horizontal" runat="server">
+    <form id="f1" class="form-horizontal dropzone" runat="server">
     <div id="wrapper">
 
         <!----->

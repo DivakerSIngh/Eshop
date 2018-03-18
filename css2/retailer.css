@@ -30,7 +30,7 @@ th {
     color: white !important;
 }
 table thead {
-    background: #8c9192cc;
+    background: rgba(140, 145, 146, 0.8);
 }
 .paginbutton{
     background-color: #337ab7;

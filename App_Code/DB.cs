@@ -5057,7 +5057,7 @@ public class DB
                     QUANTITY = Convert.ToString(dr["QUANTITY"]),
                     SALESMONTH = Convert.ToString(dr["SALESMONTH"]),
                     TOTALSALES = Convert.ToString(dr["TOTALSALES"]),
-                    TOTALSALES_LOGISTIC = Convert.ToString(dr["TOTALSALES_LOGISTIC"]),
+                    //TOTALSALES_LOGISTIC = Convert.ToString(dr["TOTALSALES_LOGISTIC"]),
                     SALESYEAR = Convert.ToString(dr["SALESYEAR"]),
 
                 };

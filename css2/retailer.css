@@ -56,19 +56,19 @@ table thead {
     font-weight: 100;
 }
 .totalUser{
-   background: #2199f1a3;
+   background: rgba(33, 153, 241, 0.6392156862745098);
     height: 173px;
     color: white;
     margin-top: 12px;
     border-radius: 2px;
 }
 .totalpayment{
-    background: #2199f1a3;
+    background: rgba(33, 153, 241, 0.6392156862745098);
     height: 173px;
     color: white;
 }
 .totaltarnsaction{
-    background: #2199f1a3;
+    background: rgba(33, 153, 241, 0.6392156862745098);
     height: 173px;
     color: white;
 }

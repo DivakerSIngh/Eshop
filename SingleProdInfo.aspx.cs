@@ -169,6 +169,11 @@ public partial class SingleProdInfo : System.Web.UI.Page
                 {
                     //this.Master.cartCount = (Convert.ToInt32(this.Master.cartCount) + 1).ToString();
                     ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "setValueToCardButton()", true);
+                    // ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Item Successfully added in Cart !');", true);
+                    //string p = ((Label)Master.FindControl("lblcountcart")).Text;
+                    //((Label)Master.FindControl("lblcountcart")).Text = (Convert.ToInt32(((Label)Master.FindControl("lblcountcart")).Text) + 1).ToString();
+                    //Button btncart = ddlPrdoDescription.FindControl("btnAddToCart") as Button;
+                    //btncart.Enabled = false;
                     ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Item Successfully added in Cart !');", true);
                 }
                 else

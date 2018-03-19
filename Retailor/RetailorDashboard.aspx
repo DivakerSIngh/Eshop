@@ -27,8 +27,8 @@
     <script src="/js2/skycons.js"></script>
     <script>
        
-        $(window.onload(function ()
-        {
+
+        window.onload = function (e) {
             if (window.location.search.includes('flag=ts')) {
                 $('#myModal88 .modal-header h4').text('Payment Status');
                 $('#myModal88 .modal-body-sub').html('<div id="w"><div id="content"><div class="notify successbox"><h1>Success!</h1><span class="alerticon"><img src="../images/check.png" alt="checkmark" /></span><p>Transaction Completed Successfully</p></div></div></div>');
@@ -41,14 +41,8 @@
                 //callGiftVoucherMethod();
                 $('#myModal88').modal('show');
             }
-        })) 
-        
-       // })
-
-        //function callGiftVoucherMethod() {
-        //    $('#sendGiftVoucher').click()
-
-        //}
+        }
+       
     </script>
     <script>
         var app = angular.module('myApp', []);
@@ -131,7 +125,22 @@
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-
+     <div class="agileits-modal modal fade" id="myModal88" tabindex="-1" role="dialog" aria-labelledby="myModal88"
+		aria-hidden="true">
+		<div class="modal-dialog" style="text-align:justify">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">Join Villagers</h4>
+				</div>
+				<div class="modal-body modal-body-sub"> 
+					<h5>Provide Your Message </h5>  
+					
+					<a class="close2" data-dismiss="modal" aria-hidden="true" href="Register.aspx">Join Now</a>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
     <asp:Button ID="sendGiftVoucher" runat="server" ClientIDMode="Static" OnClick="sendGiftVoucher_Click" Style="display: none;" />

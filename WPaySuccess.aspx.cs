@@ -32,8 +32,25 @@ public partial class WPaySuccess : System.Web.UI.Page
                 }
                 else // invalid user
                 {
-                    Session["loginid"] = null;
-                    Response.Redirect("Default.aspx");
+                    Response.Redirect("Retailor/RetailorDashboard.aspx?flag=tf");
+                    //Session["loginid"] = null;
+                    //Response.Redirect("Default.aspx?flag=tf");
+                }
+                if (str[0].StartsWith("U"))
+                {
+                    Response.Redirect("Default.aspx?flag=tf");
+                }
+                else if (str[0].StartsWith("R"))
+                {
+                    Response.Redirect("Retailor/RetailorDashboard.aspx?flag=tf");
+                }
+                else if (str[0].StartsWith("L"))
+                {
+                    Response.Redirect("Logistic/LogisticDashboard.aspx?flag=tf");
+                }
+                else
+                {
+                    Response.Redirect("Default.aspx?flag=tf");
                 }
             }
         }

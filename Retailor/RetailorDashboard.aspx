@@ -1,8 +1,8 @@
 ﻿<%@ Page Title="Dashboard" Language="C#" MasterPageFile="~/Retailor/RetailorPanel.master" AutoEventWireup="true" CodeFile="RetailorDashboard.aspx.cs" Inherits="Retailor_RetailorDashboard" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
-           
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="" />
@@ -12,7 +12,7 @@
     <link href="/css2/style.css" rel='stylesheet' type='text/css' />
     <link href="/css2/font-awesome.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> </script>
-     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <!-- Mainly scripts -->
     <script src="/js2/jquery.metisMenu.js"></script>
     <script src="/js2/jquery.slimscroll.min.js"></script>
@@ -21,16 +21,41 @@
     <link href="/css2/custom.css" rel="stylesheet" />
     <script src="/js2/custom.js"></script>
     <link href="../css2/retailer.css" rel="stylesheet" />
-     <script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-   
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
     <script src="/js2/skycons.js"></script>
-   <script>
+    <script>
+       
+        $(window.onload(function ()
+        {
+            if (window.location.search.includes('flag=ts')) {
+                $('#myModal88 .modal-header h4').text('Payment Status');
+                $('#myModal88 .modal-body-sub').html('<div id="w"><div id="content"><div class="notify successbox"><h1>Success!</h1><span class="alerticon"><img src="../images/check.png" alt="checkmark" /></span><p>Transaction Completed Successfully</p></div></div></div>');
+                //callGiftVoucherMethod();
+                $('#myModal88').modal('show');
+            }
+            else if (window.location.search.includes('flag=tf')) {
+                $('#myModal88 .modal-header h4').text('Payment Status');
+                $('#myModal88 .modal-body-sub').html('<div id="w"><div id="content"><div class="notify errorbox"><h1>Failure!</h1><span class="alerticon"><img src="../images/error.png" alt="error" /></span><p>Transaction Failed</p></div></div></div>');
+                //callGiftVoucherMethod();
+                $('#myModal88').modal('show');
+            }
+        })) 
+        
+       // })
+
+        //function callGiftVoucherMethod() {
+        //    $('#sendGiftVoucher').click()
+
+        //}
+    </script>
+    <script>
         var app = angular.module('myApp', []);
         var chartData = ['jan', 'feb', 'mar', 'apr', 'may', 'jun',
        'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
         var staticArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-         var loginUserId = '<%=hdnUserId.Value%>';
+        var loginUserId = '<%=hdnUserId.Value%>';
         app.controller('myCtrl', function ($scope, $http, $filter) {
             $scope.model = [];
             $scope.staticArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -38,13 +63,13 @@
      'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
             $scope.chartData = function () {
                 common.httpPost("RetailorDashboard.aspx/getSaleReport", "{'year':'" + 2018 + "','id':'" + loginUserId + "','action':'1'}", false, success = function (data) {
-                    
+
                     $scope.model = data;
-                    $.each(data, function (index,item) {
-                        
-                        $scope.staticArray[index+1] =parseInt(item.TOTALSALES);
+                    $.each(data, function (index, item) {
+
+                        $scope.staticArray[index + 1] = parseInt(item.TOTALSALES);
                     });
-                    
+
                     Highcharts.chart('chartData', {
                         chart: {
                             type: 'column'
@@ -89,10 +114,10 @@
                         series: [
                           {
                               name: 'User',
-                              data:  $scope.staticArray
+                              data: $scope.staticArray
                           }]
                     });
-                   
+
                 }, failure = function (response) {
 
                 }
@@ -100,35 +125,39 @@
             }
             $scope.chartData();
         })
-   </script>
+    </script>
 
 
 
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
-     
-              
-   
-     <asp:HiddenField runat="server" ID="hdnUserId" ClientIDMode="Static" />
-      <asp:HiddenField runat="server" ID="hdnTrack" ClientIDMode="Static" />
-   <div class="col-sm-12 col-xs-12" ng-app="myApp" ng-controller="myCtrl">
-       
-       <asp:LinkButton ID="lnkPendingOrders" CssClass="columngroup totalUser" runat="server" OnClick="lnkPendingOrders_Click">
-      
-    <div  class="inner">
-      <figure >
-        <i  class="fa fa-users"></i>
-      </figure>
-      <h2 >Order Tracking</h2>
-      <p>Pending Order :
-           <asp:Button style="border: none;background: none;" runat="server" id="lblPendingOrder" ></asp:Button> </p>
-      <div  class="clearfix"></div>
-        <p><asp:Button style="border: none;background: none;" runat="server" Text="Track Order " id="Button1" OnClick="Button1_Click"> </asp:Button> </p>
-    </div>
-            </asp:LinkButton>
- 
- 
+
+
+    <asp:Button ID="sendGiftVoucher" runat="server" ClientIDMode="Static" OnClick="sendGiftVoucher_Click" Style="display: none;" />
+    <asp:HiddenField runat="server" ID="hdnUserId" ClientIDMode="Static" />
+    <asp:HiddenField runat="server" ID="hdnTrack" ClientIDMode="Static" />
+    <div class="col-sm-12 col-xs-12" ng-app="myApp" ng-controller="myCtrl">
+
+        <asp:LinkButton ID="lnkPendingOrders" CssClass="columngroup totalUser" runat="server" OnClick="lnkPendingOrders_Click">
+
+            <div class="inner">
+                <figure>
+                    <i class="fa fa-users"></i>
+                </figure>
+                <h2>Order Tracking</h2>
+                <p>
+                    Pending Order :
+           <asp:Button Style="border: none; background: none;" runat="server" ID="lblPendingOrder"></asp:Button>
+                </p>
+                <div class="clearfix"></div>
+                <p>
+                    <asp:Button Style="border: none; background: none;" runat="server" Text="Track Order " ID="Button1" OnClick="Button1_Click"></asp:Button>
+                </p>
+            </div>
+        </asp:LinkButton>
+
+
         <asp:LinkButton ID="lnkpaymentHistory" CssClass="columngroup procedure" runat="server" OnClick="lnkpaymentHistory_Click">
     <div  class="inner totalpayment">
       <figure >
@@ -139,9 +168,9 @@
       <div  class="clearfix"></div>
       
     </div>
-             </asp:LinkButton>
-  
-         <asp:LinkButton ID="LinkButton1" CssClass="columngroup condition" runat="server" OnClick="lnkpaymentHistory_Click">
+        </asp:LinkButton>
+
+        <asp:LinkButton ID="LinkButton1" CssClass="columngroup condition" runat="server" OnClick="lnkpaymentHistory_Click">
  
     <div  class="inner totaltarnsaction" >
       <figure >
@@ -152,14 +181,14 @@
       <div  class="clearfix"></div>
       
     </div>
-   </asp:LinkButton>
-   </div>
-     <div class="col-sm-12 col-xs-12">
-         <div id="chartData" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-        
-     </div>
-     
-                
+        </asp:LinkButton>
+    </div>
+    <div class="col-sm-12 col-xs-12">
+        <div id="chartData" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+    </div>
+
+
 
 
 

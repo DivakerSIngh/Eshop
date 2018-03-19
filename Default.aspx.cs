@@ -39,41 +39,41 @@ public partial class _Default : System.Web.UI.Page
 
     }
 
-    protected void sendGiftVoucher_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            obj = new DB();
-            string[] user = Session["loginid"].ToString().Split(',');
-            if(user[0].StartsWith("R"))
-            {
-                string gvid = "";
-                for (int i = 0; i < 5; i++)
-                {
-                    gvid = gvid + "," + obj.FreeUserGiftVoucher(user[0], "Villagers100", "100");
-                }
-                if (gvid != "")
-                {
-                    DataSet ds = new DataSet();
-                    ds = obj.GetRetailerList(user[0]);
-                    if(ds.Tables[0].Rows.Count>0)
-                    {
-                        // send mail to inform gift voucher given
-                        string cards = gvid.Remove(0, 1);
-                        string msg = obj.createEmailBodyforPremiumCard(gvid, "INR 100 each");
-                        if(!string.IsNullOrEmpty(msg))
-                        {
-                            obj.SendEmail(ds.Tables[0].Rows[0]["Org_Email"].ToString(), msg, "Premium Gift Voucher from Team Villagers");
-                        }
+    //protected void sendGiftVoucher_Click(object sender, EventArgs e)
+    //{
+    //    try
+    //    {
+    //        obj = new DB();
+    //        string[] user = Session["loginid"].ToString().Split(',');
+    //        if(user[0].StartsWith("R"))
+    //        {
+    //            string gvid = "";
+    //            for (int i = 0; i < 5; i++)
+    //            {
+    //                gvid = gvid + "," + obj.FreeUserGiftVoucher(user[0], "Villagers100", "100");
+    //            }
+    //            if (gvid != "")
+    //            {
+    //                DataSet ds = new DataSet();
+    //                ds = obj.GetRetailerList(user[0]);
+    //                if(ds.Tables[0].Rows.Count>0)
+    //                {
+    //                    // send mail to inform gift voucher given
+    //                    string cards = gvid.Remove(0, 1);
+    //                    string msg = obj.createEmailBodyforPremiumCard(gvid, "INR 100 each");
+    //                    if(!string.IsNullOrEmpty(msg))
+    //                    {
+    //                        obj.SendEmail(ds.Tables[0].Rows[0]["Org_Email"].ToString(), msg, "Premium Gift Voucher from Team Villagers");
+    //                    }
                         
-                    }
+    //                }
                     
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.error('" + ex.Message + "');", true);
-        }
-    }
+    //            }
+    //        }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.error('" + ex.Message + "');", true);
+    //    }
+    //}
 }

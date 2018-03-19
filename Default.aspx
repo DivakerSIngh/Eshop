@@ -104,7 +104,7 @@ function initialize() {
 	</script>
     	<!-- banner -->
 	<div class="banner">
-        <asp:Button ID="sendGiftVoucher" runat="server" ClientIDMode="Static" OnClick="sendGiftVoucher_Click" Style="display:none;" />
+        <%--<asp:Button ID="sendGiftVoucher" runat="server" ClientIDMode="Static" OnClick="sendGiftVoucher_Click" Style="display:none;" />--%>
 		<div id="kb" class="carousel kb_elastic animate_text kb_wrapper" data-ride="carousel" data-interval="6000" data-pause="hover">
 			<!-- Wrapper-for-Slides -->
             <div class="carousel-inner" role="listbox">  

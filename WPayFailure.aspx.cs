@@ -17,6 +17,7 @@ public partial class WPayFailure : System.Web.UI.Page
             if (!IsPostBack)
             {
                 string[] str = Session["loginid"].ToString().Split(',');
+                
                 if (str.Length >= 3) // valid user
                 {
                     string userid = "", type = "", id = "";
@@ -35,6 +36,22 @@ public partial class WPayFailure : System.Web.UI.Page
                     Session["loginid"] = null;
                     Response.Redirect("Default.aspx?flag=tf");
                 }
+                if (str[0].StartsWith("U"))
+                {
+                    Response.Redirect("Default.aspx?flag=tf");
+                }
+                else if (str[0].StartsWith("R"))
+                {
+                    Response.Redirect("Retailor/RetailorDashboard.aspx?flag=tf");
+                }
+                else if (str[0].StartsWith("L"))
+                {
+                    Response.Redirect("Logistic/LogisticDashboard.aspx?flag=tf");
+                }
+                else
+                {
+                    Response.Redirect("Default.aspx?flag=tf");
+                }
             }
         }
         else
@@ -43,7 +60,6 @@ public partial class WPayFailure : System.Web.UI.Page
             Session["loginid"] = null;
             Response.Redirect("Default.aspx?flag=tf");
         }
-        Response.Redirect("Default.aspx?flag=tf");
     }
 
     private void transactionsuccess(string userid, string type, string id = null)

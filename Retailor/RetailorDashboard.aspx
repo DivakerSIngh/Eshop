@@ -42,7 +42,13 @@
                 $('#myModal88').modal('show');
             }
         }
-       
+        $(function()
+        {
+            $('#myModal88').on('hidden.bs.modal',function(e)
+            {
+                location.href = "RetailorDashboard.aspx";
+            })
+        })
     </script>
     <script>
         var app = angular.module('myApp', []);

@@ -32,9 +32,9 @@ public partial class WPaySuccess : System.Web.UI.Page
                 }
                 else // invalid user
                 {
-                    Response.Redirect("Retailor/RetailorDashboard.aspx?flag=tf");
-                    //Session["loginid"] = null;
-                    //Response.Redirect("Default.aspx?flag=tf");
+                    //Response.Redirect("Retailor/RetailorDashboard.aspx?flag=tf");
+                    Session["loginid"] = null;
+                    Response.Redirect("Default.aspx?flag=tf");
                 }
                 if (str[0].StartsWith("U"))
                 {

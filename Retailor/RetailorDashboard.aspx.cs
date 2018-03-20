@@ -24,7 +24,6 @@ public partial class Retailor_RetailorDashboard : System.Web.UI.Page
                     if (Request.QueryString["flag"].ToString().ToLower() == "ts")
                     {
                         //sendGiftVoucher_Method();
-                        //Response.Redirect("RetailorDashboard.aspx");
                     }
                 }
             }
@@ -126,7 +125,7 @@ public partial class Retailor_RetailorDashboard : System.Web.UI.Page
                         string msg = obj.createEmailBodyforPremiumCard(cardId, name);
                         if (!string.IsNullOrEmpty(msg))
                         {
-                            obj.SendEmail(ds.Tables[0].Rows[0]["Org_Email"].ToString(), msg, "Premium Gift Voucher from Team Villagers");
+                            //obj.SendEmail(ds.Tables[0].Rows[0]["Org_Email"].ToString(), msg, "Premium Gift Voucher from Team Villagers");
                         }
                     }
                 }

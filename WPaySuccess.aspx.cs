@@ -17,18 +17,18 @@ public partial class WPaySuccess : System.Web.UI.Page
             if (!IsPostBack)
             {
                 string[] str = Session["loginid"].ToString().Split(',');
-                if(str.Length >= 3) // valid user
+                if (str.Length >= 3) // valid user
                 {
-                string userid = "", type = "", id = "";
-                userid = str[0];
-                type = str[2];
+                    string userid = "", type = "", id = "";
+                    userid = str[0];
+                    type = str[2];
 
-                if(str.Length == 4)
-                {
-                    transactionsuccess(userid, type,str[3]);
-                }
-                else
-                transactionsuccess(userid,type);
+                    if (str.Length == 4)
+                    {
+                        transactionsuccess(userid, type, str[3]);
+                    }
+                    else
+                        transactionsuccess(userid, type);
                 }
                 else // invalid user
                 {
@@ -66,27 +66,27 @@ public partial class WPaySuccess : System.Web.UI.Page
     }
 
 
-    private void transactionsuccess(string userid,string type,string id=null)
+    private void transactionsuccess(string userid, string type, string id = null)
     {
         try
         {
             obj = new DB();
             string msg = ""; string tid = "";
-            if(type == "Premium")
+            if (type == "Premium")
             {
                 int i = 0, j = 1;
                 do
                 {
-                    tid = obj.TransactionConfirmation(userid, null, null, "Premium", null, "S",null);
+                    tid = obj.TransactionConfirmation(userid, null, null, "Premium", null, "S", null);
                     j++;
 
-                }while(tid == "" && j<=3);
+                } while (tid == "" && j <= 3);
 
-                if(tid != "")
+                if (tid != "")
                 {
                     //string[] user = logininfo.Split(',');
                     string smsmsg = "Congratulations on becoming Premium user with regards, Team Villagers.";
-                        
+
                     DataSet ds = obj.GetUserTypeAndBalance(userid);
                     if (ds.Tables[0].Rows.Count > 0)
                     {
@@ -98,89 +98,89 @@ public partial class WPaySuccess : System.Web.UI.Page
                 }
             }
             else
-                if(type == "Referral" && id != null)
+                if (type == "Referral" && id != null)
+            {
+                int i = 0, j = 1; decimal amt;
+                DataSet dss = obj.GetUserTypeAndBalance(userid);
+                DataSet ds = obj.GetUserTypeAndBalance(id);
+                if (ds.Tables[0].Rows.Count > 0)
                 {
-                    int i = 0, j = 1; decimal amt;
-                    DataSet dss = obj.GetUserTypeAndBalance(userid);
-                    DataSet ds = obj.GetUserTypeAndBalance(id);
-                    if (ds.Tables[0].Rows.Count > 0)
+                    if (ds.Tables[0].Rows[0]["UserType"].ToString() == "Premium") //premium user
                     {
-                        if (ds.Tables[0].Rows[0]["UserType"].ToString() == "Premium") //premium user
+                        amt = Convert.ToDecimal(ds.Tables[0].Rows[0]["Balance"].ToString()) + 50;
+                        do
                         {
-                            amt = Convert.ToDecimal(ds.Tables[0].Rows[0]["Balance"].ToString()) + 50;
-                            do
-                            {
 
-                                tid = obj.TransactionConfirmation(userid, null, null, "Referral", id, "S", amt.ToString());
-                                j++;
+                            tid = obj.TransactionConfirmation(userid, null, null, "Referral", id, "S", amt.ToString());
+                            j++;
 
-                            } while (tid == "" && j <= 3);
-                            if (tid != "")
-                            {
-                                string cardid = "";
-                                
-                                if (dss.Tables[0].Rows.Count > 0)
-                                {
-                                    cardid = obj.CouponAssignPreUser(userid);
-                                    msg = "";
-                                    msg = obj.createEmailBodyforPremiumCard(cardid, dss.Tables[0].Rows[0]["Name"].ToString());
-                                    obj.SendEmail(dss.Tables[0].Rows[0]["EmailId"].ToString(),msg, "Gift Voucher from Team Villagers");
-                                }
-                            }
-                        }
-                        else //free user case not applicable here
+                        } while (tid == "" && j <= 3);
+                        if (tid != "")
                         {
-                            amt = Convert.ToDecimal(ds.Tables[0].Rows[0]["Balance"].ToString()) + 0;
-                            do
+                            string cardid = "";
+
+                            if (dss.Tables[0].Rows.Count > 0)
                             {
-
-                                tid = obj.TransactionConfirmation(userid, null, null, "Referral", id, "S", amt.ToString());
-                                j++;
-
-                            } while (tid == "" && j <= 3);
-                            if (tid != "")
-                            {
-                                string cardid = "",gvid="";
-                                if (ds.Tables[0].Rows.Count > 0)
-                                {
-                                    gvid=obj.FreeUserGiftVoucher(id,"Villagers100","100");
-                                    msg = "";
-                                    msg = obj.createEmailBodyforGiftCard(gvid, ds.Tables[0].Rows[0]["Name"].ToString());
-                                    obj.SendEmail(ds.Tables[0].Rows[0]["EmailId"].ToString(), msg, "Gift Voucher from Team Villagers");
-                                }
-
-                                if (dss.Tables[0].Rows.Count > 0)
-                                {
-                                    cardid = obj.CouponAssignPreUser(userid);
-                                    msg = "";
-                                    msg = obj.createEmailBodyforPremiumCard(cardid, dss.Tables[0].Rows[0]["Name"].ToString());
-                                    obj.SendEmail(dss.Tables[0].Rows[0]["EmailId"].ToString(),msg, "Gift Voucher from Team Villagers");
-                                }
+                                cardid = obj.CouponAssignPreUser(userid);
+                                msg = "";
+                                msg = obj.createEmailBodyforPremiumCard(cardid, dss.Tables[0].Rows[0]["Name"].ToString());
+                                obj.SendEmail(dss.Tables[0].Rows[0]["EmailId"].ToString(), msg, "Gift Voucher from Team Villagers");
                             }
                         }
                     }
-                    
+                    else //free user case not applicable here
+                    {
+                        amt = Convert.ToDecimal(ds.Tables[0].Rows[0]["Balance"].ToString()) + 0;
+                        do
+                        {
+
+                            tid = obj.TransactionConfirmation(userid, null, null, "Referral", id, "S", amt.ToString());
+                            j++;
+
+                        } while (tid == "" && j <= 3);
+                        if (tid != "")
+                        {
+                            string cardid = "", gvid = "";
+                            if (ds.Tables[0].Rows.Count > 0)
+                            {
+                                gvid = obj.FreeUserGiftVoucher(id, "Villagers100", "100");
+                                msg = "";
+                                msg = obj.createEmailBodyforGiftCard(gvid, ds.Tables[0].Rows[0]["Name"].ToString());
+                                obj.SendEmail(ds.Tables[0].Rows[0]["EmailId"].ToString(), msg, "Gift Voucher from Team Villagers");
+                            }
+
+                            if (dss.Tables[0].Rows.Count > 0)
+                            {
+                                cardid = obj.CouponAssignPreUser(userid);
+                                msg = "";
+                                msg = obj.createEmailBodyforPremiumCard(cardid, dss.Tables[0].Rows[0]["Name"].ToString());
+                                obj.SendEmail(dss.Tables[0].Rows[0]["EmailId"].ToString(), msg, "Gift Voucher from Team Villagers");
+                            }
+                        }
+                    }
                 }
+
+            }
             else
                     if (type == "AddMoney")
+            {
+                int i = 0, j = 1; decimal amt;
+
+                DataSet ds = obj.GetUserTypeAndBalance(userid);
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    amt = Convert.ToDecimal(ds.Tables[0].Rows[0]["Balance"].ToString()) + 599;
+                    do
                     {
-                        int i = 0, j = 1; decimal amt;
 
-                        DataSet ds = obj.GetUserTypeAndBalance(userid);
-                        if (ds.Tables[0].Rows.Count > 0)
-                        {
-                                amt = Convert.ToDecimal(ds.Tables[0].Rows[0]["Balance"].ToString()) + 599;
-                                do
-                                {
+                        tid = obj.TransactionConfirmation(userid, "599", null, "AddMoney", userid, "S", amt.ToString());
+                        j++;
 
-                                    tid = obj.TransactionConfirmation(userid, "599", null, "AddMoney", userid, "S", amt.ToString());
-                                    j++;
+                    } while (tid == "" && j <= 3);
 
-                                } while (tid == "" && j <= 3);
-                         
-                        }
-                    
-                    }
+                }
+
+            }
         }
         catch (Exception ex)
         {

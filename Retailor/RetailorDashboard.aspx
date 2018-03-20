@@ -32,13 +32,11 @@
             if (window.location.search.includes('flag=ts')) {
                 $('#myModal88 .modal-header h4').text('Payment Status');
                 $('#myModal88 .modal-body-sub').html('<div id="w"><div id="content"><div class="notify successbox"><h1>Success!</h1><span class="alerticon"><img src="../images/check.png" alt="checkmark" /></span><p>Transaction Completed Successfully</p></div></div></div>');
-                //callGiftVoucherMethod();
                 $('#myModal88').modal('show');
             }
             else if (window.location.search.includes('flag=tf')) {
                 $('#myModal88 .modal-header h4').text('Payment Status');
                 $('#myModal88 .modal-body-sub').html('<div id="w"><div id="content"><div class="notify errorbox"><h1>Failure!</h1><span class="alerticon"><img src="../images/error.png" alt="error" /></span><p>Transaction Failed</p></div></div></div>');
-                //callGiftVoucherMethod();
                 $('#myModal88').modal('show');
             }
         }
@@ -149,7 +147,6 @@
 	</div>
 
 
-    <asp:Button ID="sendGiftVoucher" runat="server" ClientIDMode="Static" OnClick="sendGiftVoucher_Click" Style="display: none;" />
     <asp:HiddenField runat="server" ID="hdnUserId" ClientIDMode="Static" />
     <asp:HiddenField runat="server" ID="hdnTrack" ClientIDMode="Static" />
     <div class="col-sm-12 col-xs-12" ng-app="myApp" ng-controller="myCtrl">

@@ -23,7 +23,7 @@ public partial class Retailor_RetailorDashboard : System.Web.UI.Page
                 {
                     if (Request.QueryString["flag"].ToString().ToLower() == "ts")
                     {
-                        //sendGiftVoucher_Method();
+                        sendGiftVoucher_Method();
                     }
                 }
             }
@@ -94,38 +94,6 @@ public partial class Retailor_RetailorDashboard : System.Web.UI.Page
                         if (!string.IsNullOrEmpty(msg))
                         {
                             obj.SendEmail(ds.Tables[0].Rows[0]["Org_Email"].ToString(), msg, "Premium Gift Voucher from Team Villagers");
-                        }
-                    }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            //ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.error('" + ex.Message + "');", true);
-        }
-    }
-    protected void sendGiftVoucher_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            DB obj = new DB();
-            string[] user = Session["loginid"].ToString().Split(',');
-            if (user[0].StartsWith("R"))
-            {
-
-                string cardId = obj.CouponAssignPreUser(user[0]);
-                if (!string.IsNullOrEmpty(cardId))
-                {
-                    DataSet ds = new DataSet();
-                    ds = obj.GetRetailerList(user[0]);
-                    if (ds.Tables[0].Rows.Count > 0)
-                    {
-                        // send mail to inform gift voucher given
-                        string name = ds.Tables[0].Rows[0]["Org_Name"].ToString();
-                        string msg = obj.createEmailBodyforPremiumCard(cardId, name);
-                        if (!string.IsNullOrEmpty(msg))
-                        {
-                            //obj.SendEmail(ds.Tables[0].Rows[0]["Org_Email"].ToString(), msg, "Premium Gift Voucher from Team Villagers");
                         }
                     }
                 }

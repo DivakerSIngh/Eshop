@@ -23,7 +23,23 @@ public partial class Retailor_RetailorDashboard : System.Web.UI.Page
                 {
                     if (Request.QueryString["flag"].ToString().ToLower() == "ts")
                     {
-                        sendGiftVoucher_Method();
+                        if (Session["Retailor_Payment"] != null)
+                        {
+                            sendGiftVoucher_Method();
+                            Session["Retailor_Payment"] = null;
+                        }
+                        else
+                        {
+                            Response.Redirect("RetailorDashboard.aspx");
+                        }
+                        
+                    }
+                    else if(Request.QueryString["flag"].ToString().ToLower() == "tf")
+                    {
+                        if (Session["Retailor_Payment"] == null)
+                        {
+                            Response.Redirect("RetailorDashboard.aspx");
+                        }
                     }
                 }
             }

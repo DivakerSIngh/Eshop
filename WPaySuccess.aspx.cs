@@ -29,6 +29,8 @@ public partial class WPaySuccess : System.Web.UI.Page
                     }
                     else
                         transactionsuccess(userid, type);
+
+                    Session["Retailor_Payment"] = "true";
                 }
                 else // invalid user
                 {
@@ -38,19 +40,19 @@ public partial class WPaySuccess : System.Web.UI.Page
                 }
                 if (str[0].StartsWith("U"))
                 {
-                    Response.Redirect("Default.aspx?flag=tf");
+                    Response.Redirect("Default.aspx?flag=ts");
                 }
                 else if (str[0].StartsWith("R"))
                 {
-                    Response.Redirect("Retailor/RetailorDashboard.aspx?flag=tf");
+                    Response.Redirect("Retailor/RetailorDashboard.aspx?flag=ts");
                 }
                 else if (str[0].StartsWith("L"))
                 {
-                    Response.Redirect("Logistic/LogisticDashboard.aspx?flag=tf");
+                    Response.Redirect("Logistic/LogisticDashboard.aspx?flag=ts");
                 }
                 else
                 {
-                    Response.Redirect("Default.aspx?flag=tf");
+                    Response.Redirect("Default.aspx?flag=ts");
                 }
             }
         }
@@ -61,7 +63,7 @@ public partial class WPaySuccess : System.Web.UI.Page
             Response.Redirect("Default.aspx");
         }
 
-        Response.Redirect("Default.aspx?flag=ts");
+        //Response.Redirect("Default.aspx?flag=ts");
 
     }
 

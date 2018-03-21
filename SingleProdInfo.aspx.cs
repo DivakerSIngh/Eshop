@@ -258,10 +258,12 @@ public partial class SingleProdInfo : System.Web.UI.Page
             //var txtRpin = (TextBox)sender;
             string UserPincode = "";
             double weight = 0.00;
+            int cid = 0;
             foreach (DataListItem item in this.dlProdInfo.Items)
             {
                 UserPincode = (item.FindControl("txtLocation") as TextBox).Text;
                 weight = Convert.ToDouble((item.FindControl("lblWt") as Label).Text);
+                cid = Convert.ToInt32((item.FindControl("lblcid") as Label).Text);
             }
             //TextBox txtuserpin = (TextBox)dlProdInfo.FindControl("txtLocation");
             //string ddl_selectedvalue = ((TextBox)txtRpin.NamingContainer.FindControl("txtLocation")).Text.Trim();
@@ -292,7 +294,22 @@ public partial class SingleProdInfo : System.Web.UI.Page
                         hf_deliveryAmt.Value = Convert.ToString(getDeliveryAmt(hf_logistic_id.Value, weight, distance));
                         ViewState["lid"] = hf_logistic_id.Value;
                         ViewState["delAmt"] = hf_deliveryAmt.Value;
-                        count += 1;
+                        if (cid != 1)
+                        {
+                            if (distance <= 12)
+                            {
+                                count += 1;
+                            }
+                            else
+                            {
+                                hf_CheckPin.Value = "";
+                                ViewState["CheckPin"] = "";
+                                hf_deliveryAmt.Value = "0";
+                                ViewState["lid"] = "";
+                                ViewState["delAmt"] = "0";
+                            }
+                        }
+                        
                         break;
                     }
                 }

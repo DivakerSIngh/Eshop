@@ -30,6 +30,8 @@ public partial class WPayFailure : System.Web.UI.Page
                     }
                     else
                         transactionsuccess(userid, type);
+
+                    Session["Retailor_Payment"] = "true";
                 }
                 else // invalid user
                 {

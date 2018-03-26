@@ -25,10 +25,10 @@ public partial class Retailor_PendingOrder : System.Web.UI.Page
         return "Ok";
     }
     [WebMethod]
-    public static List<Retailer> getAllOrderList(string id,int action)
+    public static List<Retailer> getAllOrderList(string id,int action,string fromdate,string todate,string status)
     {
       // var id= HttpContext.Current.Session["loginid"].ToString();
-        var list= DB.getAllOrderListForReatiler(id, 1, action);
+        var list= DB.getAllOrderListForReatiler(id, 1, fromdate, todate, status);
         JavaScriptSerializer searialize = new JavaScriptSerializer();
         var json =searialize.Serialize(list);
         return list;

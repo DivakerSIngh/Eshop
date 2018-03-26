@@ -21,6 +21,9 @@
             $scope.model = [];
             $scope.query = '';
             $scope.orderList = [];
+            $scope.fromdate = new Date();
+            $scope.todate = new Date();
+            $scope.status = ""
             $scope.getData = function () {
                 return $filter('filter')($scope.model, $scope.query)
             }
@@ -38,12 +41,10 @@
                 }
             }, true);
 
-            $scope.getAllProduct = function () {
-                if (action == "t")
-                    action=0
-                else
-                    action = 1
-                common.httpPost("PendingOrder.aspx/getAllOrderList", "{'id':'" + loginUserId + "','action':'" + parseInt(action) + "'}", false, success = function (data) {
+            $scope.getAllProduct = function (action) {
+                
+                common.httpPost("PendingOrder.aspx/getAllOrderList",
+                    "{'id':'" + loginUserId + "', 'action':'" + parseInt(action) + "','fromdate:''" + $scope.fromdate + "','todate:''" + $scope.todate + "','status:''" + $scope.status + "'}", false, success = function (data) {
                     
                     $scope.model = data;
                 }, failure = function (response) {
@@ -60,7 +61,12 @@
                 }
                    );
             }
-            $scope.getAllProduct();
+            $scope.getAllProduct(0);
+
+            $scope.apply = function () {                
+                $scope.getAllProduct(0);
+
+            }
         });
         app.filter('startFrom', function () {
             return function (input, start) {
@@ -74,9 +80,34 @@
     <asp:HiddenField runat="server" ID="hdnUserId" ClientIDMode="Static" />
       <asp:HiddenField runat="server" ID="hdnTrack" ClientIDMode="Static" />
     <div ng-app="myApp" ng-controller="myCtrl">
-        <div class="col-xs-12 col-sm-4 col-md-4" style="padding: 20px;">
-                           <label> Search Keyword: </label>  <input type="text" id="query" placeholder="Search anything" title="Type here to search" ng-model="query" class="form-control" />
+       
+
+         <div class="col-xs-12 col-sm-4 col-md-4" style="padding: 20px;">
+                           <label> From Date: </label>  <input type="date" id="fromdate" placeholder="from date" title="Type here to search" ng-model="fromdate" class="form-control" />
                         </div>
+
+         <div class="col-xs-12 col-sm-4 col-md-4" style="padding: 20px;">
+                           <label> To Date: </label>  <input type="date" id="todate" placeholder="to date" title="Type here to search" ng-model="todate" class="form-control" />
+                        </div>
+
+        <div class="col-xs-12 col-sm-4 col-md-4" style="padding: 20px;">
+                           <label> Status: </label>  
+            <select class="form-control" ng-model="status">
+                <option value="" selected disabled>Select Status</option>
+                <option value="1">Order Placed</option>
+                <option value="2">Ready To Dispatched</option>
+                <option value="3">Shipped</option>
+                <option value="4">Delievered</option>
+                <option value="5">Canceled</option>
+            </select>        
+                        </div>
+
+          <div class="col-xs-12 col-sm-12 col-md-12" style="text-align: center;padding: 10px;">
+                          <input type="button" value="Apply" class="btn-primary btn"  ng-click="apply()"/>
+              <input type="button" value="Cancel"  class="btn-default btn"/>
+                        </div>
+
+
         <div class="table-wrapper clearfix" style="padding: 19px;">
             <table class="table table-striped table-bordered">
                 <thead>

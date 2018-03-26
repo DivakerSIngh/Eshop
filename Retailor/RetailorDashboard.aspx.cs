@@ -15,8 +15,13 @@ public partial class Retailor_RetailorDashboard : System.Web.UI.Page
     {
         if(!IsPostBack)
         {
+            pnlPassbook.Visible = false;
+            pnlPayment.Visible = false;
+            pnlOrderTracking.Visible = true;
+            hdnType.Value = "1";
+
             hdnUserId.Value = Convert.ToString(Session["loginid"]);
-            lblPendingOrder.Text = Convert.ToString(getPendingOrder());
+            //lblPendingOrder.Text = Convert.ToString(getPendingOrder());
             if (Session["loginid"] != null && Session["loginid"].ToString() != "")
             {
                 if (Request.QueryString["flag"] != null)
@@ -47,8 +52,46 @@ public partial class Retailor_RetailorDashboard : System.Web.UI.Page
             {
                 Response.Redirect("~/PanelLogin.aspx?mode=R");
             }
+        }else
+        {
+            var type =Convert.ToInt32(Request.QueryString["type"]);
+            switch (type)
+            {
+              
+                case 1:
+                     pnlPassbook.Visible = false;
+                    pnlPayment.Visible = false;
+                    pnlOrderTracking.Visible = true;
+                    hdnType.Value = "1";
+                    break;
+                case 2:
+                    pnlPassbook.Visible = false;
+                    pnlPayment.Visible = true;
+                    pnlOrderTracking.Visible = false;
+                    hdnType.Value = "2";
+                    break;
+                case 3:
+                    pnlPassbook.Visible = true;
+                    pnlPayment.Visible = false;
+                    pnlOrderTracking.Visible = false;
+                    hdnType.Value = "3";
+                    break;
+
+               
+
+            }
+            
         }
        
+    }
+    [WebMethod]
+    public static List<Retailer> getAllOrderList(string id, int action, string fromdate, string todate, string status)
+    {
+        // var id= HttpContext.Current.Session["loginid"].ToString();
+        var list = DB.getAllOrderListForReatiler(id, 1, fromdate, todate, status);
+        JavaScriptSerializer searialize = new JavaScriptSerializer();
+        var json = searialize.Serialize(list);
+        return list;
     }
     private int getPendingOrder()
     {
@@ -119,5 +162,20 @@ public partial class Retailor_RetailorDashboard : System.Web.UI.Page
         {
             //ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.error('" + ex.Message + "');", true);
         }
+    }
+
+    protected void btnOrderTacking_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("RetailorDashboard.aspx?type=1");
+    }
+
+    protected void btnPayment_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("RetailorDashboard.aspx?type=2");
+    }
+
+    protected void btnPassbook_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("RetailorDashboard.aspx?type=3");
     }
 }

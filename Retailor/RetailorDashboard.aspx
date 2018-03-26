@@ -11,7 +11,7 @@
     <!-- Custom Theme files -->
     <link href="/css2/style.css" rel='stylesheet' type='text/css' />
     <link href="/css2/font-awesome.css" rel="stylesheet" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> </script>
+    <%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> </script>--%>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <!-- Mainly scripts -->
     <script src="/js2/jquery.metisMenu.js"></script>
@@ -25,6 +25,12 @@
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
     <script src="/js2/skycons.js"></script>
+    <style>
+        .bot {
+            text-align: center;
+            padding: 12px;
+        }
+    </style>
     <script>
        
 
@@ -47,88 +53,108 @@
                 location.href = "RetailorDashboard.aspx";
             })
         })
+
+      
     </script>
     <script>
         var app = angular.module('myApp', []);
-        var chartData = ['jan', 'feb', 'mar', 'apr', 'may', 'jun',
-       'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-        var staticArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        var loginUserId = '<%=hdnUserId.Value%>';
+        
+        
+         var loginUserId = '<%=hdnUserId.Value%>';
+        var action = '<%=hdnTrack.Value%>'
         app.controller('myCtrl', function ($scope, $http, $filter) {
+            $scope.currentPage = 0;
+            $scope.type = 1;
+            $scope.pageSize = 1000000;
             $scope.model = [];
-            $scope.staticArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-            $scope.chartData = ['jan', 'feb', 'mar', 'apr', 'may', 'jun',
-     'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-            $scope.chartData = function () {
-                common.httpPost("RetailorDashboard.aspx/getSaleReport", "{'year':'" + 2018 + "','id':'" + loginUserId + "','action':'1'}", false, success = function (data) {
+            $scope.query = '';
+            $scope.orderList = [];
+            $scope.fromdate = "";
+            $scope.todate = "";
+            $scope.status = "1"
+            $scope.getData = function () {
+                return $filter('filter')($scope.model, $scope.query)
+            }
 
+            $scope.numberOfPages = function () {
+                return Math.ceil($scope.getData().length / $scope.pageSize);
+            }
+
+            for (var i = 0; i < 65; i++) {
+                $scope.model.push("Item " + i);
+            }
+            $scope.$watch('query', function (newValue, oldValue) {
+                if (oldValue != newValue) {
+                    $scope.currentPage = 0;
+                }
+            }, true);
+
+            $scope.getAllProduct = function (action) {
+                
+                common.httpPost("RetailorDashboard.aspx/getAllOrderList",
+                    "{'id':'" + loginUserId + "', 'action':'" + parseInt(1) + "','fromdate':'" + $scope.fromdate + "','todate':'" + $scope.todate + "','status':'" + $scope.status + "'}", false, success = function (data) {
+                    
                     $scope.model = data;
-                    $.each(data, function (index, item) {
-
-                        $scope.staticArray[index + 1] = parseInt(item.TOTALSALES);
-                    });
-
-                    Highcharts.chart('chartData', {
-                        chart: {
-                            type: 'column'
-                        },
-                        title: {
-                            text: 'Dashboard Chart'
-                        },
-                        credits: {
-                            enabled: true
-                        },
-                        xAxis: {
-                            categories: [
-                                'Jan',
-                                'Feb',
-                                'Mar',
-                                'Apr',
-                                'May',
-                                'Jun',
-                                'Jul',
-                                'Aug',
-                                'Sep',
-                                'Oct',
-                                'Nov',
-                                'Dec'
-                            ],
-                            crosshair: true
-                        },
-                        yAxis: {
-                            min: 0,
-                            title: {
-                                text: 'Monthly Sales'
-                            }
-                        },
-                        tooltip: {
-                            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                                '<td style="padding:0"><b>{point.y:.1f} $</b></td></tr>',
-                            footerFormat: '</table>',
-                            shared: true,
-                            useHTML: true
-                        },
-                        series: [
-                          {
-                              name: 'User',
-                              data: $scope.staticArray
-                          }]
-                    });
-
                 }, failure = function (response) {
-
+                    
                 }
                     );
             }
-            $scope.chartData();
-        })
-    </script>
+            $scope.changeStatus = function (cartId) {
+                common.httpPost("PendingOrder.aspx/updateStatus", "{'cartId':'" + cartId + "'}", false, success = function (data) {
+                    
+                    $scope.getAllProduct();
+                }, failure = function (response) {
+
+                }
+                   );
+            }
+            $scope.getAllProduct(0);
+
+            $scope.apply = function () {                
+                $scope.getAllProduct(0);
+
+            }
+            $scope.showDesc = function (item) {
+                
+                $scope.transactionId = item.TRANSACTION_ID
+                $scope.userName = item.USER_NAME
+                $scope.transactionDate = item.PRODUCT_ID
+                $scope.address = item.ADDRESS
+                $scope.quantity = item.QUANTITY
+                $scope.price = item.DELIVERY_AMOUNT
+                $('#orderDetails').modal('show');
+
+
+            }
+        });
+        app.filter('startFrom', function () {
+            return function (input, start) {
+                start = +start; //parse to int
+                return input.slice(start);
+            }
+        });
+</script>
 
 
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <div ng-app="myApp" ng-controller="myCtrl">
+
+    
+      <div class="wallet-buttons">
+                    <div class="col-sm-10 bot">
+                     
+                        <asp:LinkButton PostBackUrl="~/Retailor/RetailorDashboard.aspx?type=1" ID="btnOrderTacking" class="btn btn-primary" runat="server">Order Tarcking</asp:LinkButton>
+                        <asp:LinkButton PostBackUrl="~/Retailor/RetailorDashboard.aspx?type=2" ID="btnPayment" class="btn btn-primary" runat="server">Payment</asp:LinkButton>
+                        <asp:LinkButton PostBackUrl="~/Retailor/RetailorDashboard.aspx?type=3" ID="btnPassbook" class="btn btn-primary" runat="server">Passbook</asp:LinkButton>
+                       <%-- <asp:LinkButton ID="btnPassbook" class="btn btn-primary" runat="server" OnClick="btnPassbook_Click" >Passbook</asp:LinkButton>--%>
+                    </div>
+                </div>
+
+
+
      <div class="agileits-modal modal fade" id="myModal88" tabindex="-1" role="dialog" aria-labelledby="myModal88"
 		aria-hidden="true">
 		<div class="modal-dialog" style="text-align:justify">
@@ -146,63 +172,129 @@
 		</div>
 	</div>
 
+         <div class="agileits-modal modal fade" id="orderDetails" tabindex="-1" role="dialog" 
+		aria-hidden="true">
+		<div class="modal-dialog" style="text-align:justify">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Order Details</h4>
+				</div>
+				<div class="modal-body modal-body-sub"> 
+					<div>
+                        Transaction Id : {{transactionId}}
+					</div>
+                    <div>
+                        User Name : {{userName}}
+					</div>
+                    <div>
+                        Date: {{transactionDate}}
+					</div>
+                    <div>
+                       Address : {{address}}
+					</div>
+                      <div>
+                       Quantity : {{quantity}}
+					</div>
+                      <div>
+                       Price : {{price}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
+     <asp:HiddenField runat="server" ID="hdnType" ClientIDMode="Static" />
     <asp:HiddenField runat="server" ID="hdnUserId" ClientIDMode="Static" />
     <asp:HiddenField runat="server" ID="hdnTrack" ClientIDMode="Static" />
-    <div class="col-sm-12 col-xs-12" ng-app="myApp" ng-controller="myCtrl">
+   
 
-        <asp:LinkButton ID="lnkPendingOrders" CssClass="columngroup totalUser" runat="server" OnClick="lnkPendingOrders_Click">
+     <asp:Panel ID="pnlOrderTracking" runat="server">
+          <div class="table-wrapper clearfix" style="padding: 19px;">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center" width="50">S.No order</th>
+                        <th>Transaction No</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in model">
+                        <td class="text-center">{{$index+1}}</td>
+                        <td><a ng-click="showDesc(item)">{{item.TRANSACTION_ID}}</a></td>
+                        <td ng-if="item.STATUS==1">Pending</td>
+                         <td ng-if="item.STATUS==2">Ready To Shipped</td>
+                         <td ng-if="item.STATUS==3">Delieverd</td>
+                        <td  ng-if="item.STATUS==1"><a ng-click="changeStatus(item.CART_ID)"><span class="dispatch">Ready To Shipped <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span></a></td>
+                         <td ng-if="item.STATUS==2">Ready To Shipped</td>
+                         <td ng-if="item.STATUS==3">Delieverd</td>
+                         
+                    </tr>
+                </tbody>
+            </table>
 
-            <div class="inner">
-                <figure>
-                    <i class="fa fa-users"></i>
-                </figure>
-                <h2>Order Tracking</h2>
-                <p>
-                    Pending Order :
-           <asp:Button Style="border: none; background: none;" runat="server" ID="lblPendingOrder"></asp:Button>
-                </p>
-                <div class="clearfix"></div>
-                <p>
-                    <asp:Button Style="border: none; background: none;" runat="server" Text="Track Order " ID="Button1" OnClick="Button1_Click"></asp:Button>
-                </p>
-            </div>
-        </asp:LinkButton>
+
+        </div>
+     </asp:Panel>
+
+     <asp:Panel ID="pnlPayment" runat="server">
+         paymenttttt
+          <div class="table-wrapper clearfix" style="padding: 19px;">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center" width="50">S.No  paym</th>
+                        <th>Transaction No</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in model">
+                        <td class="text-center">{{$index+1}}</td>
+                        <td>{{item.transactionNo}}</td>
+                        <td>{{item.status}}</td>
+                        <td  ng-if="type=='p'"><a ng-click="changeStatus(item.CART_ID)"><span class="dispatch">Ready To Dispatch <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span></a></td>
+                        
+                    </tr>
+                </tbody>
+            </table>
 
 
-        <asp:LinkButton ID="lnkpaymentHistory" CssClass="columngroup procedure" runat="server" OnClick="lnkpaymentHistory_Click">
-    <div  class="inner totalpayment">
-      <figure >
-        <i  class="fa fa-product-hunt"></i>
-      </figure>
-      <h2 >Payment History</h2>
-      <p >114</p>
-      <div  class="clearfix"></div>
-      
+        </div>
+     </asp:Panel>
+
+    <asp:Panel ID="pnlPassbook" runat="server">
+
+        pasasasasas
+         <div class="table-wrapper clearfix" style="padding: 19px;">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center" width="50">S.No tran</th>
+                        <th>Transaction No</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in model">
+                        <td class="text-center">{{$index+1}}</td>
+                        <td>{{item.transactionNo}}</td>
+                        <td>{{item.status}}</td>
+                        <td  ng-if="type=='p'"><a ng-click="changeStatus(item.CART_ID)"><span class="dispatch">Ready To Dispatch <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span></a></td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+     </asp:Panel>
+
     </div>
-        </asp:LinkButton>
-
-        <asp:LinkButton ID="LinkButton1" CssClass="columngroup condition" runat="server" OnClick="lnkpaymentHistory_Click">
- 
-    <div  class="inner totaltarnsaction" >
-      <figure >
-        <i  class="fa fa-contao"></i>
-      </figure>
-      <h2 >Privay & Policy</h2>
-      <p >79</p>
-      <div  class="clearfix"></div>
-      
-    </div>
-        </asp:LinkButton>
-    </div>
-    <div class="col-sm-12 col-xs-12">
-        <div id="chartData" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-
-    </div>
-
-
-
-
 
 </asp:Content>
 

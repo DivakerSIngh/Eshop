@@ -163,8 +163,7 @@ public partial class WPaySuccess : System.Web.UI.Page
                 }
 
             }
-            else
-                    if (type == "AddMoney")
+            else if (type == "AddMoney")
             {
                 int i = 0, j = 1; decimal amt;
 

@@ -30,6 +30,18 @@
             text-align: center;
             padding: 12px;
         }
+        .noRecord{
+            text-align: center;
+    color: red;
+        }
+        span.spnLable {
+    font-size: 13px;
+    color: grey;
+}
+        .txtSearch{
+            margin-left: 19px;
+
+        }
     </style>
     <script>
 
@@ -56,11 +68,16 @@
     </script>
     <script>
         var app = angular.module('myApp', []);
-
-        debugger;
+        var chartData = ['jan', 'feb', 'mar', 'apr', 'may', 'jun',
+      'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+        var staticArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        
         var loginUserId = '<%=hdnUserId.Value%>';
         var action = '<%=hdnTrack.Value%>'
         app.controller('myCtrl', function ($scope, $http, $filter) {
+            $scope.staticArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            $scope.chartData = ['jan', 'feb', 'mar', 'apr', 'may', 'jun',
+     'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
             $scope.currentPage = 0;
             $scope.type = $('#hdnType').val();
             $scope.pageSize = 1000000;
@@ -70,6 +87,72 @@
             $scope.fromdate = "";
             $scope.todate = "";
             $scope.status = "1"
+           
+            $scope.chartData = function () {
+                common.httpPost("RetailorDashboard.aspx/getSaleReport", "{'year':'" + 2018 + "','id':'" + loginUserId + "','action':'1'}", false, success = function (data) {
+
+                    $scope.model = data;
+                    $.each(data, function (index, item) {
+
+                        $scope.staticArray[index + 1] = parseInt(item.TOTALSALES);
+                    });
+
+                    Highcharts.chart('chartData', {
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'Dashboard Chart'
+                        },
+                        credits: {
+                            enabled: true
+                        },
+                        xAxis: {
+                            categories: [
+                                'Jan',
+                                'Feb',
+                                'Mar',
+                                'Apr',
+                                'May',
+                                'Jun',
+                                'Jul',
+                                'Aug',
+                                'Sep',
+                                'Oct',
+                                'Nov',
+                                'Dec'
+                            ],
+                            crosshair: true
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: 'Monthly Sales'
+                            }
+                        },
+                        tooltip: {
+                            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                '<td style="padding:0"><b>{point.y:.1f} $</b></td></tr>',
+                            footerFormat: '</table>',
+                            shared: true,
+                            useHTML: true
+                        },
+                        series: [
+                          {
+                              name: 'User',
+                              data: $scope.staticArray
+                          }]
+                    });
+
+                }, failure = function (response) {
+
+                }
+                    );
+            }
+            if ($scope.type == "0") {
+                $scope.chartData();
+            }
             $scope.getData = function () {
                 return $filter('filter')($scope.model, $scope.query)
             }
@@ -88,7 +171,7 @@
             }, true);
 
             $scope.getAllProduct = function (action) {
-                debugger;
+               
                 if ($scope.type == 1)
                 {
                     common.httpPost("RetailorDashboard.aspx/getAllOrderList",
@@ -165,6 +248,9 @@
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <asp:ScriptManager ID="scc" runat="server"></asp:ScriptManager>
+   
+       
     <div ng-app="myApp" ng-controller="myCtrl">
 
 
@@ -207,78 +293,45 @@
                     </div>
                     <div class="modal-body modal-body-sub">
                         <div>
-                            Transaction Id : {{transactionId}}
+                           <span class="spnLable"> Transaction Id  :</span> {{transactionId}}
                         </div>
                         <div>
-                            Date : {{transactionDate}}
+                          <span class="spnLable">  Date :</span> {{transactionDate}}
                         </div>
                         <div>
-                            User Name : {{userName}}
+                          <span class="spnLable">  User Name :</span> {{userName}}
                         </div>
                         <div>
-                            Address : {{address}}
+                          <span class="spnLable">  Address : </span>{{address}}
                         </div>
                         <div>
-                            Product Title : {{productTitle}}
+                          <span class="spnLable">  Product Title :</span> {{productTitle}}
                         </div>
                         <div>
-                            Description : {{productDescription}}
+                          <span class="spnLable">  Description :</span> {{productDescription}}
                         </div>
                         <div>
-                            Measurement : {{productMeasurement}}
+                          <span class="spnLable">  Measurement : </span>{{productMeasurement}}
                         </div>
                         <div>
-                            Quantity : {{quantity}}
+                          <span class="spnLable">  Quantity :</span> {{quantity}}
                         </div>
                         <div>
-                            Price : {{price}}
+                          <span class="spnLable">  Price :</span> {{price}}
                         </div>
-                        <%--<table>
-                            <tr>
-                                <td>
-                                    Transaction Id 
-                                </td>
-                                <td>
-                                   : {{transactionId}}
-                                </td>
-                            </tr>
-                             <tr>
-                                <td>
-                                    Date 
-                                </td>
-                                <td>
-                                   : {{transactionDate}}
-                                </td>
-                            </tr>
-                             <tr>
-                                <td>
-                                    User Name
-                                </td>
-                                <td>
-                                   : {{userName}}
-                                </td>
-                            </tr>
-                             <tr>
-                                <td>
-                                    Address
-                                </td>
-                                <td>
-                                   : {{address}}
-                                </td>
-                            </tr>
-                        </table>--%>
+                       
                     </div>
                 </div>
             </div>
         </div>
 
-        <asp:HiddenField runat="server" ID="hdnType" ClientIDMode="Static" />
+        <asp:HiddenField runat="server" ID="hdnType" ClientIDMode="Static" Value="0" />
         <asp:HiddenField runat="server" ID="hdnUserId" ClientIDMode="Static" />
         <asp:HiddenField runat="server" ID="hdnTrack" ClientIDMode="Static" />
 
-
+       
         <asp:Panel ID="pnlOrderTracking" runat="server">
-            
+             <input type="text" class="txtSearch" ng-model="query" placeholder="Search any" />
             <div class="table-wrapper clearfix" style="padding: 19px;">Order Tracking
                 <table class="table table-striped table-bordered">
                     <thead>
@@ -294,7 +347,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="item in model">
+                        <tr ng-repeat="item in model  | filter:query | orderBy: orderList | startFrom:currentPage*pageSize | limitTo:pageSize"" ng-cloak>
                             <td class="text-center">{{$index+1}}</td>
                             <td><a ng-click="showDesc(item)">{{item.TRANSACTION_ID}}</a></td>
                             <td class="text-center">{{item.TRANSACTION_DATE}}</td>
@@ -309,14 +362,21 @@
                             <td ng-if="item.STATUS==3">Delieverd</td>
 
                         </tr>
+
                     </tbody>
+                   
                 </table>
 
-
+                   <div class="noRecord" ng-if="model.length<1">
+                  <h3>
+                      No Record Found
+                  </h3>
+              </div>
             </div>
         </asp:Panel>
 
         <asp:Panel ID="pnlPayment" runat="server">
+             <input type="text" class="txtSearch" ng-model="query" placeholder="Search any" />
           <div class="table-wrapper clearfix" style="padding: 19px;">Payment
               <table class="table table-striped table-bordered">
                   <thead>
@@ -327,19 +387,32 @@
                       </tr>
                   </thead>
                   <tbody>
-                      <tr ng-repeat="item in model">
+                      <tr ng-repeat="item in model  | filter:query | orderBy: orderList | startFrom:currentPage*pageSize | limitTo:pageSize"" ng-cloak>
                           <td class="text-center">{{$index+1}}</td>
-                          <td>{{item.TRANSACTION_ID}}</td>
+                          <td><a ng-click="showDesc(item)">{{item.TRANSACTION_ID}}</a></td>
                           <td>{{item.RETAILOR_PAY_STATUS}}</td>
                       </tr>
                   </tbody>
+                 
               </table>
 
-
+              <div class="noRecord" ng-if="model.length<1">
+                  <h3>
+                      No Record Found
+                  </h3>
+              </div>
           </div>
         </asp:Panel>
 
+          <asp:Panel ID="pnlChart" runat="server">
+         <div class="col-sm-12 col-xs-12">
+        <div id="chartData" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+    </div>
+        </asp:Panel>
+
         <asp:Panel ID="pnlPassbook" runat="server">
+             <input type="text" class="txtSearch" ng-model="query" placeholder="Search any" />
          <div class="table-wrapper clearfix" style="padding: 19px;">Passbook
              <table class="table table-striped table-bordered">
                  <thead>
@@ -351,7 +424,7 @@
                      </tr>
                  </thead>
                  <tbody>
-                     <tr ng-repeat="item in model">
+                     <tr ng-repeat="item in model  | filter:query | orderBy: orderList | startFrom:currentPage*pageSize | limitTo:pageSize"" ng-cloak>
                          <td class="text-center">{{$index+1}}</td>
                          <td>{{item.TRANSACTION_ID}}</td>
                          <td>{{item.RETAILOR_PAY_AMOUNT}}</td>
@@ -359,12 +432,16 @@
                      </tr>
                  </tbody>
              </table>
-
+                <div class="noRecord" ng-if="model.length<1">
+                  <h3>
+                      No Record Found
+                  </h3>
+              </div>
 
          </div>
         </asp:Panel>
 
     </div>
-
+           
 </asp:Content>
 

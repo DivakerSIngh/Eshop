@@ -15,10 +15,11 @@ public partial class Retailor_RetailorDashboard : System.Web.UI.Page
     {
         if(!IsPostBack)
         {
+            pnlChart.Visible = true;
             pnlPassbook.Visible = false;
             pnlPayment.Visible = false;
-            pnlOrderTracking.Visible = true;
-            hdnType.Value = "1";
+            pnlOrderTracking.Visible = false;
+         
 
             hdnUserId.Value = Convert.ToString(Session["loginid"]);
             //lblPendingOrder.Text = Convert.ToString(getPendingOrder());
@@ -63,17 +64,20 @@ public partial class Retailor_RetailorDashboard : System.Web.UI.Page
                     pnlPayment.Visible = false;
                     pnlOrderTracking.Visible = true;
                     hdnType.Value = "1";
+                    pnlChart.Visible = false;
                     break;
                 case 2:
                     pnlPassbook.Visible = false;
                     pnlPayment.Visible = true;
                     pnlOrderTracking.Visible = false;
+                    pnlChart.Visible = false;
                     hdnType.Value = "2";
                     break;
                 case 3:
                     pnlPassbook.Visible = true;
                     pnlPayment.Visible = false;
                     pnlOrderTracking.Visible = false;
+                    pnlChart.Visible = false;
                     hdnType.Value = "3";
                     break;
 

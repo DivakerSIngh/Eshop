@@ -35,6 +35,16 @@
            // document.getElementById("hf_user_pincode").value = localStorage.getItem('postalCode');
         }
     </script>
+    <script runat="server">
+        private bool VisiablePanel()
+        {
+            if (!String.IsNullOrEmpty(hdnProductStatusid.Value))
+                 return true;
+            else
+                return false;
+
+        }
+    </script>
     <%--<script type="text/javascript">
 
 
@@ -322,7 +332,9 @@
 
                                 <asp:LinkButton ID="btnAddWishList" class="w3ls-cart w3ls-cart-like" runat="server" CommandArgument='<%# Eval("pid")+","+Eval("UserId")+","+Eval("sellingprice")+","+Eval("costprice") %>' OnCommand="btnAddWishList_Command"><i class="fa fa-heart-o" aria-hidden="true"></i>Add to Wishlist</asp:LinkButton>
 
+                            <asp:Panel ID="pnreview" runat="server" Visible="<%#VisiablePanel() %>">
                             <a id="btnReview" onclick="clickReview();" class="w3ls-cart w3ls-cart-like">Review</a>
+                                </asp:Panel>
                                
                             
                         </ItemTemplate>

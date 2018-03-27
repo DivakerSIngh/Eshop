@@ -35,6 +35,8 @@ public partial class SingleProdInfo : System.Web.UI.Page
                 }
             }
         }
+        if (Session["loginid"] != null)
+            hdnProductStatusid.Value = new DB().getLastPurchaseProductId(Convert.ToString(Session["loginid"]), "N");
     }
 
     [WebMethod]

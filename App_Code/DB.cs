@@ -4898,7 +4898,7 @@ public class DB
 
     }
 
-    public static List<Retailer> getAllOrderListForReatiler(string id, int action, int status = 0)
+    public static List<Retailer> getAllOrderListForReatiler(string id, int action,string fromdate,string todate, int status = 0)
     {
         SqlConnection con = new SqlConnection();
         SqlCommand cmd = new SqlCommand();
@@ -4940,7 +4940,101 @@ public class DB
                     USER_NAME = Convert.ToString(dr["USER_NAME"]),
                     USER_PINCODE = Convert.ToString(dr["USER_PINCODE"]),
                     USER_STATE = Convert.ToString(dr["USER_STATE"]),
-                    STATUS = Convert.ToString(dr["STATUS"])
+                    STATUS = Convert.ToString(dr["STATUS"]),
+                    TRANSACTION_DATE = Convert.ToString(dr["TRANSACTION_DATE"])
+
+                };
+                retailerList.Add(reatailer);
+
+            }
+            return retailerList;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+            con.Close();
+        }
+        return retailerList;
+
+
+    }
+
+    public static List<Retailer> getRetalerPaymentStatus(string id, int action)
+    {
+        SqlConnection con = new SqlConnection();
+        SqlCommand cmd = new SqlCommand();
+        List<Retailer> retailerList = new List<Retailer>();
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "EShop_GetAllOrders";
+            cmd.Parameters.AddWithValue("@RID", id);
+            cmd.Parameters.AddWithValue("@LID", null);
+            cmd.Parameters.AddWithValue("@STATUS", null);
+            cmd.Parameters.AddWithValue("@ACTION", action);
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                var reatailer = new Retailer()
+                {
+                    
+                    TRANSACTION_ID = Convert.ToString(dr["TRANSACTION_ID"]),
+                    RETAILOR_PAY_STATUS = Convert.ToString(dr["RETAILOR_PAY_STATUS"]),
+
+                };
+                retailerList.Add(reatailer);
+
+            }
+            return retailerList;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+            con.Close();
+        }
+        return retailerList;
+
+
+    }
+
+    public static List<Retailer> getRetalerPassbook(string id, int action)
+    {
+        SqlConnection con = new SqlConnection();
+        SqlCommand cmd = new SqlCommand();
+        List<Retailer> retailerList = new List<Retailer>();
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "EShop_GetAllOrders";
+            cmd.Parameters.AddWithValue("@RID", id);
+            cmd.Parameters.AddWithValue("@LID", null);
+            cmd.Parameters.AddWithValue("@STATUS", null);
+            cmd.Parameters.AddWithValue("@ACTION", action);
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                var reatailer = new Retailer()
+                {
+
+                    TRANSACTION_ID = Convert.ToString(dr["TRANSACTION_ID"]),
+                    RETAILOR_PAY_DATE = Convert.ToString(dr["RETAILOR_PAY_DATE"]),
+                    RETAILOR_PAY_AMOUNT = Convert.ToString(dr["RETAILOR_PAY_AMOUNT"]),
 
                 };
                 retailerList.Add(reatailer);

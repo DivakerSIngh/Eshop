@@ -30,6 +30,11 @@ public  class Retailer
     public string CART_ID { get; set; }
     public string STATUS { get; set; }
 
+    public string TRANSACTION_DATE { get; set; }
+    public string RETAILOR_PAY_STATUS { get; set; }
+    public string RETAILOR_PAY_DATE { get; set; }
+    public string RETAILOR_PAY_AMOUNT { get; set; }
+
 }
 
 public class Measurment

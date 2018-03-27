@@ -88,10 +88,20 @@ public partial class Retailor_RetailorDashboard : System.Web.UI.Page
     public static List<Retailer> getAllOrderList(string id, int action, string fromdate, string todate, string status)
     {
         // var id= HttpContext.Current.Session["loginid"].ToString();
-        var list = DB.getAllOrderListForReatiler(id, 1, fromdate, todate, status);
+        var list = DB.getAllOrderListForReatiler(id, action, fromdate, todate,Convert.ToInt16(status));
         JavaScriptSerializer searialize = new JavaScriptSerializer();
         var json = searialize.Serialize(list);
         return list;
+    }
+    [WebMethod]
+    public static List<Retailer> getRetailerPaymentStatus(string id, int action)
+    {
+        return DB.getRetalerPaymentStatus(id, action);
+    }
+    [WebMethod]
+    public static List<Retailer> getRetalerPassbook(string id, int action)
+    {
+        return DB.getRetalerPassbook(id, action);
     }
     private int getPendingOrder()
     {

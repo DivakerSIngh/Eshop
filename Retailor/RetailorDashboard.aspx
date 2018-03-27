@@ -15,7 +15,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <!-- Mainly scripts -->
     <script src="/js2/jquery.metisMenu.js"></script>
-    <script src="/js2/jquery.slimscroll.min.js"></script>
+    <script src="../js2/jquery.slimscroll.min.js"></script>
     <!-- Custom and plugin javascript -->
     <script src="../js2/common.js"></script>
     <link href="/css2/custom.css" rel="stylesheet" />
@@ -32,7 +32,7 @@
         }
     </style>
     <script>
-       
+
 
         window.onload = function (e) {
             if (window.location.search.includes('flag=ts')) {
@@ -46,25 +46,23 @@
                 $('#myModal88').modal('show');
             }
         }
-        $(function()
-        {
-            $('#myModal88').on('hidden.bs.modal',function(e)
-            {
+        $(function () {
+            $('#myModal88').on('hidden.bs.modal', function (e) {
                 location.href = "RetailorDashboard.aspx";
             })
         })
 
-      
+
     </script>
     <script>
         var app = angular.module('myApp', []);
-        
-        
-         var loginUserId = '<%=hdnUserId.Value%>';
+
+        debugger;
+        var loginUserId = '<%=hdnUserId.Value%>';
         var action = '<%=hdnTrack.Value%>'
         app.controller('myCtrl', function ($scope, $http, $filter) {
             $scope.currentPage = 0;
-            $scope.type = 1;
+            $scope.type = $('#hdnType').val();
             $scope.pageSize = 1000000;
             $scope.model = [];
             $scope.query = '';
@@ -90,19 +88,43 @@
             }, true);
 
             $scope.getAllProduct = function (action) {
-                
-                common.httpPost("RetailorDashboard.aspx/getAllOrderList",
-                    "{'id':'" + loginUserId + "', 'action':'" + parseInt(1) + "','fromdate':'" + $scope.fromdate + "','todate':'" + $scope.todate + "','status':'" + $scope.status + "'}", false, success = function (data) {
-                    
-                    $scope.model = data;
-                }, failure = function (response) {
-                    
+                debugger;
+                if ($scope.type == 1)
+                {
+                    common.httpPost("RetailorDashboard.aspx/getAllOrderList",
+                   "{'id':'" + loginUserId + "', 'action':'" + parseInt(1) + "','fromdate':'" + $scope.fromdate + "','todate':'" + $scope.todate + "','status':'" + $scope.status + "'}", false, success = function (data) {
+
+                       $scope.model = data;
+                   }, failure = function (response) {
+
+                   }
+                   );
                 }
-                    );
+                if ($scope.type == 2) {
+                    common.httpPost("RetailorDashboard.aspx/getRetailerPaymentStatus",
+                   "{'id':'" + loginUserId + "', 'action':'" + parseInt(3) + "'}", false, success = function (data) {
+
+                       $scope.model = data;
+                   }, failure = function (response) {
+
+                   }
+                   );
+                }
+                if ($scope.type == 3) {
+                    common.httpPost("RetailorDashboard.aspx/getRetalerPassbook",
+                   "{'id':'" + loginUserId + "', 'action':'" + parseInt(4) + "'}", false, success = function (data) {
+
+                       $scope.model = data;
+                   }, failure = function (response) {
+
+                   }
+                   );
+                }
+               
             }
             $scope.changeStatus = function (cartId) {
                 common.httpPost("PendingOrder.aspx/updateStatus", "{'cartId':'" + cartId + "'}", false, success = function (data) {
-                    
+
                     $scope.getAllProduct();
                 }, failure = function (response) {
 
@@ -111,18 +133,21 @@
             }
             $scope.getAllProduct(0);
 
-            $scope.apply = function () {                
+            $scope.apply = function () {
                 $scope.getAllProduct(0);
 
             }
             $scope.showDesc = function (item) {
-                
+
                 $scope.transactionId = item.TRANSACTION_ID
+                $scope.transactionDate = item.TRANSACTION_DATE
                 $scope.userName = item.USER_NAME
-                $scope.transactionDate = item.PRODUCT_ID
                 $scope.address = item.ADDRESS
+                $scope.productTitle = item.PRODUCT_TITLE
+                $scope.productDescription = item.PRODUCT_DECSRIPTION
+                $scope.productMeasurement = item.MEASUREMENT
                 $scope.quantity = item.QUANTITY
-                $scope.price = item.DELIVERY_AMOUNT
+                $scope.price = item.SELLINGPRICE
                 $('#orderDetails').modal('show');
 
 
@@ -134,7 +159,7 @@
                 return input.slice(start);
             }
         });
-</script>
+    </script>
 
 
 
@@ -142,157 +167,202 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div ng-app="myApp" ng-controller="myCtrl">
 
-    
-      <div class="wallet-buttons">
-                    <div class="col-sm-10 bot">
-                     
-                        <asp:LinkButton PostBackUrl="~/Retailor/RetailorDashboard.aspx?type=1" ID="btnOrderTacking" class="btn btn-primary" runat="server">Order Tarcking</asp:LinkButton>
-                        <asp:LinkButton PostBackUrl="~/Retailor/RetailorDashboard.aspx?type=2" ID="btnPayment" class="btn btn-primary" runat="server">Payment</asp:LinkButton>
-                        <asp:LinkButton PostBackUrl="~/Retailor/RetailorDashboard.aspx?type=3" ID="btnPassbook" class="btn btn-primary" runat="server">Passbook</asp:LinkButton>
-                       <%-- <asp:LinkButton ID="btnPassbook" class="btn btn-primary" runat="server" OnClick="btnPassbook_Click" >Passbook</asp:LinkButton>--%>
+
+        <div class="wallet-buttons">
+            <div class="col-sm-10 bot">
+
+                <asp:LinkButton PostBackUrl="~/Retailor/RetailorDashboard.aspx?type=1" ID="btnOrderTacking" class="btn btn-primary" runat="server">Order Tarcking</asp:LinkButton>
+                <asp:LinkButton PostBackUrl="~/Retailor/RetailorDashboard.aspx?type=2" ID="btnPayment" class="btn btn-primary" runat="server">Payment</asp:LinkButton>
+                <asp:LinkButton PostBackUrl="~/Retailor/RetailorDashboard.aspx?type=3" ID="btnPassbook" class="btn btn-primary" runat="server">Passbook</asp:LinkButton>
+                <%-- <asp:LinkButton ID="btnPassbook" class="btn btn-primary" runat="server" OnClick="btnPassbook_Click" >Passbook</asp:LinkButton>--%>
+            </div>
+        </div>
+
+
+
+        <div class="agileits-modal modal fade" id="myModal88" tabindex="-1" role="dialog" aria-labelledby="myModal88"
+            aria-hidden="true">
+            <div class="modal-dialog" style="text-align: justify">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Join Villagers</h4>
+                    </div>
+                    <div class="modal-body modal-body-sub">
+                        <h5>Provide Your Message </h5>
+
+                        <a class="close2" data-dismiss="modal" aria-hidden="true" href="Register.aspx">Join Now</a>
                     </div>
                 </div>
-
-
-
-     <div class="agileits-modal modal fade" id="myModal88" tabindex="-1" role="dialog" aria-labelledby="myModal88"
-		aria-hidden="true">
-		<div class="modal-dialog" style="text-align:justify">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="myModalLabel">Join Villagers</h4>
-				</div>
-				<div class="modal-body modal-body-sub"> 
-					<h5>Provide Your Message </h5>  
-					
-					<a class="close2" data-dismiss="modal" aria-hidden="true" href="Register.aspx">Join Now</a>
-				</div>
-			</div>
-		</div>
-	</div>
-
-         <div class="agileits-modal modal fade" id="orderDetails" tabindex="-1" role="dialog" 
-		aria-hidden="true">
-		<div class="modal-dialog" style="text-align:justify">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title">Order Details</h4>
-				</div>
-				<div class="modal-body modal-body-sub"> 
-					<div>
-                        Transaction Id : {{transactionId}}
-					</div>
-                    <div>
-                        User Name : {{userName}}
-					</div>
-                    <div>
-                        Date: {{transactionDate}}
-					</div>
-                    <div>
-                       Address : {{address}}
-					</div>
-                      <div>
-                       Quantity : {{quantity}}
-					</div>
-                      <div>
-                       Price : {{price}}
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-     <asp:HiddenField runat="server" ID="hdnType" ClientIDMode="Static" />
-    <asp:HiddenField runat="server" ID="hdnUserId" ClientIDMode="Static" />
-    <asp:HiddenField runat="server" ID="hdnTrack" ClientIDMode="Static" />
-   
-
-     <asp:Panel ID="pnlOrderTracking" runat="server">
-          <div class="table-wrapper clearfix" style="padding: 19px;">
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th class="text-center" width="50">S.No order</th>
-                        <th>Transaction No</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="item in model">
-                        <td class="text-center">{{$index+1}}</td>
-                        <td><a ng-click="showDesc(item)">{{item.TRANSACTION_ID}}</a></td>
-                        <td ng-if="item.STATUS==1">Pending</td>
-                         <td ng-if="item.STATUS==2">Ready To Shipped</td>
-                         <td ng-if="item.STATUS==3">Delieverd</td>
-                        <td  ng-if="item.STATUS==1"><a ng-click="changeStatus(item.CART_ID)"><span class="dispatch">Ready To Shipped <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span></a></td>
-                         <td ng-if="item.STATUS==2">Ready To Shipped</td>
-                         <td ng-if="item.STATUS==3">Delieverd</td>
-                         
-                    </tr>
-                </tbody>
-            </table>
-
-
+            </div>
         </div>
-     </asp:Panel>
 
-     <asp:Panel ID="pnlPayment" runat="server">
-         paymenttttt
-          <div class="table-wrapper clearfix" style="padding: 19px;">
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th class="text-center" width="50">S.No  paym</th>
-                        <th>Transaction No</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="item in model">
-                        <td class="text-center">{{$index+1}}</td>
-                        <td>{{item.transactionNo}}</td>
-                        <td>{{item.status}}</td>
-                        <td  ng-if="type=='p'"><a ng-click="changeStatus(item.CART_ID)"><span class="dispatch">Ready To Dispatch <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span></a></td>
-                        
-                    </tr>
-                </tbody>
-            </table>
-
-
+        <div class="agileits-modal modal fade" id="orderDetails" tabindex="-1" role="dialog"
+            aria-hidden="true">
+            <div class="modal-dialog" style="text-align: justify">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Order Details</h4>
+                    </div>
+                    <div class="modal-body modal-body-sub">
+                        <div>
+                            Transaction Id : {{transactionId}}
+                        </div>
+                        <div>
+                            Date : {{transactionDate}}
+                        </div>
+                        <div>
+                            User Name : {{userName}}
+                        </div>
+                        <div>
+                            Address : {{address}}
+                        </div>
+                        <div>
+                            Product Title : {{productTitle}}
+                        </div>
+                        <div>
+                            Description : {{productDescription}}
+                        </div>
+                        <div>
+                            Measurement : {{productMeasurement}}
+                        </div>
+                        <div>
+                            Quantity : {{quantity}}
+                        </div>
+                        <div>
+                            Price : {{price}}
+                        </div>
+                        <%--<table>
+                            <tr>
+                                <td>
+                                    Transaction Id 
+                                </td>
+                                <td>
+                                   : {{transactionId}}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>
+                                    Date 
+                                </td>
+                                <td>
+                                   : {{transactionDate}}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>
+                                    User Name
+                                </td>
+                                <td>
+                                   : {{userName}}
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>
+                                    Address
+                                </td>
+                                <td>
+                                   : {{address}}
+                                </td>
+                            </tr>
+                        </table>--%>
+                    </div>
+                </div>
+            </div>
         </div>
-     </asp:Panel>
 
-    <asp:Panel ID="pnlPassbook" runat="server">
-
-        pasasasasas
-         <div class="table-wrapper clearfix" style="padding: 19px;">
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th class="text-center" width="50">S.No tran</th>
-                        <th>Transaction No</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="item in model">
-                        <td class="text-center">{{$index+1}}</td>
-                        <td>{{item.transactionNo}}</td>
-                        <td>{{item.status}}</td>
-                        <td  ng-if="type=='p'"><a ng-click="changeStatus(item.CART_ID)"><span class="dispatch">Ready To Dispatch <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span></a></td>
-                        
-                    </tr>
-                </tbody>
-            </table>
+        <asp:HiddenField runat="server" ID="hdnType" ClientIDMode="Static" />
+        <asp:HiddenField runat="server" ID="hdnUserId" ClientIDMode="Static" />
+        <asp:HiddenField runat="server" ID="hdnTrack" ClientIDMode="Static" />
 
 
-        </div>
-     </asp:Panel>
+        <asp:Panel ID="pnlOrderTracking" runat="server">
+            
+            <div class="table-wrapper clearfix" style="padding: 19px;">Order Tracking
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center" width="50">S.No order</th>
+                            <th>Transaction No</th>
+                            <th>Transaction Date</th>
+                            <th>Product Title</th>
+                            <th>Measurement</th>
+                            <th>Quantity</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in model">
+                            <td class="text-center">{{$index+1}}</td>
+                            <td><a ng-click="showDesc(item)">{{item.TRANSACTION_ID}}</a></td>
+                            <td class="text-center">{{item.TRANSACTION_DATE}}</td>
+                            <td class="text-center">{{item.PRODUCT_TITLE}}</td>
+                            <td class="text-center">{{item.MEASUREMENT}}</td>
+                            <td class="text-center">{{item.QUANTITY}}</td>
+                            <td ng-if="item.STATUS==1">Pending</td>
+                            <td ng-if="item.STATUS==2">Ready To Shipped</td>
+                            <td ng-if="item.STATUS==3">Delieverd</td>
+                            <td ng-if="item.STATUS==1"><a ng-click="changeStatus(item.CART_ID)"><span class="dispatch">Ready To Shipped <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span></a></td>
+                            <td ng-if="item.STATUS==2">Ready To Shipped</td>
+                            <td ng-if="item.STATUS==3">Delieverd</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+
+            </div>
+        </asp:Panel>
+
+        <asp:Panel ID="pnlPayment" runat="server">
+          <div class="table-wrapper clearfix" style="padding: 19px;">Payment
+              <table class="table table-striped table-bordered">
+                  <thead>
+                      <tr>
+                          <th class="text-center" width="50">S.N.</th>
+                          <th>Transaction No</th>
+                          <th>Status</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr ng-repeat="item in model">
+                          <td class="text-center">{{$index+1}}</td>
+                          <td>{{item.TRANSACTION_ID}}</td>
+                          <td>{{item.RETAILOR_PAY_STATUS}}</td>
+                      </tr>
+                  </tbody>
+              </table>
+
+
+          </div>
+        </asp:Panel>
+
+        <asp:Panel ID="pnlPassbook" runat="server">
+         <div class="table-wrapper clearfix" style="padding: 19px;">Passbook
+             <table class="table table-striped table-bordered">
+                 <thead>
+                     <tr>
+                         <th class="text-center" width="50">S.No</th>
+                         <th>Transaction No</th>
+                         <th>Amount</th>
+                         <th>Date</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                     <tr ng-repeat="item in model">
+                         <td class="text-center">{{$index+1}}</td>
+                         <td>{{item.TRANSACTION_ID}}</td>
+                         <td>{{item.RETAILOR_PAY_AMOUNT}}</td>
+                         <td>{{item.RETAILOR_PAY_DATE}}</td>
+                     </tr>
+                 </tbody>
+             </table>
+
+
+         </div>
+        </asp:Panel>
 
     </div>
 

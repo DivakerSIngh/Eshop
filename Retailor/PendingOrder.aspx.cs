@@ -28,7 +28,7 @@ public partial class Retailor_PendingOrder : System.Web.UI.Page
     public static List<Retailer> getAllOrderList(string id,int action,string fromdate,string todate,string status)
     {
       // var id= HttpContext.Current.Session["loginid"].ToString();
-        var list= DB.getAllOrderListForReatiler(id, 1, fromdate, todate, status);
+        var list= DB.getAllOrderListForReatiler(id, 1, fromdate, todate,Convert.ToInt16(status));
         JavaScriptSerializer searialize = new JavaScriptSerializer();
         var json =searialize.Serialize(list);
         return list;

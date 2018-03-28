@@ -105,7 +105,7 @@
                             text: 'Dashboard Chart'
                         },
                         credits: {
-                            enabled: true
+                            enabled: false
                         },
                         xAxis: {
                             categories: [
@@ -257,7 +257,7 @@
         <div class="wallet-buttons">
             <div class="col-sm-10 bot">
 
-                <asp:LinkButton PostBackUrl="~/Retailor/RetailorDashboard.aspx?type=1" ID="btnOrderTacking" class="btn btn-primary" runat="server">Order Tarcking</asp:LinkButton>
+                <asp:LinkButton PostBackUrl="~/Retailor/RetailorDashboard.aspx?type=1" ID="btnOrderTacking" class="btn btn-primary" runat="server">Order Tracking</asp:LinkButton>
                 <asp:LinkButton PostBackUrl="~/Retailor/RetailorDashboard.aspx?type=2" ID="btnPayment" class="btn btn-primary" runat="server">Payment</asp:LinkButton>
                 <asp:LinkButton PostBackUrl="~/Retailor/RetailorDashboard.aspx?type=3" ID="btnPassbook" class="btn btn-primary" runat="server">Passbook</asp:LinkButton>
                 <%-- <asp:LinkButton ID="btnPassbook" class="btn btn-primary" runat="server" OnClick="btnPassbook_Click" >Passbook</asp:LinkButton>--%>

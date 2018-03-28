@@ -18,7 +18,7 @@
             var privacyPolicy = "";
             if (Convert.ToBoolean(type))
             {
-                privacyPolicy = "15 Days Deturn Dolicy";
+                privacyPolicy = "15 Days Return Policy";
             }else
             {
                  privacyPolicy = "No Return Policy";

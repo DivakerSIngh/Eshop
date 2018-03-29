@@ -208,24 +208,10 @@
 
 
  <li>
-                                <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-th nav_icon"></i><span class="nav-label">Report</span><span class="fa arrow"></span></a>
-                                <%--<ul class="nav nav-second-level">
-                                    <li><a href="RetailerList.aspx" class=" hvr-bounce-to-right"><i class="fa fa-area-chart nav_icon"></i>Retailer List</a></li>
-
-                                    <li><a href="AddRetailerInfo.aspx" class=" hvr-bounce-to-right"><i class="fa fa-map-marker nav_icon"></i>Add Retailer</a></li>
-
-                                    <li><a href="#" class=" hvr-bounce-to-right"><i class="fa fa-file-text-o nav_icon"></i>Typography</a></li>
-
-                                </ul>--%>
+                                <a href="TransactionDetails.aspx?type=1" class=" hvr-bounce-to-right"><i class="fa fa-th nav_icon"></i><span class="nav-label">Transaction Deatils</span><span class="fa arrow"></span></a>
+                               
                             </li>
-                          <%--<li>
-                                <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-desktop nav_icon"></i><span class="nav-label">Products</span><span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li><a href="ProductList.aspx" class=" hvr-bounce-to-right"><i class="fa fa-info-circle nav_icon"></i>Product List</a></li>
-                                    <li><a href="AddProduct.aspx" class=" hvr-bounce-to-right"><i class="fa fa-question-circle nav_icon"></i>Add Product</a></li>
-                                    <li><a href="AddProductImage.aspx" class=" hvr-bounce-to-right"><i class="fa fa-file-o nav_icon"></i>Add Product Image</a></li>
-                                </ul>
-                            </li>--%>
+                        
                             
                         </ul>
                     </div>

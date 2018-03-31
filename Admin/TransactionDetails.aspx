@@ -34,7 +34,7 @@
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.js"></script>    
     <link rel="Stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/themes/redmond/jquery-ui.css" />  
      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-    
+    <script src="../js2/common.js"></script>
     
 
    
@@ -148,8 +148,8 @@
         <div class="wallet-buttons">
             <div class="col-sm-10 bot">
 
-                <asp:LinkButton PostBackUrl="~/Admin/TransactionDetails.aspx?type=1" ID="btnRetailer" class="btn btn-primary" runat="server">Retailer</asp:LinkButton>
-                <asp:LinkButton PostBackUrl="~/Admin/TransactionDetails.aspx?type=2" ID="btnLogistic" class="btn btn-primary" runat="server">Logistic</asp:LinkButton>
+                <asp:LinkButton Visible="false" PostBackUrl="~/Admin/TransactionDetails.aspx?type=1" ID="btnRetailer" class="btn btn-primary" runat="server">Retailer</asp:LinkButton>
+                <asp:LinkButton Visible="false" PostBackUrl="~/Admin/TransactionDetails.aspx?type=2" ID="btnLogistic" class="btn btn-primary" runat="server">Logistic</asp:LinkButton>
                
             </div>
         </div>

@@ -11,7 +11,7 @@ public partial class Admin_TransactionDetails : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        bindRetailer();
+      
         if (!IsPostBack)
         {
             pnlRetailer.Visible = true;
@@ -40,14 +40,9 @@ public partial class Admin_TransactionDetails : System.Web.UI.Page
         var list = DB.getPaymentStatus(id, action, fromdate, todate, Convert.ToInt16(status));
         return list;
     }
-    private void bindRetailer()
+    [WebMethod]
+    public static List<Retailer> bindRetailer(int id)
     {
-        DB obj = new DB();
-        var lst = obj.bindRetailer();
-        ddlRetailer.DataSource = lst;
-        ddlRetailer.DataValueField = "USERID";
-        ddlRetailer.DataTextField = "USER_NAME";
-        ddlRetailer.DataBind();
-
+        return new DB().bindRetailer();
     }
 }

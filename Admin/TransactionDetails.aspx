@@ -41,7 +41,7 @@
   
     <script src="/js2/skycons.js"></script>
     <style>
-        .ddl{
+        .ddl,#ddlRetailer{
             margin-left: 11%;
                 width: 211px;
         }
@@ -54,11 +54,13 @@
         }
     </style>
     <script>
-        debugger;
+       
         var app = angular.module('myApp', []);
-        var loginUserId = '<%=ddlRetailer.SelectedValue%>';
+        var loginUserId = '';
         app.controller('myCtrl', function ($scope, $http, $filter) {
-            debugger;
+           
+            common.httpPost("TransactionDetails.aspx/bindRetailer", "{'id':" + 1 + "}", false, success = function (data) { $scope.retailerList = data; }, failure = function (response) { });
+            $scope.retailerId = $scope.retailerList[0].USERID;
             $scope.currentPage = 0;
             $scope.type = $('#hdnType').val();
             $scope.pageSize = 1000000;
@@ -69,7 +71,11 @@
             $scope.todate = "";
             $scope.status = "1"
            
-            
+            $scope.getRetailerTransaction = function () {
+                $scope.type = 1;
+                $scope.getAllProduct(1);
+            }
+
             $scope.getData = function () {
                 return $filter('filter')($scope.model, $scope.query)
             }
@@ -91,7 +97,8 @@
                
                 if ($scope.type == 1)
                 {
-                    debugger;
+                    loginUserId = $scope.retailerId;
+                   
                     common.httpPost("TransactionDetails.aspx/getPaymentDetail",
                    "{'id':'" + loginUserId + "', 'action':'" + parseInt(5) + "','fromdate':'" + $scope.fromdate + "','todate':'" + $scope.todate + "','status':'" + $scope.status + "'}", false, success = function (data) {
 
@@ -156,7 +163,11 @@
         <asp:Panel ID="pnlRetailer" runat="server">
             <div class="col-sm-6 filterdiv">
                 <label class="col-sm-2">Retailer</label>
-                <asp:DropDownList ID="ddlRetailer" runat="server" CssClass="form-control"></asp:DropDownList>
+                <select id="ddlRetailer" class="form-control" ng-model="retailerId" ng-change="getRetailerTransaction()">
+                    <option value="" selected>Select</option>
+                    <option ng-repeat="item in retailerList" value="{{item.USERID}}">{{item.USER_NAME}}</option>
+                </select>
+              <%--  <asp:DropDownList ID="ddlRetailer" runat="server" CssClass="form-control"></asp:DropDownList>--%>
             </div>
             
             <div class="table-wrapper clearfix" style="padding: 19px;">
@@ -174,7 +185,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="item in model>
+                        <tr ng-repeat="item in model">
                             <td class="text-center">{{$index+1}}</td>
                             <td><a ng-click="showDesc(item)">{{item.TRANSACTION_ID}}</a></td>
                             <td class="text-center">{{item.TRANSACTION_DATE}}</td>

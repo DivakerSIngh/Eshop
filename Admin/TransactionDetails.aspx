@@ -41,9 +41,30 @@
   
     <script src="/js2/skycons.js"></script>
     <style>
+        span.spnLable {
+    font-size: 16px;
+}
+        .td-details {
+    padding: 9px;
+}
         .ddl,#ddlRetailer{
             margin-left: 11%;
                 width: 211px;
+        }
+        .modal-body{
+            border-bottom: 1px solid #ede9e9;
+        }
+        .divfooter{
+            text-align: center;
+        }
+        .divfooter input[type=button]{
+            margin: 20px;
+    background: #0280e1;
+    border: none;
+    padding: 9px;
+    color: #fff;
+    font-size: 1em;
+    outline: none;
         }
         .wallet-buttons{
             margin-left: 37%;
@@ -60,6 +81,7 @@
         app.controller('myCtrl', function ($scope, $http, $filter) {
            
             common.httpPost("TransactionDetails.aspx/bindRetailer", "{'id':" + 1 + "}", false, success = function (data) { $scope.retailerList = data; }, failure = function (response) { });
+
             $scope.retailerId = $scope.retailerList[0].USERID;
             $scope.currentPage = 0;
             $scope.type = $('#hdnType').val();
@@ -100,7 +122,7 @@
                     loginUserId = $scope.retailerId;
                    
                     common.httpPost("TransactionDetails.aspx/getPaymentDetail",
-                   "{'id':'" + loginUserId + "', 'action':'" + parseInt(5) + "','fromdate':'" + $scope.fromdate + "','todate':'" + $scope.todate + "','status':'" + $scope.status + "'}", false, success = function (data) {
+                   "{'id':'" + loginUserId + "', 'action':'" + parseInt(5) + "','fromdate':'" + $scope.fromdate + "','todate':'" + $scope.todate + "','status':'" + $scope.status + "'}", true, success = function (data) {
 
                        $scope.model = data;
                    }, failure = function (response) {
@@ -278,36 +300,30 @@
                         <h4 class="modal-title">Transaction Details</h4>
                     </div>
                     <div class="modal-body modal-body-sub">
-                        <div>
+                        <div class="td-details">
                            <span class="spnLable"> Transaction Id  :</span> {{transactionId}}
                         </div>
-                        <div>
-                          <span class="spnLable">  Date :</span> {{transactionDate}}
+                        <div  class="td-details">
+                          <span class="spnLable">  Payment Mode :</span> <select>
+                              <option>COD</option>
+                               <option>Netbanking</option>
+                               <option>Cash</option>
+                                                                         </select>
                         </div>
-                        <div>
-                          <span class="spnLable">  User Name :</span> {{userName}}
+                        <div  class="td-details">
+                          <span class="spnLable"> Payment Status :</span> Pending
                         </div>
-                        <div>
-                          <span class="spnLable">  Address : </span>{{address}}
-                        </div>
-                        <div>
-                          <span class="spnLable">  Product Title :</span> {{productTitle}}
-                        </div>
-                        <div>
-                          <span class="spnLable">  Description :</span> {{productDescription}}
-                        </div>
-                        <div>
-                          <span class="spnLable">  Measurement : </span>{{productMeasurement}}
-                        </div>
-                        <div>
-                          <span class="spnLable">  Quantity :</span> {{quantity}}
-                        </div>
-                        <div>
-                          <span class="spnLable">  Price :</span> {{price}}
+                        <div  class="td-details">
+                          <span class="spnLable">  Date : </span><input type="date"/>
                         </div>
                        
+                       
+                    </div>
+                    <div class="divfooter">
+                        <input type="button" class="btn-default" value="Update Status" />
                     </div>
                 </div>
+                
             </div>
         </div>
       </div>

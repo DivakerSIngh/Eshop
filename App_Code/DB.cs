@@ -4962,6 +4962,74 @@ public class DB
 
     }
 
+    public static List<Retailer> getPaymentStatus(string id, int action, string fromdate, string todate, int status = 0)
+    {
+        SqlConnection con = new SqlConnection();
+        SqlCommand cmd = new SqlCommand();
+        List<Retailer> retailerList = new List<Retailer>();
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "EShop_GetAllOrders";
+            cmd.Parameters.AddWithValue("@RID", id);
+            cmd.Parameters.AddWithValue("@LID", null);
+            cmd.Parameters.AddWithValue("@STATUS", status);
+            cmd.Parameters.AddWithValue("@ACTION", action);
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                var reatailer = new Retailer()
+                {
+                    ADDRESS = Convert.ToString(dr["ADDRESS"]),
+                    CART_ID = Convert.ToString(dr["CART_ID"]),
+                    COSTPRICE = Convert.ToString(dr["COSTPRICE"]),
+                    DELIVERY_AMOUNT = Convert.ToString(dr["DELIVERY_AMOUNT"]),
+                    MEASUREMENT = Convert.ToString(dr["MEASUREMENT"]),
+                    PRODUCT_DECSRIPTION = Convert.ToString(dr["PRODUCT_DECSRIPTION"]),
+                    PRODUCT_ID = Convert.ToString(dr["PRODUCT_ID"]),
+                    PRODUCT_TITLE = Convert.ToString(dr["PRODUCT_TITLE"]),
+                    QUANTITY = Convert.ToString(dr["QUANTITY"]),
+                    SELLINGPRICE = Convert.ToString(dr["SELLINGPRICE"]),
+                    TRANSACTION_ID = Convert.ToString(dr["TRANSACTION_ID"]),
+                    USERID = Convert.ToString(dr["USERID"]),
+                    USER_ADDRESS = Convert.ToString(dr["USER_ADDRESS"]),
+                    USER_CITY = Convert.ToString(dr["USER_CITY"]),
+                    USER_EMAIL_ID = Convert.ToString(dr["USER_EMAIL_ID"]),
+                    USER_GENDER = Convert.ToString(dr["USER_GENDER"]),
+                    USER_NAME = Convert.ToString(dr["USER_NAME"]),
+                    USER_PINCODE = Convert.ToString(dr["USER_PINCODE"]),
+                    USER_STATE = Convert.ToString(dr["USER_STATE"]),
+                    STATUS = Convert.ToString(dr["STATUS"]),
+                    TRANSACTION_DATE = Convert.ToString(dr["TRANSACTION_DATE"]),
+                    RETAILOR_PAY_STATUS = Convert.ToString(dr["RETAILOR_PAY_STATUS"]),
+                    RETAILOR_PAY_MODE = Convert.ToString(dr["RETAILOR_PAY_MODE"]),
+                    RETAILOR_PAY_TRANSACTION_NO = Convert.ToString(dr["RETAILOR_PAY_TRANSACTION_NO"]),
+
+
+                };
+                retailerList.Add(reatailer);
+
+            }
+            return retailerList;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+            con.Close();
+        }
+        return retailerList;
+
+
+    }
+
     public static List<Retailer> getRetalerPaymentStatus(string id, int action)
     {
         SqlConnection con = new SqlConnection();

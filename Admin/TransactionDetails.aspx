@@ -54,9 +54,71 @@
         }
     </style>
     <script>
+        debugger;
         var app = angular.module('myApp', []);
-        app.controller('myCtrl', function ($scope, $http) {
+        var loginUserId = '<%=ddlRetailer.SelectedValue%>';
+        app.controller('myCtrl', function ($scope, $http, $filter) {
+            debugger;
+            $scope.currentPage = 0;
+            $scope.type = $('#hdnType').val();
+            $scope.pageSize = 1000000;
             $scope.model = [];
+            $scope.query = '';
+            $scope.orderList = [];
+            $scope.fromdate = "";
+            $scope.todate = "";
+            $scope.status = "1"
+           
+            
+            $scope.getData = function () {
+                return $filter('filter')($scope.model, $scope.query)
+            }
+
+            $scope.numberOfPages = function () {
+                return Math.ceil($scope.getData().length / $scope.pageSize);
+            }
+
+            for (var i = 0; i < 65; i++) {
+                $scope.model.push("Item " + i);
+            }
+            $scope.$watch('query', function (newValue, oldValue) {
+                if (oldValue != newValue) {
+                    $scope.currentPage = 0;
+                }
+            }, true);
+
+            $scope.getAllProduct = function (action) {
+               
+                if ($scope.type == 1)
+                {
+                    debugger;
+                    common.httpPost("TransactionDetails.aspx/getPaymentDetail",
+                   "{'id':'" + loginUserId + "', 'action':'" + parseInt(5) + "','fromdate':'" + $scope.fromdate + "','todate':'" + $scope.todate + "','status':'" + $scope.status + "'}", false, success = function (data) {
+
+                       $scope.model = data;
+                   }, failure = function (response) {
+
+                   }
+                   );
+                }
+                if ($scope.type == 2) {
+                    common.httpPost("TransactionDetails.aspx/getPaymentDetail",
+                  "{'id':'" + loginUserId + "', 'action':'" + parseInt(6) + "','fromdate':'" + $scope.fromdate + "','todate':'" + $scope.todate + "','status':'" + $scope.status + "'}", false, success = function (data) {
+
+                      $scope.model = data;
+                  }, failure = function (response) {
+
+                  }
+                  );
+                }
+            }
+            $scope.getAllProduct(0);
+
+            $scope.apply = function () {
+                $scope.getAllProduct(0);
+
+            }
+
             $scope.showDesc = function (item) {
 
                 $scope.transactionId = item.TRANSACTION_ID
@@ -82,7 +144,7 @@
        
     <div ng-app="myApp" ng-controller="myCtrl">
         <asp:HiddenField ID="hdnType" runat="server" ClientIDMode="Static" Value="1" />
-
+        <asp:HiddenField runat="server" ID="hdnUserId" ClientIDMode="Static" />
         <div class="wallet-buttons">
             <div class="col-sm-10 bot">
 
@@ -94,11 +156,7 @@
         <asp:Panel ID="pnlRetailer" runat="server">
             <div class="col-sm-6 filterdiv">
                 <label class="col-sm-2">Retailer</label>
-            <select class="col-sm-4 form-control ddl">
-                <option>asdasasd</option>
-                 <option>asdasasd</option>
-                 <option>asdasasd</option>
-            </select>
+                <asp:DropDownList ID="ddlRetailer" runat="server" CssClass="form-control"></asp:DropDownList>
             </div>
             
             <div class="table-wrapper clearfix" style="padding: 19px;">
@@ -106,7 +164,7 @@
                     <thead>
                         <tr>
                             <th class="text-center" width="50">S.No order</th>
-                            <th>Transaction No</th>
+                            <th>Transaction No/ Order No.</th>
                             <th>Transaction Date</th>
                             <th>Product Title</th>
                             <th>Measurement</th>

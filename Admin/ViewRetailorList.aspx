@@ -98,8 +98,8 @@
                                 </asp:TemplateField>
                                  <asp:TemplateField HeaderText="Status">
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="lnkBlock" Visible='<%# CheckVisible(Eval("RStatus"))%>' runat="server" class="btn btn-warning" style="margin:10px 0;" CommandArgument='<%#Eval("rid") %>' OnCommand="lnkBlock_Command">Block</asp:LinkButton>
-                                        <asp:LinkButton ID="lnkActive" Visible='<%# CheckVisibleActive(Eval("RStatus"))%>' runat="server" class="btn btn-warning" style="margin:10px 0;" CommandArgument='<%#Eval("rid") %>' OnCommand="lnkActive_Command">Active</asp:LinkButton>
+                                        <asp:LinkButton ID="lnkBlock" Visible='<%# CheckVisible(Eval("RStatus"))%>' runat="server" class="btn btn-warning" style="margin:10px 0;" BackColor="#ff0000" CommandArgument='<%#Eval("userid") %>' OnCommand="lnkBlock_Command">Block</asp:LinkButton>
+                                        <asp:LinkButton ID="lnkActive" Visible='<%# CheckVisibleActive(Eval("RStatus"))%>' runat="server" class="btn btn-warning" style="margin:10px 0;" BackColor="#33cc33" CommandArgument='<%#Eval("userid") %>' OnCommand="lnkActive_Command">Active</asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

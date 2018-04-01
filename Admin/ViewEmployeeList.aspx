@@ -141,6 +141,11 @@
                                         <asp:LinkButton ID="LinkButtonProdDelete" CssClass="btn btn-danger" runat="server"  CommandArgument='<%#Eval("EmpId") %>' OnCommand="LinkButtonProdDelete_Command" >Delete</asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
+                                 <asp:TemplateField HeaderText="Status">
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="lnkBlock" CssClass="btn btn-danger" runat="server"  CommandArgument='<%#Eval("EmpId") %>' OnCommand="lnkBlock_Command" >Delete</asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                             </Columns>
                             <EditRowStyle BackColor="#999999" />
                             <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />

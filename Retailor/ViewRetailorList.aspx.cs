@@ -53,4 +53,9 @@ public partial class Retailor_ViewRetailorList : System.Web.UI.Page
         string rid = e.CommandArgument.ToString();
         Response.Redirect("AddRetailorInfo.aspx?type=U&rid=" + rid);
     }
+
+    protected void lnkBlock_Command(object sender, CommandEventArgs e)
+    {
+
+    }
 }

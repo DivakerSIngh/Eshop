@@ -84,4 +84,9 @@ public partial class Admin_ViewEmployeeList : System.Web.UI.Page
             obj = null;
         }
     }
+
+    protected void lnkBlock_Command(object sender, CommandEventArgs e)
+    {
+
+    }
 }

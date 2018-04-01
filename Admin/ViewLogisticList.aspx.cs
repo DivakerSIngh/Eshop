@@ -49,4 +49,9 @@ public partial class Logistic_ViewLogisticList : System.Web.UI.Page
         string lid = e.CommandArgument.ToString();
         Response.Redirect("AddLogisticInfo.aspx?type=U&lid="+lid);
     }
+
+    protected void lnkBlock_Command(object sender, CommandEventArgs e)
+    {
+
+    }
 }

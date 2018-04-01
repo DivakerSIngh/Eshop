@@ -124,6 +124,11 @@
                                         <asp:LinkButton ID="LinkButton1" runat="server" class="btn btn-warning" CommandArgument='<%#Eval("lid") %>' OnCommand="LinkButton1_Command">Edit</asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
+                                  <asp:TemplateField HeaderText="Status">
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="lnkBlock" runat="server" class="btn btn-warning" CommandArgument='<%#Eval("lid") %>' OnCommand="lnkBlock_Command">Edit</asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                             </Columns>
                             <EditRowStyle BackColor="#999999" />
                             <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />

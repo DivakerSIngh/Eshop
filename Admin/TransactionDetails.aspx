@@ -102,6 +102,9 @@
             $scope.fromdate = "";
             $scope.todate = "";
             $scope.status = "1"
+            $scope.payementType = "";
+            $scope.payementStatus = "";
+            $scope.date = new Date();
            
             $scope.getRetailerTransaction = function () {
                 
@@ -291,9 +294,9 @@
                         <div  class="td-details">
                           <span class="spnLable">  Payment Mode :</span> 
                             <select ng-model="payementType">
-                              <option id="1">COD</option>
-                               <option id="2">Netbanking</option>
-                               <option id="3">Cash</option>
+                              <option selected value="">COD</option>
+                               <option >Netbanking</option>
+                               <option >Cash</option>
                                                                          </select>
                         </div>
                     
@@ -303,7 +306,7 @@
                         <div  class="td-details">
                           <span class="spnLable"> Payment Status :</span> 
                              <select ng-model="payementStatus">
-                              <option>Proceed</option>
+                              <option selected value="">Proceed</option>
                                <option>Paid</option>
                                <option>Dispute</option>
                                   <option>Refund</option>

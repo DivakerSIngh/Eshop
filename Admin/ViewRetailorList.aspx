@@ -12,7 +12,37 @@
            }
     </script>
       
+    <script runat="server">
+        private bool CheckVisible(object sta)
+        {
+            var isvalid = false;
+            var status=  Convert.ToString(sta);
+            if (status == "N")
+            {
+                isvalid = true;
+            }else
+            {
+                isvalid = false;
+            }
+            return isvalid;
+        }
+         private bool CheckVisibleActive(object sta)
+        {
+            var isvalid = false;
+            var status=  Convert.ToString(sta);
+            if (status == "Y")
+            {
+                isvalid = true;
+            }else
+            {
+                isvalid = false;
+            }
+            return isvalid;
+        }
 
+        
+
+    </script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -68,7 +98,8 @@
                                 </asp:TemplateField>
                                  <asp:TemplateField HeaderText="Status">
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="lnkBlock" runat="server" class="btn btn-warning" style="margin:10px 0;" CommandArgument='<%#Eval("rid") %>' OnCommand="lnkBlock_Command">Block</asp:LinkButton>
+                                        <asp:LinkButton ID="lnkBlock" Visible='<%# CheckVisible(Eval("RStatus"))%>' runat="server" class="btn btn-warning" style="margin:10px 0;" CommandArgument='<%#Eval("rid") %>' OnCommand="lnkBlock_Command">Block</asp:LinkButton>
+                                        <asp:LinkButton ID="lnkActive" Visible='<%# CheckVisibleActive(Eval("RStatus"))%>' runat="server" class="btn btn-warning" style="margin:10px 0;" CommandArgument='<%#Eval("rid") %>' OnCommand="lnkActive_Command">Active</asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

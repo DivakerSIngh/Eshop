@@ -48,7 +48,37 @@
 
         });
     </script>
+     <script runat="server">
+        private bool CheckVisible(object sta)
+        {
+            var isvalid = false;
+            var status=  Convert.ToString(sta);
+            if (status == "N")
+            {
+                isvalid = true;
+            }else
+            {
+                isvalid = false;
+            }
+            return isvalid;
+        }
+         private bool CheckVisibleActive(object sta)
+        {
+            var isvalid = false;
+            var status=  Convert.ToString(sta);
+            if (status == "Y")
+            {
+                isvalid = true;
+            }else
+            {
+                isvalid = false;
+            }
+            return isvalid;
+        }
 
+        
+
+    </script>
     <!----->
 
     <!--pie-chart--->
@@ -126,7 +156,8 @@
                                 </asp:TemplateField>
                                   <asp:TemplateField HeaderText="Status">
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="lnkBlock" runat="server" class="btn btn-warning" CommandArgument='<%#Eval("lid") %>' OnCommand="lnkBlock_Command">Edit</asp:LinkButton>
+                                        <asp:LinkButton ID="lnkBlock" Visible='<%# CheckVisible(Eval("LStatus"))%>' runat="server" class="btn btn-warning" style="margin:10px 0;" CommandArgument='<%#Eval("lid") %>' OnCommand="lnkBlock_Command">Block</asp:LinkButton>
+                                        <asp:LinkButton ID="lnkActive" Visible='<%# CheckVisibleActive(Eval("LStatus"))%>' runat="server" class="btn btn-warning" style="margin:10px 0;" CommandArgument='<%#Eval("lid") %>' OnCommand="lnkActive_Command">Active</asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

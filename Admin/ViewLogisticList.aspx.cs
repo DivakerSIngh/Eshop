@@ -52,6 +52,13 @@ public partial class Logistic_ViewLogisticList : System.Web.UI.Page
 
     protected void lnkBlock_Command(object sender, CommandEventArgs e)
     {
+        new DB().Update_RLE_Status(2, "Y", e.CommandArgument.ToString());
+        get_logistic_List();
+    }
 
+    protected void lnkActive_Command(object sender, CommandEventArgs e)
+    {
+        new DB().Update_RLE_Status(2, "N", e.CommandArgument.ToString());
+        get_logistic_List();
     }
 }

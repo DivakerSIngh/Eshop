@@ -56,6 +56,13 @@ public partial class Retailor_ViewRetailorList : System.Web.UI.Page
 
     protected void lnkBlock_Command(object sender, CommandEventArgs e)
     {
+        new DB().Update_RLE_Status(1, "Y", e.CommandArgument.ToString());
+        load_retailer_list();
+    }
 
+    protected void lnkActive_Command(object sender, CommandEventArgs e)
+    {
+        new DB().Update_RLE_Status(1, "N", e.CommandArgument.ToString());
+        load_retailer_list();
     }
 }

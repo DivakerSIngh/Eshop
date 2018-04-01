@@ -36,11 +36,16 @@
      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script src="../js2/common.js"></script>
     
-
-   
+    <script src="../js2/pace/pace.min.js"></script>
+    <link href="../js2/pace/pace.min.css" rel="stylesheet" />
   
     <script src="/js2/skycons.js"></script>
     <style>
+        input[readonly=readonly] {
+    background: #80808047;
+    border: none;
+    text-align: center;
+}
         span.spnLable {
     font-size: 16px;
 }
@@ -48,7 +53,7 @@
     padding: 9px;
 }
         .ddl,#ddlRetailer{
-            margin-left: 11%;
+          
                 width: 211px;
         }
         .modal-body{
@@ -73,6 +78,11 @@
         .filterdiv{
             margin: 20px;
         }
+        .changeStatus{
+            background: #337ab7;
+    padding: 6px;
+        }
+
     </style>
     <script>
        
@@ -94,6 +104,9 @@
             $scope.status = "1"
            
             $scope.getRetailerTransaction = function () {
+                
+               // $('.loader').show();
+                if (!$scope.retailerId) alert("Please select retailer first");
                 $scope.type = 1;
                 $scope.getAllProduct(1);
             }
@@ -125,6 +138,7 @@
                    "{'id':'" + loginUserId + "', 'action':'" + parseInt(5) + "','fromdate':'" + $scope.fromdate + "','todate':'" + $scope.todate + "','status':'" + $scope.status + "'}", false, success = function (data) {
 
                        $scope.model = data;
+                      // $('.loader').hide();
                    }, failure = function (response) {
 
                    }
@@ -151,7 +165,7 @@
             $scope.showDesc = function (item) {
 
                 $scope.transactionId = item.TRANSACTION_ID
-                $scope.transactionDate = item.TRANSACTION_DATE
+                $scope.paymentStatus = 'Pending'
                 $scope.userName = item.USER_NAME
                 $scope.address = item.ADDRESS
                 $scope.productTitle = item.PRODUCT_TITLE
@@ -163,13 +177,22 @@
 
 
             }
+            $scope.updateStatus = function () {
+                debugger
+                $scope.transactionId
+                $scope.date
+                $scope.payementType
+              
+
+            }
+           
         })
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
      <form runat="server">
      <asp:ScriptManager ID="scc" runat="server"></asp:ScriptManager>
-   
+
        
     <div ng-app="myApp" ng-controller="myCtrl">
         <asp:HiddenField ID="hdnType" runat="server" ClientIDMode="Static" Value="1" />
@@ -183,14 +206,17 @@
             </div>
         </div>
         <asp:Panel ID="pnlRetailer" runat="server">
-            <div class="col-sm-6 filterdiv">
+            <div class="col-sm-12 filterdiv">
                 <label class="col-sm-2">Retailer</label>
-                <select id="ddlRetailer" class="form-control" ng-model="retailerId" ng-change="getRetailerTransaction()">
+                <select id="ddlRetailer" class="col-sm-2 form-control" ng-model="retailerId" >
                     <option value="" selected>Select</option>
                     <option ng-repeat="item in retailerList" value="{{item.USERID}}">{{item.USER_NAME}}</option>
                 </select>
-              <%--  <asp:DropDownList ID="ddlRetailer" runat="server" CssClass="form-control"></asp:DropDownList>--%>
+                <div class="col-sm-6">
+                <input type="button" value="Search" class="btn btn-primary" ng-click="getRetailerTransaction()" />
             </div>
+            </div>
+          
             
             <div class="table-wrapper clearfix" style="padding: 19px;">
                 <table class="table table-striped table-bordered">
@@ -203,24 +229,22 @@
                             <th>Measurement</th>
                             <th>Quantity</th>
                             <th>Status</th>
-                            <th>Action</th>
+                           
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="item in model">
+                        <tr ng-repeat="item in model" ng-cloack>
                             <td class="text-center">{{$index+1}}</td>
-                            <td><a ng-click="showDesc(item)">{{item.TRANSACTION_ID}}</a></td>
+                            <td>
+                                <a ng-show="item.RETAILOR_PAY_STATUS==''" ng-click="showDesc(item)">{{item.TRANSACTION_ID}}</a>
+                                <a ng-show="item.RETAILOR_PAY_STATUS">{{item.TRANSACTION_ID}}</a>
+                            </td>
                             <td class="text-center">{{item.TRANSACTION_DATE}}</td>
                             <td class="text-center">{{item.PRODUCT_TITLE}}</td>
                             <td class="text-center">{{item.MEASUREMENT}}</td>
                             <td class="text-center">{{item.QUANTITY}}</td>
-                            <td ng-if="item.STATUS==1">Pending</td>
-                            <td ng-if="item.STATUS==2">Ready To Shipped</td>
-                            <td ng-if="item.STATUS==3">Delieverd</td>
-                            <td ng-if="item.STATUS==1"><a ng-click="changeStatus(item.CART_ID)"><span class="dispatch">Ready To Shipped <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span></a></td>
-                            <td ng-if="item.STATUS==2">Ready To Shipped</td>
-                            <td ng-if="item.STATUS==3">Delieverd</td>
-
+                            <td ng-if="!item.RETAILOR_PAY_STATUS">Pending</td>
+                            <td ng-if="item.RETAILOR_PAY_STATUS">Pais</td>
                         </tr>
 
                     </tbody>
@@ -236,56 +260,7 @@
         </asp:Panel>
 
          <asp:Panel ID="pnlLogistic" runat="server">
-              <div class="col-sm-6 filterdiv">
-                <label class="col-sm-2">Logistic</label>
-            <select class="col-sm-4 form-control ddl">
-                <option>asdasasd</option>
-                 <option>asdasasd</option>
-                 <option>asdasasd</option>
-            </select>
-            </div>
-            
-            <div class="table-wrapper clearfix" style="padding: 19px;">
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th class="text-center" width="50">S.No order</th>
-                            <th>Transaction No</th>
-                            <th>Transaction Date</th>
-                            <th>Product Title</th>
-                            <th>Measurement</th>
-                            <th>Quantity</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="item in model>
-                            <td class="text-center">{{$index+1}}</td>
-                            <td><a ng-click="showDesc(item)">{{item.TRANSACTION_ID}}</a></td>
-                            <td class="text-center">{{item.TRANSACTION_DATE}}</td>
-                            <td class="text-center">{{item.PRODUCT_TITLE}}</td>
-                            <td class="text-center">{{item.MEASUREMENT}}</td>
-                            <td class="text-center">{{item.QUANTITY}}</td>
-                            <td ng-if="item.STATUS==1">Pending</td>
-                            <td ng-if="item.STATUS==2">Ready To Shipped</td>
-                            <td ng-if="item.STATUS==3">Delieverd</td>
-                            <td ng-if="item.STATUS==1"><a ng-click="changeStatus(item.CART_ID)"><span class="dispatch">Ready To Shipped <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span></a></td>
-                            <td ng-if="item.STATUS==2">Ready To Shipped</td>
-                            <td ng-if="item.STATUS==3">Delieverd</td>
-
-                        </tr>
-
-                    </tbody>
-                   
-                </table>
-
-                   <div class="noRecord" ng-if="model.length<1">
-                  <h3>
-                      No Record Found
-                  </h3>
-              </div>
-            </div>
+             
         </asp:Panel>
 
 
@@ -301,26 +276,28 @@
                     </div>
                     <div class="modal-body modal-body-sub">
                         <div class="td-details">
-                           <span class="spnLable"> Transaction Id  :</span> {{transactionId}}
+                           <span class="spnLable"> Transaction Id  :</span>
+                            <input type="text" readonly="readonly" ng-model="transactionId" value="{{transactionId}}" /> 
                         </div>
                         <div  class="td-details">
-                          <span class="spnLable">  Payment Mode :</span> <select>
+                          <span class="spnLable">  Payment Mode :</span> 
+                            <select ng-model="payementType">
                               <option>COD</option>
                                <option>Netbanking</option>
                                <option>Cash</option>
                                                                          </select>
                         </div>
                         <div  class="td-details">
-                          <span class="spnLable"> Payment Status :</span> Pending
+                          <span class="spnLable"> Payment Status :</span>  <input type="text" readonly="readonly"  value="Pending" />  
                         </div>
                         <div  class="td-details">
-                          <span class="spnLable">  Date : </span><input type="date"/>
+                          <span class="spnLable">  Date : </span><input type="date" mg-model="date"/>
                         </div>
                        
                        
                     </div>
                     <div class="divfooter">
-                        <input type="button" class="btn-default" value="Update Status" />
+                        <input type="button" ng-click="updateStatus()" class="btn-default" value="Update Status" />
                     </div>
                 </div>
                 

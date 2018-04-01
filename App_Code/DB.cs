@@ -4839,7 +4839,7 @@ public class DB
         try
         {
             con = new SqlConnection(DB.constr);
-            string str = "SELECT UserId, RName FROM RetailerInfo";
+            string str = "SELECT a.UserId, a.RName FROM RetailerInfo a inner join Retailer_LoginInfo b on a.UserId=b.UserId where b.RStatus='Y'";
             cmd = new SqlCommand(str);
             cmd.Connection = con;
             con.Open();
@@ -5629,7 +5629,38 @@ public class DB
         }
         return i;
     }
-    #endregion
+
+    public int Update_RLE_Status(int action, string status, string id)
+    {
+        int i = 0;
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "ESHOP_UPDATE_RLE_STATUS";
+            cmd.Parameters.AddWithValue("@ACTION", action);
+            cmd.Parameters.AddWithValue("@STATUS", status);
+            cmd.Parameters.AddWithValue("@ID", id);
+           
+            con.Open();
+            i = cmd.ExecuteNonQuery();
+
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+        return i;
+    }
+#endregion
 
 
 }

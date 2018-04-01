@@ -40,6 +40,13 @@ public partial class Admin_TransactionDetails : System.Web.UI.Page
         var list = DB.getPaymentStatus(id, action, fromdate, todate, Convert.ToInt16(status));
         return list;
     }
+
+    [WebMethod]
+    public static int updatePaymentStatus(string Rid, string transaction_id, string RETAILOR_PAY_TRANSACTION_NO, string RETAILOR_PAY_DATE, string RETAILOR_PAY_AMOUNT, string RETAILOR_PAY_STATUS, string RETAILOR_PAY_MODE)
+    {
+        var status =new  DB().Update_Retailer_Payment(Rid, transaction_id, RETAILOR_PAY_TRANSACTION_NO, Convert.ToDateTime(RETAILOR_PAY_DATE), RETAILOR_PAY_AMOUNT, RETAILOR_PAY_STATUS, RETAILOR_PAY_MODE);
+        return status;
+    }
     [WebMethod]
     public static List<Retailer> bindRetailer(int id)
     {

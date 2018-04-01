@@ -180,9 +180,19 @@
             $scope.updateStatus = function () {
                 debugger
                 $scope.transactionId
-                $scope.date
+                $scope.date = $('input[type=date]').val();
                 $scope.payementType
-              
+                
+                
+                common.httpPost("TransactionDetails.aspx/updatePaymentStatus",
+                "{'Rid':'" + $scope.retailerId + "', 'transaction_id':'" + $scope.transactionId + "','RETAILOR_PAY_TRANSACTION_NO':'" + $scope.transactionNo + "','RETAILOR_PAY_DATE':'" + $scope.date + "','RETAILOR_PAY_AMOUNT':'" + 0 + "','RETAILOR_PAY_STATUS':'" + $scope.payementStatus + "','RETAILOR_PAY_MODE':'" + $scope.payementType + "'}", false, success = function (data) {
+                    //$scope.model = data;
+                    $scope.getAllProduct(1);
+                    $('#transactionDetails').modal('hide');
+                }, failure = function (response) {
+
+                }
+                );
 
             }
            
@@ -236,15 +246,14 @@
                         <tr ng-repeat="item in model" ng-cloack>
                             <td class="text-center">{{$index+1}}</td>
                             <td>
-                                <a ng-show="item.RETAILOR_PAY_STATUS==''" ng-click="showDesc(item)">{{item.TRANSACTION_ID}}</a>
-                                <a ng-show="item.RETAILOR_PAY_STATUS">{{item.TRANSACTION_ID}}</a>
+                                <a ng-click="showDesc(item)">{{item.TRANSACTION_ID}}</a>
+                              
                             </td>
                             <td class="text-center">{{item.TRANSACTION_DATE}}</td>
                             <td class="text-center">{{item.PRODUCT_TITLE}}</td>
                             <td class="text-center">{{item.MEASUREMENT}}</td>
                             <td class="text-center">{{item.QUANTITY}}</td>
-                            <td ng-if="!item.RETAILOR_PAY_STATUS">Pending</td>
-                            <td ng-if="item.RETAILOR_PAY_STATUS">Pais</td>
+                            <td >{{item.RETAILOR_PAY_STATUS}}</td>
                         </tr>
 
                     </tbody>
@@ -282,13 +291,23 @@
                         <div  class="td-details">
                           <span class="spnLable">  Payment Mode :</span> 
                             <select ng-model="payementType">
-                              <option>COD</option>
-                               <option>Netbanking</option>
-                               <option>Cash</option>
+                              <option id="1">COD</option>
+                               <option id="2">Netbanking</option>
+                               <option id="3">Cash</option>
                                                                          </select>
                         </div>
+                    
+                         <div  class="td-details" ng-show="payementType=='Netbanking'">
+                          <span class="spnLable"> Transaction No :</span>  <input type="text" value="" ng-model="transactionNo" maxlength="100" />  
+                        </div>
                         <div  class="td-details">
-                          <span class="spnLable"> Payment Status :</span>  <input type="text" readonly="readonly"  value="Pending" />  
+                          <span class="spnLable"> Payment Status :</span> 
+                             <select ng-model="payementStatus">
+                              <option>Proceed</option>
+                               <option>Paid</option>
+                               <option>Dispute</option>
+                                  <option>Refund</option>
+                                                                         </select> 
                         </div>
                         <div  class="td-details">
                           <span class="spnLable">  Date : </span><input type="date" mg-model="date"/>

@@ -122,7 +122,7 @@
                     loginUserId = $scope.retailerId;
                    
                     common.httpPost("TransactionDetails.aspx/getPaymentDetail",
-                   "{'id':'" + loginUserId + "', 'action':'" + parseInt(5) + "','fromdate':'" + $scope.fromdate + "','todate':'" + $scope.todate + "','status':'" + $scope.status + "'}", true, success = function (data) {
+                   "{'id':'" + loginUserId + "', 'action':'" + parseInt(5) + "','fromdate':'" + $scope.fromdate + "','todate':'" + $scope.todate + "','status':'" + $scope.status + "'}", false, success = function (data) {
 
                        $scope.model = data;
                    }, failure = function (response) {

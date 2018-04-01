@@ -14,6 +14,37 @@
                toastr.error('Error occured Info cannot be viewd try later !');
            }
     </script>
+      <script runat="server">
+        private bool CheckVisible(object sta)
+        {
+            var isvalid = false;
+            var status=  Convert.ToString(sta);
+            if (status == "N")
+            {
+                isvalid = true;
+            }else
+            {
+                isvalid = false;
+            }
+            return isvalid;
+        }
+         private bool CheckVisibleActive(object sta)
+        {
+            var isvalid = false;
+            var status=  Convert.ToString(sta);
+            if (status == "Y")
+            {
+                isvalid = true;
+            }else
+            {
+                isvalid = false;
+            }
+            return isvalid;
+        }
+
+        
+
+    </script>
       
 
 
@@ -141,9 +172,10 @@
                                         <asp:LinkButton ID="LinkButtonProdDelete" CssClass="btn btn-danger" runat="server"  CommandArgument='<%#Eval("EmpId") %>' OnCommand="LinkButtonProdDelete_Command" >Delete</asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                 <asp:TemplateField HeaderText="Status">
+                                  <asp:TemplateField HeaderText="Status">
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="lnkBlock" CssClass="btn btn-danger" runat="server"  CommandArgument='<%#Eval("EmpId") %>' OnCommand="lnkBlock_Command" >Delete</asp:LinkButton>
+                                        <asp:LinkButton ID="lnkBlock" Visible='<%# CheckVisible(Eval("LStatus"))%>' runat="server" class="btn btn-warning" style="margin:10px 0;" CommandArgument='<%#Eval("lid") %>' OnCommand="lnkBlock_Command">Block</asp:LinkButton>
+                                        <asp:LinkButton ID="lnkActive" Visible='<%# CheckVisibleActive(Eval("LStatus"))%>' runat="server" class="btn btn-warning" style="margin:10px 0;" CommandArgument='<%#Eval("lid") %>' OnCommand="lnkActive_Command">Active</asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

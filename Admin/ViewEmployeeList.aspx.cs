@@ -87,6 +87,13 @@ public partial class Admin_ViewEmployeeList : System.Web.UI.Page
 
     protected void lnkBlock_Command(object sender, CommandEventArgs e)
     {
+        new DB().Update_RLE_Status(3, "Y", e.CommandArgument.ToString());
+        load_gv();
+    }
 
+    protected void lnkActive_Command(object sender, CommandEventArgs e)
+    {
+        new DB().Update_RLE_Status(3, "N", e.CommandArgument.ToString());
+        load_gv();
     }
 }

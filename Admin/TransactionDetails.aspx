@@ -52,7 +52,7 @@
         .td-details {
     padding: 9px;
 }
-        .ddl,#ddlRetailer{
+        .ddl,#ddlRetailer,#ddlSortBy{
           
                 width: 211px;
         }
@@ -94,6 +94,7 @@
 
             $scope.retailerId = $scope.retailerList[0].USERID;
             $scope.currentPage = 0;
+            $scope.sortBy = "1";
             $scope.type = $('#hdnType').val();
             $scope.pageSize = 1000000;
             $scope.model = [];
@@ -138,7 +139,7 @@
                     loginUserId = $scope.retailerId;
                    
                     common.httpPost("TransactionDetails.aspx/getPaymentDetail",
-                   "{'id':'" + loginUserId + "', 'action':'" + parseInt(5) + "','fromdate':'" + $scope.fromdate + "','todate':'" + $scope.todate + "','status':'" + $scope.status + "'}", false, success = function (data) {
+                   "{'id':'" + loginUserId + "', 'action':'" + parseInt(5) + "','fromdate':'" + $scope.fromdate + "','todate':'" + $scope.todate + "','status':'" + $scope.status + "','sortBy':'" + $scope.sortBy + "'}", false, success = function (data) {
 
                        $scope.model = data;
                       // $('.loader').hide();
@@ -226,8 +227,18 @@
                     <option ng-repeat="item in retailerList" value="{{item.USERID}}">{{item.USER_NAME}}</option>
                 </select>
                 <div class="col-sm-6">
-                <input type="button" value="Search" class="btn btn-primary" ng-click="getRetailerTransaction()" />
+                <%--<input type="button" value="Search" class="btn btn-primary" ng-click="getRetailerTransaction()" />--%>
             </div>
+
+                  <label class="col-sm-2">Sort By</label>
+                <select id="ddlSortBy" class="col-sm-2 form-control" ng-model="sortBy" >
+                    <option value="1">Order Date</option>
+                    <option value="2">Payment Date</option>
+                </select>
+                <div class="col-sm-6">
+              
+            </div>
+                  <input type="button" value="Search" class="btn btn-primary" ng-click="getRetailerTransaction()" />
             </div>
           
             
@@ -236,13 +247,13 @@
                     <thead>
                         <tr>
                             <th class="text-center" width="50">S.No order</th>
-                            <th>Transaction No/ Order No.</th>
-                            <th>Transaction Date</th>
-                            <th>Product Title</th>
-                            <th>Measurement</th>
-                            <th>Quantity</th>
-                            <th>Status</th>
-                           
+                            <th>Order Id.</th>
+                            <th>Order Date</th>
+                            <th>Delievered Status</th>
+                            <th>Payment Status</th>
+                            <th>Amount</th>
+                            <th>Payment Date</th>  
+                             <th>Action</th>                         
                         </tr>
                     </thead>
                     <tbody>
@@ -253,9 +264,14 @@
                               
                             </td>
                             <td class="text-center">{{item.TRANSACTION_DATE}}</td>
-                            <td class="text-center">{{item.PRODUCT_TITLE}}</td>
-                            <td class="text-center">{{item.MEASUREMENT}}</td>
-                            <td class="text-center">{{item.QUANTITY}}</td>
+                            <td class="text-center">
+                               Delievered
+
+                            </td>
+                            <td class="text-center">{{item.RETAILOR_PAY_STATUS}}</td>
+                            <td class="text-center">{{item.DELIVERY_AMOUNT}}</td>
+                             <td class="text-center">{{item.RETAILOR_PAY_DATE}}</td>
+                            
                             <td >{{item.RETAILOR_PAY_STATUS}}</td>
                         </tr>
 

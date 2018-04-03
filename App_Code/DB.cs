@@ -4962,7 +4962,7 @@ public class DB
 
     }
 
-    public static List<Retailer> getPaymentStatus(string id, int action, string fromdate, string todate, int status = 0)
+    public static List<Retailer> getPaymentStatus(string id, int action, string fromdate, string todate, int status = 0,string sortBy="1")
     {
         SqlConnection con = new SqlConnection();
         SqlCommand cmd = new SqlCommand();
@@ -4979,6 +4979,7 @@ public class DB
             cmd.Parameters.AddWithValue("@LID", null);
             cmd.Parameters.AddWithValue("@STATUS", status);
             cmd.Parameters.AddWithValue("@ACTION", action);
+            cmd.Parameters.AddWithValue("@SORTBY", sortBy);
             con.Open();
             SqlDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
@@ -5009,6 +5010,7 @@ public class DB
                     RETAILOR_PAY_STATUS = Convert.ToString(dr["RETAILOR_PAY_STATUS"]),
                     RETAILOR_PAY_MODE = Convert.ToString(dr["RETAILOR_PAY_MODE"]),
                     RETAILOR_PAY_TRANSACTION_NO = Convert.ToString(dr["RETAILOR_PAY_TRANSACTION_NO"]),
+
 
 
                 };

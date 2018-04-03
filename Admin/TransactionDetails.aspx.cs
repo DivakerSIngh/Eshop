@@ -35,9 +35,9 @@ public partial class Admin_TransactionDetails : System.Web.UI.Page
     }
 
     [WebMethod]
-    public static List<Retailer> getPaymentDetail(string id, int action, string fromdate, string todate, string status)
+    public static List<Retailer> getPaymentDetail(string id, int action, string fromdate, string todate, string status,string sortBy="1")
     {
-        var list = DB.getPaymentStatus(id, action, fromdate, todate, Convert.ToInt16(status));
+        var list = DB.getPaymentStatus(id, action, fromdate, todate, Convert.ToInt16(status), sortBy);
         return list;
     }
 

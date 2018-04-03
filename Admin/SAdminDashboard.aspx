@@ -26,11 +26,19 @@
     margin: 19px;
         }
         .retailerDiv {
-       background: #ff98008c;
-    margin: 17px;
+      background: #46040afa;
+    margin: 0px -16px 12px 0px;
     color: white;
-    font-size: 20px;
-    padding: 43px;
+    font-size: 18px;
+    padding: 46px;
+    font-family: monospace;
+    font-weight: 100;
+     -webkit-transition: width 2s; /* For Safari 3.1 to 6.0 */
+    transition: width 2s;
+}
+        .retailerDiv:hover {
+    transition: all 0.5s ease-in-out;
+    box-shadow: 1px 0px 8px 2px black;
 }
         #btnSearch{
                 margin-top: 26px;
@@ -39,6 +47,11 @@
     background: #ffc673;
     color: white;
     border-radius: 5px;
+        }
+        .total-rt{
+            margin-top: -8px;
+    text-align: center;
+    border-bottom: 1px solid;
         }
     </style>
    <%-- <script src="/js2/screenfull.js"></script>
@@ -198,24 +211,59 @@
     </div>
    
         <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-3">
+           
             <div class="retailerDiv">
-                <div>
-                    Total Retailer:  200 
+                 <div class="total-rt">
+                Total Retailer
+            </div>
+               <div>
+                    Free:  200 
                 </div>
                  <div>
-                    Total Amount: $ 209990 
+                    Premium: $ 209990 
                 </div>
 
             </div>
         </div>
-             <div class="col-sm-4">
+             <div class="col-sm-3">
             <div class="retailerDiv">
+                 <div class="total-rt">
+                Total Customer
+            </div>
                 <div>
-                    Total Logistic:  200 
+                    Free:  200 
                 </div>
                  <div>
-                    Total Amount: $ 209990 
+                    Premium: $ 209990 
+                </div>
+
+            </div>
+        </div>
+             <div class="col-sm-3">
+            <div class="retailerDiv">
+                 <div class="total-rt">
+                Total Orders
+            </div>
+                <div>
+                   Refunded:  200 
+                </div>
+                 <div>
+                    Delivered: $ 209990 
+                </div>
+
+            </div>
+        </div>
+             <div class="col-sm-3">
+            <div class="retailerDiv">
+                 <div class="total-rt">
+                Total Logistic
+            </div>
+                <div>
+                    Free:  200 
+                </div>
+                 <div>
+                    Premium: $ 209990 
                 </div>
 
             </div>
@@ -225,16 +273,16 @@
           <div class="row col-sm-12 col-xs-12">
                <div class="row">
        <%-- <div class="col-sm-12">
-            <div  class="col-sm-4">
+            <div  class="col-sm-3">
                 <label>Start Date</label>
                  <input type="date" class="form-control" />
             </div>
 
-             <div  class="col-sm-4">
+             <div  class="col-sm-3">
                 <label>End Date</label>
                  <input type="date" class="form-control" />
             </div>
-            <div  class="col-sm-4">
+            <div  class="col-sm-3">
                <input type="button" value="Search" id="btnSearch" />
             </div>
            

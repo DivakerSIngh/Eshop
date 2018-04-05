@@ -41,6 +41,8 @@ public partial class Admin_TransactionDetails : System.Web.UI.Page
         return list;
     }
 
+
+
     [WebMethod]
     public static int updatePaymentStatus(string Rid, string transaction_id, string RETAILOR_PAY_TRANSACTION_NO, string RETAILOR_PAY_DATE, string RETAILOR_PAY_AMOUNT, string RETAILOR_PAY_STATUS, string RETAILOR_PAY_MODE)
     {

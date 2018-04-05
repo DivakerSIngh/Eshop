@@ -36,4 +36,12 @@ public partial class Admin_SAdminDashboard : System.Web.UI.Page
         var json = searialize.Serialize(list);
         return list;
     }
+
+    [WebMethod]
+    public static string getDashBoardBudgeCount()
+    {
+        var list = DB.getBudgeCount();
+        var searialize = new JavaScriptSerializer();
+        return searialize.Serialize(list);
+    }
 }

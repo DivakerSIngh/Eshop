@@ -12,6 +12,7 @@ using System.Text;
 using System.IO;
 using RestSharp;
 using RestSharp.Authenticators;
+using System.Collections;
 
 /// <summary>
 /// Summary description for DB
@@ -5284,6 +5285,55 @@ public class DB
             con.Close();
         }
         return retailerList;
+
+
+    }
+
+    public static ArrayList getBudgeCount()
+    {
+        SqlConnection con = new SqlConnection();
+        SqlCommand cmd = new SqlCommand();
+        List<SalesReprot> retailerList = new List<SalesReprot>();
+        ArrayList objs = new ArrayList();
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "EShop_GetAllOrders";
+            cmd.Parameters.AddWithValue("@ACTION", 6);
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+
+           
+            while (dr.Read())
+            {
+                objs.Add(new
+                {
+                    TOTAL_RETAILER_FREE = dr["TOTAL_RETAILER_FREE"],
+                    TOTAL_RETAILER_PREMIUM = dr["TOTAL_RETAILER_PREMIUM"],
+                    TOTAL_LOGISTIC = dr["TOTAL_LOGISTIC"],
+                    TOTAL_ORDER = dr["TOTAL_ORDER"],
+                    TOTAL_USER_FREE = dr["TOTAL_USER_FREE"],
+                    RETURNED_ORDER = dr["RETURNED_ORDER"],
+                    DELIVERED_ORDER = dr["DELIVERED_ORDER"],
+                    TOTAL_USER_PREMIUM = dr["TOTAL_USER_PREMIUM"]
+                });
+               
+            }
+            return objs;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+            con.Close();
+        }
+        return objs;
 
 
     }

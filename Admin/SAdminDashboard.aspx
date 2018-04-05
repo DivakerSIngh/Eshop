@@ -83,12 +83,21 @@
         'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
          var staticArray_Retailer = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
          var staticArray_Logistic = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-         ;
          app.controller('myCtrl', function ($scope, $http) {
-            $scope.model = [];
+             $scope.model = [];
+             $scope.dashboardData = [];
             $scope.staticArray_Retailer = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             $scope.staticArray_Logistic = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-            $scope.chartData = ['jan', 'feb', 'mar', 'apr', 'may', 'jun','jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+            $scope.chartData = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+
+
+            common.httpPost("SAdminDashboard.aspx/getDashBoardBudgeCount",'{}', false, success = function (data) {
+                
+                $scope.dashboardData=JSON.parse(data)[0]
+            }, failure = function (response) {
+
+            })
+            
             
             $scope.chartData = function () {
                 common.httpPost("SAdminDashboard.aspx/getSaleReportForRetailer", "{'year':'" + 2018 + "','action':'4'}", false, success = function (data) {
@@ -218,10 +227,10 @@
                 Total Retailer
             </div>
                <div>
-                    Free:  200 
+                    Free:  {{dashboardData.TOTAL_RETAILER_FREE}}
                 </div>
                  <div>
-                    Premium: $ 209990 
+                    Premium:{{dashboardData.TOTAL_RETAILER_PREMIUM}}
                 </div>
 
             </div>
@@ -232,10 +241,10 @@
                 Total Customer
             </div>
                 <div>
-                    Free:  200 
+                    Free:  {{dashboardData.TOTAL_USER_FREE}}
                 </div>
                  <div>
-                    Premium: $ 209990 
+                    Premium: {{dashboardData.TOTAL_USER_PREMIUM}}
                 </div>
 
             </div>
@@ -246,10 +255,10 @@
                 Total Orders
             </div>
                 <div>
-                   Refunded:  200 
+                   Refunded:  {{dashboardData.RETURNED_ORDER}}
                 </div>
                  <div>
-                    Delivered: $ 209990 
+                    Delivered: {{dashboardData.DELIVERED_ORDER}}
                 </div>
 
             </div>
@@ -260,10 +269,10 @@
                 Total Logistic
             </div>
                 <div>
-                    Free:  200 
+                    Free:  {{dashboardData.TOTAL_LOGISTIC}}
                 </div>
                  <div>
-                    Premium: $ 209990 
+                    Premium: {{dashboardData.TOTAL_LOGISTIC}}
                 </div>
 
             </div>

@@ -6,10 +6,92 @@
     <script src="/ToastMessage/jquery-1.9.1.min.js" type="text/javascript"></script>
     <link href="/ToastMessage/toastr.css" rel="stylesheet" type="text/css" />
     <script src="/ToastMessage/toastr.js" type="text/javascript"></script>
+         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+        <script src="../js2/common.js"></script>
+    <style>
+        .loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
 
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+    </style>
     <script type="text/javascript">
         function f() {
             toastr.error('Error occured Info cannot be viewd try later !');
+        }
+    </script>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('retailerController', ['$scope', '$http', employeeController]);
+       
+        function employeeController($scope, $http) {
+            $scope.retailer = {};
+            $scope.retailerList = [];
+            $scope.loading = false;
+            $scope.updateShow = false;
+            $scope.addShow = true;
+            common.httpPost("AddRetailorInfo.aspx/getretailer", "{}", false, success = function (data) {
+                
+                $scope.retailerList = JSON.parse(data);
+                $scope.loading = false;
+            }, failure = function (response) { });
+
+
+
+         
+            $scope.add = function () {
+                debugger
+                $scope.loading = true;
+                common.httpPost("AddRetailorInfo.aspx/addRetailer", "{'mobile':" + $scope.retailer.Mobile + ",'loginId':" + $('#hdnLoginId').val() + "}", false, success = function (data) {
+                    debugger
+                    $scope.retailerList = JSON.parse(data);
+                    $scope.loading = false;
+                }, failure = function (response) { });
+
+            }
+
+            $scope.edit = function (item) {
+                $scope.userId = item.UserId;
+                $scope.retailer.Mobile = item.Mobile;
+                $scope.updateShow = true;
+                $scope.addShow = false;
+            }
+            $scope.update = function () {
+                $scope.loading = true;
+                common.httpPost("AddRetailorInfo.aspx/updateRetailer", "{'mobile':'" + $scope.retailer.Mobile + "','loginId':'" + $scope.userId + "'}", false, success = function (data) {
+                    $scope.retailerList = JSON.parse(data);
+                    $scope.retailer.Mobile = "";
+                    $scope.updateShow = false;
+                    $scope.addShow = true;
+                    $scope.loading = false;
+                }, failure = function (response) { });
+            }
+
+           
+            $scope.delete = function (item) {
+               
+                $scope.loading = true;
+                common.httpPost("AddRetailorInfo.aspx/deleteRetailer", "{'mobile':'" + item.Mobile + "','loginId':'" + item.UserId + "'}", false, success = function (data) {
+                    $scope.retailerList = JSON.parse(data);
+                    $scope.retailer.Mobile = "";
+                    $scope.updateShow = false;
+                    $scope.addShow = true;
+                    $scope.loading = false;
+                }, failure = function (response) { });
+            }
+            $scope.cancel = function () {
+                $scope.updateShow = false;
+                $scope.addShow = true;
+                $scope.newemployee = '';
+            }
         }
     </script>
 
@@ -41,12 +123,66 @@
 
     <!--content-->
     <!---->
-
+    <div ng-app="myApp" ng-controller="retailerController">
+   
+    <form name="addRetailer" style="width: 600px; margin: 0px auto;"> 
+         <div class="loader" ng-if="loading"></div>
+                    <div class="form-group">  
+                        <label for="cname" class="col-sm-2 control-label">Mobile no:</label>  
+                        <div class="col-sm-10 space">  
+                            <input type="text" maxlength="10" class="form-control" id="mobile" placeholder="Mobile No" ng-model="retailer.Mobile" required />  
+                        </div>  
+                    </div>  
+                   
+                    <br />  
+                    <div class="form-group space">  
+                        <div class="col-sm-offset-2 col-sm-10" style="padding: 16px;">  
+                            <input type="submit" value="Insert" ng-click="add()" ng-show="addShow" ng-disabled="!addRetailer.$valid" class="btn btn-primary" />  
+                            <input type="submit" value="Update" ng-click="update()" ng-show="updateShow" ng-disabled="!addRetailer.$valid" class="btn btn-primary" />  
+                            <input type="button" value="Reset" ng-click="cancel()" class="btn btn-primary" />  
+                        </div>  
+                    </div>  
+                    <br />  
+                </form>
+    <div class="row">  
+            <div class="col-md-12">  
+                <div class="table-responsive">  
+                    <table class="table table-bordered table-hover" style="width: 800px; margin-left: 170px;">  
+                        <tr>  
+                            <th>UserId</th>  
+                            <th>Mobile</th>  
+                            <th>Registration_Mode</th>  
+                            <th>RegistrationType</th>  
+                            <th>Actions</th>  
+                        </tr>  
+                        <tr ng-repeat="item in retailerList">  
+                            <td>  
+                                <p>{{ item.UserId }}</p>  
+                            </td>  
+                            <td>  
+                                <p>{{ item.Mobile }}</p>  
+                            </td>  
+                            <td>  
+                                <p>{{ item.Registration_Mode }}</p>  
+                            </td>  
+                             <td>  
+                                <p>{{ item.RegistrationType }}</p>  
+                            </td> 
+                            <td>  
+                                <p><a ng-click="edit(item)" href="javascript:void(0);">Edit</a> | <a ng-click="delete(item)" href="javascript:void(0);">Delete</a></p>  
+                            </td>  
+                        </tr>  
+                    </table>  
+                </div>  
+            </div>  
+        </div>          
+      </div>
      <form id="createRetailerForm" runat="server" class="form-horizontal">
     <asp:ScriptManager ID="scriptmanager1" runat="server">
     </asp:ScriptManager>
 
-    <asp:UpdatePanel ID="updatepnl" runat="server">
+         <asp:HiddenField ID="hdnLoginId" runat="server" ClientIDMode="Static" />
+    <asp:UpdatePanel ID="updatepnl" runat="server" Visible="false">
         <ContentTemplate>
             <form class="form-horizontal">
                 <div class="blank">

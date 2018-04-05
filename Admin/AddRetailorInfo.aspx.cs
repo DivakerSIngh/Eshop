@@ -7,6 +7,9 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Web.Services;
+using System.Web.Script.Serialization;
+using System.Collections;
 
 public partial class Retailor_AddRetailorInfo : System.Web.UI.Page
 {
@@ -16,6 +19,7 @@ public partial class Retailor_AddRetailorInfo : System.Web.UI.Page
         
         if (Session["loginid"] != null && Session["loginid"].ToString() != "")
         {
+            hdnLoginId.Value = Convert.ToString(Session["loginid"]);
             if (!IsPostBack)
             {
                 if (Request.QueryString["type"] != null && Request.QueryString["type"].ToString() == "U")
@@ -132,7 +136,63 @@ public partial class Retailor_AddRetailorInfo : System.Web.UI.Page
             obj = null;
         }
     }
+    [WebMethod]
+    public static string addRetailer(string mobile,string loginId)
+    {
+        string pwd = DB.GeneratePassword();
+        string logdetails = DB.AddRetailorInfo(mobile, pwd, loginId, "Admin", "free");
+      return  getretailer();
+    }
 
+    [WebMethod]
+    public static string updateRetailer(string mobile, string loginId)
+    {
+        var db = new DB();
+        db.UpdateEmailRetailer(loginId, mobile);
+        return getretailer();
+    }
+
+    [WebMethod]
+    public static string deleteRetailer(string mobile, string loginId)
+    {
+        var db = new DB();
+        db.DeleteRetailer(loginId, mobile);
+        return getretailer();
+    }
+
+
+    [WebMethod]
+    public static string getretailer()
+    {
+        SqlConnection con = new SqlConnection();
+        SqlCommand cmd = new SqlCommand();
+        ArrayList objs = new ArrayList();
+            con = new SqlConnection(DB.constr);
+            cmd = new SqlCommand();
+            cmd.Connection = con;
+            //cmd.CommandType = CommandType.StoredProcedure;
+          
+            cmd.CommandText = "Select * from Retailer_LoginInfo";
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+
+
+            while (dr.Read())
+            {
+                objs.Add(new
+                {
+                    UserId = dr["UserId"],
+                    Mobile = dr["Mobile"],
+                    Registration_Mode = dr["Registration_Mode"],
+                    RegistrationType = dr["RegistrationType"],
+
+                });
+
+            }
+           
+        var searialize = new JavaScriptSerializer();
+        return searialize.Serialize(objs);
+    }
     protected void btnRetReset_Click(object sender, EventArgs e)
     {
         txtOrgPan.Text = "";

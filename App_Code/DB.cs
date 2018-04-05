@@ -2193,6 +2193,19 @@ public class DB
         return res.ToString();
     }
 
+    public static string GeneratePassword()
+    {
+        int length = 8;
+        const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder res = new StringBuilder();
+        Random rnd = new Random();
+        while (0 < length--)
+        {
+            res.Append(valid[rnd.Next(valid.Length)]);
+        }
+        return res.ToString();
+    }
+
     public string CreateGiftVoucherId()
     {
         int length = 4;
@@ -2304,6 +2317,43 @@ public class DB
         finally
         {
             con.Close();
+        }
+
+        return logdetails;
+    }
+
+    public static string AddRetailorInfo(string mobile, string pwd, string empid, string regmode, string regtype)
+    {
+        var conSta = new SqlConnection(ConfigurationManager.ConnectionStrings["SConStr"].ConnectionString);
+       var cmd = new SqlCommand();
+        int i = 0; string logdetails = "";
+        try
+        {
+            cmd = new SqlCommand();
+            cmd.Connection = conSta;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "CreateRetailor_LoginInfo";
+
+            cmd.Parameters.AddWithValue("@empid", empid);
+            cmd.Parameters.AddWithValue("@mobile", mobile);
+            cmd.Parameters.AddWithValue("@pwd", pwd);
+            cmd.Parameters.AddWithValue("@regmode", regmode);
+            cmd.Parameters.AddWithValue("@regtype", regtype);
+            cmd.Parameters.Add("@logdetails", SqlDbType.VarChar, 10).Direction = ParameterDirection.Output;
+
+            conSta.Open();
+            i = cmd.ExecuteNonQuery();
+            //con.Close();
+            logdetails = cmd.Parameters["@logdetails"].Value.ToString();
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            conSta.Close();
         }
 
         return logdetails;
@@ -3954,6 +4004,71 @@ public class DB
 
     }
 
+    
+
+         public void UpdateEmailRetailer(string userid, string mobile)
+    {
+        int i = 0;
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            cmd = new SqlCommand();
+            cmd.Connection = con;
+            //da = new SqlDataAdapter("EShop_GetRetailerDetails", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "EShop_UpdateMobileOfRetailer";
+            cmd.Parameters.AddWithValue("@userid", userid);
+            cmd.Parameters.AddWithValue("@mobile", mobile);
+
+            con.Open();
+            i = cmd.ExecuteNonQuery();
+
+
+
+        }
+        catch (Exception ex)
+        {
+            i = 0;
+        }
+        finally
+        {
+            con.Close();
+        }
+       
+
+    }
+
+    public void DeleteRetailer(string userid, string mobile)
+    {
+        int i = 0;
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            cmd = new SqlCommand();
+            cmd.Connection = con;
+            //da = new SqlDataAdapter("EShop_GetRetailerDetails", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "EShop_DeleteRetailer";
+            cmd.Parameters.AddWithValue("@userid", userid);
+            cmd.Parameters.AddWithValue("@mobile", mobile);
+
+            con.Open();
+            i = cmd.ExecuteNonQuery();
+
+        }
+        catch (Exception ex)
+        {
+            i = 0;
+        }
+        finally
+        {
+            con.Close();
+        }
+
+
+    }
     public int UpdateEmail(string userid, string email)
     {
         int i = 0;

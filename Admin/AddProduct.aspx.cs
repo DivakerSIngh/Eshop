@@ -40,7 +40,7 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("~/PanelLogin.aspx?mode=R");
+            Response.Redirect("~/PanelLogin.aspx?mode=A");
         }
 
     }
@@ -66,7 +66,9 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
             {
                 ddlCategory.SelectedValue = ds.Tables[0].Rows[0]["CId"].ToString();
                 ddlColor.SelectedValue = Convert.ToString(ds.Tables[0].Rows[0]["colors"]);
-                ddlGender.SelectedValue = Convert.ToString(ds.Tables[0].Rows[0]["Gender"]);
+                ddlRetailer.SelectedValue= ds.Tables[0].Rows[0]["userid"].ToString();
+                rbReturnPolicy.SelectedValue= ds.Tables[0].Rows[0]["IsReturnPolicy"].ToString();
+                //ddlGender.SelectedValue = Convert.ToString(ds.Tables[0].Rows[0]["Gender"]);
                 if (string.IsNullOrEmpty(Convert.ToString(ds.Tables[0].Rows[0]["Gender"])))
                 {
                     ddlGender.SelectedValue = "0";
@@ -75,6 +77,7 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
                 else
                 {
                     ddlGender.Visible = true;
+                    ddlGender.SelectedValue = Convert.ToString(ds.Tables[0].Rows[0]["Gender"]);
                 }
                 txtBrand.Text = Convert.ToString(ds.Tables[0].Rows[0]["Brand_Title"]);
                 fill_ddl_Subcategory(ds.Tables[0].Rows[0]["CId"].ToString(), ds.Tables[0].Rows[0]["Gender"].ToString());
@@ -118,30 +121,30 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
                     //}
 
                 }
-
-                txtPTitle.Text = ds.Tables[0].Rows[0][0].ToString();
-                txtPSellingPrice.Text = ds.Tables[0].Rows[0][1].ToString();
-                txtPCostPrice.Text = ds.Tables[0].Rows[0][2].ToString();
-                txtPDescription.Text = ds.Tables[0].Rows[0][3].ToString();
-                txtPQuantity.Text = ds.Tables[0].Rows[0][4].ToString();
-                if (ds.Tables[0].Rows[0]["MFlag"].ToString() == "1")
-                {
-                    rdbtnMeasurement.SelectedIndex = 0;
-                    pnlMeasurement.Visible = true;
-                    string s = ds.Tables[0].Rows[0]["Measurement"].ToString();
-                    string[] prodallsize = s.Split(',');
-                    lbPSizeList.Items.Clear();
-                    foreach (string prodsize in prodallsize)
-                    {
-                        lbPSizeList.Items.Add(prodsize);
-                    }
-                }
-                else
-                {
-                    rdbtnMeasurement.SelectedIndex = 1;
-                    lbPSizeList.Items.Clear();
-                    // pnlMeasurement.Visible = false;
-                }
+                txtPDescription.Text= ds.Tables[0].Rows[0]["PDescription"].ToString();
+                txtPTitle.Text = ds.Tables[0].Rows[0]["headertitle"].ToString();
+                //txtPSellingPrice.Text = ds.Tables[0].Rows[0][1].ToString();
+                //txtPCostPrice.Text = ds.Tables[0].Rows[0][2].ToString();
+                //txtPDescription.Text = ds.Tables[0].Rows[0][3].ToString();
+                //txtPQuantity.Text = ds.Tables[0].Rows[0][4].ToString();
+                //if (ds.Tables[0].Rows[0]["MFlag"].ToString() == "1")
+                //{
+                //    rdbtnMeasurement.SelectedIndex = 0;
+                //    pnlMeasurement.Visible = true;
+                //    string s = ds.Tables[0].Rows[0]["Measurement"].ToString();
+                //    string[] prodallsize = s.Split(',');
+                //    lbPSizeList.Items.Clear();
+                //    foreach (string prodsize in prodallsize)
+                //    {
+                //        lbPSizeList.Items.Add(prodsize);
+                //    }
+                //}
+                //else
+                //{
+                //    rdbtnMeasurement.SelectedIndex = 1;
+                //    lbPSizeList.Items.Clear();
+                //    // pnlMeasurement.Visible = false;
+                //}
 
 
                 txtTitle1.Text = ds.Tables[0].Rows[0]["Title1"].ToString();

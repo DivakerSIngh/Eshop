@@ -5020,7 +5020,7 @@ public class DB
         try
         {
             con = new SqlConnection(DB.constr);
-            string str = "SELECT a.UserId, a.RName FROM RetailerInfo a inner join Retailer_LoginInfo b on a.UserId=b.UserId where b.RStatus='Y'";
+            string str = "SELECT b.UserId, a.RName FROM RetailerInfo a right join Retailer_LoginInfo b on a.UserId=b.UserId where b.RStatus='Y' and a.RName is not null";
             cmd = new SqlCommand(str);
             cmd.Connection = con;
             con.Open();

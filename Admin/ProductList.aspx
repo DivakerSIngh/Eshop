@@ -117,6 +117,11 @@
                                         <asp:Label ID="Label1" runat="server" ForeColor="#003366" Text='<%#Eval("Pid") %>' ></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
+                                  <asp:TemplateField HeaderText="Retailer Id">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblUserId" runat="server" ForeColor="#003366" Text='<%#Eval("userid") %>' ></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Title">
                                     <ItemTemplate>
                                         <asp:Label ID="Label2" runat="server" ForeColor="#003366" Text='<%#Eval("HeaderTitle") %>'></asp:Label>

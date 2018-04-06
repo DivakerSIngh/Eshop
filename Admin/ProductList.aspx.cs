@@ -32,7 +32,7 @@ public partial class Retailor_ProductList : System.Web.UI.Page
         try
         {
             obj = new DB();
-            DataSet ds = obj.GetProductListforRetailer(Session["loginid"].ToString());
+            DataSet ds = obj.GetProdListforRetailer(Session["loginid"].ToString());
             if(ds.Tables[0].Rows.Count > 0)
             {
                 gv_ProductList.DataSource = ds.Tables[0];

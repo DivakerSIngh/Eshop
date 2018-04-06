@@ -83,7 +83,18 @@
                             <Columns>
                                 <asp:TemplateField HeaderText="SNo">
                                     <ItemTemplate>
-                                        <asp:Label ID="Label1" runat="server" ForeColor="#003366" Text='<%#Eval("rid") %>' ></asp:Label>
+                                        <asp:Label ID="Label1" Visible="false" runat="server" ForeColor="#003366" Text='<%#Eval("rid") %>' ></asp:Label>
+                                        <asp:Label ID="Label3" runat="server" ForeColor="#003366" Text='<%#Eval("SN") %>' ></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                 <asp:TemplateField HeaderText="User Name">
+                                    <ItemTemplate>
+                                        <asp:Label ID="Label4" runat="server" ForeColor="#003366" Text='<%#Eval("USERID") %>' ></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                 <asp:TemplateField HeaderText="Password">
+                                    <ItemTemplate>
+                                        <asp:Label ID="Label5" runat="server" ForeColor="#003366" Text='<%#Eval("RPWD") %>' ></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Title">

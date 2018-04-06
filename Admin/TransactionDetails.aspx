@@ -182,7 +182,7 @@
 
             }
             $scope.updateStatus = function () {
-                debugger
+                
                 $scope.transactionId
                 $scope.date = $('input[type=date]').val();
                 $scope.payementType

@@ -224,7 +224,7 @@
 
     <script>
         $(document).ready(function () {
-            debugger
+            
             var totalAmount = (parseFloat($('.pricedetailMrp').text()) - parseFloat($('.pricedetailTotalDiscount').text())) + (parseFloat($('.pricedetailDiscount').text()) + parseFloat($('.pricedetailDeleiveryCharge').text()));
             $('.pricedetailTotAmt').text(totalAmount);
             //var total = 0;

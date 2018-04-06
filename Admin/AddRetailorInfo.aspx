@@ -48,10 +48,10 @@
 
          
             $scope.add = function () {
-                debugger
+                
                 $scope.loading = true;
                 common.httpPost("AddRetailorInfo.aspx/addRetailer", "{'mobile':" + $scope.retailer.Mobile + ",'loginId':" + $('#hdnLoginId').val() + "}", false, success = function (data) {
-                    debugger
+                    
                     $scope.retailerList = JSON.parse(data);
                     $scope.loading = false;
                 }, failure = function (response) { });

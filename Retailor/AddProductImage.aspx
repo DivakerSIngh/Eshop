@@ -64,7 +64,7 @@
         })();
 
         function checkUploadedFilesSize(progressArea, args) {
-            debugger
+            
             //progressArea.confirmed is a custom variable,    
             // you can use another if you want to    
             if (!progressArea.confirmed &&

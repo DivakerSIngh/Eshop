@@ -4039,6 +4039,40 @@ public class DB
 
     }
 
+
+    public void UpdateEmailLogistic(string userid, string mobile)
+    {
+        int i = 0;
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            cmd = new SqlCommand();
+            cmd.Connection = con;
+            //da = new SqlDataAdapter("EShop_GetRetailerDetails", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "EShop_UpdateMobileOfLogistic";
+            cmd.Parameters.AddWithValue("@userid", userid);
+            cmd.Parameters.AddWithValue("@mobile", mobile);
+
+            con.Open();
+            i = cmd.ExecuteNonQuery();
+
+
+
+        }
+        catch (Exception ex)
+        {
+            i = 0;
+        }
+        finally
+        {
+            con.Close();
+        }
+
+
+    }
+
     public void DeleteRetailer(string userid, string mobile)
     {
         int i = 0;
@@ -4051,6 +4085,37 @@ public class DB
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Clear();
             cmd.CommandText = "EShop_DeleteRetailer";
+            cmd.Parameters.AddWithValue("@userid", userid);
+            cmd.Parameters.AddWithValue("@mobile", mobile);
+
+            con.Open();
+            i = cmd.ExecuteNonQuery();
+
+        }
+        catch (Exception ex)
+        {
+            i = 0;
+        }
+        finally
+        {
+            con.Close();
+        }
+
+
+    }
+
+    public void DeleteLogistic(string userid, string mobile)
+    {
+        int i = 0;
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            cmd = new SqlCommand();
+            cmd.Connection = con;
+            //da = new SqlDataAdapter("EShop_GetRetailerDetails", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "EShop_DeleteLogistic";
             cmd.Parameters.AddWithValue("@userid", userid);
             cmd.Parameters.AddWithValue("@mobile", mobile);
 

@@ -7,6 +7,10 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Web.Script.Serialization;
+using System.Collections;
+using System.Web.Services;
+
 public partial class Logistic_AddLogisticInfo : System.Web.UI.Page
 {
     DB obj;
@@ -15,6 +19,7 @@ public partial class Logistic_AddLogisticInfo : System.Web.UI.Page
 
         if (Session["loginid"] != null && Session["loginid"].ToString() != "")
         {
+            hdnLoginId.Value = Convert.ToString(Session["loginid"]);
             if (!IsPostBack)
             {
                 if (Request.QueryString["type"] != null && Request.QueryString["type"].ToString() == "U")
@@ -181,5 +186,64 @@ public partial class Logistic_AddLogisticInfo : System.Web.UI.Page
         }
         catch (Exception ex)
         { }
+    }
+
+
+    [WebMethod]
+    public static string addLogistic(string mobile, string loginId)
+    {
+        string pwd = DB.GeneratePassword();
+        string logdetails = new DB().CreateLogisticInfo(mobile, pwd, loginId);
+        return getLogistic();
+    }
+
+    [WebMethod]
+    public static string updateLogistic(string mobile, string loginId)
+    {
+        var db = new DB();
+        db.UpdateEmailLogistic(loginId, mobile);
+        return getLogistic();
+    }
+
+    [WebMethod]
+    public static string deleteLogistic(string mobile, string loginId)
+    {
+        var db = new DB();
+        db.DeleteLogistic(loginId, mobile);
+        return getLogistic();
+    }
+
+
+    [WebMethod]
+    public static string getLogistic()
+    {
+        SqlConnection con = new SqlConnection();
+        SqlCommand cmd = new SqlCommand();
+        ArrayList objs = new ArrayList();
+        con = new SqlConnection(DB.constr);
+        cmd = new SqlCommand();
+        cmd.Connection = con;
+        //cmd.CommandType = CommandType.StoredProcedure;
+
+        cmd.CommandText = "Select * from Logistic_LoginInfo";
+        con.Open();
+        SqlDataReader dr = cmd.ExecuteReader();
+
+
+        while (dr.Read())
+        {
+            objs.Add(new
+            {
+                UserId = dr["UserId"],
+                Mobile = dr["Mobile"],
+                LStatus = dr["LStatus"],
+                Password = dr["LPwd"],
+
+            });
+
+        }
+
+        var searialize = new JavaScriptSerializer();
+        return searialize.Serialize(objs);
     }
 }

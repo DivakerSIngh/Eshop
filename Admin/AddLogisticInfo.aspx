@@ -23,9 +23,8 @@
     <link href="/css2/style.css" rel='stylesheet' type='text/css' />
     <link href="/css2/font-awesome.css" rel="stylesheet" />
     <script src="/js2/jquery.min.js"> </script>
-   <%-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> </script>--%>
-
-   
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+        <script src="../js2/common.js"></script>
 
 
     <!-- Mainly scripts -->
@@ -34,83 +33,163 @@
     <!-- Custom and plugin javascript -->
     <link href="/css2/custom.css" rel="stylesheet" />
     <script src="/js2/custom.js"></script>
-    <%--<script src="/js2/screenfull.js"></script>
-    <script>
-        $(function () {
-            $('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
-
-            if (!screenfull.enabled) {
-                return false;
-            }
-
-
-
-            $('#toggle').click(function () {
-                screenfull.toggle($('#container')[0]);
-            });
-
-
-
-        });
-    </script>
-
-    <!----->
-
-    <!--pie-chart--->
-    <script src="/js2/pie-chart.js" type="text/javascript"></script>
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-            $('#demo-pie-1').pieChart({
-                barColor: '#3bb2d0',
-                trackColor: '#eee',
-                lineCap: 'round',
-                lineWidth: 8,
-                onStep: function (from, to, percent) {
-                    $(this.element).find('.pie-value').text(Math.round(percent) + '%');
-                }
-            });
-
-            $('#demo-pie-2').pieChart({
-                barColor: '#fbb03b',
-                trackColor: '#eee',
-                lineCap: 'butt',
-                lineWidth: 8,
-                onStep: function (from, to, percent) {
-                    $(this.element).find('.pie-value').text(Math.round(percent) + '%');
-                }
-            });
-
-            $('#demo-pie-3').pieChart({
-                barColor: '#ed6498',
-                trackColor: '#eee',
-                lineCap: 'square',
-                lineWidth: 8,
-                onStep: function (from, to, percent) {
-                    $(this.element).find('.pie-value').text(Math.round(percent) + '%');
-                }
-            });
-
-
-        });
-
-    </script>--%>
-    <!--skycons-icons-->
+    
     <script src="/js2/skycons.js"></script>
     <!--//skycons-icons-->
 
+     <script>
+        var app = angular.module('myApp', []);
+        app.controller('retailerController', ['$scope', '$http', employeeController]);
+       
+        function employeeController($scope, $http) {
+            $scope.retailer = {};
+            $scope.retailerList = [];
+            $scope.loading = false;
+            $scope.updateShow = false;
+            $scope.addShow = true;
+            common.httpPost("AddLogisticInfo.aspx/getLogistic", "{}", false, success = function (data) {
+                
+                $scope.retailerList = JSON.parse(data);
+                $scope.loading = false;
+            }, failure = function (response) { });
 
+
+
+         
+            $scope.add = function () {
+                
+                $scope.loading = true;
+                common.httpPost("AddLogisticInfo.aspx/addLogistic", "{'mobile':" + $scope.retailer.Mobile + ",'loginId':" + $('#hdnLoginId').val() + "}", false, success = function (data) {
+                    
+                    $scope.retailerList = JSON.parse(data);
+                    $scope.loading = false;
+                }, failure = function (response) { });
+
+            }
+
+            $scope.edit = function (item) {
+                $scope.userId = item.UserId;
+                $scope.retailer.Mobile = item.Mobile;
+                $scope.updateShow = true;
+                $scope.addShow = false;
+            }
+            $scope.update = function () {
+                $scope.loading = true;
+                common.httpPost("AddLogisticInfo.aspx/updateLogistic", "{'mobile':'" + $scope.retailer.Mobile + "','loginId':'" + $scope.userId + "'}", false, success = function (data) {
+                    $scope.retailerList = JSON.parse(data);
+                    $scope.retailer.Mobile = "";
+                    $scope.updateShow = false;
+                    $scope.addShow = true;
+                    $scope.loading = false;
+                }, failure = function (response) { });
+            }
+
+           
+            $scope.delete = function (item) {
+               
+                $scope.loading = true;
+                common.httpPost("AddLogisticInfo.aspx/deleteLogistic", "{'mobile':'" + item.Mobile + "','loginId':'" + item.UserId + "'}", false, success = function (data) {
+                    $scope.retailerList = JSON.parse(data);
+                    $scope.retailer.Mobile = "";
+                    $scope.updateShow = false;
+                    $scope.addShow = true;
+                    $scope.loading = false;
+                }, failure = function (response) { });
+            }
+            $scope.cancel = function () {
+                $scope.updateShow = false;
+                $scope.addShow = true;
+                $scope.newemployee = '';
+            }
+        }
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
       <!--content-->
                 <!---->
-                	<form runat="server" id="logisticInfoForm" class="form-horizontal">
+    <div ng-app="myApp" ng-controller="retailerController">
+   
+    <form name="addRetailer" style="width: 600px; margin: 0px auto;"> 
+         <div class="loader" ng-if="loading"></div>
+                    <div class="form-group">  
+                        <label for="cname" class="col-sm-2 control-label">Mobile no:</label>  
+                        <div class="col-sm-10 space">  
+                            <input type="text" maxlength="10" class="form-control" id="mobile" placeholder="Mobile No" ng-model="retailer.Mobile" required />  
+                        </div>  
+                    </div>  
+                   
+                    <br />  
+                    <div class="form-group space">  
+                        <div class="col-sm-offset-2 col-sm-10" style="padding: 16px;">  
+                            <input type="submit" value="Insert" ng-click="add()" ng-show="addShow" ng-disabled="!addRetailer.$valid" class="btn btn-primary" />  
+                            <input type="submit" value="Update" ng-click="update()" ng-show="updateShow" ng-disabled="!addRetailer.$valid" class="btn btn-primary" />  
+                            <input type="button" value="Reset" ng-click="cancel()" class="btn btn-primary" />  
+                        </div>  
+                    </div>  
+                    <br />  
+                </form>
+    <div class="row">  
+            <div class="col-md-12">  
+                <div class="table-responsive">  
+                    <table class="table table-bordered table-hover" style="width: 800px; margin-left: 170px;">  
+                        <tr>  
+                            <th>UserId</th>  
+                            <th>Mobile</th>  
+                            <th>Status</th>  
+                            <th>Password</th>  
+                            <th>Actions</th>  
+                        </tr>  
+                        <tr ng-repeat="item in retailerList">  
+                            <td>  
+                                <p>{{ item.UserId }}</p>  
+                            </td>  
+                            <td>  
+                                <p>{{ item.Mobile }}</p>  
+                            </td>  
+                            <td>  
+                                <p>{{ item.LStatus }}</p>  
+                            </td>  
+                             <td>  
+                                <p>{{ item.Password }}</p>  
+                            </td> 
+                            <td>  
+                                <p><a ng-click="edit(item)" href="javascript:void(0);">Edit</a> | <a ng-click="delete(item)" href="javascript:void(0);">Delete</a></p>  
+                            </td>  
+                        </tr>  
+                    </table>  
+                </div>  
+            </div>  
+        </div>          
+      </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                	<form runat="server" id="logisticInfoForm" class="form-horizontal">
+                         <asp:HiddenField ID="hdnLoginId" runat="server" ClientIDMode="Static" />
                         <asp:ScriptManager ID="scriptmanager1" runat="server">
 </asp:ScriptManager>
 
-        <asp:UpdatePanel ID="updatepnl" runat="server">
+        <asp:UpdatePanel ID="updatepnl" runat="server" Visible="false">
 <ContentTemplate>
 
 

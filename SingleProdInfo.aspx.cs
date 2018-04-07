@@ -283,14 +283,30 @@ public partial class SingleProdInfo : System.Web.UI.Page
                     if (stringArray.Any(stringToCheck.Contains) && stringArray.Any(retailer_pincode.Contains))
                     {
                         hf_logistic_id.Value = ds.Tables[0].Rows[i]["userid"].ToString();
-                        //================================================================//
-                        // latitude and longitude
-                        var locationService = new GoogleLocationService();
-                        var point1 = locationService.GetLatLongFromAddress(retailer_pincode);
-                        var point2 = locationService.GetLatLongFromAddress(UserPincode);
-                        double distance = getDistanceUsinLongAndLat(point1.Latitude, point1.Longitude, point2.Latitude, point2.Longitude, 'K');
+                        double distance = 0;
+                        DataSet ds1 = new DataSet();
+                        ds1 = obj.getLatitudeLongitude(UserPincode, retailer_pincode);
+                        if(ds1.Tables[0].Rows.Count>0 && !string.IsNullOrEmpty(ds1.Tables[0].Rows[0][0].ToString()))
+                        {
+                            double user_lat = Convert.ToDouble(ds1.Tables[0].Rows[0]["USER_LATITUDE"].ToString());
+                            double user_lon = Convert.ToDouble(ds1.Tables[0].Rows[0]["USER_LONGITUDE"].ToString());
+                            double r_lat = Convert.ToDouble(ds1.Tables[0].Rows[0]["R_LATITUDE"].ToString());
+                            double r_lon = Convert.ToDouble(ds1.Tables[0].Rows[0]["R_LONGITUDE"].ToString());
+                            distance = getDistanceUsinLongAndLat(r_lat, r_lon, user_lat, user_lon, 'K');
+                        }
+                        else
+                        {
+                            //================================================================//
+                            // latitude and longitude
+                            var locationService = new GoogleLocationService();
+                            var point1 = locationService.GetLatLongFromAddress(retailer_pincode);
+                            var point2 = locationService.GetLatLongFromAddress(UserPincode);
+                            obj.pushLatitudeLongitude(retailer_pincode, Convert.ToDecimal(point1.Latitude), Convert.ToDecimal(point1.Longitude));
+                            distance = getDistanceUsinLongAndLat(point1.Latitude, point1.Longitude, point2.Latitude, point2.Longitude, 'K');
 
-                        //=================================================================//
+                            //=================================================================//
+                        }
+
                         hf_CheckPin.Value = UserPincode;
                         ViewState["CheckPin"]= UserPincode;
                         hf_deliveryAmt.Value = Convert.ToString(getDeliveryAmt(hf_logistic_id.Value, weight, distance));

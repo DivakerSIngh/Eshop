@@ -5892,7 +5892,59 @@ public class DB
         }
         return i;
     }
-#endregion
+
+    public DataSet getLatitudeLongitude(string UserPincode,string RetailerPincode)
+    {
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            da = new SqlDataAdapter("EShop_GetLatitudeLongitude", con);
+            da.SelectCommand.CommandType = CommandType.StoredProcedure;
+            da.SelectCommand.Parameters.Clear();
+            da.SelectCommand.Parameters.AddWithValue("@USERPIN", UserPincode);
+            da.SelectCommand.Parameters.AddWithValue("@RPIN", RetailerPincode);
+            ds = new DataSet();
+            da.Fill(ds);
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+        return ds;
+    }
+
+    public int pushLatitudeLongitude(string Pincode, decimal latitude,decimal longitude)
+    {
+        int i = 0;
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "EShop_GetLatitudeLongitude";
+            cmd.Parameters.AddWithValue("@PINCODE", Pincode);
+            cmd.Parameters.AddWithValue("@LATITUDE", latitude);
+            cmd.Parameters.AddWithValue("@LONGITUDE", longitude);
+            con.Open();
+            i = cmd.ExecuteNonQuery();
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+        return i;
+    }
+    #endregion
 
 
 }

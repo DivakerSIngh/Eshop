@@ -166,23 +166,23 @@
                             </li>
 
                             <li>
-                                <a href="AddRetailorInfo.aspx" class=" hvr-bounce-to-right"><i class="fa fa-indent nav_icon"></i><span class="nav-label">Retailer</span><span class="fa arrow"></span></a>
-                              <%--  <ul class="nav nav-second-level">
+                                <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-indent nav_icon"></i><span class="nav-label">Retailer</span><span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
                                     <li><a href="AddRetailorInfo.aspx" class=" hvr-bounce-to-right"><i class="fa fa-area-chart nav_icon"></i>Create Retailer</a></li>
 
                                     <li><a href="ViewRetailorList.aspx" class=" hvr-bounce-to-right"><i class="fa fa-map-marker nav_icon"></i>View Retailer List</a></li>
 
                                  
 
-                                </ul>--%>
+                                </ul>
                             </li>
 
                               <li>
-                                <a href="AddLogisticInfo.aspx" class=" hvr-bounce-to-right"><i class="fa fa-indent nav_icon"></i><span class="nav-label">Logistic</span><span class="fa arrow"></span></a>
-                               <%-- <ul class="nav nav-second-level">
+                                <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-indent nav_icon"></i><span class="nav-label">Logistic</span><span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
                                     <li><a href="AddLogisticInfo.aspx" class=" hvr-bounce-to-right"><i class="fa fa-area-chart nav_icon"></i>Create Logistic</a></li>
                                     <li><a href="ViewLogisticList.aspx" class=" hvr-bounce-to-right"><i class="fa fa-map-marker nav_icon"></i>View Logistic List</a></li>
-                                </ul>--%>
+                                </ul>
                             </li>
 
                              <li>

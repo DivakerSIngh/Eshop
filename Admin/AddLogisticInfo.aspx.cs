@@ -194,6 +194,11 @@ public partial class Logistic_AddLogisticInfo : System.Web.UI.Page
     {
         string pwd = DB.GeneratePassword();
         string logdetails = new DB().CreateLogisticInfo(mobile, pwd, loginId);
+        if (!string.IsNullOrEmpty(logdetails))
+        {
+            string msg = "Registered Successfully.Your UserId : " + logdetails + " and Password : " + pwd;
+            new DB().SendMessage(mobile, msg);
+        }
         return getLogistic();
     }
 

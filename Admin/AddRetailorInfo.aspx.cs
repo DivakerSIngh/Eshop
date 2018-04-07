@@ -141,7 +141,13 @@ public partial class Retailor_AddRetailorInfo : System.Web.UI.Page
     {
         string pwd = DB.GeneratePassword();
         string logdetails = DB.AddRetailorInfo(mobile, pwd, loginId, "Admin", "free");
-      return  getretailer();
+        if (!string.IsNullOrEmpty(logdetails))
+        {
+            string msg = "Registered Successfully.Your UserId : " + logdetails + " and Password : " + pwd;
+            new DB().SendMessage(mobile, msg);
+        }
+       
+        return  getretailer();
     }
 
     [WebMethod]

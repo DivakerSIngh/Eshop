@@ -175,7 +175,7 @@
                                   <asp:TemplateField HeaderText="Status">
                                     <ItemTemplate>
                                          <asp:LinkButton ID="lnkBlock" Visible='<%# CheckVisible(Eval("EStatus"))%>' runat="server" class="btn btn-warning" style="margin:10px 0;" BackColor="#ff0000" CommandArgument='<%#Eval("EmpId") %>' OnCommand="lnkBlock_Command">Block</asp:LinkButton>
-                                        <asp:LinkButton ID="lnkActive" Visible='<%# CheckVisibleActive(Eval("EStatus"))%>' runat="server" class="btn btn-warning" style="margin:10px 0;" BackColor="#33cc33" CommandArgument='<%#Eval("userid") %>' OnCommand="lnkActive_Command">Active</asp:LinkButton>
+                                        <asp:LinkButton ID="lnkActive" Visible='<%# CheckVisibleActive(Eval("EStatus"))%>' runat="server" class="btn btn-warning" style="margin:10px 0;" BackColor="#33cc33" CommandArgument='<%#Eval("EmpId") %>' OnCommand="lnkActive_Command">Active</asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

@@ -15,373 +15,410 @@
     <!-- Mainly scripts -->
     <script src="/js2/jquery.metisMenu.js"></script>
     <script src="/js2/jquery.slimscroll.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <!-- Mainly scripts -->
+    <script src="/js2/jquery.metisMenu.js"></script>
+    <script src="../js2/jquery.slimscroll.min.js"></script>
     <!-- Custom and plugin javascript -->
+    <script src="../js2/common.js"></script>
     <link href="/css2/custom.css" rel="stylesheet" />
     <script src="/js2/custom.js"></script>
-    <%--<script src="/js2/screenfull.js"></script>
-    <script>
-        $(function () {
-            $('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
+    <link href="../css2/retailer.css" rel="stylesheet" />
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
-            if (!screenfull.enabled) {
-                return false;
+    <script src="/js2/skycons.js"></script>
+    <style>
+        .bot {
+            text-align: center;
+            padding: 12px;
+        }
+        .noRecord{
+            text-align: center;
+    color: red;
+        }
+        span.spnLable {
+    font-size: 13px;
+    color: grey;
+}
+        .txtSearch{
+            margin-left: 19px;
+
+        }
+    </style>
+   
+    <script>
+        var app = angular.module('myApp', []);
+        var chartData = ['jan', 'feb', 'mar', 'apr', 'may', 'jun',
+      'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+        var staticArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        
+        var loginUserId = '<%=hdnUserId.Value%>';
+        var action = '<%=hdnTrack.Value%>'
+        app.controller('myCtrl', function ($scope, $http, $filter) {
+            $scope.staticArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            $scope.chartData = ['jan', 'feb', 'mar', 'apr', 'may', 'jun',
+     'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+            $scope.currentPage = 0;
+            $scope.type = $('#hdnType').val();
+            $scope.pageSize = 1000000;
+            $scope.model = [];
+            $scope.query = '';
+            $scope.orderList = [];
+            $scope.fromdate = "";
+            $scope.todate = "";
+            $scope.status = "0"
+            $scope.chartData = function () {
+                common.httpPost("LogisticDashboard.aspx/getSaleReport", "{'year':'" + 2018 + "','id':'" + loginUserId + "','action':'2'}", false, success = function (data) {
+                    
+                    $scope.model = data;
+                    $.each(data, function (index, item) {
+
+                        $scope.staticArray[index + 1] = parseInt(item.TOTALSALES);
+                    });
+
+                    Highcharts.chart('chartData', {
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'Dashboard Chart'
+                        },
+                        credits: {
+                            enabled: false
+                        },
+                        xAxis: {
+                            categories: [
+                                'Jan',
+                                'Feb',
+                                'Mar',
+                                'Apr',
+                                'May',
+                                'Jun',
+                                'Jul',
+                                'Aug',
+                                'Sep',
+                                'Oct',
+                                'Nov',
+                                'Dec'
+                            ],
+                            crosshair: true
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: 'Monthly Sales'
+                            }
+                        },
+                        tooltip: {
+                            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                '<td style="padding:0"><b>{point.y:.1f} $</b></td></tr>',
+                            footerFormat: '</table>',
+                            shared: true,
+                            useHTML: true
+                        },
+                        series: [
+                          {
+                              name: 'User',
+                              data: $scope.staticArray
+                          }]
+                    });
+
+                }, failure = function (response) {
+
+                }
+                    );
+            }
+            if ($scope.type == "0") {
+                $scope.chartData();
+            }
+            $scope.getData = function () {
+                return $filter('filter')($scope.model, $scope.query)
             }
 
+            $scope.numberOfPages = function () {
+                return Math.ceil($scope.getData().length / $scope.pageSize);
+            }
+
+            for (var i = 0; i < 65; i++) {
+                $scope.model.push("Item " + i);
+            }
+            $scope.$watch('query', function (newValue, oldValue) {
+                if (oldValue != newValue) {
+                    $scope.currentPage = 0;
+                }
+            }, true);
+
+            $scope.getAllProduct = function (action) {
+               
+                if ($scope.type == 1)
+                {
+                    common.httpPost("LogisticDashboard.aspx/getAllOrderList",
+                   "{'id':'" + loginUserId + "', 'action':'" + parseInt(2) + "','fromdate':'" + $scope.fromdate + "','todate':'" + $scope.todate + "','status':'" + $scope.status + "'}", false, success = function (data) {
+                       
+                       $scope.model = data;
+                   }, failure = function (response) {
+
+                   }
+                   );
+                }
+                if ($scope.type == 2) {
+                    common.httpPost("LogisticDashboard.aspx/getRetailerPaymentStatus",
+                   "{'id':'" + loginUserId + "', 'action':'" + parseInt(3) + "'}", false, success = function (data) {
+
+                       $scope.model = data;
+                   }, failure = function (response) {
+
+                   }
+                   );
+                }
+                if ($scope.type == 3) {
+                    common.httpPost("LogisticDashboard.aspx/getRetalerPassbook",
+                   "{'id':'" + loginUserId + "', 'action':'" + parseInt(4) + "'}", false, success = function (data) {
+
+                       $scope.model = data;
+                   }, failure = function (response) {
+
+                   }
+                   );
+                }
+               
+            }
+            $scope.changeStatus = function (cartId,status) {
+                common.httpPost("LogisticDashboard.aspx/updateStatus", "{'cartId':'" + cartId + "','status':'" + status + "'}", false, success = function (data) {
+
+                    $scope.getAllProduct();
+                }, failure = function (response) {
+
+                }
+                   );
+            }
+            $scope.getAllProduct(0);
+
+            $scope.apply = function () {
+                $scope.getAllProduct(0);
+
+            }
+            $scope.showDesc = function (item) {
+
+                $scope.transactionId = item.TRANSACTION_ID
+                $scope.transactionDate = item.TRANSACTION_DATE
+                $scope.userName = item.USER_NAME
+                $scope.address = item.ADDRESS
+                $scope.productTitle = item.PRODUCT_TITLE
+                $scope.productDescription = item.PRODUCT_DECSRIPTION
+                $scope.productMeasurement = item.MEASUREMENT
+                $scope.quantity = item.QUANTITY
+                $scope.price = item.SELLINGPRICE
+                $('#orderDetails').modal('show');
 
 
-            $('#toggle').click(function () {
-                screenfull.toggle($('#container')[0]);
-            });
-
-
-
+            }
+        });
+        app.filter('startFrom', function () {
+            return function (input, start) {
+                start = +start; //parse to int
+                return input.slice(start);
+            }
         });
     </script>
-
-    <!----->
-
-    <!--pie-chart--->
-    <script src="/js2/pie-chart.js" type="text/javascript"></script>
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-            $('#demo-pie-1').pieChart({
-                barColor: '#3bb2d0',
-                trackColor: '#eee',
-                lineCap: 'round',
-                lineWidth: 8,
-                onStep: function (from, to, percent) {
-                    $(this.element).find('.pie-value').text(Math.round(percent) + '%');
-                }
-            });
-
-            $('#demo-pie-2').pieChart({
-                barColor: '#fbb03b',
-                trackColor: '#eee',
-                lineCap: 'butt',
-                lineWidth: 8,
-                onStep: function (from, to, percent) {
-                    $(this.element).find('.pie-value').text(Math.round(percent) + '%');
-                }
-            });
-
-            $('#demo-pie-3').pieChart({
-                barColor: '#ed6498',
-                trackColor: '#eee',
-                lineCap: 'square',
-                lineWidth: 8,
-                onStep: function (from, to, percent) {
-                    $(this.element).find('.pie-value').text(Math.round(percent) + '%');
-                }
-            });
-
-
-        });
-
-    </script>--%>
-    <!--skycons-icons-->
-    <script src="/js2/skycons.js"></script>
-    <!--//skycons-icons-->
 
 
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
-     
-    <%--<form runat="server" class="form-horizontal">
-                <div class="blank">
-
-
-                    <div class="blank-page">
-                        
-                        <div class="grid-form1">
-  	       <h3>Product Description</h3>
-  	         <div class="tab-content">
-						<div class="tab-pane active" id="horizontal-form">
-						
-
-                            <div class="form-group">
-									<label for="focusedinput" class="col-sm-2 control-label" style="text-align:left;">Choose Retailer <asp:Label ID="Label8" runat="server" Text="*" ForeColor="Red" /></label>
-									<div class="col-sm-8">
-                                        <table>
-
-                                            <tr>
-                                                <td>
-                                                    <asp:DropDownList ID="ddlRetailer" runat="server"></asp:DropDownList>
-                                                </td>
-                                                <td style="text-align:left;">
-                                                    Choose Category
-                                                </td>
-                                                <td>
-                                                    <asp:DropDownList ID="ddlCategory" runat="server"  AutoPostBack="True"></asp:DropDownList>
-                                                </td>
-                                                <td>
-                                                    <asp:RadioButtonList ID="rbtnGender" runat="server" RepeatDirection="Horizontal" Visible="False">
-                                                        <asp:ListItem Value="M">Male</asp:ListItem>
-                                                        <asp:ListItem Value="F">Female</asp:ListItem>
-                                                    </asp:RadioButtonList>
-                                                </td>
-
-                                            </tr>
-
-                                        </table>
-
-                                        
-									</div>
-									<div class="col-sm-2" style="display:none;">
-										<p class="help-block">Your help text!</p>
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label for="focusedinput" class="col-sm-2 control-label" style="text-align:left;">Header Title <asp:Label ID="Label4" runat="server" Text="*" ForeColor="Red" /></label>
-									<div class="col-sm-8">
-                                        <asp:TextBox ID="txtPTitle" class="form-control1" placeholder="Enter Header Tile" runat="server"></asp:TextBox>
-										
-									</div>
-									<div class="col-sm-2" style="display:none;">
-										<p class="help-block">Your help text!</p>
-									</div>
-								</div>
-
-                            <div class="form-group">
-									<label for="focusedinput" class="col-sm-2 control-label" style="text-align:left;">Selling Price <asp:Label ID="Label5" runat="server" Text="*" ForeColor="Red" /></label>
-									<div class="col-sm-8">
-                                        <asp:TextBox ID="txtPSellingPrice" class="form-control1" placeholder="Enter Selling Price" runat="server" TextMode="Number"></asp:TextBox>
-										
-									</div>
-									<div class="col-sm-2" style="display:none;">
-										<p class="help-block">Your help text!</p>
-									</div>
-								</div>
-
-                            <div class="form-group">
-									<label for="focusedinput" class="col-sm-2 control-label" style="text-align:left;">Cost Price <asp:Label ID="Label7" runat="server" Text="*" ForeColor="Red" /></label>
-									<div class="col-sm-8">
-                                        <asp:TextBox ID="txtPCostPrice" class="form-control1" placeholder="Enter Cost Price" runat="server" TextMode="Number"></asp:TextBox>
-										
-									</div>
-									<div class="col-sm-2" style="display:none;">
-										<p class="help-block">Your help text!</p>
-									</div>
-								</div>
-
-
-                                <div class="form-group">
-									<label for="focusedinput" class="col-sm-2 control-label" style="text-align:left;">Product Description <asp:Label ID="Label3" runat="server" Text="*" ForeColor="Red" /></label>
-									<div class="col-sm-8">
-                                        <asp:TextBox ID="txtPDescription" class="form-control1" placeholder="Enter Description" runat="server" TextMode="MultiLine" Height="150px"></asp:TextBox>
-										
-									</div>
-									<div class="col-sm-2" style="display:none;">
-										<p class="help-block">Your help text!</p>
-									</div>
-								</div>
-
-                                <div class="form-group">
-									<label for="focusedinput" class="col-sm-2 control-label" style="text-align:left;">Quantity <asp:Label ID="Label2" runat="server" Text="*" ForeColor="Red" /></label>
-									<div class="col-sm-8">
-                                        <asp:TextBox ID="txtPQuantity" class="form-control1" placeholder="Enter Quantity of Product" runat="server" TextMode="Number"></asp:TextBox>
-										
-									</div>
-									<div class="col-sm-2" style="display:none;">
-										<p class="help-block">Your help text!</p>
-									</div>
-								</div>
-
-                                <div class="form-group">
-									<label for="focusedinput" class="col-sm-2 control-label" style="text-align:left;">Measurement <asp:Label ID="Label1" runat="server" Text="*" ForeColor="Red" /></label>
-									<div class="col-sm-8">
-                                       
-                                        <asp:RadioButtonList ID="rdbtnMeasurement" runat="server" AutoPostBack="True" RepeatDirection="Horizontal" >
-                                            <asp:ListItem Value="1">Yes</asp:ListItem>
-                                            <asp:ListItem Value="0">No</asp:ListItem>
-                                        </asp:RadioButtonList>
-                                      
-									</div>
-									<div class="col-sm-2" style="display:none;">
-										<p class="help-block">Your help text!</p>
-									</div>
-								</div>
-
-                            
-
-
-
-                              <asp:Panel ID="pnlMeasurement" runat="server">
-
-                                            
-                                
-                                <div class="form-group">
-                                    
-									<label for="focusedinput" class="col-sm-2 control-label" style="text-align:left;">Enter Measurement<asp:Label ID="lblmust" runat="server" Text="*" ForeColor="Red" /></label>
-
-									<div class="col-sm-8">
-                  <asp:TextBox ID="txtPSize" CssClass="text-primary" runat="server"></asp:TextBox>
-										<asp:Button ID="btnPShiftSize" CssClass="btn-primary" runat="server" Text="Add" />
-                                        
-									</div>
-									<div class="col-sm-2" >
-										<p class="help-block"></p>
-									</div>
-								</div>
-
-                                
-                                <div class="form-group">
-                                    <label for="focusedinput" class="col-sm-2 control-label" style="text-align:left;">Measurement List<asp:Label ID="Label6" runat="server" Text="*" ForeColor="White" /></label>
-									
-									<div class="col-sm-8">
-                                        <asp:ListBox ID="lbPSizeList" CssClass="list-inline" runat="server" Height="150px" Width="667.5px"></asp:ListBox>
-										
-									</div>
-									<div class="col-sm-2" >
-										<p class="help-block"><asp:Button ID="btnPRemoveSize" CssClass="btn-primary" runat="server" Text="Remove"   /></p>
-									</div>
-								</div>
-
-
-                                        </asp:Panel>
-										
-                            
-                            
-                                <div class="row show-grid">
-                        			  <div class="col-md-6">
-                  
-                  Title
-                  
-			                          </div>
-			                    <div class="col-md-6">
-                  Value
-                   
-                                    </div>
-			                    </div>
-
-
-                                <div class="row show-grid">
-                        			  <div class="col-md-6">
-                  
-                  <asp:TextBox ID="txtTitle1" CssClass="text-primary" runat="server" Width="80%"></asp:TextBox>
-                  
-			                          </div>
-			                    <div class="col-md-6">
-                  
-                  <asp:TextBox ID="txtValue1" CssClass="text-primary" runat="server" Width="80%" ></asp:TextBox> <asp:ImageButton ID="ImgbtnMore" runat="server" ImageUrl="~/images/Add.png"  Height="23px" />
-                                    </div>
-			                    </div>
-
-                            <asp:Panel ID="pnlAddTitle2" runat="server">
-
-                                <div class="row show-grid">
-                        			  <div class="col-md-6">
-                  
-                  <asp:TextBox ID="txtTitle2" CssClass="text-primary" runat="server" Width="80%"></asp:TextBox>
-                  
-			                          </div>
-			                    <div class="col-md-6">
-                  
-                  <asp:TextBox ID="txtValue2" CssClass="text-primary" runat="server" Width="80%"></asp:TextBox> <asp:ImageButton ID="ImgbtnMore2" runat="server" ImageUrl="~/images/Add.png"  />
-                                    <asp:ImageButton ID="ImgbtnCancel2" runat="server" ImageUrl="~/images/cancel.png"  />
-                                    </div>
-			                    </div>
-
-                            </asp:Panel>
-
-                                      <asp:Panel ID="pnlAddTitle3" runat="server">
-
-                                <div class="row show-grid">
-                        			  <div class="col-md-6">
-                  
-                  <asp:TextBox ID="txtTitle3" CssClass="text-primary" runat="server" Width="80%"></asp:TextBox>
-                  
-			                          </div>
-			                    <div class="col-md-6">
-                  
-                  <asp:TextBox ID="txtValue3" CssClass="text-primary" runat="server" Width="80%"></asp:TextBox> <asp:ImageButton ID="ImgbtnMore3" runat="server" ImageUrl="~/images/Add.png" />
-                                    <asp:ImageButton ID="ImgbtnCancel3" runat="server" ImageUrl="~/images/cancel.png" />
-                                    </div>
-			                    </div>
-
-                            </asp:Panel>
-
-
-                                      <asp:Panel ID="pnlAddTitle4" runat="server">
-
-                                <div class="row show-grid">
-                        			  <div class="col-md-6">
-                  
-                  <asp:TextBox ID="txtTitle4" CssClass="text-primary" runat="server" Width="80%"></asp:TextBox>
-                  
-			                          </div>
-			                    <div class="col-md-6">
-                  
-                  <asp:TextBox ID="txtValue4" CssClass="text-primary" runat="server" Width="80%"></asp:TextBox> <asp:ImageButton ID="ImgbtnMore4" runat="server" ImageUrl="~/images/Add.png"  />
-                                    <asp:ImageButton ID="ImgbtnCancel4" runat="server" ImageUrl="~/images/cancel.png" />
-                                    </div>
-			                    </div>
-
-                            </asp:Panel>
-
-
-                                      <asp:Panel ID="pnlAddTitle5" runat="server">
-
-                                <div class="row show-grid">
-                        			  <div class="col-md-6">
-                  
-                  <asp:TextBox ID="txtTitle5" CssClass="text-primary" runat="server" Width="80%"></asp:TextBox>
-                  
-			                          </div>
-			                    <div class="col-md-6">
-                  
-                  <asp:TextBox ID="txtValue5" CssClass="text-primary" runat="server" Width="80%"></asp:TextBox> <asp:ImageButton ID="ImgbtnMore5" runat="server" ImageUrl="~/images/Add.png" />
-                                    <asp:ImageButton ID="ImgbtnCancel5" runat="server" ImageUrl="~/images/cancel.png" />
-                                    </div>
-			                    </div>
-
-                            </asp:Panel>
-
-
-                                      <asp:Panel ID="pnlAddTitle6" runat="server">
-
-                                <div class="row show-grid">
-                        			  <div class="col-md-6">
-                  
-                  <asp:TextBox ID="txtTitle6" CssClass="text-primary" runat="server" Width="80%"></asp:TextBox>
-                  
-			                          </div>
-			                    <div class="col-md-6">
-                  
-                  <asp:TextBox ID="txtValue6" CssClass="text-primary" runat="server" Width="80%"></asp:TextBox> <asp:ImageButton ID="ImgbtnMore6" runat="server" ImageUrl="~/images/Add.png"  />
-                                    <asp:ImageButton ID="ImgbtnCancel6" runat="server" ImageUrl="~/images/cancel.png"  />
-                                    </div>
-			                    </div>
-
-                            </asp:Panel>
-
-
-
-
-							
-						</div>
-					</div>
-					
-      <div class="panel-footer">
-		<div class="row">
-			<div class="col-sm-8 col-sm-offset-2">
-                <asp:Button ID="btnProdSubmit" class="btn-primary btn" runat="server" Text="Submit"  />
-                <asp:Button ID="btnProdCancel" class="btn-default btn" runat="server" Text="Cancel"   />
-                <asp:Button ID="btnProdReset" class="btn-inverse btn" runat="server" Text="Reset"   />
-			</div>
-		</div>
-	 </div>
-                            
     
-  </div>
+    <form id="frmlogistic" runat="server">
+         <asp:ScriptManager runat="server"></asp:ScriptManager>
+    
+    <div ng-app="myApp" ng-controller="myCtrl">
 
+
+        <div class="wallet-buttons">
+            <div class="col-sm-10 bot">
+
+                <asp:LinkButton PostBackUrl="~/Logistic/LogisticDashboard.aspx?type=1" ID="btnOrderTacking" class="btn btn-primary" runat="server">Order Tracking</asp:LinkButton>
+                <asp:LinkButton PostBackUrl="~/Logistic/LogisticDashboard.aspx?type=2" Visible="false" ID="btnPayment" class="btn btn-primary" runat="server">Payment</asp:LinkButton>
+                <asp:LinkButton PostBackUrl="~/Logistic/LogisticDashboard.aspx?type=3" Visible="false" ID="btnPassbook" class="btn btn-primary" runat="server">Passbook</asp:LinkButton>
+                <%-- <asp:LinkButton ID="btnPassbook" class="btn btn-primary" runat="server" OnClick="btnPassbook_Click" >Passbook</asp:LinkButton>--%>
+            </div>
+        </div>
+
+
+
+        
+
+        <div class="agileits-modal modal fade" id="orderDetails" tabindex="-1" role="dialog"
+            aria-hidden="true">
+            <div class="modal-dialog" style="text-align: justify">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Order Details</h4>
+                    </div>
+                    <div class="modal-body modal-body-sub">
+                        <div>
+                           <span class="spnLable"> Transaction Id  :</span> {{transactionId}}
+                        </div>
+                        <div>
+                          <span class="spnLable">  Date :</span> {{transactionDate}}
+                        </div>
+                        <div>
+                          <span class="spnLable">  User Name :</span> {{userName}}
+                        </div>
+                        <div>
+                          <span class="spnLable">  Address : </span>{{address}}
+                        </div>
+                        <div>
+                          <span class="spnLable">  Product Title :</span> {{productTitle}}
+                        </div>
+                        <div>
+                          <span class="spnLable">  Description :</span> {{productDescription}}
+                        </div>
+                        <div>
+                          <span class="spnLable">  Measurement : </span>{{productMeasurement}}
+                        </div>
+                        <div>
+                          <span class="spnLable">  Quantity :</span> {{quantity}}
+                        </div>
+                        <div>
+                          <span class="spnLable">  Price :</span> {{price}}
+                        </div>
+                       
                     </div>
                 </div>
-                </form>--%>
-   
+            </div>
+        </div>
+
+        <asp:HiddenField runat="server" ID="hdnType" ClientIDMode="Static" Value="0" />
+        <asp:HiddenField runat="server" ID="hdnUserId" ClientIDMode="Static" />
+        <asp:HiddenField runat="server" ID="hdnTrack" ClientIDMode="Static" />
+
+       
+        <asp:Panel ID="pnlOrderTracking" runat="server">
+             <input type="text" class="txtSearch" ng-model="query" placeholder="Search any" />
+            <div class="table-wrapper clearfix" style="padding: 19px;">Order Tracking
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center" width="50">S.No order</th>
+                            <th>Transaction No</th>
+                            <th>Quantity</th>
+                            <th>Retailer Address</th>
+                            <th>Retailer Email</th>
+                            <th>Retailer Name</th>
+                            <th>Current Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in model  | filter:query | orderBy: orderList | startFrom:currentPage*pageSize | limitTo:pageSize"" ng-cloak>
+                            <td class="text-center">{{$index+1}}</td>
+                            <td><a ng-click="showDesc(item)">{{item.TRANSACTION_ID}}</a></td>
+                            <td class="text-center">{{item.ITEM_QTY}}</td>
+                            <td class="text-center">{{item.R_ADDRESS}}</td>
+                            <td class="text-center">{{item.R_EMAIL}}</td>
+                            <td class="text-center">{{item.R_NAME}}</td>
+                             <td ng-if="item.STATUS==2">
+                                 Ready To dispatch
+                             </td>
+                             <td ng-if="item.STATUS==3">
+                                Picked
+                             </td>
+                             <td ng-if="item.STATUS==4">
+                                Out for deilievery
+                             </td>
+                             <td ng-if="item.STATUS==5">
+                                Deilievered
+                             </td>
+                            <td ng-if="item.STATUS==2"><a ng-click="changeStatus(item.CART_ID,3)"><span class="dispatch">Picked<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span></a></td>
+                             <td ng-if="item.STATUS==3"><a ng-click="changeStatus(item.CART_ID,4)"><span class="dispatch">Out for deilievery<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span></a></td>
+                             <td ng-if="item.STATUS==4"><a ng-click="changeStatus(item.CART_ID,5)"><span class="dispatch">Deilievered<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span></a></td>
+                            <td ng-if="item.STATUS==5"></td>
+                        </tr>
+
+                    </tbody>
+                   
+                </table>
+
+                   <div class="noRecord" ng-if="model.length<1">
+                  <h3>
+                      No Record Found
+                  </h3>
+              </div>
+            </div>
+        </asp:Panel>
+
+        <asp:Panel ID="pnlPayment" runat="server">
+             <input type="text" class="txtSearch" ng-model="query" placeholder="Search any" />
+          <div class="table-wrapper clearfix" style="padding: 19px;">Payment
+              <table class="table table-striped table-bordered">
+                  <thead>
+                      <tr>
+                          <th class="text-center" width="50">S.N.</th>
+                          <th>Transaction No</th>
+                          <th>Status</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr ng-repeat="item in model  | filter:query | orderBy: orderList | startFrom:currentPage*pageSize | limitTo:pageSize"" ng-cloak>
+                          <td class="text-center">{{$index+1}}</td>
+                          <td><a ng-click="showDesc(item)">{{item.TRANSACTION_ID}}</a></td>
+                          <td>{{item.RETAILOR_PAY_STATUS}}</td>
+                      </tr>
+                  </tbody>
+                 
+              </table>
+
+              <div class="noRecord" ng-if="model.length<1">
+                  <h3>
+                      No Record Found
+                  </h3>
+              </div>
+          </div>
+        </asp:Panel>
+
+          <asp:Panel ID="pnlChart" runat="server">
+         <div class="col-sm-12 col-xs-12">
+        <div id="chartData" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+    </div>
+        </asp:Panel>
+
+        <asp:Panel ID="pnlPassbook" runat="server">
+             <input type="text" class="txtSearch" ng-model="query" placeholder="Search any" />
+         <div class="table-wrapper clearfix" style="padding: 19px;">Passbook
+             <table class="table table-striped table-bordered">
+                 <thead>
+                     <tr>
+                         <th class="text-center" width="50">S.No</th>
+                         <th>Transaction No</th>
+                         <th>Amount</th>
+                         <th>Date</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                     <tr ng-repeat="item in model  | filter:query | orderBy: orderList | startFrom:currentPage*pageSize | limitTo:pageSize"" ng-cloak>
+                         <td class="text-center">{{$index+1}}</td>
+                         <td>{{item.TRANSACTION_ID}}</td>
+                         <td>{{item.RETAILOR_PAY_AMOUNT}}</td>
+                         <td>{{item.RETAILOR_PAY_DATE}}</td>
+                     </tr>
+                 </tbody>
+             </table>
+                <div class="noRecord" ng-if="model.length<1">
+                  <h3>
+                      No Record Found
+                  </h3>
+              </div>
+
+         </div>
+        </asp:Panel>
+
+    </div>
+   </form>
 
 </asp:Content>
 

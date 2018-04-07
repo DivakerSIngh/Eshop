@@ -81,6 +81,7 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
                 }
                 txtBrand.Text = Convert.ToString(ds.Tables[0].Rows[0]["Brand_Title"]);
                 fill_ddl_Subcategory(ds.Tables[0].Rows[0]["CId"].ToString(), ds.Tables[0].Rows[0]["Gender"].ToString());
+                ddlSubCategory.Visible = true;
                 ddlSubCategory.SelectedValue = ds.Tables[0].Rows[0]["subcid"].ToString();
                 if (ddlCategory.SelectedIndex == 1)
                 {

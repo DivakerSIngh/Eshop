@@ -21,7 +21,7 @@ public partial class Retailor_PendingOrder : System.Web.UI.Page
          [WebMethod]
     public static string updateStatus(string cartId)
     {
-        var list = DB.updateStatus(Convert.ToInt32(cartId), 2);
+        var list = DB.updateStatus(Convert.ToInt32(cartId), (int)Status.ReadyToDispatch);
         return "Ok";
     }
     [WebMethod]

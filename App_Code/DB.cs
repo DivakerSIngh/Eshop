@@ -5927,7 +5927,7 @@ public class DB
             cmd.Connection = con;
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Clear();
-            cmd.CommandText = "EShop_GetLatitudeLongitude";
+            cmd.CommandText = "EShop_PushLatitudeLongitude";
             cmd.Parameters.AddWithValue("@PINCODE", Pincode);
             cmd.Parameters.AddWithValue("@LATITUDE", latitude);
             cmd.Parameters.AddWithValue("@LONGITUDE", longitude);

@@ -35,6 +35,7 @@
     font-weight: 100;
      -webkit-transition: width 2s; /* For Safari 3.1 to 6.0 */
     transition: width 2s;
+    height:150px;
 }
         .retailerDiv:hover {
     transition: all 0.5s ease-in-out;
@@ -142,7 +143,7 @@
                         tooltip: {
                             headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                             pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                                '<td style="padding:0"><b>{point.y:.1f} $</b></td></tr>',
+                                '<td style="padding:0"><b>&#8377 {point.y:.1f}</b></td></tr>',
                             footerFormat: '</table>',
                             shared: true,
                             useHTML: true
@@ -252,7 +253,7 @@
              <div class="col-sm-3">
             <div class="retailerDiv">
                  <div class="total-rt">
-                Total Orders
+                Total Orders: {{dashboardData.TOTAL_ORDER}}
             </div>
                 <div>
                    Refunded:  {{dashboardData.RETURNED_ORDER}}
@@ -266,13 +267,13 @@
              <div class="col-sm-3">
             <div class="retailerDiv">
                  <div class="total-rt">
-                Total Logistic
+                Logistic
             </div>
                 <div>
-                    Free:  {{dashboardData.TOTAL_LOGISTIC}}
+                   Total: {{dashboardData.TOTAL_LOGISTIC}}
                 </div>
                  <div>
-                    Premium: {{dashboardData.TOTAL_LOGISTIC}}
+                    
                 </div>
 
             </div>

@@ -26,6 +26,9 @@ public partial class SingleProdInfo : System.Web.UI.Page
                 {
                     hdnProductStatusid.Value = new DB().getLastPurchaseProductId(Convert.ToString(str.Split(',')[0]), "N");
 
+                }else
+                {
+                    hdnProductStatusid.Value = new DB().getLastPurchaseProductId(Convert.ToString(Session["loginid"]), "N");
                 }
 
             }
@@ -53,6 +56,10 @@ public partial class SingleProdInfo : System.Web.UI.Page
             {
                 hdnProductStatusid.Value = new DB().getLastPurchaseProductId(Convert.ToString(str.Split(',')[0]), "N");
 
+            }
+            else
+            {
+                hdnProductStatusid.Value = new DB().getLastPurchaseProductId(Convert.ToString(Session["loginid"]), "N");
             }
 
         }

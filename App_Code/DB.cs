@@ -2395,8 +2395,9 @@ public class DB
         return logdetails;
     }
 
-    public int CreateUserInfo(string mobile, string pwd, string empid)
+    public string CreateUserInfo(string mobile, string pwd, string empid)
     {
+        string logdetails = "";
         int i = 0;
         try
         {
@@ -2410,9 +2411,10 @@ public class DB
             cmd.Parameters.AddWithValue("@empid", empid);
             cmd.Parameters.AddWithValue("@mobile", mobile);
             cmd.Parameters.AddWithValue("@pwd", pwd);
-
+            cmd.Parameters.Add("@logdetails", SqlDbType.VarChar, 10).Direction = ParameterDirection.Output;
             con.Open();
             i = cmd.ExecuteNonQuery();
+            logdetails = cmd.Parameters["@logdetails"].Value.ToString();
             //con.Close();
 
         }
@@ -2425,7 +2427,7 @@ public class DB
             con.Close();
         }
 
-        return i;
+        return logdetails;
     }
 
     public Dictionary<string, string> VerifyLoginInfo(string mobile, string pwd, string mode)
@@ -4039,6 +4041,39 @@ public class DB
 
     }
 
+    public void UpdateEmailUser(string userid, string mobile)
+    {
+        int i = 0;
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            cmd = new SqlCommand();
+            cmd.Connection = con;
+            //da = new SqlDataAdapter("EShop_GetRetailerDetails", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "EShop_UpdateMobileOfUser";
+            cmd.Parameters.AddWithValue("@userid", userid);
+            cmd.Parameters.AddWithValue("@mobile", mobile);
+
+            con.Open();
+            i = cmd.ExecuteNonQuery();
+
+
+
+        }
+        catch (Exception ex)
+        {
+            i = 0;
+        }
+        finally
+        {
+            con.Close();
+        }
+
+
+    }
+
 
     public void UpdateEmailLogistic(string userid, string mobile)
     {
@@ -4085,6 +4120,37 @@ public class DB
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Clear();
             cmd.CommandText = "EShop_DeleteRetailer";
+            cmd.Parameters.AddWithValue("@userid", userid);
+            cmd.Parameters.AddWithValue("@mobile", mobile);
+
+            con.Open();
+            i = cmd.ExecuteNonQuery();
+
+        }
+        catch (Exception ex)
+        {
+            i = 0;
+        }
+        finally
+        {
+            con.Close();
+        }
+
+
+    }
+
+    public void DeleteUser(string userid, string mobile)
+    {
+        int i = 0;
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            cmd = new SqlCommand();
+            cmd.Connection = con;
+            //da = new SqlDataAdapter("EShop_GetRetailerDetails", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "EShop_DeleteUser";
             cmd.Parameters.AddWithValue("@userid", userid);
             cmd.Parameters.AddWithValue("@mobile", mobile);
 

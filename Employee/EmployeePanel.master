@@ -171,7 +171,13 @@
                             <li>
                                 <a href="EmployeeDashboard.aspx" class=" hvr-bounce-to-right"><i class="fa fa-dashboard nav_icon "></i><span class="nav-label">Dashboards</span> </a>
                             </li>
-
+                              <li>
+                                <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-indent nav_icon"></i><span class="nav-label">User</span><span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li><a href="AddUsers.aspx" class=" hvr-bounce-to-right"><i class="fa fa-map-marker nav_icon"></i>Add User</a></li>
+                                     <li><a href="ViewUser.aspx" class=" hvr-bounce-to-right"><i class="fa fa-area-chart nav_icon"></i>User List</a></li>
+                                </ul>
+                            </li>
                             <li>
                                 <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-indent nav_icon"></i><span class="nav-label">Logistics</span><span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">

@@ -8,34 +8,36 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 
-public partial class Logistic_ViewLogisticList : System.Web.UI.Page
+
+public partial class Retailor_ViewRetailorList : System.Web.UI.Page
 {
     DB obj;
     protected void Page_Load(object sender, EventArgs e)
     {
+       
         if (Session["loginid"] != null && Session["loginid"].ToString() != "")
         {
-            get_logistic_List();
+            load_retailer_list();
         }
         else
         {
-            Response.Redirect("~/PanelLogin.aspx?mode=L");
+            Response.Redirect("~/PanelLogin.aspx?mode=R");
         }
     }
 
-    private void get_logistic_List()
+    private void load_retailer_list()
     {
         try
         {
             obj = new DB();
-            DataSet ds = obj.GetLogisticList(Session["loginid"].ToString());
-            if(ds.Tables[0].Rows.Count > 0)
+            DataSet ds = obj.GetRetailerList(Session["loginid"].ToString());
+            if (ds.Tables[0].Rows.Count > 0)
             {
-                gv_LogisticList.DataSource = ds.Tables[0];
-                gv_LogisticList.DataBind();
+                gv_RetailerList.DataSource = ds.Tables[0];
+                gv_RetailerList.DataBind();
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
 
         }
@@ -44,21 +46,23 @@ public partial class Logistic_ViewLogisticList : System.Web.UI.Page
             obj = null;
         }
     }
+
+
     protected void LinkButton1_Command(object sender, CommandEventArgs e)
     {
-        string lid = e.CommandArgument.ToString();
-        Response.Redirect("AddLogisticInfo.aspx?type=U&lid="+lid);
+        string rid = e.CommandArgument.ToString();
+        Response.Redirect("AddRetailorInfo.aspx?type=U&rid=" + rid);
     }
 
     protected void lnkBlock_Command(object sender, CommandEventArgs e)
     {
-        new DB().Update_RLE_Status(2, "Y", e.CommandArgument.ToString());
-        get_logistic_List();
+        new DB().Update_RLE_Status(1, "Y", e.CommandArgument.ToString());
+        load_retailer_list();
     }
 
     protected void lnkActive_Command(object sender, CommandEventArgs e)
     {
-        new DB().Update_RLE_Status(2, "N", e.CommandArgument.ToString());
-        get_logistic_List();
+        new DB().Update_RLE_Status(1, "N", e.CommandArgument.ToString());
+        load_retailer_list();
     }
 }

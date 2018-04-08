@@ -1,14 +1,15 @@
-﻿<%@ Page Title="Logistic List" Language="C#" MasterPageFile="~/Employee/EmployeePanel.master" AutoEventWireup="true" CodeFile="ViewLogisticList.aspx.cs" Inherits="Logistic_ViewLogisticList" %>
+﻿<%@ Page Title="Product List" Language="C#" MasterPageFile="~/Employee/EmployeePanel.master" AutoEventWireup="true" CodeFile="ProductList.aspx.cs" Inherits="Retailor_ProductList" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 
+    
     <script src="/ToastMessage/jquery-1.9.1.min.js" type="text/javascript"></script>
     <link href="/ToastMessage/toastr.css" rel="stylesheet" type="text/css" />
-    <script src="/ToastMessage/toastr.js" type=" text/javascript"></script>
+    <script src="/ToastMessage/toastr.js" type="text/javascript"></script>
 
        <script type="text/javascript">
            function f() {
-               toastr.error('Error occured Info cannot be viewd try later !');
+               toastr.error('Record not available !');
            }
     </script>
       
@@ -48,37 +49,7 @@
 
         });
     </script>
-     <script runat="server">
-        private bool CheckVisible(object sta)
-        {
-            var isvalid = false;
-            var status=  Convert.ToString(sta);
-            if (status == "N")
-            {
-                isvalid = true;
-            }else
-            {
-                isvalid = false;
-            }
-            return isvalid;
-        }
-         private bool CheckVisibleActive(object sta)
-        {
-            var isvalid = false;
-            var status=  Convert.ToString(sta);
-            if (status == "Y")
-            {
-                isvalid = true;
-            }else
-            {
-                isvalid = false;
-            }
-            return isvalid;
-        }
 
-        
-
-    </script>
     <!----->
 
     <!--pie-chart--->
@@ -127,43 +98,55 @@
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-
-         <!--content-->
+    <form id="createRetailerForm" runat="server" class="form-horizontal">
+    <asp:ScriptManager ID="scriptmanager2" runat="server">
+    </asp:ScriptManager>
+      <!--content-->
                 <!---->
-                	<form runat="server" class="form-horizontal">
+      
                 <div class="blank">
 
 
                     <div class="blank-page">
-                      Logistic List
-                        <asp:GridView ID="gv_LogisticList" runat="server" AutoGenerateColumns="False" CellPadding="4" ForeColor="#333333" GridLines="None" Width="100%">
+                      
+                        <asp:GridView ID="gv_ProductList" runat="server" AutoGenerateColumns="False" CellPadding="4" ForeColor="#333333" GridLines="None" Width="100%">
                             <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
                             <Columns>
                                 <asp:TemplateField HeaderText="SNo">
                                     <ItemTemplate>
-                                        <asp:Label ID="Label1" runat="server" ForeColor="#003366" Text= '<%#Container.DataItemIndex+1 %>' ></asp:Label>
+                                        <asp:Label ID="Label1" runat="server" ForeColor="#003366" Text='<%#Eval("Pid") %>' ></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                  <asp:TemplateField HeaderText="Retailer Id">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblUserId" runat="server" ForeColor="#003366" Text='<%#Eval("userid") %>' ></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Title">
                                     <ItemTemplate>
-                                        <asp:Label ID="Label2" runat="server" ForeColor="#003366" Text='<%#Eval("title") %>'></asp:Label>
+                                        <asp:Label ID="Label2" runat="server" ForeColor="#003366" Text='<%#Eval("HeaderTitle") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Edit">
+                            
+                                <asp:TemplateField HeaderText="Selling Price">
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="LinkButton1" runat="server" class="btn btn-warning" CommandArgument='<%#Eval("lid") %>' OnCommand="LinkButton1_Command">Edit</asp:LinkButton>
+                                        <asp:Label ID="Label3" runat="server" ForeColor="#003366" Text='<%#Eval("SellingPrice") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                  <asp:TemplateField HeaderText="Status">
+                                <asp:TemplateField HeaderText="Cost Price">
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="lnkBlock" Visible='<%# CheckVisible(Eval("LStatus"))%>' runat="server" class="btn btn-warning" style="margin:10px 0;" BackColor="#ff0000" CommandArgument='<%#Eval("userid") %>' OnCommand="lnkBlock_Command">Block</asp:LinkButton>
-                                        <asp:LinkButton ID="lnkActive" Visible='<%# CheckVisibleActive(Eval("LStatus"))%>' runat="server" class="btn btn-warning" style="margin:10px 0;" BackColor="#33cc33" CommandArgument='<%#Eval("userid") %>' OnCommand="lnkActive_Command">Active</asp:LinkButton>
+                                        <asp:Label ID="Label4" runat="server" ForeColor="#003366" Text='<%#Eval("CostPrice") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Edit">
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="LinkButtonProd" runat="server"  CommandArgument='<%#Eval("Pid") %>' OnCommand="LinkButtonProd_Command" >Edit</asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>
                             <EditRowStyle BackColor="#999999" />
                             <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-                            <HeaderStyle BackColor="White" Font-Bold="True" ForeColor="#999999" />
+                            <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
                             <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
                             <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
                             <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
@@ -174,9 +157,9 @@
                         </asp:GridView>
                     </div>
                 </div>
-                </form>
+      
                 <!--//content-->
-
+    </form>
 
 </asp:Content>
 

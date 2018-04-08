@@ -70,17 +70,28 @@ public partial class Login : System.Web.UI.Page
                 userObject = obj.ValidateUserLoginDetails(txtUName.Value, txtPwd.Value);
                 if (userObject.ContainsKey("loginid") && userObject.ContainsKey("userType"))
                 {
-                    Session["loginid"]=  userObject["loginid"];
-                    Session["userType"] = userObject["userType"];
-
-                    if (Request.QueryString["pid"] != null)
+                    //string loginid = userObject.TryGetValue("loginid",out loginid);
+                    if (!string.IsNullOrEmpty(userObject["loginid"].ToString()) && !string.IsNullOrEmpty(userObject["userType"].ToString()))
                     {
-                        Response.Redirect("SingleProdInfo.aspx?pid=" + Request.QueryString["pid"].ToString() + "&p=" + Request.QueryString["p"].ToString() + "&r=" + Request.QueryString["r"].ToString() + "&l=" + Request.QueryString["l"].ToString() + "");
+                        Session["loginid"] = userObject["loginid"];
+                        Session["userType"] = userObject["userType"];
+
+                        if (Request.QueryString["pid"] != null)
+                        {
+                            Response.Redirect("SingleProdInfo.aspx?pid=" + Request.QueryString["pid"].ToString() + "&p=" + Request.QueryString["p"].ToString() + "&r=" + Request.QueryString["r"].ToString() + "&l=" + Request.QueryString["l"].ToString() + "");
+                        }
+                        else
+                        {
+                            Response.Redirect("Default.aspx");
+                        }
                     }
                     else
                     {
-                        Response.Redirect("Default.aspx");
+                        btnLogin.Text = "Login";
+                        btnLogin.Enabled = true;
+                        ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.error('Invalid UserId or Password !');", true);
                     }
+                   
                 }               
                 else
                 {

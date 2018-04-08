@@ -280,6 +280,7 @@ public partial class SingleProdInfo : System.Web.UI.Page
                     //string stringToCheck=txtPincode.Text.Trim();
 
                     string stringToCheck = UserPincode;
+                    string dist = "0";
                     if (stringArray.Any(stringToCheck.Contains) && stringArray.Any(retailer_pincode.Contains))
                     {
                         hf_logistic_id.Value = ds.Tables[0].Rows[i]["userid"].ToString();
@@ -293,6 +294,7 @@ public partial class SingleProdInfo : System.Web.UI.Page
                             double r_lat = Convert.ToDouble(ds1.Tables[0].Rows[0]["R_LATITUDE"].ToString());
                             double r_lon = Convert.ToDouble(ds1.Tables[0].Rows[0]["R_LONGITUDE"].ToString());
                             distance = getDistanceUsinLongAndLat(r_lat, r_lon, user_lat, user_lon, 'K');
+                            dist = String.Format("{0:0.00}", distance);
                         }
                         else
                         {
@@ -302,14 +304,15 @@ public partial class SingleProdInfo : System.Web.UI.Page
                             var point1 = locationService.GetLatLongFromAddress(retailer_pincode);
                             var point2 = locationService.GetLatLongFromAddress(UserPincode);
                             obj.pushLatitudeLongitude(retailer_pincode, Convert.ToDecimal(point1.Latitude), Convert.ToDecimal(point1.Longitude));
+                            obj.pushLatitudeLongitude(UserPincode, Convert.ToDecimal(point2.Latitude), Convert.ToDecimal(point2.Longitude));
                             distance = getDistanceUsinLongAndLat(point1.Latitude, point1.Longitude, point2.Latitude, point2.Longitude, 'K');
-
+                            dist = String.Format("{0:0.00}", distance);
                             //=================================================================//
                         }
 
                         hf_CheckPin.Value = UserPincode;
                         ViewState["CheckPin"]= UserPincode;
-                        hf_deliveryAmt.Value = Convert.ToString(getDeliveryAmt(hf_logistic_id.Value, weight, distance));
+                        hf_deliveryAmt.Value = Convert.ToString(getDeliveryAmt(hf_logistic_id.Value, weight, Convert.ToDouble(dist)));
                         ViewState["lid"] = hf_logistic_id.Value;
                         ViewState["delAmt"] = hf_deliveryAmt.Value;
                         if (cid != 1)
@@ -326,6 +329,10 @@ public partial class SingleProdInfo : System.Web.UI.Page
                                 ViewState["lid"] = "";
                                 ViewState["delAmt"] = "0";
                             }
+                        }
+                        else
+                        {
+                            count += 1;
                         }
                         
                         break;

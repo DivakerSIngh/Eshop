@@ -126,24 +126,42 @@ public partial class CheckOut : System.Web.UI.Page
                     string stringToCheck = txtPincode.Text;
                     string[] rPin = Session["RPin"].ToString().Split(',');
                     string[] pWt = Session["Wt"].ToString().Split(',');
+                    double distance = 0;
+                    string dist = "0";
                     if (stringArray.Any(stringToCheck.Contains) && stringArray.Any(rPin[0].Contains))
                     {
                         for (int j = 0; j < rPin.Length; j++)
                         {
-                            //================================================================//
-                            // latitude and longitude
-                            var pincode1 = rPin[j];
-                            var pincode2 = txtPincode.Text;
-                            var locationService = new GoogleLocationService();
-                            var point1 = locationService.GetLatLongFromAddress(pincode1);
-                            var point2 = locationService.GetLatLongFromAddress(pincode2);
-                            double distance = getDistanceUsinLongAndLat(point1.Latitude, point1.Longitude, point2.Latitude, point2.Longitude, 'K');
-                            double wt = Convert.ToDouble(pWt[j]);
-                            //=================================================================//
+                            DataSet ds1 = new DataSet();
+                            ds1 = obj.getLatitudeLongitude(txtPincode.Text, rPin[j].ToString());
+                            if (ds1.Tables[0].Rows.Count > 0 && !string.IsNullOrEmpty(ds1.Tables[0].Rows[0][0].ToString()))
+                            {
+                                double user_lat = Convert.ToDouble(ds1.Tables[0].Rows[0]["USER_LATITUDE"].ToString());
+                                double user_lon = Convert.ToDouble(ds1.Tables[0].Rows[0]["USER_LONGITUDE"].ToString());
+                                double r_lat = Convert.ToDouble(ds1.Tables[0].Rows[0]["R_LATITUDE"].ToString());
+                                double r_lon = Convert.ToDouble(ds1.Tables[0].Rows[0]["R_LONGITUDE"].ToString());
+                                distance = getDistanceUsinLongAndLat(r_lat, r_lon, user_lat, user_lon, 'K');
+                                dist = String.Format("{0:0.00}", distance);
+                            }
+                            else
+                            {
+                                //================================================================//
+                                // latitude and longitude
+                                var pincode1 = rPin[j];
+                                var pincode2 = txtPincode.Text;
+                                var locationService = new GoogleLocationService();
+                                var point1 = locationService.GetLatLongFromAddress(pincode1);
+                                var point2 = locationService.GetLatLongFromAddress(pincode2);
+                                distance = getDistanceUsinLongAndLat(point1.Latitude, point1.Longitude, point2.Latitude, point2.Longitude, 'K');
+                                dist = String.Format("{0:0.00}", distance);
+                                //=================================================================//
+                            }
 
+                            double wt = Convert.ToDouble(pWt[j]);
                             hf_logistic_id.Value = ds.Tables[0].Rows[i]["userid"].ToString();
-                            hf_Delivery_Rate.Value = Convert.ToString(Convert.ToDecimal(hf_Delivery_Rate.Value) + getDeliveryAmt(hf_logistic_id.Value, wt, distance));
+                            hf_Delivery_Rate.Value = Convert.ToString(Convert.ToDecimal(hf_Delivery_Rate.Value) + getDeliveryAmt(hf_logistic_id.Value, wt, Convert.ToDouble(dist)));
                         }
+
                         count += 1;
                         break;
                     }

@@ -155,7 +155,7 @@
                                     <a href="#" class="dropdown-toggle dropdown-at" data-toggle="dropdown"><span class=" name-caret">
                                         <asp:Label ID="lblname" runat="server" Text=""></asp:Label><i class="caret"></i></span><img src="/images/administrator.png" /></a>
                                     <ul class="dropdown-menu " role="menu">
-                                        <li><a href="PanelLogin.aspx"><i class="fa fa-user"></i>Log Out</a></li>
+                                        <li><a href="../PanelLogin.aspx"><i class="fa fa-user"></i>Log Out</a></li>
                                     </ul>
                                 </div>
                             </li>

@@ -102,7 +102,7 @@
                                         <asp:Label ID="Label2" runat="server" ForeColor="#003366" Text='<%#Eval("Org_Name") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Edit">
+                                <asp:TemplateField HeaderText="Edit" Visible="false">
                                     <ItemTemplate>
                                         <asp:LinkButton ID="LinkButton1" runat="server" class="btn btn-warning" style="margin:10px 0;" CommandArgument='<%#Eval("rid") %>' OnCommand="LinkButton1_Command">Edit</asp:LinkButton>
                                     </ItemTemplate>

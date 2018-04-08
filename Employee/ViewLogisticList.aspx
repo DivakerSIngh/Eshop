@@ -144,12 +144,22 @@
                                         <asp:Label ID="Label1" runat="server" ForeColor="#003366" Text= '<%#Container.DataItemIndex+1 %>' ></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
+                                 <asp:TemplateField HeaderText="User Id">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblUser" runat="server" ForeColor="#003366" Text='<%#Eval("userid") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="User Id">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblPass" runat="server" ForeColor="#003366" Text='<%#Eval("lpwd") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Title">
                                     <ItemTemplate>
                                         <asp:Label ID="Label2" runat="server" ForeColor="#003366" Text='<%#Eval("title") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Edit">
+                                <asp:TemplateField HeaderText="Edit" Visible="false">
                                     <ItemTemplate>
                                         <asp:LinkButton ID="LinkButton1" runat="server" class="btn btn-warning" CommandArgument='<%#Eval("lid") %>' OnCommand="LinkButton1_Command">Edit</asp:LinkButton>
                                     </ItemTemplate>

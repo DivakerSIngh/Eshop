@@ -33,14 +33,14 @@ public partial class Retailor_RetailorPanel : System.Web.UI.MasterPage
                         btnAddImage.Enabled = true;
                         btnAddProduct.Enabled = true;
                         btnProdList.Enabled = true;
-                        btnAddRetailer.Enabled = false;
+                        btnAddRetailer.Visible = false;
                     }
                     else
                     {
                         btnAddImage.Enabled = false;
                         btnAddProduct.Enabled = false;
                         btnProdList.Enabled = false;
-                        btnAddRetailer.Enabled = true;
+                        btnAddRetailer.Visible = true;
                     }
                 }
                 else
@@ -48,7 +48,7 @@ public partial class Retailor_RetailorPanel : System.Web.UI.MasterPage
                     btnAddImage.Enabled = false;
                     btnAddProduct.Enabled = false;
                     btnProdList.Enabled = false;
-                    btnAddRetailer.Enabled = true;
+                    btnAddRetailer.Visible = true;
                 }
                 string[] str = Session["loginid"].ToString().Split(',');
                 DataSet dspre = obj.fillDataSet("select RegistrationType from retailer_logininfo where userid='"+str[0]+"'");

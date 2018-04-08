@@ -17,8 +17,18 @@ public partial class SingleProdInfo : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
+
             if (Session["loginid"] != null)
-                hdnProductStatusid.Value = new DB().getLastPurchaseProductId(Convert.ToString(Session["loginid"]), "N");
+            {
+              var str=  Convert.ToString(Session["loginid"]);
+                
+                if (str.Contains(","))
+                {
+                    hdnProductStatusid.Value = new DB().getLastPurchaseProductId(Convert.ToString(str.Split(',')[0]), "N");
+
+                }
+
+            }
 
             if (Request.QueryString["pid"] != null && Request.QueryString["pid"].ToString() != "")
             {
@@ -36,7 +46,16 @@ public partial class SingleProdInfo : System.Web.UI.Page
             }
         }
         if (Session["loginid"] != null)
-            hdnProductStatusid.Value = new DB().getLastPurchaseProductId(Convert.ToString(Session["loginid"]), "N");
+        {
+            var str = Convert.ToString(Session["loginid"]);
+
+            if (str.Contains(","))
+            {
+                hdnProductStatusid.Value = new DB().getLastPurchaseProductId(Convert.ToString(str.Split(',')[0]), "N");
+
+            }
+
+        }
     }
 
     [WebMethod]

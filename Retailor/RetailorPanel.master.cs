@@ -26,12 +26,22 @@ public partial class Retailor_RetailorPanel : System.Web.UI.MasterPage
             {
                 obj = new DB();
                 DataSet ds = obj.CheckRetailerInfoCompleteness(Session["loginid"].ToString());
-                if(ds.Tables[0].Rows.Count > 0 && ds.Tables[0].Rows[0][0].ToString() != "")
+                if(ds.Tables[0].Rows.Count > 0)
                 {
-                    btnAddImage.Enabled = true;
-                    btnAddProduct.Enabled = true;
-                    btnProdList.Enabled = true;
-                    btnAddRetailer.Enabled = false;
+                    if(ds.Tables[0].Rows[0][0].ToString() != "")
+                    {
+                        btnAddImage.Enabled = true;
+                        btnAddProduct.Enabled = true;
+                        btnProdList.Enabled = true;
+                        btnAddRetailer.Enabled = false;
+                    }
+                    else
+                    {
+                        btnAddImage.Enabled = false;
+                        btnAddProduct.Enabled = false;
+                        btnProdList.Enabled = false;
+                        btnAddRetailer.Enabled = true;
+                    }
                 }
                 else
                 {
@@ -42,14 +52,14 @@ public partial class Retailor_RetailorPanel : System.Web.UI.MasterPage
                 }
                 string[] str = Session["loginid"].ToString().Split(',');
                 DataSet dspre = obj.fillDataSet("select RegistrationType from retailer_logininfo where userid='"+str[0]+"'");
-                //if(dspre.Tables[0].Rows[0][0].ToString() == "free")
-                //{
-                //    btnPremium.Enabled = true;
-                //}
-                //else
-                //{
-                //    btnPremium.Enabled = false;
-                //}
+                if (dspre.Tables[0].Rows[0][0].ToString() == "free")
+                {
+                    btnPremium.Visible = true;
+                }
+                else
+                {
+                    btnPremium.Visible = false;
+                }
 
             }
         }

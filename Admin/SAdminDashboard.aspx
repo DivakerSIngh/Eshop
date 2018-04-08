@@ -256,7 +256,7 @@
                 Total Orders: {{dashboardData.TOTAL_ORDER}}
             </div>
                 <div>
-                   Refunded:  {{dashboardData.RETURNED_ORDER}}
+                   Returned:  {{dashboardData.RETURNED_ORDER}}
                 </div>
                  <div>
                     Delivered: {{dashboardData.DELIVERED_ORDER}}

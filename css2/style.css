@@ -222,6 +222,7 @@ h1 a.navbar-brand {
 	font-weight: 500;
     padding: 20px 0px;
     background: url(../images/villagerslogo.png) no-repeat #fff;
+    /*background: url(../images/newLogo.png) no-repeat #fff;*/
     background-position-x: 44%;
     text-align: center;
 	width:248px;

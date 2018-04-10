@@ -276,7 +276,7 @@
 
 
 
-    $('#ContentPlaceHolder1_txtState').attr('disabled', 'disabled');
+    //$('#ContentPlaceHolder1_txtState').attr('disabled', 'disabled');
     $('#ContentPlaceHolder1_txtPincode').on('keyup blur', function () {
         if ($(this).val().length === 6) {
             $('#ContentPlaceHolder1_txtState').val(stndis[$(this).val()].state);

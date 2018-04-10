@@ -926,7 +926,7 @@ public class DB
     }
 
 
-    private int CheckCartProductDuplicate(string pid, string userid)
+    private int CheckCartProductDuplicate(string pid, string userid,string size="")
     {
         int i = 0;
         try
@@ -938,7 +938,7 @@ public class DB
 
             da.SelectCommand.Parameters.AddWithValue("@prodid", pid);
             da.SelectCommand.Parameters.AddWithValue("@userid", userid);
-
+            da.SelectCommand.Parameters.AddWithValue("@size", size);
             ds = new DataSet();
             da.Fill(ds);
             if (ds.Tables[0].Rows.Count > 0)
@@ -966,7 +966,7 @@ public class DB
         int i = 0;
         try
         {
-            i = CheckCartProductDuplicate(pid, userid);
+            i = CheckCartProductDuplicate(pid, userid,size);
             if (i == 0)
             {
                 i = 0;

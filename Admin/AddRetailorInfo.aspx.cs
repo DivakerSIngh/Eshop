@@ -24,6 +24,8 @@ public partial class Retailor_AddRetailorInfo : System.Web.UI.Page
             {
                 if (Request.QueryString["type"] != null && Request.QueryString["type"].ToString() == "U")
                 {
+                    pnlAddretailerAngular.Visible = false;
+                    pnlViewRatiler.Visible = true;
                     btnRetSubmit.Text = "Update";
                     //btnRetSubmit.Enabled = false;
                     //txtReferralId.Visible = false;
@@ -40,6 +42,8 @@ public partial class Retailor_AddRetailorInfo : System.Web.UI.Page
                     pnlRetailerSize.Visible = false;
                     rbtnGender.SelectedIndex = 0;
                     ddlSize.SelectedIndex = 0;
+                    pnlAddretailerAngular.Visible = true;
+                    pnlViewRatiler.Visible = false;
                 }
             }
         }

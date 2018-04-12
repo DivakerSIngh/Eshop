@@ -13,6 +13,18 @@
     </script>
       
     <script runat="server">
+
+        private bool CheckRID(object sta)
+        {
+            var status=  Convert.ToString(sta);
+            if (string.IsNullOrEmpty(status))
+            {
+                return false;
+            }else
+            {
+                return true;
+            }
+        }
         private bool CheckVisible(object sta)
         {
             var isvalid = false;
@@ -26,7 +38,7 @@
             }
             return isvalid;
         }
-         private bool CheckVisibleActive(object sta)
+        private bool CheckVisibleActive(object sta)
         {
             var isvalid = false;
             var status=  Convert.ToString(sta);
@@ -40,7 +52,7 @@
             return isvalid;
         }
 
-        
+
 
     </script>
 
@@ -102,9 +114,9 @@
                                         <asp:Label ID="Label2" runat="server" ForeColor="#003366" Text='<%#Eval("Org_Name") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Edit" Visible="false">
+                                <asp:TemplateField HeaderText="Edit">
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="LinkButton1" runat="server" class="btn btn-warning" style="margin:10px 0;" CommandArgument='<%#Eval("rid") %>' OnCommand="LinkButton1_Command">Edit</asp:LinkButton>
+                                        <asp:LinkButton ID="LinkButton1" Visible='<%#CheckRID(Eval("rid")) %>' runat="server" class="btn btn-warning" style="margin:10px 0;" CommandArgument='<%#Eval("rid") %>' OnCommand="LinkButton1_Command">Edit</asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                  <asp:TemplateField HeaderText="Status">

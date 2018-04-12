@@ -364,6 +364,7 @@ ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "To
                         btnRetReset_Click(null, null);
                         btnRetSubmit.Text = "Submit";
                         btnRetSubmit.Enabled = false;
+                        Response.Redirect("ViewRetailorList.aspx");
                     }
                     else
                     {

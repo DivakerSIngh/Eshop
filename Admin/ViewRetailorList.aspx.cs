@@ -53,7 +53,7 @@ public partial class Retailor_ViewRetailorList : System.Web.UI.Page
         string[] commandArgs = ((LinkButton)sender).CommandArgument.ToString().Split(new char[] { ',' });
         string rid = commandArgs[0];
         string userid= commandArgs[1];
-        Response.Redirect("AddRetailorInfo.aspx?type=U&rid=" + rid + "&userid" + userid);
+        Response.Redirect("AddRetailorInfo.aspx?type=U&rid=" + rid + "&userid=" + userid);
     }
 
     protected void lnkBlock_Command(object sender, CommandEventArgs e)

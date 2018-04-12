@@ -26,10 +26,14 @@ public partial class Logistic_AddLogisticInfo : System.Web.UI.Page
                 {
                     btnLogSubmit.Text = "Update";
                     load_logistic_data();
+                    pnlAdd.Visible = false;
+                    pnlView.Visible = true;
                 }
                 else
                 {
                     btnLogSubmit.Text = "Submit";
+                    pnlAdd.Visible = true;
+                    pnlView.Visible = false;
                 }
             }  
         }
@@ -70,6 +74,7 @@ public partial class Logistic_AddLogisticInfo : System.Web.UI.Page
                     {
                         lbPincodeList.Items.Add(pin);
                     }
+                    
                 }
             }
             else

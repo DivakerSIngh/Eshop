@@ -108,6 +108,9 @@
 
       <!--content-->
                 <!---->
+    <asp:Panel ID="pnlAdd" runat="server">
+
+   
     <div ng-app="myApp" ng-controller="retailerController">
    
     <form name="addRetailer" style="width: 600px; margin: 0px auto;"> 
@@ -162,12 +165,14 @@
             </div>  
         </div>          
       </div>
+    </asp:Panel>
 
 
 
 
+    <asp:Panel ID="pnlView" runat="server">
 
-
+  
 
 
 
@@ -189,7 +194,7 @@
                         <asp:ScriptManager ID="scriptmanager1" runat="server">
 </asp:ScriptManager>
 
-        <asp:UpdatePanel ID="updatepnl" runat="server" Visible="false">
+        <asp:UpdatePanel ID="updatepnl" runat="server" >
 <ContentTemplate>
 
 
@@ -321,6 +326,7 @@
             </asp:UpdatePanel>
 
                 </form>
+          </asp:Panel>
                 <!--//content-->
               <%--  <script type="text/javascript" src="/js/bootstrap-3.3.5.min.js" ></script>--%>
 	            <script type="text/javascript" src="/js/jquery.validate-1.14.0.min.js" ></script>

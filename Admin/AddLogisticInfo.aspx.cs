@@ -128,6 +128,7 @@ public partial class Logistic_AddLogisticInfo : System.Web.UI.Page
                         ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Updation Done Successfully !');", true);
                         btnLogReset_Click(null, null);
                         btnLogSubmit.Text = "Submit";
+                        Response.Redirect("ViewLogisticList.aspx");
                     }
                     else
                     {

@@ -314,7 +314,10 @@ if ((f1 == ".jpg" || f1 == ".jpeg" || f1 == ".pdf" || f1 == ".png") && (f2 == ".
                     }
 ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Record in before insert  method !');", true);
 
-                    s = obj.AddRetailerInfo(rname, raddress, city, state, landmark, pincode, district, rcategory, rtype, orgname, orgregnumber, email, mobile, tinnum, staxnum, accholdername, accnumber, bname, ifsc, pan, Session["loginid"].ToString(), rbtnGender.SelectedIndex == 0 ? "M" : "F", ddlSize.SelectedValue,gst,referralid);
+                    s = obj.AddRetailerInfo(rname, raddress, city, state, landmark, pincode, district, rcategory, rtype, orgname, orgregnumber, email, mobile, tinnum, staxnum, accholdername, accnumber, bname, ifsc, pan, Session["loginid"].ToString(), rbtnGender.SelectedIndex == 0 ? "M" : "F", ddlSize.SelectedValue,gst,referralid,
+                         FileUpload1.FileBytes, FileUpload2.FileBytes, FileUpload3.FileBytes, FileUpload4.FileBytes
+
+                        );
                     if (s > 0)
                     {
                         ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Record Added Successfully !');", true);
@@ -355,13 +358,15 @@ ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "To
                         gender = "M";
                     else
                         gender = "F";
-                    s = obj.UpdateRetailerInfo(rname, raddress, city, state, landmark, pincode, district, rcategory, rtype, orgname, orgregnumber, email, mobile, tinnum, staxnum, accholdername, accnumber, bname, ifsc, pan, Session["loginid"].ToString(),rrid,gst,gender,referralid);
+                    s = obj.UpdateRetailerInfo(rname, raddress, city, state, landmark, pincode, district, rcategory, rtype, orgname, orgregnumber, email, mobile, tinnum, staxnum, accholdername, accnumber, bname, ifsc, pan, Session["loginid"].ToString(),rrid,gst,gender,referralid,
+                         FileUpload1.FileBytes, FileUpload2.FileBytes, FileUpload3.FileBytes, FileUpload4.FileBytes);
                     if (s > 0)
                     {
                         ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Updation Done Successfully !');", true);
                         btnRetReset_Click(null, null);
                         btnRetSubmit.Text = "Submit";
                         btnRetSubmit.Enabled = false;
+                        Response.Redirect("ViewRetailorList.aspx");
                     }
                     else
                     {

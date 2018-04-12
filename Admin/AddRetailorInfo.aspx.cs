@@ -357,12 +357,13 @@ ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "To
                 else
                 {
                     string rrid = Request.QueryString["rid"].ToString();
+                    string userid= Request.QueryString["userid"].ToString();
                     string gender = "";
                     if (rbtnGender.SelectedIndex == 0)
                         gender = "M";
                     else
                         gender = "F";
-                    s = obj.UpdateRetailerInfo(rname, raddress, city, state, landmark, pincode, district, rcategory, rtype, orgname, orgregnumber, email, mobile, tinnum, staxnum, accholdername, accnumber, bname, ifsc, pan, Session["loginid"].ToString(),rrid,gst,gender,referralid,
+                    s = obj.UpdateRetailerInfo(rname, raddress, city, state, landmark, pincode, district, rcategory, rtype, orgname, orgregnumber, email, mobile, tinnum, staxnum, accholdername, accnumber, bname, ifsc, pan, userid, rrid,gst,gender,referralid,
                          FileUpload1.FileBytes, FileUpload2.FileBytes, FileUpload3.FileBytes, FileUpload4.FileBytes);
                     if (s > 0)
                     {

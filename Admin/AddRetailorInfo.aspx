@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Retailer Info" Language="C#" MasterPageFile="~/Admin/SAdminPanel.master" AutoEventWireup="true" CodeFile="AddRetailorInfo.aspx.cs" Inherits="Retailor_AddRetailorInfo" %>
+﻿<%@ Page Title="Retailer Info" Language="C#" MasterPageFile="~/Admin/SAdminPanel.master" AutoEventWireup="true" CodeFile="AddRetailorInfo.aspx.cs" Inherits="Retailor_AddRetailorInfo" EnableEventValidation="false" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">

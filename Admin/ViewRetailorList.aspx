@@ -116,7 +116,7 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Edit">
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="LinkButton1" Visible='<%#CheckRID(Eval("rid")) %>' runat="server" class="btn btn-warning" style="margin:10px 0;" CommandArgument='<%#Eval("rid") %>' OnCommand="LinkButton1_Command">Edit</asp:LinkButton>
+                                        <asp:LinkButton ID="LinkButton1" Visible='<%#CheckRID(Eval("rid")) %>' runat="server" class="btn btn-warning" style="margin:10px 0;" CommandArgument='<%#Eval("rid")+","+Eval("USERID") %>' OnCommand="LinkButton1_Command">Edit</asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                  <asp:TemplateField HeaderText="Status">

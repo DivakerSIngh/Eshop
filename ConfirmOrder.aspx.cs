@@ -100,12 +100,13 @@ public partial class ConfirmOrder : System.Web.UI.Page
                 DataSet dss = obj.GetCartInfoQtyNdAmt(str[0]);//total amount to be paid
                 decimal grandtotamt = Convert.ToDecimal(dss.Tables[0].Rows[0]["totalamount"].ToString()) + Convert.ToDecimal(dss.Tables[0].Rows[0]["Delivery_Amount"].ToString()) - Convert.ToDecimal(dss.Tables[0].Rows[0]["Coupon_Amt"].ToString());
                 DataSet dscart = obj.GetAllCartIdandQty(str[0]);
-                string cartid = "", qty = "";
+                string cartid = "", qty = "", lid = "";
 
                 for (int i = 0; i < dscart.Tables[0].Rows.Count; i++)
                 {
                     cartid += dscart.Tables[0].Rows[i]["cartid"].ToString() + ",";
                     qty += dscart.Tables[0].Rows[i]["quantity"].ToString() + ",";
+                    lid += dscart.Tables[0].Rows[i]["LID"].ToString() + ",";
                 }
 
                 string tid = obj.TransactionConfirmation(str[0], null, grandtotamt.ToString(), "Buycod", cartid, "S", null, null, qty);
@@ -125,14 +126,17 @@ public partial class ConfirmOrder : System.Web.UI.Page
                 {
                     //send mail and msg
                     string msg = "",msgretailer="";
-                    msg = obj.createEmailBodyforConfirmOrder(tid, billingaddress, grandtotamt.ToString(), dscart, dscart.Tables[0].Rows[0]["Delivery_Amount"].ToString(), dscart.Tables[0].Rows[0]["coupon_amt"].ToString());
+                    msg = obj.createEmailBodyforConfirmOrder(tid, billingaddress, grandtotamt.ToString(), dscart, dscart.Tables[0].Rows[0]["Delivery_Amount"].ToString(), dscart.Tables[0].Rows[0]["coupon_amt"].ToString(),"COD");
                     obj.SendEmail(dscart.Tables[0].Rows[0]["EmailId"].ToString(), msg, "Order Confirmation Mail");
 
-                    DataSet dslog = obj.GetLogisticEmailndMobileInfo();
+                    
                     //send mail nd msg to logistic and retailer
                     string[] cart=cartid.Split(',');
+                    string[] lidid = lid.Split(',');
                     for (int k = 0; k < cart.Length && cart[k] != ""; k++)
                     {
+                        DataSet dslog = obj.GetLogisticEmailndMobileInfo(lidid[k]);
+
                         DataSet dsret = obj.GetReatilerEmailndMobileInfo(cart[k]);
                         msgretailer = obj.createEmailBodyforRetailerndLogistic(tid, dsret.Tables[0].Rows[0]["raddress"].ToString(), dsret.Tables[0].Rows[0]["rname"].ToString(), dsret.Tables[0].Rows[0]["quantity"].ToString(), dsret.Tables[0].Rows[0]["headertitle"].ToString(), dsret.Tables[0].Rows[0]["mobile"].ToString(), dsret.Tables[0].Rows[0]["prodid"].ToString(), dsret.Tables[0].Rows[0]["org_email"].ToString(), dsret.Tables[0].Rows[0]["totalamount"].ToString(), dsret.Tables[0].Rows[0]["city"].ToString(), dsret.Tables[0].Rows[0]["landmark"].ToString(), dsret.Tables[0].Rows[0]["pincode"].ToString(), dsret.Tables[0].Rows[0]["rstate"].ToString(),billingaddress);
                         obj.SendEmail(dsret.Tables[0].Rows[0]["org_email"].ToString(), msgretailer, "Order Confirmation Mail");

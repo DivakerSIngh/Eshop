@@ -1478,7 +1478,7 @@ public class DB
         return body;
     }
 
-    public string createEmailBodyforConfirmOrder(string tid, string billingaddress, string grandtotalamt, DataSet ds, string deliveryamt, string couponamt)
+    public string createEmailBodyforConfirmOrder(string tid, string billingaddress, string grandtotalamt, DataSet ds, string deliveryamt, string couponamt,string Pay_Mode)
     {
 
         string body = string.Empty;
@@ -1502,6 +1502,7 @@ public class DB
         body = body.Replace("{Date1}", DateTime.Now.ToShortDateString());
         body = body.Replace("{TotalAmount}", grandtotalamt);
         body = body.Replace("{Delivery}", deliveryamt);
+        body = body.Replace("{Pay_Mode}", Pay_Mode);
 
         string div = "";
         for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
@@ -4892,7 +4893,7 @@ public class DB
         return ds;
     }
 
-    public DataSet GetLogisticEmailndMobileInfo()
+    public DataSet GetLogisticEmailndMobileInfo(string lid)
     {
         try
         {
@@ -4900,7 +4901,7 @@ public class DB
             da = new SqlDataAdapter("EShop_GetLogisticInfoforMail", con);
             da.SelectCommand.CommandType = CommandType.StoredProcedure;
             da.SelectCommand.Parameters.Clear();
-            //            da.SelectCommand.Parameters.AddWithValue("@cartid", cartid);
+            da.SelectCommand.Parameters.AddWithValue("@lid", lid);
 
             ds = new DataSet();
             da.Fill(ds);

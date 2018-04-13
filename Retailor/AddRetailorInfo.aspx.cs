@@ -161,6 +161,10 @@ public partial class Retailor_AddRetailorInfo : System.Web.UI.Page
         ddlSize.SelectedIndex = 0;
         txtAHolderName.Text = "";
         txtGST.Text = "";
+        lnkAdharDoc.Text = "";
+        lnkGstDoc.Text = "";
+        lnkOrgRegDoc.Text = "";
+        lnkPanDoc.Text = "";
     }
     protected void btnRetCancel_Click(object sender, EventArgs e)
     {

@@ -121,7 +121,9 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+    <asp:Panel ID="pnadd" runat="server">
 
+  
      <div ng-app="myApp" ng-controller="UserController">
    
     <form name="addUser" style="width: 600px; margin: 0px auto;"> 
@@ -180,6 +182,7 @@
             </div>  
         </div>          
       </div>
+          </asp:Panel>
      <form runat="server" class="form-horizontal">
      <asp:ScriptManager ID="scriptmanager1" runat="server">
 </asp:ScriptManager>

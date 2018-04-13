@@ -123,6 +123,9 @@
 
     <!--content-->
     <!---->
+    <asp:Panel ID="pnlAdd" runat="server">
+
+   
     <div ng-app="myApp" ng-controller="retailerController">
    
     <form name="addRetailer" style="width: 600px; margin: 0px auto;"> 
@@ -177,12 +180,13 @@
             </div>  
         </div>          
       </div>
+         </asp:Panel>
      <form id="createRetailerForm" runat="server" class="form-horizontal">
     <asp:ScriptManager ID="scriptmanager1" runat="server">
     </asp:ScriptManager>
 
          <asp:HiddenField ID="hdnLoginId" runat="server" ClientIDMode="Static" />
-    <asp:UpdatePanel ID="updatepnl" runat="server" Visible="false">
+    <asp:UpdatePanel ID="updatepnl" runat="server">
         <ContentTemplate>
             <form class="form-horizontal">
                 <div class="blank">

@@ -169,7 +169,7 @@
      </asp:Panel> 
 
 
-    <asp:Panel ID="pnlView" runat="server">
+   <%-- <asp:Panel ID="pnlView" runat="server">--%>
 
 
                 	<form runat="server" id="logisticInfoForm" class="form-horizontal">
@@ -177,7 +177,7 @@
                         <asp:ScriptManager ID="scriptmanager1" runat="server">
 </asp:ScriptManager>
 
-        <asp:UpdatePanel ID="updatepnl" runat="server">
+        <asp:UpdatePanel ID="pnlView" runat="server">
 <ContentTemplate>
 
 
@@ -310,7 +310,7 @@
 
                 </form>
         
-    </asp:Panel>
+    <%--</asp:Panel>--%>
                 <!--//content-->
               <%--  <script type="text/javascript" src="/js/bootstrap-3.3.5.min.js" ></script>--%>
 	            <script type="text/javascript" src="/js/jquery.validate-1.14.0.min.js" ></script>

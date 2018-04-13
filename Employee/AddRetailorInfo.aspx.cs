@@ -24,6 +24,8 @@ public partial class Retailor_AddRetailorInfo : System.Web.UI.Page
             {
                 if (Request.QueryString["type"] != null && Request.QueryString["type"].ToString() == "U")
                 {
+                    pnlAdd.Visible = false;
+                    updatepnl.Visible = true;
                     btnRetSubmit.Text = "Update";
                     //btnRetSubmit.Enabled = false;
                     //txtReferralId.Visible = false;
@@ -32,6 +34,8 @@ public partial class Retailor_AddRetailorInfo : System.Web.UI.Page
                 }
                 else
                 {
+                    pnlAdd.Visible = true;
+                    updatepnl.Visible = false;
                     rbratailertype.Visible = true;
                     txtReferralId.Visible = true;
                     btnRetReset_Click(null, null);

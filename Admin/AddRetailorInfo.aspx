@@ -51,7 +51,9 @@
                 
                 $scope.loading = true;
                 common.httpPost("AddRetailorInfo.aspx/addRetailer", "{'mobile':" + $scope.retailer.Mobile + ",'loginId':" + $('#hdnLoginId').val() + "}", false, success = function (data) {
-                    
+                    if ($scope.retailerList.length == JSON.parse(data).length) {
+                        toastr.error('Mobile no already exist !');
+                    }
                     $scope.retailerList = JSON.parse(data);
                     $scope.loading = false;
                 }, failure = function (response) { });
@@ -180,14 +182,14 @@
             </div>  
         </div>          
       </div>
+         
          </asp:Panel>
-      <asp:Panel ID="pnlViewRatiler" runat="server">
+     <%-- <asp:Panel ID="pnlViewRatiler" runat="server">--%>
           <form id="createRetailerForm" runat="server" class="form-horizontal">
     <asp:ScriptManager ID="scriptmanager1" runat="server">
     </asp:ScriptManager>
-
-         <asp:HiddenField ID="hdnLoginId" runat="server" ClientIDMode="Static" />
-    <asp:UpdatePanel ID="updatepnl" runat="server">
+        <asp:HiddenField ID="hdnLoginId" runat="server" ClientIDMode="Static" />
+    <asp:UpdatePanel ID="pnlViewRatiler" runat="server">
         <ContentTemplate>
             <form class="form-horizontal">
                 <div class="blank">
@@ -625,7 +627,7 @@
     </asp:UpdatePanel>
 
          </form>
-      </asp:Panel>
+     <%-- </asp:Panel>--%>
      
     <!--//content-->
 

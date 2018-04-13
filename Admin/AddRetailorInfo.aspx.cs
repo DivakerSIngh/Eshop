@@ -19,9 +19,10 @@ public partial class Retailor_AddRetailorInfo : System.Web.UI.Page
         
         if (Session["loginid"] != null && Session["loginid"].ToString() != "")
         {
-            hdnLoginId.Value = Convert.ToString(Session["loginid"]);
+           
             if (!IsPostBack)
             {
+                hdnLoginId.Value = Convert.ToString(Session["loginid"]);
                 if (Request.QueryString["type"] != null && Request.QueryString["type"].ToString() == "U")
                 {
                     pnlAddretailerAngular.Visible = false;

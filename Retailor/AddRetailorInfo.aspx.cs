@@ -352,4 +352,24 @@ ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "To
             pnlRetailerSize.Visible = false;
         }
     }
+
+    protected void lnkOrgRegDoc_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void lnkGstDoc_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void lnkPanDoc_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void lnkAdharDoc_Click(object sender, EventArgs e)
+    {
+
+    }
 }

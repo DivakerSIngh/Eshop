@@ -45,8 +45,8 @@ public partial class Admin_CreateEmp : System.Web.UI.Page
             DataSet ds = obj.GetEmpLoginDetails(empid);
             if (ds.Tables[0].Rows.Count > 0)
             {
-                txtAddress.Text = ds.Tables[0].Rows[0]["EmpEmailId"].ToString();
-                txtEmail.Text = ds.Tables[0].Rows[0]["EmpAddress"].ToString();
+                txtAddress.Text = ds.Tables[0].Rows[0]["EmpAddress"].ToString();
+                txtEmail.Text = ds.Tables[0].Rows[0]["EmpEmailId"].ToString();
                 txtMob.Text = ds.Tables[0].Rows[0]["Euname"].ToString();
                 txtName.Text = ds.Tables[0].Rows[0]["EmpName"].ToString();
                 txtPwd.Text = ds.Tables[0].Rows[0]["EPwd"].ToString();

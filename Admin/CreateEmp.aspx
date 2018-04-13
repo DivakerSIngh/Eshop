@@ -191,7 +191,7 @@
                                 <div class="form-group">
 									<label for="focusedinput" class="col-sm-2 control-label" style="text-align:left;">Password <asp:Label ID="Label2" runat="server" Text="*" ForeColor="Red" /></label>
 									<div class="col-sm-8">
-                                        <asp:TextBox ID="txtPwd" class="form-control1" placeholder="Enter Password" runat="server" TextMode="Password" ></asp:TextBox>
+                                        <asp:TextBox ID="txtPwd" class="form-control1" placeholder="Enter Password" runat="server" ReadOnly="true" ></asp:TextBox>
 										
 									</div>
 									<div class="col-sm-2" style="display:none;">

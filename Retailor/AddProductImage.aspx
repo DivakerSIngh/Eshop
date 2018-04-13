@@ -167,6 +167,31 @@
             font-weight: 300;
         }
     </style>
+     <style>
+    .loader {
+     border: 10px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 10px solid #3498db;
+    width: 70px;
+    height: 70px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+    left: 42%;
+    position: absolute;
+    margin: -27px 0px 0px 0px;
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+</style>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -177,8 +202,13 @@
 
     <asp:UpdatePanel ID="updatepnl" runat="server">
         <ContentTemplate>
-
-
+             <asp:UpdateProgress runat="server">
+                                    <ProgressTemplate>
+                                    <span>
+                                        <div class="loader"></div>
+                                    </span>
+                                </ProgressTemplate>
+                            </asp:UpdateProgress>
             <!--banner-->
             <div class="banner" style="text-align: center">
 
@@ -199,7 +229,7 @@
                             <asp:Label ID="Label9" runat="server" Text="*" ForeColor="Red" /></label>--%>
 
 
-                    <table style="width: 34%">
+                    <table style="width: 60%">
 
                         <tr>
 

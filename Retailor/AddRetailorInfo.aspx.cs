@@ -56,6 +56,16 @@ public partial class Retailor_AddRetailorInfo : System.Web.UI.Page
                 DataSet ds = obj.GetRetailerDetails(rid);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
+                    // BYTE ARRAY IN VIEW STATE
+                    ViewState["OrgDoc"]= ds.Tables[0].Rows[0]["OrganizationDoc"];
+                    ViewState["GSTDoc"] = ds.Tables[0].Rows[0]["GSTDoc"];
+                    ViewState["PanDoc"] = ds.Tables[0].Rows[0]["PanDoc"];
+                    ViewState["AdharDoc"] = ds.Tables[0].Rows[0]["AadharDoc"];
+                    lnkPanDoc.Text = "Document Pan Card";
+                    lnkAdharDoc.Text = "Document Adhar Card";
+                    lnkGstDoc.Text = "Document GST";
+                    lnkOrgRegDoc.Text = "Document Organization Registration";
+
                     txtAccNum.Text = ds.Tables[0].Rows[0]["Acc_Number"].ToString();
                     txtBankName.Text = ds.Tables[0].Rows[0]["BankName"].ToString();
                     txtCity.Text = ds.Tables[0].Rows[0]["City"].ToString();
@@ -359,7 +369,18 @@ ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "To
 
     protected void lnkOrgRegDoc_Click(object sender, EventArgs e)
     {
-
+        string fileName = "Ogranization Registration Document";
+        byte[] data = new byte[] { 0, 0, 0, 0 };
+        var   data1 =Convert.ToBase64String((byte[])ViewState["OrgDoc"]);
+        Response.Clear();
+        Response.AddHeader("Cache-Control", "no-cache, must-revalidate, post-check=0, pre-check=0");
+        Response.AddHeader("Pragma", "no-cache");
+        Response.AddHeader("Content-Description", "File Download");
+        Response.AddHeader("Content-Type", "application/force-download");
+        Response.AddHeader("Content-Transfer-Encoding", "binary\n");
+        Response.AddHeader("content-disposition", "attachment;filename=" + fileName);
+        Response.BinaryWrite(Convert.FromBase64String(data1));
+        Response.End();
     }
 
     protected void lnkGstDoc_Click(object sender, EventArgs e)

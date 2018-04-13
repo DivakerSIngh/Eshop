@@ -363,7 +363,7 @@
 
 
 
-                                    <asp:Panel ID="pnlMeasurement" runat="server">
+                                    <asp:Panel ID="pnlMeasurement" runat="server" style="display: inline-block;">
 
 
 

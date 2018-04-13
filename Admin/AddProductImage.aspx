@@ -41,6 +41,29 @@
         label{
             font-weight:300;
         }
+         .loader {
+     border: 4px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 4px solid #3498db;
+    width: 25px;
+    height: 25px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+    left: 42%;
+    position: absolute;
+    margin: -27px 0px 0px 0px;
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
     </style>
 
 </asp:Content>
@@ -51,8 +74,9 @@
         </asp:ScriptManager>
 
         <asp:UpdatePanel ID="updatepnl" runat="server">
+           
             <ContentTemplate>
-
+               
 
                 <!--banner-->
                 <div class="banner" style="text-align:center">
@@ -84,6 +108,15 @@
                                     <asp:DropDownList ID="ddlProdImage" runat="server" CssClass="dropdown" AutoPostBack="True" OnSelectedIndexChanged="ddlProdImage_SelectedIndexChanged"></asp:DropDownList>
                                 </td>
 
+                            </tr>
+                            <tr>
+                                 <asp:UpdateProgress runat="server">
+                                    <ProgressTemplate>
+                                    <span>
+                                        <div class="loader"></div>
+                                    </span>
+                                </ProgressTemplate>
+                            </asp:UpdateProgress>
                             </tr>
 
                         </table>
@@ -151,7 +184,7 @@
 
                 </asp:Panel>
 
-
+               
                 <asp:Panel ID="pnlUpdate" runat="server">
                     <div class="blank">
 
@@ -161,6 +194,7 @@
                                 <h3>Product's Image Preview</h3>
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="horizontal-form1">
+                                       
 
 
 

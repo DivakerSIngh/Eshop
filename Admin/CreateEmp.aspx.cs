@@ -117,7 +117,7 @@ public partial class Admin_CreateEmp : System.Web.UI.Page
                     if (i > 0)
                     {
                         ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Employee Updated Successfully !');", true);
-
+                        Response.Redirect("ViewEmployeeList.aspx");
                     }
                     else
                     {

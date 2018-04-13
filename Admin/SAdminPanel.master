@@ -189,7 +189,7 @@
                                 <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-indent nav_icon"></i><span class="nav-label">Product</span><span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li><a href="AddProduct.aspx" class=" hvr-bounce-to-right"><i class="fa fa-area-chart nav_icon"></i>Create Product</a></li>
-                                     <li><a href="AddProductImage.aspx" class=" hvr-bounce-to-right"><i class="fa fa-area-chart nav_icon"></i>Add Product Image</a></li>
+                                    <%-- <li><a href="AddProductImage.aspx" class=" hvr-bounce-to-right"><i class="fa fa-area-chart nav_icon"></i>Add Product Image</a></li>--%>
                                     <li><a href="ProductList.aspx" class=" hvr-bounce-to-right"><i class="fa fa-map-marker nav_icon"></i>View Product List</a></li>
                                 </ul>
                             </li>

@@ -436,7 +436,7 @@ public partial class Retailor_AddProduct : System.Web.UI.Page
 
                 var brandId = obj.addNewBrand(txtBrand.Text);
 
-                obj.EmpId = Session["loginid"].ToString();
+                obj.EmpId = ddlRetailer.SelectedItem.Value;// Session["loginid"].ToString();
                 obj.ProdCP = txtPCostPrice.Text;
                 obj.BrandId = brandId;// Convert.ToInt32(txtBrand.Text);
                 obj.Color = ddlColor.SelectedItem.Text;// txtColor.Text;

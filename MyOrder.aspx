@@ -52,7 +52,7 @@
         private bool cancelOrderVisible(object status)
         {
             var boolStatus = false;
-            if (Convert.ToInt32(status) < 4)
+            if (Convert.ToInt32(status) < 5)
             {
             boolStatus = true;
             }
@@ -148,7 +148,7 @@
                             <asp:HiddenField ID="hdnOrderId" runat="server" Value='<%# Eval("CartId") %>' />
                             <asp:Button ID="btnCancelOrder" Visible='<%#cancelOrderVisible(Eval("Status")) %>' CommandArgument='<%# Eval("CartId") %>' OnCommand="btnCancelOrder_Command" CssClass="btn-primary btn-cancel" Text="Cancel Order" runat="server" />
                              <asp:Button ID="Button1" Visible='<%#canceledOrderVisible(Eval("Status")) %>'  CssClass="btn-canceled" Text="Canceled" runat="server" />
-                             <asp:Button ID="btnReturn" Visible='<%# (Convert.ToInt32(Eval("ReturnStatus"))==0)?true:false%>' CommandArgument='<%# Eval("CartId") %>'  CssClass="btn-return" Text="Return Product" runat="server" OnCommand="btnReturn_Command" />
+                             <asp:Button ID="btnReturn" Visible='<%# (Convert.ToInt32(Eval("Status"))==5)?true:false%>' CommandArgument='<%# Eval("CartId") %>'  CssClass="btn-return" Text="Return Product" runat="server" OnCommand="btnReturn_Command" />
                              <asp:Button ID="Button2" Visible='<%# (Convert.ToInt32(Eval("ReturnStatus"))==1)?true:false%>'  CssClass="btn-returned" Text="Returned" runat="server"    />
                              
 

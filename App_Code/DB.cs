@@ -5739,8 +5739,8 @@ public class DB
             con = new SqlConnection(DB.constr);
 
             string str = status=="Y"?
-                string.Format("select top 1 c.ProdId +'~'+c.UserId +'~'+p.HeaderTitle+'~'+u.Name as product from Cart_Info c inner join ProductDescription p on p.PId=c.ProdId inner join User_Info u on u.UserId=c.UserId where c.UserId='" + userId + "' and c.PaymentStatus='"+ status + "'  order by CartId desc")
-                : string.Format("select top 1 c.ProdId +'~'+c.UserId +'~'+p.HeaderTitle+'~'+u.Name as product from Cart_Info c inner join ProductDescription p on p.PId=c.ProdId inner join User_Info u on u.UserId=c.UserId where c.UserId='" + userId + "' order by CartId desc");
+                string.Format("select top 1 c.ProdId +'~'+c.UserId +'~'+p.HeaderTitle+'~'+u.Name as product from Cart_Info c inner join ProductDescription p on p.PId=c.ProdId inner join User_Info u on u.UserId=c.UserId where c.status=5 and c.UserId='" + userId + "' and c.PaymentStatus='"+ status + "'  order by CartId desc")
+                : string.Format("select top 1 c.ProdId +'~'+c.UserId +'~'+p.HeaderTitle+'~'+u.Name as product from Cart_Info c inner join ProductDescription p on p.PId=c.ProdId inner join User_Info u on u.UserId=c.UserId where c.status=5 and c.UserId='" + userId + "' order by CartId desc");
             cmd = new SqlCommand(str);
             cmd.Connection = con;
             con.Open();

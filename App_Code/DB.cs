@@ -1528,7 +1528,7 @@ public class DB
 
     }
 
-    public string createEmailBodyforRetailerndLogistic(string tid, string raddress, string name, string qty, string prodname, string mobile, string pid, string email, string price, string city, string landmark, string pincode, string state, string billingaddress)
+    public string createEmailBodyforRetailerndLogistic(string tid, string raddress, string name, string qty, string prodname, string mobile, string pid, string email, string price, string city, string landmark, string pincode, string state, string billingaddress,string Pay_Mode)
     {
 
         string body = string.Empty;
@@ -1558,6 +1558,7 @@ public class DB
         body = body.Replace("{Price}", price);
         body = body.Replace("{Name}", name);
         body = body.Replace("{billingaddress}", billingaddress);
+        body = body.Replace("{Pay_Mode}", Pay_Mode);
 
 
 

@@ -129,31 +129,43 @@ public partial class ConfirmOrder : System.Web.UI.Page
                     msg = obj.createEmailBodyforConfirmOrder(tid, billingaddress, grandtotamt.ToString(), dscart, dscart.Tables[0].Rows[0]["Delivery_Amount"].ToString(), dscart.Tables[0].Rows[0]["coupon_amt"].ToString(), "COD");
                     obj.SendEmail(dscart.Tables[0].Rows[0]["EmailId"].ToString(), msg, "Order Confirmation Mail");
 
-
                     //send mail nd msg to logistic and retailer
                     string[] cart = cartid.Split(',');
                     string[] lidid = lid.Split(',');
                     for (int k = 0; k < cart.Length && cart[k] != ""; k++)
                     {
-                        DataSet dslog = obj.GetLogisticEmailndMobileInfo(lidid[k]);
+                        string SMS_USER = "";
+                        SMS_USER = "You have Successfully Placed your order.";
+                        SMS_USER = SMS_USER + " Item: " + dscart.Tables[0].Rows[k]["HeaderTitle"].ToString();
+                        SMS_USER = SMS_USER + ", Qty: " + dscart.Tables[0].Rows[k]["OrderedQty"].ToString();
+                        SMS_USER = SMS_USER + ", Price :" + dscart.Tables[0].Rows[k]["TotalAmount"].ToString();
 
+                        string SMS_RETAILER = "";
+                        SMS_RETAILER = "One Product has been sold from your store.";
+                        SMS_RETAILER = SMS_RETAILER + " Item: " + dscart.Tables[0].Rows[k]["HeaderTitle"].ToString();
+                        SMS_RETAILER = SMS_RETAILER + ", Qty: " + dscart.Tables[0].Rows[k]["OrderedQty"].ToString();
+                        SMS_RETAILER = SMS_RETAILER + ", Price: " + dscart.Tables[0].Rows[k]["TotalAmount"].ToString();
+                        //DataSet dslog = obj.GetLogisticEmailndMobileInfo(lidid[k]);
                         DataSet dsret = obj.GetReatilerEmailndMobileInfo(cart[k]);
-                        msgretailer = obj.createEmailBodyforRetailerndLogistic(tid, dsret.Tables[0].Rows[0]["raddress"].ToString(), dsret.Tables[0].Rows[0]["rname"].ToString(), dsret.Tables[0].Rows[0]["quantity"].ToString(), dsret.Tables[0].Rows[0]["headertitle"].ToString(), dsret.Tables[0].Rows[0]["mobile"].ToString(), dsret.Tables[0].Rows[0]["prodid"].ToString(), dsret.Tables[0].Rows[0]["org_email"].ToString(), dsret.Tables[0].Rows[0]["totalamount"].ToString(), dsret.Tables[0].Rows[0]["city"].ToString(), dsret.Tables[0].Rows[0]["landmark"].ToString(), dsret.Tables[0].Rows[0]["pincode"].ToString(), dsret.Tables[0].Rows[0]["rstate"].ToString(), billingaddress);
+
+                        msgretailer = obj.createEmailBodyforRetailerndLogistic(tid, dsret.Tables[0].Rows[0]["raddress"].ToString(), dsret.Tables[0].Rows[0]["rname"].ToString(), dsret.Tables[0].Rows[0]["quantity"].ToString(), dsret.Tables[0].Rows[0]["headertitle"].ToString(), dsret.Tables[0].Rows[0]["mobile"].ToString(), dsret.Tables[0].Rows[0]["prodid"].ToString(), dsret.Tables[0].Rows[0]["org_email"].ToString(), dsret.Tables[0].Rows[0]["totalamount"].ToString(), dsret.Tables[0].Rows[0]["city"].ToString(), dsret.Tables[0].Rows[0]["landmark"].ToString(), dsret.Tables[0].Rows[0]["pincode"].ToString(), dsret.Tables[0].Rows[0]["rstate"].ToString(), billingaddress,"COD");
                         obj.SendEmail(dsret.Tables[0].Rows[0]["org_email"].ToString(), msgretailer, "Order Confirmation Mail");
 
+                        obj.SendMessage(dscart.Tables[0].Rows[0]["User_Mobile"].ToString(), SMS_USER);
+                        obj.SendMessage(dsret.Tables[0].Rows[0]["Mobile"].ToString(), SMS_RETAILER);
 
-                        string sms = "One Product has been sold form your store.";
-                        if (dslog.Tables.Count > 0 && dslog.Tables[0].Rows.Count > 0)
-                        {
-                            obj.SendMessage(dslog.Tables[0].Rows[0]["mobile"].ToString(), sms);
-                            obj.SendEmail(dslog.Tables[0].Rows[0]["LEmailAddress1"].ToString(), msgretailer, "Order Confirmation Mail");
-                        }
+                        //string sms = "One Product has been sold from your store.";
+                        //if (dslog.Tables.Count > 0 && dslog.Tables[0].Rows.Count > 0)
+                        //{
+                        //    obj.SendMessage(dslog.Tables[0].Rows[0]["mobile"].ToString(), sms);
+                        //    obj.SendEmail(dslog.Tables[0].Rows[0]["LEmailAddress1"].ToString(), msgretailer, "Order Confirmation Mail");
+                        //}
                     }
 
 
                     //ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Order Successfully placed !');", true);
                     //redirect some where
-                    Response.Redirect("MyOrder.aspx");
+                    Response.Redirect("MyOrder.aspx",false);
                 }
                 else
                 {
@@ -199,8 +211,8 @@ public partial class ConfirmOrder : System.Web.UI.Page
                     {
                         //send mail nd msg
                         string msg = "", msgretailer = "";
-                        msg = obj.createEmailBodyforConfirmOrder(tid, billingaddress, grandtotamt.ToString(), dscart, dscart.Tables[0].Rows[0]["Delivery_Amount"].ToString(), dscart.Tables[0].Rows[0]["coupon_amt"].ToString(), "COD");
-                        obj.SendEmail(dscart.Tables[0].Rows[0]["EmailId"].ToString(), msg, "Order Confirmation Mail");
+                        msg = obj.createEmailBodyforConfirmOrder(tid, billingaddress, grandtotamt.ToString(), dscart, dscart.Tables[0].Rows[0]["Delivery_Amount"].ToString(), dscart.Tables[0].Rows[0]["coupon_amt"].ToString(), "Wallet");
+                        //obj.SendEmail(dscart.Tables[0].Rows[0]["EmailId"].ToString(), msg, "Order Confirmation Mail");
 
                         
                         //send mail nd msg to logistic and retailer
@@ -208,24 +220,37 @@ public partial class ConfirmOrder : System.Web.UI.Page
                         string[] logisticId = lid.Split(',');
                         for (int k = 0; k < cart.Length; k++)
                         {
-                            DataSet dslog = obj.GetLogisticEmailndMobileInfo(logisticId[k]);
+                            string SMS_USER = "";
+                            SMS_USER = "You have Successfully Placed your order.";
+                            SMS_USER = SMS_USER + " Item: " + dscart.Tables[0].Rows[k]["HeaderTitle"].ToString();
+                            SMS_USER = SMS_USER + ", Qty: " + dscart.Tables[0].Rows[k]["OrderedQty"].ToString();
+                            SMS_USER = SMS_USER + ", Price: " + dscart.Tables[0].Rows[k]["TotalAmount"].ToString();
+
+                            string SMS_RETAILER = "";
+                            SMS_RETAILER = "One Product has been sold from your store.";
+                            SMS_RETAILER = SMS_RETAILER + " Item: " + dscart.Tables[0].Rows[k]["HeaderTitle"].ToString();
+                            SMS_RETAILER = SMS_RETAILER + ", Qty: " + dscart.Tables[0].Rows[k]["OrderedQty"].ToString();
+                            SMS_RETAILER = SMS_RETAILER + ", Price: " + dscart.Tables[0].Rows[k]["TotalAmount"].ToString();
+                            //DataSet dslog = obj.GetLogisticEmailndMobileInfo(logisticId[k]);
                             DataSet dsret = obj.GetReatilerEmailndMobileInfo(cart[k]);
-                            msgretailer = obj.createEmailBodyforRetailerndLogistic(tid, dsret.Tables[0].Rows[0]["raddress"].ToString(), dsret.Tables[0].Rows[0]["rname"].ToString(), dsret.Tables[0].Rows[0]["quantity"].ToString(), dsret.Tables[0].Rows[0]["headertitle"].ToString(), dsret.Tables[0].Rows[0]["mobile"].ToString(), dsret.Tables[0].Rows[0]["prodid"].ToString(), dsret.Tables[0].Rows[0]["org_email"].ToString(), dsret.Tables[0].Rows[0]["totalamount"].ToString(), dsret.Tables[0].Rows[0]["city"].ToString(), dsret.Tables[0].Rows[0]["landmark"].ToString(), dsret.Tables[0].Rows[0]["pincode"].ToString(), dsret.Tables[0].Rows[0]["rstate"].ToString(), billingaddress);
-                            obj.SendEmail(dsret.Tables[0].Rows[0]["org_email"].ToString(), msgretailer, "Order Confirmation Mail");
+                            msgretailer = obj.createEmailBodyforRetailerndLogistic(tid, dsret.Tables[0].Rows[0]["raddress"].ToString(), dsret.Tables[0].Rows[0]["rname"].ToString(), dsret.Tables[0].Rows[0]["quantity"].ToString(), dsret.Tables[0].Rows[0]["headertitle"].ToString(), dsret.Tables[0].Rows[0]["mobile"].ToString(), dsret.Tables[0].Rows[0]["prodid"].ToString(), dsret.Tables[0].Rows[0]["org_email"].ToString(), dsret.Tables[0].Rows[0]["totalamount"].ToString(), dsret.Tables[0].Rows[0]["city"].ToString(), dsret.Tables[0].Rows[0]["landmark"].ToString(), dsret.Tables[0].Rows[0]["pincode"].ToString(), dsret.Tables[0].Rows[0]["rstate"].ToString(), billingaddress,"Wallet");
+                            //obj.SendEmail(dsret.Tables[0].Rows[0]["org_email"].ToString(), msgretailer, "Order Confirmation Mail");
 
+                            //obj.SendMessage(dscart.Tables[0].Rows[0]["USER_Mobile"].ToString(), SMS_USER);
+                            //obj.SendMessage(dsret.Tables[0].Rows[0]["Mobile"].ToString(), SMS_RETAILER);
 
-                            string sms = "One Product has been sold form your store.";
-                            if (dslog.Tables.Count > 0 && dslog.Tables[0].Rows.Count > 0)
-                            {
-                                obj.SendMessage(dslog.Tables[0].Rows[0]["mobile"].ToString(), sms);
-                                obj.SendEmail(dslog.Tables[0].Rows[0]["LEmailAddress1"].ToString(), msgretailer, "Order Confirmation Mail");
-                            }
+                            //string sms = "One Product has been sold form your store.";
+                            //if (dslog.Tables.Count > 0 && dslog.Tables[0].Rows.Count > 0)
+                            //{
+                            //    obj.SendMessage(dslog.Tables[0].Rows[0]["mobile"].ToString(), sms);
+                            //    obj.SendEmail(dslog.Tables[0].Rows[0]["LEmailAddress1"].ToString(), msgretailer, "Order Confirmation Mail");
+                            //}
                         }
 
 
                         //ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Order Successfully placed !');", true);
                         //redirect some where
-                        Response.Redirect("MyOrder.aspx");
+                        Response.Redirect("MyOrder.aspx", false);
                     }
                     else
                     {
@@ -248,7 +273,7 @@ public partial class ConfirmOrder : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-
+            
         }
         finally
         {

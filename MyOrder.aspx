@@ -47,7 +47,39 @@
     border: none;
     padding: 6px;
        }
+       .seprate{
+           border-bottom: 2px dotted red;
+       }
     </style>
+    <script>
+        $(function () {
+            
+            var count = 0;
+            var id = "";
+            $('.transId-class').each(function () {
+                
+                
+                var transId = $(this).find('input[type=hidden]').val();
+                if (count == 0){
+                    id = transId;
+                    count++;
+                }
+                else {
+                    if ((id != "" && transId == id)) {
+                        //$(this).css("background", "green");
+                        //$(this).css("border-bottom","2px dotted red;");
+                        //$(this).parent().css("border-top", "2px dotted red;");
+                        $(this).addClass('seprate');
+                        count = 0;
+                        id = "";
+                    } 
+                }
+
+            })
+            
+
+        })
+    </script>
     <script runat="server">
         private bool cancelOrderVisible(object status)
         {
@@ -117,6 +149,9 @@
                 runat="server">
 
                 <ItemTemplate>
+                    <asp:Panel  CssClass="transId-class"  runat="server" >
+                        <asp:HiddenField ID="hdnTrans" runat="server" Value='<%# Eval("TransId") %>' />
+                 
                     <div class="boddy">
                         <div class="boddy1">
                             <a href="#" class="sheru">
@@ -166,6 +201,7 @@
                         </div>
                        
                     </div>
+                           </asp:Panel>
 
                 </ItemTemplate>
             </asp:Repeater>

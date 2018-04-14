@@ -369,17 +369,39 @@ ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "To
 
     protected void lnkOrgRegDoc_Click(object sender, EventArgs e)
     {
-        string fileName = "Ogranization Registration Document";
-        byte[] data = new byte[] { 0, 0, 0, 0 };
-        var   data1 =Convert.ToBase64String((byte[])ViewState["OrgDoc"]);
-        Response.Clear();
-        Response.AddHeader("Cache-Control", "no-cache, must-revalidate, post-check=0, pre-check=0");
-        Response.AddHeader("Pragma", "no-cache");
-        Response.AddHeader("Content-Description", "File Download");
-        Response.AddHeader("Content-Type", "application/force-download");
-        Response.AddHeader("Content-Transfer-Encoding", "binary\n");
-        Response.AddHeader("content-disposition", "attachment;filename=" + fileName);
-        Response.BinaryWrite(Convert.FromBase64String(data1));
+        //string fileName = "Ogranization Registration Document";
+        //byte[] data = new byte[] { 0, 0, 0, 0 };
+        //var   data1 =Convert.ToBase64String((byte[])ViewState["OrgDoc"]);
+        //Response.Clear();
+        //Response.AddHeader("Cache-Control", "no-cache, must-revalidate, post-check=0, pre-check=0");
+        //Response.AddHeader("Pragma", "no-cache");
+        //Response.AddHeader("Content-Description", "File Download");
+        //Response.AddHeader("Content-Type", "application/force-download");
+        //Response.AddHeader("Content-Transfer-Encoding", "binary\n");
+        //Response.AddHeader("content-disposition", "attachment;filename=" + fileName);
+        //Response.BinaryWrite(Convert.FromBase64String(data1));
+        //Response.End();
+
+
+
+        Byte[] bytes = (Byte[])ViewState["OrgDoc"];
+
+        Response.Buffer = true;
+
+        Response.Charset = "";
+
+        Response.Cache.SetCacheability(HttpCacheability.NoCache);
+
+        Response.ContentType = "application/pdf";
+
+        Response.AddHeader("content-disposition", "attachment;filename="
+
+        + "assa");
+
+        Response.BinaryWrite(bytes);
+
+        Response.Flush();
+
         Response.End();
     }
 

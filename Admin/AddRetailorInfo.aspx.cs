@@ -65,6 +65,16 @@ public partial class Retailor_AddRetailorInfo : System.Web.UI.Page
                 DataSet ds = obj.GetRetailerDetails(rid);
                 if (ds.Tables[0].Rows.Count > 0)
                 {
+                    ViewState["OrgDoc"] = ds.Tables[0].Rows[0]["OrganizationDoc"];
+                    ViewState["GSTDoc"] = ds.Tables[0].Rows[0]["GSTDoc"];
+                    ViewState["PanDoc"] = ds.Tables[0].Rows[0]["PanDoc"];
+                    ViewState["AdharDoc"] = ds.Tables[0].Rows[0]["AadharDoc"];
+
+                    ViewState["OrgDocExt"] = ds.Tables[0].Rows[0]["OrganizationDocExt"].ToString();
+                    ViewState["GSTDocExt"] = ds.Tables[0].Rows[0]["GSTDocExt"].ToString();
+                    ViewState["PanDocExt"] = ds.Tables[0].Rows[0]["PanDocExt"].ToString();
+                    ViewState["AdharDocExt"] = ds.Tables[0].Rows[0]["AadharDocExt"].ToString();
+
                     txtAccNum.Text = ds.Tables[0].Rows[0]["Acc_Number"].ToString();
                     txtBankName.Text = ds.Tables[0].Rows[0]["BankName"].ToString();
                     txtCity.Text = ds.Tables[0].Rows[0]["City"].ToString();
@@ -282,9 +292,13 @@ public partial class Retailor_AddRetailorInfo : System.Web.UI.Page
                  rcategory = rcategory.Substring(0,rcategory.LastIndexOf(','));
                  gst = txtGST.Text;
                 int s = 0;
+                string f1 = "";
+                string f2 = "";
+                string f3 = "";
+                string f4 = "";
                 if (btnRetSubmit.Text == "Submit")
                 {
-if ( FileUpload1.FileBytes.Length > 0 && FileUpload1.FileBytes.Length <= 200000 && FileUpload2.FileBytes.Length > 0 && FileUpload2.FileBytes.Length <= 200000 && FileUpload3.FileBytes.Length > 0 && FileUpload3.FileBytes.Length <= 200000 && FileUpload4.FileBytes.Length > 0 && FileUpload4.FileBytes.Length <= 200000)
+                    if ( FileUpload1.FileBytes.Length > 0 && FileUpload1.FileBytes.Length <= 200000 && FileUpload2.FileBytes.Length > 0 && FileUpload2.FileBytes.Length <= 200000 && FileUpload3.FileBytes.Length > 0 && FileUpload3.FileBytes.Length <= 200000 && FileUpload4.FileBytes.Length > 0 && FileUpload4.FileBytes.Length <= 200000)
                     {
                         
                         string fileName1 = Path.GetFileName(FileUpload1.PostedFile.FileName);
@@ -292,23 +306,18 @@ if ( FileUpload1.FileBytes.Length > 0 && FileUpload1.FileBytes.Length <= 200000 
                         string fileName3 = Path.GetFileName(FileUpload3.PostedFile.FileName);
                         string fileName4 = Path.GetFileName(FileUpload4.PostedFile.FileName);
 
-                        string f1 = System.IO.Path.GetExtension(FileUpload1.FileName);
-                        string f2 = System.IO.Path.GetExtension(FileUpload2.FileName);
-                        string f3 = System.IO.Path.GetExtension(FileUpload3.FileName);
-                        string f4 = System.IO.Path.GetExtension(FileUpload4.FileName);
-if ((f1 == ".jpg" || f1 == ".jpeg" || f1 == ".pdf" || f1 == ".png") && (f2 == ".jpg" || f2 == ".jpeg" || f2 == ".pdf" || f2 == ".png") && (f3 == ".jpg" || f3 == ".jpeg" || f3 == ".pdf" || f3 == ".png") && (f4 == ".jpg" || f4 == ".jpeg" || f4 == ".pdf" || f4 == ".png"))
+                        f1 = System.IO.Path.GetExtension(FileUpload1.FileName);
+                        f2 = System.IO.Path.GetExtension(FileUpload2.FileName);
+                        f3 = System.IO.Path.GetExtension(FileUpload3.FileName);
+                        f4 = System.IO.Path.GetExtension(FileUpload4.FileName);
+                        if ((f1 == ".jpg" || f1 == ".jpeg" || f1 == ".pdf" || f1 == ".png") && (f2 == ".jpg" || f2 == ".jpeg" || f2 == ".pdf" || f2 == ".png") && (f3 == ".jpg" || f3 == ".jpeg" || f3 == ".pdf" || f3 == ".png") && (f4 == ".jpg" || f4 == ".jpeg" || f4 == ".pdf" || f4 == ".png"))
                         {
-                            
-                       
                         }
                         else
                         {
                             ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.warning('Incorrect file cannot be uploaded !');", true);
                             return;
                         }
-
-
-
                     }
                     else
                     {
@@ -317,10 +326,10 @@ if ((f1 == ".jpg" || f1 == ".jpeg" || f1 == ".pdf" || f1 == ".png") && (f2 == ".
                         btnRetSubmit.Text = "Submit";
                         return;
                     }
-ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Record in before insert  method !');", true);
+                    ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Record in before insert  method !');", true);
 
                     s = obj.AddRetailerInfo(rname, raddress, city, state, landmark, pincode, district, rcategory, rtype, orgname, orgregnumber, email, mobile, tinnum, staxnum, accholdername, accnumber, bname, ifsc, pan, Session["loginid"].ToString(), rbtnGender.SelectedIndex == 0 ? "M" : "F", ddlSize.SelectedValue,gst,referralid,
-                         FileUpload1.FileBytes, FileUpload2.FileBytes, FileUpload3.FileBytes, FileUpload4.FileBytes
+                         FileUpload1.FileBytes, FileUpload2.FileBytes, FileUpload3.FileBytes, FileUpload4.FileBytes,f1,f2,f3,f4
 
                         );
                     if (s > 0)
@@ -360,12 +369,91 @@ ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "To
                     string rrid = Request.QueryString["rid"].ToString();
                     string userid= Request.QueryString["userid"].ToString();
                     string gender = "";
+                    byte[] byte1, byte2, byte3, byte4;
                     if (rbtnGender.SelectedIndex == 0)
+                    {
                         gender = "M";
+                    }
                     else
+                    {
                         gender = "F";
+                    }
+
+                    if (FileUpload1.FileBytes.Length > 0 && FileUpload1.FileBytes.Length <= 200000)
+                    {
+                        f1 = System.IO.Path.GetExtension(FileUpload1.FileName);
+                        if ((f1 == ".jpg" || f1 == ".jpeg" || f1 == ".pdf" || f1 == ".png"))
+                        {
+                            byte1 = FileUpload1.FileBytes;
+                        }
+                        else
+                        {
+                            ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.warning('Incorrect file cannot be uploaded !');", true);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        f1 = ViewState["OrgDocExt"].ToString();
+                        byte1 = (byte[])ViewState["OrgDoc"];
+                    }
+                    if (FileUpload2.FileBytes.Length > 0 && FileUpload2.FileBytes.Length <= 200000)
+                    {
+                        f2 = System.IO.Path.GetExtension(FileUpload2.FileName);
+                        if ((f2 == ".jpg" || f2 == ".jpeg" || f2 == ".pdf" || f2 == ".png"))
+                        {
+                            byte2 = FileUpload2.FileBytes;
+                        }
+                        else
+                        {
+                            ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.warning('Incorrect file cannot be uploaded !');", true);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        f2 = ViewState["GSTDocExt"].ToString();
+                        byte2 = (byte[])ViewState["GSTDoc"];
+                    }
+                    if (FileUpload3.FileBytes.Length > 0 && FileUpload3.FileBytes.Length <= 200000)
+                    {
+                        f3 = System.IO.Path.GetExtension(FileUpload3.FileName);
+                        if ((f3 == ".jpg" || f3 == ".jpeg" || f3 == ".pdf" || f3 == ".png"))
+                        {
+                            byte3 = FileUpload3.FileBytes;
+                        }
+                        else
+                        {
+                            ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.warning('Incorrect file cannot be uploaded !');", true);
+                            return;
+                        }
+
+                    }
+                    else
+                    {
+                        f3 = ViewState["PanDocExt"].ToString();
+                        byte3 = (byte[])ViewState["PanDoc"];
+                    }
+                    if (FileUpload4.FileBytes.Length > 0 && FileUpload4.FileBytes.Length <= 200000)
+                    {
+                        f4 = System.IO.Path.GetExtension(FileUpload4.FileName);
+                        if ((f4 == ".jpg" || f4 == ".jpeg" || f4 == ".pdf" || f4 == ".png"))
+                        {
+                            byte4 = FileUpload4.FileBytes;
+                        }
+                        else
+                        {
+                            ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.warning('Incorrect file cannot be uploaded !');", true);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        f4 = ViewState["AdharDocExt"].ToString();
+                        byte4 = (byte[])ViewState["AdharDoc"];
+                    }
                     s = obj.UpdateRetailerInfo(rname, raddress, city, state, landmark, pincode, district, rcategory, rtype, orgname, orgregnumber, email, mobile, tinnum, staxnum, accholdername, accnumber, bname, ifsc, pan, userid, rrid,gst,gender,referralid,
-                         FileUpload1.FileBytes, FileUpload2.FileBytes, FileUpload3.FileBytes, FileUpload4.FileBytes);
+                         byte1, byte2, byte3, byte4, f1, f2, f3, f4);
                     if (s > 0)
                     {
                         ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Updation Done Successfully !');", true);

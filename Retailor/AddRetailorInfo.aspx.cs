@@ -451,25 +451,30 @@ public partial class Retailor_AddRetailorInfo : System.Web.UI.Page
 
     protected void lnkOrgRegDoc_Click(object sender, EventArgs e)
     {
-        string ext = ViewState["OrgDocExt"].ToString();
-        string fileName = "Ogranization_Registration_Document" + ext;
-        byte[] data = (byte[])ViewState["OrgDoc"];
-        //string path = Server.MapPath("~/Documents/" + fileName);
-        //if(File.Exists(path))
-        //{
-        //    File.Delete(path);
-        //}
-        //File.WriteAllBytes(path, data);
+        try
+        {
+            string ext = ViewState["OrgDocExt"].ToString();
+            string fileName = "Ogranization_Registration_Document" + ext;
+            byte[] data = (byte[])ViewState["OrgDoc"];
+            //string path = Server.MapPath("~/Documents/" + fileName);
+            //if(File.Exists(path))
+            //{
+            //    File.Delete(path);
+            //}
+            //File.WriteAllBytes(path, data);
+            HttpResponse response = HttpContext.Current.Response;
+            response.Clear();
+            response.ClearContent();
+            response.ClearHeaders();
+            response.Buffer = true;
+            response.AddHeader("Content-Disposition", "attachment;filename=" + fileName);
+            response.BinaryWrite(data);
+            response.End();
+        }
+        catch (Exception ex)
+        {
 
-
-        HttpResponse response = HttpContext.Current.Response;
-        response.Clear();
-        response.ClearContent();
-        response.ClearHeaders();
-        response.Buffer = true;
-        response.AddHeader("Content-Disposition", "attachment;filename=" + fileName);
-        response.BinaryWrite(data);
-        response.End();
+        }
     }
 
     protected void lnkGstDoc_Click(object sender, EventArgs e)

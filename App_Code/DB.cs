@@ -5216,7 +5216,13 @@ public class DB
                     USER_PINCODE = Convert.ToString(dr["USER_PINCODE"]),
                     USER_STATE = Convert.ToString(dr["USER_STATE"]),
                     STATUS = Convert.ToString(dr["STATUS"]),
-                    TRANSACTION_DATE = Convert.ToString(dr["TRANSACTION_DATE"])
+                    TRANSACTION_DATE = Convert.ToString(dr["TRANSACTION_DATE"]),
+                    L_MOBILE = Convert.ToString(dr["L_MOBILE"]),
+                    L_EMAIL = Convert.ToString(dr["L_EMAIL"]),
+                    L_USERID = Convert.ToString(dr["L_USERID"])
+                
+                    
+                    
 
                 };
                 retailerList.Add(reatailer);

@@ -5920,6 +5920,27 @@ public class DB
         }
         return dt;
     }
+    public int IUD(string query)
+    {
+        int i = 0;
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            con.Open();
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.CommandType = CommandType.Text;
+            i = cmd.ExecuteNonQuery();
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+        return i;
+    }
 
     public int Update_Retailer_Payment(string Rid, string transaction_id, string RETAILOR_PAY_TRANSACTION_NO, DateTime RETAILOR_PAY_DATE, string RETAILOR_PAY_AMOUNT, string RETAILOR_PAY_STATUS, string RETAILOR_PAY_MODE)
     {
@@ -6061,6 +6082,39 @@ public class DB
         {
             con.Close();
         }
+        return i;
+    }
+
+    public int AddReceiptImage(string tid,string lid, byte[] bytes,string ext)
+    {
+        int i = 0;
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "EShop_AddReceiptImage";
+
+            cmd.Parameters.AddWithValue("@TRANS_ID", tid);
+            cmd.Parameters.AddWithValue("@LID", lid);
+            cmd.Parameters.AddWithValue("@IMAGE", bytes);
+            cmd.Parameters.AddWithValue("@EXT", ext);
+            con.Open();
+            i = cmd.ExecuteNonQuery();
+
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+
         return i;
     }
     #endregion

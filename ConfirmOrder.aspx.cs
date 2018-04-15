@@ -212,7 +212,7 @@ public partial class ConfirmOrder : System.Web.UI.Page
                         //send mail nd msg
                         string msg = "", msgretailer = "";
                         msg = obj.createEmailBodyforConfirmOrder(tid, billingaddress, grandtotamt.ToString(), dscart, dscart.Tables[0].Rows[0]["Delivery_Amount"].ToString(), dscart.Tables[0].Rows[0]["coupon_amt"].ToString(), "Wallet");
-                        //obj.SendEmail(dscart.Tables[0].Rows[0]["EmailId"].ToString(), msg, "Order Confirmation Mail");
+                        obj.SendEmail(dscart.Tables[0].Rows[0]["EmailId"].ToString(), msg, "Order Confirmation Mail");
 
                         
                         //send mail nd msg to logistic and retailer
@@ -234,10 +234,10 @@ public partial class ConfirmOrder : System.Web.UI.Page
                             //DataSet dslog = obj.GetLogisticEmailndMobileInfo(logisticId[k]);
                             DataSet dsret = obj.GetReatilerEmailndMobileInfo(cart[k]);
                             msgretailer = obj.createEmailBodyforRetailerndLogistic(tid, dsret.Tables[0].Rows[0]["raddress"].ToString(), dsret.Tables[0].Rows[0]["rname"].ToString(), dsret.Tables[0].Rows[0]["quantity"].ToString(), dsret.Tables[0].Rows[0]["headertitle"].ToString(), dsret.Tables[0].Rows[0]["mobile"].ToString(), dsret.Tables[0].Rows[0]["prodid"].ToString(), dsret.Tables[0].Rows[0]["org_email"].ToString(), dsret.Tables[0].Rows[0]["totalamount"].ToString(), dsret.Tables[0].Rows[0]["city"].ToString(), dsret.Tables[0].Rows[0]["landmark"].ToString(), dsret.Tables[0].Rows[0]["pincode"].ToString(), dsret.Tables[0].Rows[0]["rstate"].ToString(), billingaddress,"Wallet");
-                            //obj.SendEmail(dsret.Tables[0].Rows[0]["org_email"].ToString(), msgretailer, "Order Confirmation Mail");
+                            obj.SendEmail(dsret.Tables[0].Rows[0]["org_email"].ToString(), msgretailer, "Order Confirmation Mail");
 
-                            //obj.SendMessage(dscart.Tables[0].Rows[0]["USER_Mobile"].ToString(), SMS_USER);
-                            //obj.SendMessage(dsret.Tables[0].Rows[0]["Mobile"].ToString(), SMS_RETAILER);
+                            obj.SendMessage(dscart.Tables[0].Rows[0]["USER_Mobile"].ToString(), SMS_USER);
+                            obj.SendMessage(dsret.Tables[0].Rows[0]["Mobile"].ToString(), SMS_RETAILER);
 
                             //string sms = "One Product has been sold form your store.";
                             //if (dslog.Tables.Count > 0 && dslog.Tables[0].Rows.Count > 0)

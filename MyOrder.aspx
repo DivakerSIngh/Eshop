@@ -84,7 +84,7 @@
         private bool cancelOrderVisible(object status)
         {
             var boolStatus = false;
-            if (Convert.ToInt32(status) < 5)
+            if (Convert.ToInt32(status) < 7)
             {
             boolStatus = true;
             }
@@ -94,7 +94,7 @@
          private bool canceledOrderVisible(object status)
         {
             var boolStatus = false;
-            if (Convert.ToInt32(status)>= 5)
+            if (Convert.ToInt32(status)==7)
             {
               boolStatus = true;
             }

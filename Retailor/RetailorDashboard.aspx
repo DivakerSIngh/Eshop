@@ -349,7 +349,8 @@
                     <tbody>
                         <tr ng-repeat="item in model  | filter:query | orderBy: orderList | startFrom:currentPage*pageSize | limitTo:pageSize"" ng-cloak>
                             <td class="text-center">{{$index+1}}</td>
-                            <td><a ng-click="showDesc(item)">{{item.TRANSACTION_ID}}</a></td>
+                          <%--  <td><a ng-click="showDesc(item)">{{item.TRANSACTION_ID}}</a></td>--%>
+                              <td><a href="OrderDetails?lid={{item.TRANSACTION_ID}}">{{item.TRANSACTION_ID}}</a></td>
                             <td class="text-center">{{item.TRANSACTION_DATE}}</td>
                             <td class="text-center">{{item.PRODUCT_TITLE}}</td>
                             <td class="text-center">{{item.MEASUREMENT}}</td>

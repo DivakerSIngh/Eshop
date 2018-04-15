@@ -15,10 +15,22 @@ public partial class Retailor_RetailorDashboard : System.Web.UI.Page
     {
         if(!IsPostBack)
         {
-            pnlChart.Visible = true;
-            pnlPassbook.Visible = false;
-            pnlPayment.Visible = false;
-            pnlOrderTracking.Visible = false;
+            var type = Convert.ToInt32(Request.QueryString["type"]);
+            if (type == 1)
+            {
+                pnlPassbook.Visible = false;
+                pnlPayment.Visible = false;
+                pnlOrderTracking.Visible = true;
+                hdnType.Value = "1";
+                pnlChart.Visible = false;
+            }else
+            {
+                pnlPassbook.Visible = false;
+                pnlPayment.Visible = false;
+                pnlOrderTracking.Visible = false;
+                pnlChart.Visible = true;
+            }
+           
          
 
             hdnUserId.Value = Convert.ToString(Session["loginid"]);

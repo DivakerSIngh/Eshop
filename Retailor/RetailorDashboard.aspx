@@ -205,8 +205,9 @@
                 }
                
             }
-            $scope.changeStatus = function (cartId) {
-                common.httpPost("PendingOrder.aspx/updateStatus", "{'cartId':'" + cartId + "'}", false, success = function (data) {
+            $scope.changeStatus = function (cartId, item) {
+                
+                common.httpPost("PendingOrder.aspx/updateStatus", "{'cartId':'" + cartId + "','lid':'" + item.L_USERID + "','lemailId':'" + item.L_EMAIL + "','lMobile':'" + item.L_MOBILE + "','orderId':'" + item.TRANSACTION_ID + "','address':'" + item.ADDRESS + "','productName':'" + item.PRODUCT_TITLE + "'}", false, success = function (data) {
 
                     $scope.getAllProduct();
                 }, failure = function (response) {
@@ -358,7 +359,7 @@
                             <td ng-if="item.STATUS==1">Pending</td>
                             <td ng-if="item.STATUS==2">Ready To Shipped</td>
                             <td ng-if="item.STATUS==3">Delieverd</td>
-                            <td ng-if="item.STATUS==1"><a ng-click="changeStatus(item.CART_ID)"><span class="dispatch">Ready To Shipped <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span></a></td>
+                            <td ng-if="item.STATUS==1"><a ng-click="changeStatus(item.CART_ID,item)"><span class="dispatch">Ready To Shipped <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span></a></td>
                             <td ng-if="item.STATUS==2">Ready To Shipped</td>
                             <td ng-if="item.STATUS==3">Delieverd</td>
 

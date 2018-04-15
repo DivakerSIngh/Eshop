@@ -206,7 +206,7 @@
                
             }
             $scope.changeStatus = function (cartId, item) {
-                debugger
+                
                 common.httpPost("PendingOrder.aspx/updateStatus", "{'cartId':'" + cartId + "','lid':'" + item.L_USERID + "','lemailId':'" + item.L_EMAIL + "','lMobile':'" + item.L_MOBILE + "','orderId':'" + item.TRANSACTION_ID + "','address':'" + item.ADDRESS + "','productName':'" + item.PRODUCT_TITLE + "'}", false, success = function (data) {
 
                     $scope.getAllProduct();

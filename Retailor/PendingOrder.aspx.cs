@@ -19,9 +19,11 @@ public partial class Retailor_PendingOrder : System.Web.UI.Page
     
 
          [WebMethod]
-    public static string updateStatus(string cartId)
+    public static string updateStatus(string cartId,string lid, string lemailId, string lMobile, string orderId,string address,string productName)
     {
         var list = DB.updateStatus(Convert.ToInt32(cartId), (int)Status.ReadyToDispatch);
+        string msg = "One product "+ productName +" has been shipped please collect this order from your retailer. your order id ="+ orderId + ", and address ="+address+"";
+        new DB().SendMessage(lMobile, msg);
         return "Ok";
     }
     [WebMethod]

@@ -71,6 +71,8 @@ public partial class Retailor_AddRetailorInfo : System.Web.UI.Page
                     lnkAdharDoc.Text = "Document Adhar Card";
                     lnkGstDoc.Text = "Document GST";
                     lnkOrgRegDoc.Text = "Document Organization Registration";
+                    lnkOrgRegDoc.Attributes.Add("href", "data:application/octet-stream;base64," + Convert.ToBase64String((byte[])ViewState["OrgDoc"]));
+                    
 
                     txtAccNum.Text = ds.Tables[0].Rows[0]["Acc_Number"].ToString();
                     txtBankName.Text = ds.Tables[0].Rows[0]["BankName"].ToString();

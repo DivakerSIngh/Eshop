@@ -4788,6 +4788,30 @@ public class DB
         return ds;
     }
 
+    public DataSet GetAllLogistic()
+    {
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            da = new SqlDataAdapter("EShop_GetAllLogistic", con);
+            da.SelectCommand.CommandType = CommandType.StoredProcedure;
+            da.SelectCommand.Parameters.Clear();
+           
+            ds = new DataSet();
+            da.Fill(ds);
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+        return ds;
+    }
+
     public DataSet GetAllCartIdandQty(string userid)
     {
         try
@@ -6122,6 +6146,31 @@ public class DB
         }
 
         return i;
+    }
+    public DataSet loadReciept(string lid,string transId)
+    {
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            da = new SqlDataAdapter("getAllrecieptOfLogistic", con);
+            da.SelectCommand.CommandType = CommandType.StoredProcedure;
+            da.SelectCommand.Parameters.Clear();
+            da.SelectCommand.Parameters.AddWithValue("@logisticId", lid);
+            da.SelectCommand.Parameters.AddWithValue("@transId", transId);
+
+            ds = new DataSet();
+            da.Fill(ds);
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+        return ds;
     }
     #endregion
 

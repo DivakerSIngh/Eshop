@@ -193,6 +193,11 @@
                                     <li><a href="ProductList.aspx" class=" hvr-bounce-to-right"><i class="fa fa-map-marker nav_icon"></i>View Product List</a></li>
                                 </ul>
                             </li>
+                             <li>
+                                <a href="ViewReceipt.aspx" class=" hvr-bounce-to-right"><i class="fa fa-indent nav_icon"></i><span class="nav-label">View Receipt</span><span class="fa arrow"></span></a>
+                             
+                            </li>
+                            
 
                            <%--  <li><a href="GenerateCoupon.aspx" class=" hvr-bounce-to-right"><i class="fa fa-area-chart nav_icon"></i>Generate Coupan</a></li>--%>
 

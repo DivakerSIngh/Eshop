@@ -2595,7 +2595,7 @@ public class DB
     public int AddRetailerInfo(string rname, string raddress, string city, string state, string landmark, string pincode, string district, string rcategory, 
         string rtype, string orgname, string orgregnumber, string email, string mobile, string tinnum, string staxnum, string accholdername, string accnumber, 
         string bname, string ifsc, string pan, string loginid, string gender, string size, string gst, string refid,
-        byte[] doc1, byte[] doc2, byte[] doc3, byte[] doc4)
+        byte[] doc1, byte[] doc2, byte[] doc3, byte[] doc4, string doc1Ext, string doc2Ext, string doc3Ext, string doc4Ext)
     {
         int i = 0;
         try
@@ -2638,6 +2638,11 @@ public class DB
             cmd.Parameters.AddWithValue("@doc3", doc3);
             cmd.Parameters.AddWithValue("@doc4", doc4);
 
+            cmd.Parameters.AddWithValue("@doc1Ext", doc1Ext);
+            cmd.Parameters.AddWithValue("@doc2Ext", doc2Ext);
+            cmd.Parameters.AddWithValue("@doc3Ext", doc3Ext);
+            cmd.Parameters.AddWithValue("@doc4Ext", doc4Ext);
+
             con.Open();
             i = cmd.ExecuteNonQuery();
 
@@ -2657,7 +2662,7 @@ public class DB
 
 
     public int UpdateRetailerInfo(string rname, string raddress, string city, string state, string landmark, string pincode, string district, string rcategory, string rtype, string orgname, string orgregnumber, string email, string mobile, string tinnum, string staxnum, string accholdername, string accnumber, string bname, string ifsc, string pan, string loginid, string rid, string gst, string gender, string refid
-        , byte[] doc1, byte[] doc2, byte[] doc3, byte[] doc4
+        , byte[] doc1, byte[] doc2, byte[] doc3, byte[] doc4, string doc1Ext, string doc2Ext, string doc3Ext, string doc4Ext
         )
     {
         int i = 0;
@@ -2695,10 +2700,17 @@ public class DB
             cmd.Parameters.AddWithValue("@gender", gender);
             cmd.Parameters.AddWithValue("@gst", gst);
             cmd.Parameters.AddWithValue("@refid", refid);
+
             cmd.Parameters.AddWithValue("@doc1", doc1);
             cmd.Parameters.AddWithValue("@doc2", doc2);
             cmd.Parameters.AddWithValue("@doc3", doc3);
             cmd.Parameters.AddWithValue("@doc4", doc4);
+
+            cmd.Parameters.AddWithValue("@doc1Ext", doc1Ext);
+            cmd.Parameters.AddWithValue("@doc2Ext", doc2Ext);
+            cmd.Parameters.AddWithValue("@doc3Ext", doc3Ext);
+            cmd.Parameters.AddWithValue("@doc4Ext", doc4Ext);
+
             con.Open();
             i = cmd.ExecuteNonQuery();
 

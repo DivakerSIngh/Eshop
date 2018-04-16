@@ -36,6 +36,9 @@ public  class Retailer
     public string RETAILOR_PAY_AMOUNT { get; set; }
     public string RETAILOR_PAY_MODE { get; set; }
     public string RETAILOR_PAY_TRANSACTION_NO { get; set; }
+    public string L_MOBILE { get; set; }
+    public string L_EMAIL { get; set; }
+    public string L_USERID { get; set; }
 }
 
 public class Measurment

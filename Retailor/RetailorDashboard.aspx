@@ -205,8 +205,9 @@
                 }
                
             }
-            $scope.changeStatus = function (cartId) {
-                common.httpPost("PendingOrder.aspx/updateStatus", "{'cartId':'" + cartId + "'}", false, success = function (data) {
+            $scope.changeStatus = function (cartId, item) {
+                
+                common.httpPost("PendingOrder.aspx/updateStatus", "{'cartId':'" + cartId + "','lid':'" + item.L_USERID + "','lemailId':'" + item.L_EMAIL + "','lMobile':'" + item.L_MOBILE + "','orderId':'" + item.TRANSACTION_ID + "','address':'" + item.ADDRESS + "','productName':'" + item.PRODUCT_TITLE + "'}", false, success = function (data) {
 
                     $scope.getAllProduct();
                 }, failure = function (response) {
@@ -349,7 +350,8 @@
                     <tbody>
                         <tr ng-repeat="item in model  | filter:query | orderBy: orderList | startFrom:currentPage*pageSize | limitTo:pageSize"" ng-cloak>
                             <td class="text-center">{{$index+1}}</td>
-                            <td><a ng-click="showDesc(item)">{{item.TRANSACTION_ID}}</a></td>
+                          <%--  <td><a ng-click="showDesc(item)">{{item.TRANSACTION_ID}}</a></td>--%>
+                              <td><a href="OrderDetail.aspx?Tid={{item.TRANSACTION_ID}}">{{item.TRANSACTION_ID}}</a></td>
                             <td class="text-center">{{item.TRANSACTION_DATE}}</td>
                             <td class="text-center">{{item.PRODUCT_TITLE}}</td>
                             <td class="text-center">{{item.MEASUREMENT}}</td>
@@ -357,7 +359,7 @@
                             <td ng-if="item.STATUS==1">Pending</td>
                             <td ng-if="item.STATUS==2">Ready To Shipped</td>
                             <td ng-if="item.STATUS==3">Delieverd</td>
-                            <td ng-if="item.STATUS==1"><a ng-click="changeStatus(item.CART_ID)"><span class="dispatch">Ready To Shipped <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span></a></td>
+                            <td ng-if="item.STATUS==1"><a ng-click="changeStatus(item.CART_ID,item)"><span class="dispatch">Ready To Shipped <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span></a></td>
                             <td ng-if="item.STATUS==2">Ready To Shipped</td>
                             <td ng-if="item.STATUS==3">Delieverd</td>
 

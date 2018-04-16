@@ -60,17 +60,34 @@ public partial class Retailor_AddRetailorInfo : System.Web.UI.Page
                     ViewState["OrgDoc"] = ds.Tables[0].Rows[0]["OrganizationDoc"];
                     ViewState["GSTDoc"] = ds.Tables[0].Rows[0]["GSTDoc"];
                     ViewState["PanDoc"] = ds.Tables[0].Rows[0]["PanDoc"];
-                    ViewState["AdharDoc"] = ds.Tables[0].Rows[0]["AadharDoc"];
+                    ViewState["AadharDoc"] = ds.Tables[0].Rows[0]["AadharDoc"];
 
                     ViewState["OrgDocExt"] = ds.Tables[0].Rows[0]["OrganizationDocExt"].ToString();
                     ViewState["GSTDocExt"] = ds.Tables[0].Rows[0]["GSTDocExt"].ToString();
                     ViewState["PanDocExt"] = ds.Tables[0].Rows[0]["PanDocExt"].ToString();
-                    ViewState["AdharDocExt"] = ds.Tables[0].Rows[0]["AadharDocExt"].ToString();
+                    ViewState["AadharDocExt"] = ds.Tables[0].Rows[0]["AadharDocExt"].ToString();
 
-                    lnkPanDoc.Text = "Document Pan Card";
-                    lnkAdharDoc.Text = "Document Adhar Card";
-                    lnkGstDoc.Text = "Document GST";
-                    lnkOrgRegDoc.Text = "Document Organization Registration";
+                    byte[] org = (byte[])ViewState["OrgDoc"];
+                    byte[] gst = (byte[])ViewState["GSTDoc"];
+                    byte[] pan = (byte[])ViewState["PanDoc"];
+                    byte[] aadhar = (byte[])ViewState["AadharDoc"];
+
+                    if(org.Length>0)
+                    {
+                        lnkOrgRegDoc.Text = "Document Organization Registration";
+                    }
+                    if(gst.Length>0)
+                    {
+                        lnkGstDoc.Text = "Document GST";
+                    }
+                    if(pan.Length>0)
+                    {
+                        lnkPanDoc.Text = "Document Pan Card";
+                    }
+                    if (aadhar.Length > 0)
+                    {
+                        lnkAdharDoc.Text = "Document Adhar Card";
+                    }
 
                     txtAccNum.Text = ds.Tables[0].Rows[0]["Acc_Number"].ToString();
                     txtBankName.Text = ds.Tables[0].Rows[0]["BankName"].ToString();
@@ -388,8 +405,8 @@ public partial class Retailor_AddRetailorInfo : System.Web.UI.Page
                     }
                     else
                     {
-                        f4 = ViewState["AdharDocExt"].ToString();
-                        byte4 = (byte[])ViewState["AdharDoc"];
+                        f4 = ViewState["AadharDocExt"].ToString();
+                        byte4 = (byte[])ViewState["AadharDoc"];
                     }
                     s = obj.UpdateRetailerInfo(rname, raddress, city, state, landmark, pincode, district,
                         rcategory, rtype, orgname, orgregnumber, email, mobile, tinnum, staxnum, accholdername, accnumber, bname,
@@ -455,21 +472,71 @@ public partial class Retailor_AddRetailorInfo : System.Web.UI.Page
         {
             string ext = ViewState["OrgDocExt"].ToString();
             string fileName = "Ogranization_Registration_Document" + ext;
-            byte[] data = (byte[])ViewState["OrgDoc"];
-            //string path = Server.MapPath("~/Documents/" + fileName);
-            //if(File.Exists(path))
-            //{
-            //    File.Delete(path);
-            //}
-            //File.WriteAllBytes(path, data);
-            HttpResponse response = HttpContext.Current.Response;
-            response.Clear();
-            response.ClearContent();
-            response.ClearHeaders();
-            response.Buffer = true;
-            response.AddHeader("Content-Disposition", "attachment;filename=" + fileName);
-            response.BinaryWrite(data);
-            response.End();
+            string content = "";
+            if (ext == ".pdf")
+            {
+                content = "application/pdf";
+            }
+            if (ext == ".docx")
+            {
+                content = "application/vnd.ms-word";
+            }
+            if (ext == ".xsl"|| ext==".xlsx")
+            {
+                content = "application/vnd.ms-excel";
+            }
+            if(ext==".jpg"||ext==".png"||ext==".jpeg")
+            {
+                content = "image/jpeg";
+            }
+            Byte[] bytes = (Byte[])ViewState["OrgDoc"];
+            Response.Buffer = true;
+            Response.Charset = "";
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.ContentType = content;
+            Response.AddHeader("content-disposition", "attachment;filename="+ fileName);
+            Response.BinaryWrite(bytes);
+            Response.Flush();
+            Response.End();
+        }
+        catch (Exception ex)
+        {
+            
+        }
+    }
+
+    protected void lnkGstDoc_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            string ext = ViewState["GSTDocExt"].ToString();
+            string fileName = "GST_Registration_Document" + ext;
+            string content = "";
+            if (ext == ".pdf")
+            {
+                content = "application/pdf";
+            }
+            if (ext == ".docx")
+            {
+                content = "application/vnd.ms-word";
+            }
+            if (ext == ".xsl" || ext == ".xlsx")
+            {
+                content = "application/vnd.ms-excel";
+            }
+            if (ext == ".jpg" || ext == ".png" || ext == ".jpeg")
+            {
+                content = "image/jpeg";
+            }
+            Byte[] bytes = (Byte[])ViewState["GSTDoc"];
+            Response.Buffer = true;
+            Response.Charset = "";
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.ContentType = content;
+            Response.AddHeader("content-disposition", "attachment;filename=" + fileName);
+            Response.BinaryWrite(bytes);
+            Response.Flush();
+            Response.End();
         }
         catch (Exception ex)
         {
@@ -477,18 +544,81 @@ public partial class Retailor_AddRetailorInfo : System.Web.UI.Page
         }
     }
 
-    protected void lnkGstDoc_Click(object sender, EventArgs e)
-    {
-
-    }
-
     protected void lnkPanDoc_Click(object sender, EventArgs e)
     {
+        try
+        {
+            string ext = ViewState["PanDocExt"].ToString();
+            string fileName = "Pan_Registration_Document" + ext;
+            string content = "";
+            if (ext == ".pdf")
+            {
+                content = "application/pdf";
+            }
+            if (ext == ".docx")
+            {
+                content = "application/vnd.ms-word";
+            }
+            if (ext == ".xsl" || ext == ".xlsx")
+            {
+                content = "application/vnd.ms-excel";
+            }
+            if (ext == ".jpg" || ext == ".png" || ext == ".jpeg")
+            {
+                content = "image/jpeg";
+            }
+            Byte[] bytes = (Byte[])ViewState["PanDoc"];
+            Response.Buffer = true;
+            Response.Charset = "";
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.ContentType = content;
+            Response.AddHeader("content-disposition", "attachment;filename=" + fileName);
+            Response.BinaryWrite(bytes);
+            Response.Flush();
+            Response.End();
+        }
+        catch (Exception ex)
+        {
 
+        }
     }
 
     protected void lnkAdharDoc_Click(object sender, EventArgs e)
     {
+        try
+        {
+            string ext = ViewState["AadharDocExt"].ToString();
+            string fileName = "Aadhar_Registration_Document" + ext;
+            string content = "";
+            if (ext == ".pdf")
+            {
+                content = "application/pdf";
+            }
+            if (ext == ".docx")
+            {
+                content = "application/vnd.ms-word";
+            }
+            if (ext == ".xsl" || ext == ".xlsx")
+            {
+                content = "application/vnd.ms-excel";
+            }
+            if (ext == ".jpg" || ext == ".png" || ext == ".jpeg")
+            {
+                content = "image/jpeg";
+            }
+            Byte[] bytes = (Byte[])ViewState["AadharDoc"];
+            Response.Buffer = true;
+            Response.Charset = "";
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.ContentType = content;
+            Response.AddHeader("content-disposition", "attachment;filename=" + fileName);
+            Response.BinaryWrite(bytes);
+            Response.Flush();
+            Response.End();
+        }
+        catch (Exception ex)
+        {
 
+        }
     }
 }

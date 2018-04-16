@@ -41,12 +41,12 @@
     <!---->
 
 
-    <asp:ScriptManager ID="scriptmanager1" runat="server">
+   <%-- <asp:ScriptManager ID="scriptmanager1" runat="server">
     </asp:ScriptManager>
 
     <asp:UpdatePanel ID="updatepnl" runat="server">
-        <ContentTemplate>
-            <form class="form-horizontal">
+        <ContentTemplate>--%>
+           <%-- <form class="form-horizontal">--%>
                 <div class="blank">
 
 
@@ -478,18 +478,18 @@
 
                     </div>
                 </div>
-            </form>
+            <%--</form>--%>
 
 
             <script type="text/javascript" src="/js/jquery.validate-1.14.0.min.js"></script>
             <script type="text/javascript" src="/js/jquery-validate.bootstrap-tooltip.js"></script>
             <script src="/js2/stdis.js"></script>
             <script src="/js2/sidscript.js"></script>
-        </ContentTemplate>
+        <%--</ContentTemplate>
         <Triggers>
         <asp:PostBackTrigger ControlID = "btnRetSubmit" />
     </Triggers>
-    </asp:UpdatePanel>
+    </asp:UpdatePanel>--%>
 
 
     <!--//content-->

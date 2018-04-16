@@ -1528,7 +1528,7 @@ public class DB
 
     }
 
-    public string createEmailBodyforRetailerndLogistic(string tid, string raddress, string name, string qty, string prodname, string mobile, string pid, string email, string price, string city, string landmark, string pincode, string state, string billingaddress)
+    public string createEmailBodyforRetailerndLogistic(string tid, string raddress, string name, string qty, string prodname, string mobile, string pid, string email, string price, string city, string landmark, string pincode, string state, string billingaddress,string Pay_Mode)
     {
 
         string body = string.Empty;
@@ -1558,6 +1558,7 @@ public class DB
         body = body.Replace("{Price}", price);
         body = body.Replace("{Name}", name);
         body = body.Replace("{billingaddress}", billingaddress);
+        body = body.Replace("{Pay_Mode}", Pay_Mode);
 
 
 
@@ -4787,6 +4788,30 @@ public class DB
         return ds;
     }
 
+    public DataSet GetAllLogistic()
+    {
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            da = new SqlDataAdapter("EShop_GetAllLogistic", con);
+            da.SelectCommand.CommandType = CommandType.StoredProcedure;
+            da.SelectCommand.Parameters.Clear();
+           
+            ds = new DataSet();
+            da.Fill(ds);
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+        return ds;
+    }
+
     public DataSet GetAllCartIdandQty(string userid)
     {
         try
@@ -5215,7 +5240,13 @@ public class DB
                     USER_PINCODE = Convert.ToString(dr["USER_PINCODE"]),
                     USER_STATE = Convert.ToString(dr["USER_STATE"]),
                     STATUS = Convert.ToString(dr["STATUS"]),
-                    TRANSACTION_DATE = Convert.ToString(dr["TRANSACTION_DATE"])
+                    TRANSACTION_DATE = Convert.ToString(dr["TRANSACTION_DATE"]),
+                    L_MOBILE = Convert.ToString(dr["L_MOBILE"]),
+                    L_EMAIL = Convert.ToString(dr["L_EMAIL"]),
+                    L_USERID = Convert.ToString(dr["L_USERID"])
+                
+                    
+                    
 
                 };
                 retailerList.Add(reatailer);
@@ -5919,6 +5950,27 @@ public class DB
         }
         return dt;
     }
+    public int IUD(string query)
+    {
+        int i = 0;
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            con.Open();
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.CommandType = CommandType.Text;
+            i = cmd.ExecuteNonQuery();
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+        return i;
+    }
 
     public int Update_Retailer_Payment(string Rid, string transaction_id, string RETAILOR_PAY_TRANSACTION_NO, DateTime RETAILOR_PAY_DATE, string RETAILOR_PAY_AMOUNT, string RETAILOR_PAY_STATUS, string RETAILOR_PAY_MODE)
     {
@@ -6010,6 +6062,31 @@ public class DB
         return ds;
     }
 
+    // get order detail when we click on transaction id in retailer
+    public DataSet getOrderDetail(string tid)
+    {
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            da = new SqlDataAdapter("EShop_GetAllOrders", con);
+            da.SelectCommand.CommandType = CommandType.StoredProcedure;
+            da.SelectCommand.Parameters.Clear();
+            da.SelectCommand.Parameters.AddWithValue("@TRANSID", tid);
+            da.SelectCommand.Parameters.AddWithValue("@ACTION", 7);
+            ds = new DataSet();
+            da.Fill(ds);
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+        return ds;
+    }
+
     public int pushLatitudeLongitude(string Pincode, decimal latitude,decimal longitude)
     {
         int i = 0;
@@ -6036,6 +6113,64 @@ public class DB
             con.Close();
         }
         return i;
+    }
+
+    public int AddReceiptImage(string tid,string lid, byte[] bytes,string ext)
+    {
+        int i = 0;
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "EShop_AddReceiptImage";
+
+            cmd.Parameters.AddWithValue("@TRANS_ID", tid);
+            cmd.Parameters.AddWithValue("@LID", lid);
+            cmd.Parameters.AddWithValue("@IMAGE", bytes);
+            cmd.Parameters.AddWithValue("@EXT", ext);
+            con.Open();
+            i = cmd.ExecuteNonQuery();
+
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+
+        return i;
+    }
+    public DataSet loadReciept(string lid,string transId)
+    {
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            da = new SqlDataAdapter("getAllrecieptOfLogistic", con);
+            da.SelectCommand.CommandType = CommandType.StoredProcedure;
+            da.SelectCommand.Parameters.Clear();
+            da.SelectCommand.Parameters.AddWithValue("@logisticId", lid);
+            da.SelectCommand.Parameters.AddWithValue("@transId", transId);
+
+            ds = new DataSet();
+            da.Fill(ds);
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+        return ds;
     }
     #endregion
 

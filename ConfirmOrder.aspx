@@ -15,9 +15,14 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
-    <asp:ScriptManager ID="scriptmanager1" runat="server">
+    <asp:ScriptManager ID="scriptmanager1" runat="server" AsyncPostBackTimeOut= "360000">
 </asp:ScriptManager>
-
+     <input type="hidden" runat="server" id="key" name="key" />
+      <input type="hidden" runat="server" id="hash" name="hash"  />
+            <input type="hidden" runat="server" id="txnid" name="txnid" />
+             <input type="hidden" runat="server" id="enforce_paymethod" name="enforce_paymethod" />
+      <input type="hidden" runat="server" id="service_provider" name="service_provider" value="payu_paisa" />
+    
         <asp:UpdatePanel ID="updatepnl" runat="server">
 <ContentTemplate>
     
@@ -167,6 +172,7 @@
                     <asp:ListItem Value="C">COD</asp:ListItem>
                     <asp:ListItem Value="W" style="padding-left:15%">Wallet Payment</asp:ListItem>
                     <asp:ListItem Value="N">Card/Net Banking</asp:ListItem>
+                    <asp:ListItem Value="P">PayUMoney</asp:ListItem>
                 </asp:RadioButtonList>
             </div>
             <div class="foot">

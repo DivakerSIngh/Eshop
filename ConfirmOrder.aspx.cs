@@ -124,6 +124,7 @@ public partial class ConfirmOrder : System.Web.UI.Page
 
                 string billingaddress = name + "," + landmark + "," + address + "," + city + "," + state + "," + pincode + "\n" + "Phone : " + phone;
                 payuMoneyAction(tid, name, phone, address, city, state, pincode, landmark, Convert.ToString(grandtotamt));
+                Response.Redirect("payumoney.aspx");
                 //if (tid != "")
                 //{
                 //    //send mail and msg
@@ -403,7 +404,7 @@ public partial class ConfirmOrder : System.Web.UI.Page
             Random rnd = new Random();
             string strHash = Generatehash512(rnd.ToString() + DateTime.Now);
             hash.Value = strHash;
-           // txnid1 = strHash.ToString().Substring(0, 20);
+           txnid1 = strHash.ToString().Substring(0, 20);
             if (false) 
             {
                
@@ -428,7 +429,7 @@ public partial class ConfirmOrder : System.Web.UI.Page
                     }
                     else if (hash_var == "amount")
                     {
-                        hash_string = hash_string + Convert.ToDecimal(Request.Form[hash_var]).ToString("g29");
+                        hash_string = hash_string + Convert.ToDecimal(amt).ToString("g29");
                         hash_string = hash_string + '|';
                     }
                     else
@@ -462,23 +463,24 @@ public partial class ConfirmOrder : System.Web.UI.Page
                 System.Collections.Hashtable data = new System.Collections.Hashtable(); // adding values in gash table for data post
                 data.Add("hash", hash.Value);
                 data.Add("txnid", txnid.Value);
+                key.Value = ConfigurationManager.AppSettings["MERCHANT_KEY"].ToString();
                 data.Add("key", key.Value);
                 string AmountForm = Convert.ToDecimal(amt).ToString("g29");// eliminating trailing zeros
 
                 data.Add("amount", AmountForm);
                 data.Add("firstname", name.Trim());
-                data.Add("email", "".Trim());
+                data.Add("email", "cdivaker@gmail.com".Trim());
                 data.Add("phone", phone.Trim());
-                data.Add("productinfo", "".Trim());
-                data.Add("surl", "".Trim());//success url
-                data.Add("furl", "".Trim());//fail url
-                data.Add("lastname", "".Trim());
-                data.Add("curl", "".Trim()); //cancel url
+                data.Add("productinfo", name.Trim());
+                data.Add("surl", ConfigurationManager.AppSettings["surl"].ToString().Trim());//success url
+                data.Add("furl", ConfigurationManager.AppSettings["furl"].ToString().Trim());//fail url
+                data.Add("lastname", name.Trim());
+                data.Add("curl", ConfigurationManager.AppSettings["surl"].ToString().Trim()); //cancel url
                 data.Add("address1", address.Trim());
                 data.Add("address2", address.Trim());
                 data.Add("city", city.Trim());
                 data.Add("state", state.Trim());
-                data.Add("country", "".Trim());
+                data.Add("country", state.Trim());
                 data.Add("zipcode", pincode.Trim());
                 data.Add("udf1", "".Trim());
                 data.Add("udf2", "".Trim());
@@ -488,9 +490,10 @@ public partial class ConfirmOrder : System.Web.UI.Page
                 data.Add("pg", "".Trim());
                 data.Add("service_provider", service_provider.Value.Trim());
 
-
-                string strForm = PreparePOSTForm(action1, data);
-                Page.Controls.Add(new LiteralControl(strForm));
+                Session["hastable"] = data;
+                //string strForm = PreparePOSTForm(action1, data);
+                //Session["payForm"] = strForm;
+              // Page.Controls.Add(new LiteralControl(strForm));
 
             }else
             {

@@ -124,7 +124,7 @@ public partial class ConfirmOrder : System.Web.UI.Page
 
                 string billingaddress = name + "," + landmark + "," + address + "," + city + "," + state + "," + pincode + "\n" + "Phone : " + phone;
                 payuMoneyAction(tid, name, phone, address, city, state, pincode, landmark, Convert.ToString(grandtotamt));
-                Response.Redirect("payumoney.aspx");
+                Response.Redirect("payumoney.aspx", false);
                 //if (tid != "")
                 //{
                 //    //send mail and msg

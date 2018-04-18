@@ -17,12 +17,37 @@
 
     <asp:ScriptManager ID="scriptmanager1" runat="server" AsyncPostBackTimeOut= "360000">
 </asp:ScriptManager>
-     <input type="hidden" runat="server" id="key" name="key" />
-      <input type="hidden" runat="server" id="hash" name="hash"  />
-            <input type="hidden" runat="server" id="txnid" name="txnid" />
-             <input type="hidden" runat="server" id="enforce_paymethod" name="enforce_paymethod" />
-      <input type="hidden" runat="server" id="service_provider" name="service_provider" value="payu_paisa" />
-    
+                <asp:HiddenField ClientIDMode="Static" runat="server" ID="key" />
+                <asp:HiddenField ClientIDMode="Static" runat="server" ID="hash"   />
+                <asp:HiddenField ClientIDMode="Static" runat="server" ID="txnid"/>
+                <asp:HiddenField ClientIDMode="Static" runat="server" ID="enforce_paymethod" />
+                <asp:HiddenField ClientIDMode="Static" runat="server" ID="service_provider" value="payu_paisa" />
+                <asp:HiddenField ClientIDMode="Static" ID="amount" runat="server"  />
+                <asp:HiddenField ClientIDMode="Static" ID="firstname" runat="server" />
+                <asp:HiddenField ClientIDMode="Static" ID="email" runat="server" />
+                <asp:HiddenField ClientIDMode="Static" ID="phone" runat="server" />
+                <asp:HiddenField ClientIDMode="Static" ID="productinfo" runat="server" />
+                <asp:HiddenField ClientIDMode="Static" ID="surl" runat="server" />
+                <asp:HiddenField ClientIDMode="Static" ID="furl"           runat="server" />
+                <asp:HiddenField ClientIDMode="Static" ID="lastname"     runat="server" />
+                <asp:HiddenField ClientIDMode="Static" ID="curl"       runat="server" />
+                <asp:HiddenField ClientIDMode="Static" ID="address1"   runat="server" />
+                <asp:HiddenField ClientIDMode="Static" ID="address2"    runat="server" />
+                <asp:HiddenField ClientIDMode="Static" ID="city"  runat="server" />
+                <asp:HiddenField ClientIDMode="Static" ID="state" runat="server" />
+                <asp:HiddenField ClientIDMode="Static" ID="country" runat="server" />
+                <asp:HiddenField ClientIDMode="Static" ID="zipcode" runat="server" />
+                <asp:HiddenField ClientIDMode="Static" ID="udf1"  runat="server" />
+                <asp:HiddenField ClientIDMode="Static" ID="udf2" runat="server" />
+                <asp:HiddenField ClientIDMode="Static" ID="udf3" runat="server" />
+                <asp:HiddenField ClientIDMode="Static" ID="udf4" runat="server" />
+                <asp:HiddenField ClientIDMode="Static" ID="udf5" runat="server" />
+                 
+                <asp:HiddenField ClientIDMode="Static" ID="pg"   runat="server" />
+		
+   
+
+
         <asp:UpdatePanel ID="updatepnl" runat="server">
 <ContentTemplate>
     

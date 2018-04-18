@@ -124,7 +124,7 @@ public partial class ConfirmOrder : System.Web.UI.Page
 
                 string billingaddress = name + "," + landmark + "," + address + "," + city + "," + state + "," + pincode + "\n" + "Phone : " + phone;
                 payuMoneyAction(tid, name, phone, address, city, state, pincode, landmark, Convert.ToString(grandtotamt));
-                Response.Redirect("payumoney.aspx");
+                Response.Redirect("payumoney.aspx",false);
                 //if (tid != "")
                 //{
                 //    //send mail and msg
@@ -395,16 +395,42 @@ public partial class ConfirmOrder : System.Web.UI.Page
     public string action1 = string.Empty;
     public string hash1 = string.Empty;
 
-    private void payuMoneyAction(string txnid1, string name, string phone, string address, string city, string state, string pincode, string landmark, string amt)
+    private void payuMoneyAction(string txnid2, string name, string phone1, string address, string city1, string state1, string pincode, string landmark, string amt)
     {
+
         string[] hashVarsSeq;
         string hash_string = string.Empty;
         try
         {
             Random rnd = new Random();
             string strHash = Generatehash512(rnd.ToString() + DateTime.Now);
-            hash.Value = strHash;
-           txnid1 = strHash.ToString().Substring(0, 20);
+           // hash.Value = strHash;
+          var txnid1 = strHash.ToString().Substring(0, 20);
+
+            txnid.Value = txnid1;
+            amount.Value = amt;
+            firstname.Value = name;
+            email.Value = "cdivaker@gmail.com";
+            phone.Value = phone1;
+            productinfo.Value = "Test Dummay";
+            surl.Value = ConfigurationManager.AppSettings["surl"].ToString();
+            furl.Value = ConfigurationManager.AppSettings["furl"].ToString();
+            lastname.Value = name;
+            curl.Value = ConfigurationManager.AppSettings["curl"].ToString();
+            address1.Value = address;
+            address2.Value = address;
+            city.Value = city1;
+            state.Value = state1;
+            country.Value = state1;
+            udf1.Value = "";
+            udf2.Value = "";
+            udf3.Value = "";
+            udf4.Value = "";
+            udf5.Value = "";
+            pg.Value = "";
+           
+
+
             if (false) 
             {
                
@@ -432,10 +458,39 @@ public partial class ConfirmOrder : System.Web.UI.Page
                         hash_string = hash_string + Convert.ToDecimal(amt).ToString("g29");
                         hash_string = hash_string + '|';
                     }
+                    else if (hash_var == "productinfo")
+                    {
+                        hash_string = hash_string + productinfo.Value;
+                        hash_string = hash_string + '|';
+                    }
+                    else if (hash_var == "firstname")
+                    {
+                        hash_string = hash_string + firstname.Value;
+                        hash_string = hash_string + '|';
+                    }
+                    else if (hash_var == "email")
+                    {
+                        hash_string = hash_string +email.Value;
+                        hash_string = hash_string + '|';
+                    }
+                    else if (hash_var == "udf1")
+                    {
+                        hash_string = hash_string + udf1.Value;
+                        hash_string = hash_string + '|';
+                    }
+                    else if (hash_var == "udf2")
+                    {
+                        hash_string = hash_string + udf2.Value;
+                        hash_string = hash_string + '|';
+                    }
+                    else if (hash_var == "udf3")
+                    {
+                        hash_string = hash_string + udf3.Value;
+                        hash_string = hash_string + '|';
+                    }
                     else
                     {
-
-                        hash_string = hash_string + (Request.Form[hash_var] != null ? Request.Form[hash_var] : "");// isset if else
+                        hash_string = hash_string + (Request.Form["ctl00$ContentPlaceHolder1$"+hash_var] != null ? Request.Form["ctl00$ContentPlaceHolder1$" + hash_var] : "");// isset if else
                         hash_string = hash_string + '|';
                     }
                 }
@@ -469,25 +524,25 @@ public partial class ConfirmOrder : System.Web.UI.Page
 
                 data.Add("amount", AmountForm);
                 data.Add("firstname", name.Trim());
-                data.Add("email", "cdivaker@gmail.com".Trim());
-                data.Add("phone", phone.Trim());
+                data.Add("email", email.Value.Trim());
+                data.Add("phone", phone1.Trim());
                 data.Add("productinfo", name.Trim());
                 data.Add("surl", ConfigurationManager.AppSettings["surl"].ToString().Trim());//success url
                 data.Add("furl", ConfigurationManager.AppSettings["furl"].ToString().Trim());//fail url
                 data.Add("lastname", name.Trim());
-                data.Add("curl", ConfigurationManager.AppSettings["surl"].ToString().Trim()); //cancel url
+                data.Add("curl", ConfigurationManager.AppSettings["curl"].ToString().Trim()); //cancel url
                 data.Add("address1", address.Trim());
                 data.Add("address2", address.Trim());
-                data.Add("city", city.Trim());
-                data.Add("state", state.Trim());
-                data.Add("country", state.Trim());
+                data.Add("city", city1.Trim());
+                data.Add("state", state1.Trim());
+                data.Add("country", state1.Trim());
                 data.Add("zipcode", pincode.Trim());
-                data.Add("udf1", "".Trim());
-                data.Add("udf2", "".Trim());
-                data.Add("udf3", "".Trim());
-                data.Add("udf4", "".Trim());
-                data.Add("udf5", "".Trim());
-                data.Add("pg", "".Trim());
+                data.Add("udf1", udf1.Value.Trim());
+                data.Add("udf2", udf2.Value.Trim());
+                data.Add("udf3", udf3.Value.Trim());
+                data.Add("udf4", udf4.Value.Trim());
+                data.Add("udf5", udf5.Value.Trim());
+                data.Add("pg", pg.Value.Trim());
                 data.Add("service_provider", service_provider.Value.Trim());
 
                 Session["hastable"] = data;

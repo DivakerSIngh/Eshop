@@ -94,7 +94,7 @@
                     $scope.model = data;
                     $.each(data, function (index, item) {
 
-                        $scope.staticArray[index + 1] = parseInt(item.TOTALSALES);
+                        $scope.staticArray[item.SALESMONTH] = parseInt(item.TOTALSALES);
                     });
 
                     Highcharts.chart('chartData', {

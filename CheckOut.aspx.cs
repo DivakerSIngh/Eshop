@@ -159,6 +159,7 @@ public partial class CheckOut : System.Web.UI.Page
 
                             double wt = Convert.ToDouble(pWt[j]);
                             hf_logistic_id.Value = ds.Tables[0].Rows[i]["userid"].ToString();
+                            //updateLogistcInCart(hf_logistic_id.Value, string cart_id)
                             hf_Delivery_Rate.Value = Convert.ToString(Convert.ToDecimal(hf_Delivery_Rate.Value) + getDeliveryAmt(hf_logistic_id.Value, wt, Convert.ToDouble(dist)));
                         }
 
@@ -304,5 +305,11 @@ public partial class CheckOut : System.Web.UI.Page
             return 0;
         }
 
+    }
+
+    private void updateLogistcInCart(string logisticId,string cart_id)
+    {
+        DB obj = new DB();
+        obj.IUD("update cart_info set lid='" + logisticId + "' where cartid='" + cart_id + "'");
     }
 }

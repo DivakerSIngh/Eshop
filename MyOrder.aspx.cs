@@ -127,6 +127,7 @@ public partial class MyOrder : System.Web.UI.Page
             var logistcicMobile = logisticDetails.Tables[0].Rows[0]["mobile"].ToString();
             var logisticEmail = logisticDetails.Tables[0].Rows[0]["LEmailAddress1"].ToString();
             db.SendMessage(logistcicMobile, msg);
+            db.SendEmail(logisticEmail, msg, "One order is return by User");
         }
 
 
@@ -135,6 +136,7 @@ public partial class MyOrder : System.Web.UI.Page
             var ratailerMobile = retailerDetails.Tables[0].Rows[0]["mobile"].ToString();
             var email = retailerDetails.Tables[0].Rows[0]["org_email"].ToString();
             db.SendMessage(ratailerMobile, msg);
+            db.SendEmail(email, msg, "One order is return by User");
         }
         load_myorderList(usersid[0]);
     }

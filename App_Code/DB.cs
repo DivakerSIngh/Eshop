@@ -3659,7 +3659,7 @@ public class DB
     }
 
 
-    public string TransactionConfirmation(string userid, string camt, string damt, string ttype, string ttypeid, string status, string bal, string receiveramt = null, string qty = null)
+    public string TransactionConfirmation(string userid, string camt, string damt, string ttype, string ttypeid, string status, string bal, string receiveramt = null, string qty = null,string payment_mode="",string payment_transaction_no="")
     {
         int i = 0;
         string tid = "";
@@ -3681,6 +3681,8 @@ public class DB
             cmd.Parameters.AddWithValue("@bal", bal);
             cmd.Parameters.AddWithValue("@ReceiverAmt", receiveramt);
             cmd.Parameters.AddWithValue("@qty", qty);
+            cmd.Parameters.AddWithValue("@payment_mode", payment_mode);
+            cmd.Parameters.AddWithValue("@payment_transaction_no", payment_transaction_no);
             cmd.Parameters.Add("@tid", SqlDbType.VarChar, 20).Direction = ParameterDirection.Output;
             con.Open();
             i = cmd.ExecuteNonQuery();

@@ -22,9 +22,45 @@ public partial class ConfirmOrder : System.Web.UI.Page
         {
             if (!IsPostBack)
             {
-                string[] usersid = Session["loginid"].ToString().Split(',');
-                load_cartlist(usersid[0]);
-                rbtnAddress.SelectedIndex = 0;
+                if (Request.QueryString["type"] != null)
+                {
+                    if (Request.QueryString["type"].ToString().ToLower() == "ts")
+                    {
+                        if (Session["BuyPayumoney"] != null)
+                        {
+                            string[] param = Session["BuyPayumoney"].ToString().Split('|');
+                            ConfirmPayUMoneyOrder("PAID VIA PAYUMONEY", param[0], param[1], param[2], param[3]);
+                            Session["BuyPayumoney"] = null;
+                        }
+                        else
+                        {
+                            Response.Redirect("ConfirmOrder.aspx");
+                        }
+
+                    }
+                    else if (Request.QueryString["type"].ToString().ToLower() == "tf")
+                    {
+                        if (Session["BuyPayumoney"] != null)
+                        {
+                            obj = new DB();
+                            string[] usersid = Session["loginid"].ToString().Split(',');
+                            string[] param = Session["BuyPayumoney"].ToString().Split('|');
+                            obj.TransactionConfirmation(usersid[0], null, param[2], "PAY", param[1], "F", null, null, param[3]);
+                            Session["BuyPayumoney"] = null;
+                        }
+                        else
+                        {
+                            Response.Redirect("ConfirmOrder.aspx");
+                        }
+                    }
+                }
+                else
+                {
+                    string[] usersid = Session["loginid"].ToString().Split(',');
+                    load_cartlist(usersid[0]);
+                    rbtnAddress.SelectedIndex = 0;
+                }
+
             }
 
         }
@@ -89,7 +125,6 @@ public partial class ConfirmOrder : System.Web.UI.Page
 
     }
 
-
     protected void btnPayment_Command(object sender, CommandEventArgs e)
     {
         try
@@ -111,7 +146,7 @@ public partial class ConfirmOrder : System.Web.UI.Page
                     lid += dscart.Tables[0].Rows[i]["LID"].ToString() + ",";
                 }
 
-                string tid = obj.TransactionConfirmation(str[0], null, grandtotamt.ToString(), "PAY", cartid, "S", null, null, qty);
+                //string tid = obj.TransactionConfirmation(str[0], null, grandtotamt.ToString(), "PAY", cartid, "S", null, null, qty);
                 string name = "", phone = "", pincode = "", state = "", address = "", landmark = "", city = "";
                 string[] add = dss.Tables[0].Rows[0]["Address"].ToString().Split('?');
                 name = add[0];
@@ -123,44 +158,10 @@ public partial class ConfirmOrder : System.Web.UI.Page
                 landmark = add[6];
 
                 string billingaddress = name + "," + landmark + "," + address + "," + city + "," + state + "," + pincode + "\n" + "Phone : " + phone;
-                payuMoneyAction(tid, name, phone, address, city, state, pincode, landmark, Convert.ToString(grandtotamt));
-                Response.Redirect("payumoney.aspx",false);
-                //if (tid != "")
-                //{
-                //    //send mail and msg
-                //    string msg = "", msgretailer = "";
-                //    msg = obj.createEmailBodyforConfirmOrder(tid, billingaddress, grandtotamt.ToString(), dscart, dscart.Tables[0].Rows[0]["Delivery_Amount"].ToString(), dscart.Tables[0].Rows[0]["coupon_amt"].ToString(), "COD");
-                //    obj.SendEmail(dscart.Tables[0].Rows[0]["EmailId"].ToString(), msg, "Order Confirmation Mail");
-
-                //    //send mail nd msg to logistic and retailer
-                //    string[] cart = cartid.Split(',');
-                //    string[] lidid = lid.Split(',');
-                //    for (int k = 0; k < cart.Length && cart[k] != ""; k++)
-                //    {
-                //        string SMS_USER = "";
-                //        SMS_USER = "You have Successfully Placed your order.";
-                //        SMS_USER = SMS_USER + " Item: " + dscart.Tables[0].Rows[k]["HeaderTitle"].ToString();
-                //        SMS_USER = SMS_USER + ", Qty: " + dscart.Tables[0].Rows[k]["OrderedQty"].ToString();
-                //        SMS_USER = SMS_USER + ", Price :" + dscart.Tables[0].Rows[k]["TotalAmount"].ToString();
-
-                //        string SMS_RETAILER = "";
-                //        SMS_RETAILER = "One Product has been sold from your store.";
-                //        SMS_RETAILER = SMS_RETAILER + " Item: " + dscart.Tables[0].Rows[k]["HeaderTitle"].ToString();
-                //        SMS_RETAILER = SMS_RETAILER + ", Qty: " + dscart.Tables[0].Rows[k]["OrderedQty"].ToString();
-                //        SMS_RETAILER = SMS_RETAILER + ", Price: " + dscart.Tables[0].Rows[k]["TotalAmount"].ToString();
-                //        //DataSet dslog = obj.GetLogisticEmailndMobileInfo(lidid[k]);
-                //        DataSet dsret = obj.GetReatilerEmailndMobileInfo(cart[k]);
-
-                //        msgretailer = obj.createEmailBodyforRetailerndLogistic(tid, dsret.Tables[0].Rows[0]["raddress"].ToString(), dsret.Tables[0].Rows[0]["rname"].ToString(), dsret.Tables[0].Rows[0]["quantity"].ToString(), dsret.Tables[0].Rows[0]["headertitle"].ToString(), dsret.Tables[0].Rows[0]["mobile"].ToString(), dsret.Tables[0].Rows[0]["prodid"].ToString(), dsret.Tables[0].Rows[0]["org_email"].ToString(), dsret.Tables[0].Rows[0]["totalamount"].ToString(), dsret.Tables[0].Rows[0]["city"].ToString(), dsret.Tables[0].Rows[0]["landmark"].ToString(), dsret.Tables[0].Rows[0]["pincode"].ToString(), dsret.Tables[0].Rows[0]["rstate"].ToString(), billingaddress, "COD");
-                //        obj.SendEmail(dsret.Tables[0].Rows[0]["org_email"].ToString(), msgretailer, "Order Confirmation Mail");
-
-                //        obj.SendMessage(dscart.Tables[0].Rows[0]["User_Mobile"].ToString(), SMS_USER);
-                //        obj.SendMessage(dsret.Tables[0].Rows[0]["Mobile"].ToString(), SMS_RETAILER);
-
-                //    }
-                //}
+                payuMoneyAction(name, phone, address, city, state, pincode, landmark, Convert.ToString(grandtotamt), dscart.Tables[0].Rows[0]["EmailId"].ToString());
+                Session["BuyPayumoney"] = txnid.Value + "|" + cartid + "|" + grandtotamt.ToString() + "|" + qty;
+                Response.Redirect("payumoney.aspx", false);
             }
-
 
             if (rbtnAddress.SelectedValue == "C")
             {
@@ -214,7 +215,7 @@ public partial class ConfirmOrder : System.Web.UI.Page
                         //DataSet dslog = obj.GetLogisticEmailndMobileInfo(lidid[k]);
                         DataSet dsret = obj.GetReatilerEmailndMobileInfo(cart[k]);
 
-                        msgretailer = obj.createEmailBodyforRetailerndLogistic(tid, dsret.Tables[0].Rows[0]["raddress"].ToString(), dsret.Tables[0].Rows[0]["rname"].ToString(), dsret.Tables[0].Rows[0]["quantity"].ToString(), dsret.Tables[0].Rows[0]["headertitle"].ToString(), dsret.Tables[0].Rows[0]["mobile"].ToString(), dsret.Tables[0].Rows[0]["prodid"].ToString(), dsret.Tables[0].Rows[0]["org_email"].ToString(), dsret.Tables[0].Rows[0]["totalamount"].ToString(), dsret.Tables[0].Rows[0]["city"].ToString(), dsret.Tables[0].Rows[0]["landmark"].ToString(), dsret.Tables[0].Rows[0]["pincode"].ToString(), dsret.Tables[0].Rows[0]["rstate"].ToString(), billingaddress,"COD");
+                        msgretailer = obj.createEmailBodyforRetailerndLogistic(tid, dsret.Tables[0].Rows[0]["raddress"].ToString(), dsret.Tables[0].Rows[0]["rname"].ToString(), dsret.Tables[0].Rows[0]["quantity"].ToString(), dsret.Tables[0].Rows[0]["headertitle"].ToString(), dsret.Tables[0].Rows[0]["mobile"].ToString(), dsret.Tables[0].Rows[0]["prodid"].ToString(), dsret.Tables[0].Rows[0]["org_email"].ToString(), dsret.Tables[0].Rows[0]["totalamount"].ToString(), dsret.Tables[0].Rows[0]["city"].ToString(), dsret.Tables[0].Rows[0]["landmark"].ToString(), dsret.Tables[0].Rows[0]["pincode"].ToString(), dsret.Tables[0].Rows[0]["rstate"].ToString(), billingaddress, "COD");
                         obj.SendEmail(dsret.Tables[0].Rows[0]["org_email"].ToString(), msgretailer, "Order Confirmation Mail");
 
                         obj.SendMessage(dscart.Tables[0].Rows[0]["User_Mobile"].ToString(), SMS_USER);
@@ -231,7 +232,7 @@ public partial class ConfirmOrder : System.Web.UI.Page
 
                     //ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Order Successfully placed !');", true);
                     //redirect some where
-                    Response.Redirect("MyOrder.aspx",false);
+                    Response.Redirect("MyOrder.aspx", false);
                 }
                 else
                 {
@@ -272,7 +273,7 @@ public partial class ConfirmOrder : System.Web.UI.Page
 
                     string billingaddress = name + "," + landmark + "," + address + "," + city + "," + state + "," + pincode + "\n" + "Phone : " + phone;
 
-                   
+
                     if (false && tid != "")
                     {
                         //send mail nd msg
@@ -280,7 +281,7 @@ public partial class ConfirmOrder : System.Web.UI.Page
                         msg = obj.createEmailBodyforConfirmOrder(tid, billingaddress, grandtotamt.ToString(), dscart, dscart.Tables[0].Rows[0]["Delivery_Amount"].ToString(), dscart.Tables[0].Rows[0]["coupon_amt"].ToString(), "Wallet");
                         obj.SendEmail(dscart.Tables[0].Rows[0]["EmailId"].ToString(), msg, "Order Confirmation Mail");
 
-                        
+
                         //send mail nd msg to logistic and retailer
                         string[] cart = cartid.Split(',');
                         string[] logisticId = lid.Split(',');
@@ -299,7 +300,7 @@ public partial class ConfirmOrder : System.Web.UI.Page
                             SMS_RETAILER = SMS_RETAILER + ", Price: " + dscart.Tables[0].Rows[k]["TotalAmount"].ToString();
                             //DataSet dslog = obj.GetLogisticEmailndMobileInfo(logisticId[k]);
                             DataSet dsret = obj.GetReatilerEmailndMobileInfo(cart[k]);
-                            msgretailer = obj.createEmailBodyforRetailerndLogistic(tid, dsret.Tables[0].Rows[0]["raddress"].ToString(), dsret.Tables[0].Rows[0]["rname"].ToString(), dsret.Tables[0].Rows[0]["quantity"].ToString(), dsret.Tables[0].Rows[0]["headertitle"].ToString(), dsret.Tables[0].Rows[0]["mobile"].ToString(), dsret.Tables[0].Rows[0]["prodid"].ToString(), dsret.Tables[0].Rows[0]["org_email"].ToString(), dsret.Tables[0].Rows[0]["totalamount"].ToString(), dsret.Tables[0].Rows[0]["city"].ToString(), dsret.Tables[0].Rows[0]["landmark"].ToString(), dsret.Tables[0].Rows[0]["pincode"].ToString(), dsret.Tables[0].Rows[0]["rstate"].ToString(), billingaddress,"Wallet");
+                            msgretailer = obj.createEmailBodyforRetailerndLogistic(tid, dsret.Tables[0].Rows[0]["raddress"].ToString(), dsret.Tables[0].Rows[0]["rname"].ToString(), dsret.Tables[0].Rows[0]["quantity"].ToString(), dsret.Tables[0].Rows[0]["headertitle"].ToString(), dsret.Tables[0].Rows[0]["mobile"].ToString(), dsret.Tables[0].Rows[0]["prodid"].ToString(), dsret.Tables[0].Rows[0]["org_email"].ToString(), dsret.Tables[0].Rows[0]["totalamount"].ToString(), dsret.Tables[0].Rows[0]["city"].ToString(), dsret.Tables[0].Rows[0]["landmark"].ToString(), dsret.Tables[0].Rows[0]["pincode"].ToString(), dsret.Tables[0].Rows[0]["rstate"].ToString(), billingaddress, "Wallet");
                             obj.SendEmail(dsret.Tables[0].Rows[0]["org_email"].ToString(), msgretailer, "Order Confirmation Mail");
 
                             obj.SendMessage(dscart.Tables[0].Rows[0]["USER_Mobile"].ToString(), SMS_USER);
@@ -339,13 +340,14 @@ public partial class ConfirmOrder : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            
+
         }
         finally
         {
             obj = null;
         }
     }
+
     protected void rbtnAddress_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (rbtnAddress.SelectedIndex == 0)
@@ -361,7 +363,6 @@ public partial class ConfirmOrder : System.Web.UI.Page
 
         }
     }
-
 
     protected void rptCartProds_ItemDataBound(object sender, RepeaterItemEventArgs e)
     {
@@ -391,11 +392,10 @@ public partial class ConfirmOrder : System.Web.UI.Page
         }
     }
 
-
     public string action1 = string.Empty;
     public string hash1 = string.Empty;
 
-    private void payuMoneyAction(string txnid2, string name, string phone1, string address, string city1, string state1, string pincode, string landmark, string amt)
+    private void payuMoneyAction(string name, string phone1, string address, string city1, string state1, string pincode, string landmark, string amt, string email_id)
     {
 
         string[] hashVarsSeq;
@@ -404,36 +404,37 @@ public partial class ConfirmOrder : System.Web.UI.Page
         {
             Random rnd = new Random();
             string strHash = Generatehash512(rnd.ToString() + DateTime.Now);
-           // hash.Value = strHash;
-          var txnid1 = strHash.ToString().Substring(0, 20);
+            // hash.Value = strHash;
+            var txnid1 = strHash.ToString().Substring(0, 20);
 
             txnid.Value = txnid1;
             amount.Value = amt;
             firstname.Value = name;
-            email.Value = "cdivaker@gmail.com";
+            email.Value = email_id.Trim();
             phone.Value = phone1;
             productinfo.Value = "Test Dummay";
             surl.Value = ConfigurationManager.AppSettings["surl"].ToString();
             furl.Value = ConfigurationManager.AppSettings["furl"].ToString();
-            lastname.Value = name;
+            lastname.Value = "";
             curl.Value = ConfigurationManager.AppSettings["curl"].ToString();
             address1.Value = address;
-            address2.Value = address;
+            address2.Value = "";
             city.Value = city1;
             state.Value = state1;
-            country.Value = state1;
+            zipcode.Value = pincode;
+            country.Value = "";
             udf1.Value = "";
             udf2.Value = "";
             udf3.Value = "";
             udf4.Value = "";
             udf5.Value = "";
             pg.Value = "";
-           
 
 
-            if (false) 
+
+            if (false)
             {
-               
+
 
             }
             else
@@ -470,7 +471,7 @@ public partial class ConfirmOrder : System.Web.UI.Page
                     }
                     else if (hash_var == "email")
                     {
-                        hash_string = hash_string +email.Value;
+                        hash_string = hash_string + email.Value;
                         hash_string = hash_string + '|';
                     }
                     else if (hash_var == "udf1")
@@ -488,9 +489,44 @@ public partial class ConfirmOrder : System.Web.UI.Page
                         hash_string = hash_string + udf3.Value;
                         hash_string = hash_string + '|';
                     }
+                    else if (hash_var == "udf4")
+                    {
+                        hash_string = hash_string + udf3.Value;
+                        hash_string = hash_string + '|';
+                    }
+                    else if (hash_var == "udf5")
+                    {
+                        hash_string = hash_string + udf3.Value;
+                        hash_string = hash_string + '|';
+                    }
+                    else if (hash_var == "udf6")
+                    {
+                        hash_string = hash_string + udf3.Value;
+                        hash_string = hash_string + '|';
+                    }
+                    else if (hash_var == "udf7")
+                    {
+                        hash_string = hash_string + udf3.Value;
+                        hash_string = hash_string + '|';
+                    }
+                    else if (hash_var == "udf8")
+                    {
+                        hash_string = hash_string + udf3.Value;
+                        hash_string = hash_string + '|';
+                    }
+                    else if (hash_var == "udf9")
+                    {
+                        hash_string = hash_string + udf3.Value;
+                        hash_string = hash_string + '|';
+                    }
+                    else if (hash_var == "udf10")
+                    {
+                        hash_string = hash_string + udf3.Value;
+                        hash_string = hash_string + '|';
+                    }
                     else
                     {
-                        hash_string = hash_string + (Request.Form["ctl00$ContentPlaceHolder1$"+hash_var] != null ? Request.Form["ctl00$ContentPlaceHolder1$" + hash_var] : "");// isset if else
+                        hash_string = hash_string + "";// isset if else
                         hash_string = hash_string + '|';
                     }
                 }
@@ -517,50 +553,58 @@ public partial class ConfirmOrder : System.Web.UI.Page
 
                 System.Collections.Hashtable data = new System.Collections.Hashtable(); // adding values in gash table for data post
                 data.Add("hash", hash.Value);
+                //data.Add("abc", hash_string);
                 data.Add("txnid", txnid.Value);
                 key.Value = ConfigurationManager.AppSettings["MERCHANT_KEY"].ToString();
                 data.Add("key", key.Value);
                 string AmountForm = Convert.ToDecimal(amt).ToString("g29");// eliminating trailing zeros
 
                 data.Add("amount", AmountForm);
-                data.Add("firstname", name.Trim());
+                data.Add("firstname", firstname.Value.Trim());
                 data.Add("email", email.Value.Trim());
-                data.Add("phone", phone1.Trim());
-                data.Add("productinfo", name.Trim());
-                data.Add("surl", ConfigurationManager.AppSettings["surl"].ToString().Trim());//success url
-                data.Add("furl", ConfigurationManager.AppSettings["furl"].ToString().Trim());//fail url
-                data.Add("lastname", name.Trim());
-                data.Add("curl", ConfigurationManager.AppSettings["curl"].ToString().Trim()); //cancel url
-                data.Add("address1", address.Trim());
-                data.Add("address2", address.Trim());
-                data.Add("city", city1.Trim());
-                data.Add("state", state1.Trim());
-                data.Add("country", state1.Trim());
-                data.Add("zipcode", pincode.Trim());
+                data.Add("phone", phone.Value.Trim());
+                data.Add("productinfo", productinfo.Value.Trim());
+                data.Add("surl", surl.Value.Trim());//success url
+                data.Add("furl", furl.Value.Trim());//fail url
+                data.Add("lastname", lastname.Value.Trim());
+                data.Add("curl", curl.Value.Trim()); //cancel url
+                data.Add("address1", address1.Value.Trim());
+                data.Add("address2", address2.Value.Trim());
+                data.Add("city", city.Value.Trim());
+                data.Add("state", state.Value.Trim());
+                data.Add("country", country.Value.Trim());
+                data.Add("zipcode", zipcode.Value.Trim());
                 data.Add("udf1", udf1.Value.Trim());
                 data.Add("udf2", udf2.Value.Trim());
                 data.Add("udf3", udf3.Value.Trim());
                 data.Add("udf4", udf4.Value.Trim());
                 data.Add("udf5", udf5.Value.Trim());
+                data.Add("udf6", "");
+                data.Add("udf7", "");
+                data.Add("udf8", "");
+                data.Add("udf9", "");
+                data.Add("udf10", "");
                 data.Add("pg", pg.Value.Trim());
                 data.Add("service_provider", service_provider.Value.Trim());
 
                 Session["hastable"] = data;
                 //string strForm = PreparePOSTForm(action1, data);
                 //Session["payForm"] = strForm;
-              // Page.Controls.Add(new LiteralControl(strForm));
+                // Page.Controls.Add(new LiteralControl(strForm));
 
-            }else
+            }
+            else
             {
                 //no hash
 
             }
 
-        }catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             Response.Write("<span style='color:red'>" + ex.Message + "</span>");
         }
-    
+
     }
 
     private string PreparePOSTForm(string url, System.Collections.Hashtable data)      // post form
@@ -594,8 +638,6 @@ public partial class ConfirmOrder : System.Web.UI.Page
         return strForm.ToString() + strScript.ToString();
     }
 
-
-
     public string Generatehash512(string text)
     {
 
@@ -612,6 +654,58 @@ public partial class ConfirmOrder : System.Web.UI.Page
         }
         return hex;
 
+    }
+
+    private void ConfirmPayUMoneyOrder(string payment_mode, string payment_trans_no, string cartid, string amount, string qty)
+    {
+        obj = new DB();
+        string[] str = Session["loginid"].ToString().Split(',');
+        DataSet dscart = obj.GetAllCartIdandQty(str[0]);
+        DataSet dss = obj.GetCartInfoQtyNdAmt(str[0]);
+        string tid = obj.TransactionConfirmation(str[0], null, amount, "PAY", cartid, "S", null, null, qty, payment_mode, payment_trans_no);
+        string name = "", phone = "", pincode = "", state = "", address = "", landmark = "", city = "";
+        string[] add = dss.Tables[0].Rows[0]["Address"].ToString().Split('?');
+        name = add[0];
+        phone = add[1];
+        address = add[2];
+        city = add[3];
+        state = add[4];
+        pincode = add[5];
+        landmark = add[6];
+        string billingaddress = name + "," + landmark + "," + address + "," + city + "," + state + "," + pincode + "\n" + "Phone : " + phone;
+        if (tid != "")
+        {
+            //send mail and msg
+            string msg = "", msgretailer = "";
+            msg = obj.createEmailBodyforConfirmOrder(tid, billingaddress, amount, dscart, dscart.Tables[0].Rows[0]["Delivery_Amount"].ToString(), dscart.Tables[0].Rows[0]["coupon_amt"].ToString(), "PAID VIA PAYUMONEY");
+            obj.SendEmail(dscart.Tables[0].Rows[0]["EmailId"].ToString(), msg, "Order Confirmation Mail");
+
+            //send mail nd msg to logistic and retailer
+            string[] cart = cartid.Split(',');
+            for (int k = 0; k < cart.Length && cart[k] != ""; k++)
+            {
+                string SMS_USER = "";
+                SMS_USER = "You have Successfully Placed your order.";
+                SMS_USER = SMS_USER + " Item: " + dscart.Tables[0].Rows[k]["HeaderTitle"].ToString();
+                SMS_USER = SMS_USER + ", Qty: " + dscart.Tables[0].Rows[k]["OrderedQty"].ToString();
+                SMS_USER = SMS_USER + ", Price :" + dscart.Tables[0].Rows[k]["TotalAmount"].ToString();
+
+                string SMS_RETAILER = "";
+                SMS_RETAILER = "One Product has been sold from your store.";
+                SMS_RETAILER = SMS_RETAILER + " Item: " + dscart.Tables[0].Rows[k]["HeaderTitle"].ToString();
+                SMS_RETAILER = SMS_RETAILER + ", Qty: " + dscart.Tables[0].Rows[k]["OrderedQty"].ToString();
+                SMS_RETAILER = SMS_RETAILER + ", Price: " + dscart.Tables[0].Rows[k]["TotalAmount"].ToString();
+                //DataSet dslog = obj.GetLogisticEmailndMobileInfo(lidid[k]);
+                DataSet dsret = obj.GetReatilerEmailndMobileInfo(cart[k]);
+
+                msgretailer = obj.createEmailBodyforRetailerndLogistic(tid, dsret.Tables[0].Rows[0]["raddress"].ToString(), dsret.Tables[0].Rows[0]["rname"].ToString(), dsret.Tables[0].Rows[0]["quantity"].ToString(), dsret.Tables[0].Rows[0]["headertitle"].ToString(), dsret.Tables[0].Rows[0]["mobile"].ToString(), dsret.Tables[0].Rows[0]["prodid"].ToString(), dsret.Tables[0].Rows[0]["org_email"].ToString(), dsret.Tables[0].Rows[0]["totalamount"].ToString(), dsret.Tables[0].Rows[0]["city"].ToString(), dsret.Tables[0].Rows[0]["landmark"].ToString(), dsret.Tables[0].Rows[0]["pincode"].ToString(), dsret.Tables[0].Rows[0]["rstate"].ToString(), billingaddress, "PAID VIA PAYUMONEY");
+                obj.SendEmail(dsret.Tables[0].Rows[0]["org_email"].ToString(), msgretailer, "Order Confirmation Mail");
+
+                obj.SendMessage(dscart.Tables[0].Rows[0]["User_Mobile"].ToString(), SMS_USER);
+                obj.SendMessage(dsret.Tables[0].Rows[0]["Mobile"].ToString(), SMS_RETAILER);
+
+            }
+        }
     }
 
 }

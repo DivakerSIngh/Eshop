@@ -14,7 +14,7 @@ public partial class ViewProducts : System.Web.UI.Page
     DB obj;
     protected void Page_Load(object sender, EventArgs e)
     {
-        obj = new DB(); 
+        obj = new DB();
 
         if (!Page.IsPostBack)
         {
@@ -28,13 +28,13 @@ public partial class ViewProducts : System.Web.UI.Page
         if (Session["loginid"] != null && Session["loginid"].ToString() != "")
         {
 
-            
 
-        
+
+
         }
         else
         {
-        
+
 
         }
 
@@ -60,22 +60,22 @@ public partial class ViewProducts : System.Web.UI.Page
         (lvProd.FindControl("DataPager1") as DataPager).SetPageProperties(e.StartRowIndex, e.MaximumRows, false);
         this.BindListView();
     }
-    private void BindListView(string brandId=null)
+    private void BindListView(string brandId = null)
     {
         try
         {
-            string cid = null, subcid = null, gender = null, search = null ;
+            string cid = null, subcid = null, gender = null, search = null;
             if (Request.QueryString["cid"] != null && Request.QueryString["cid"].ToString() != "")
             {
-                cid=Request.QueryString["cid"].ToString();
+                cid = Request.QueryString["cid"].ToString();
             }
             if (Request.QueryString["subcid"] != null && Request.QueryString["subcid"].ToString() != "")
             {
-                subcid=Request.QueryString["subcid"].ToString();
+                subcid = Request.QueryString["subcid"].ToString();
             }
             if (Request.QueryString["gender"] != null && Request.QueryString["gender"].ToString() != "")
             {
-                gender=Request.QueryString["gender"].ToString();
+                gender = Request.QueryString["gender"].ToString();
             }
 
             if (Request.QueryString["search"] != null && Request.QueryString["search"].ToString() != "")
@@ -88,18 +88,21 @@ public partial class ViewProducts : System.Web.UI.Page
             if (cid != null || subcid != null || gender != null || search != null)
             {
                 obj = new DB();
-                DataSet ds = obj.GetProducts(subcid,search,cid,gender,brandId);
+                DataSet ds = obj.GetProducts(subcid, search, cid, gender, brandId);
 
                 string pid = "";
-                for (int i = 0; i < ds.Tables[0].Rows.Count;i++ )
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
                     pid += ds.Tables[0].Rows[i]["pid"].ToString() + ",";
                 }
-                pid = pid.Substring(0, pid.Length-1);
+                if (pid.Length > 0)
+                {
+                    pid = pid.Substring(0, pid.Length - 1);
+                }
                 Session["pid"] = pid;
 
 
-                    lvProd.DataSource = ds.Tables[0];
+                lvProd.DataSource = ds.Tables[0];
                 lvProd.DataBind();
                 //get cid for recommended products list
                 string ccid = "";
@@ -107,7 +110,7 @@ public partial class ViewProducts : System.Web.UI.Page
                 {
                     Label mylabel = (Label)item.FindControl("lblcid");
                     ccid = mylabel.Text;
-                    if(ccid != "")
+                    if (ccid != "")
                     {
                         break;
                     }
@@ -133,7 +136,10 @@ public partial class ViewProducts : System.Web.UI.Page
                 {
                     pid += ds.Tables[0].Rows[i]["pid"].ToString() + ",";
                 }
-                pid = pid.Substring(0, pid.Length - 1);
+                if (pid.Length > 0)
+                {
+                    pid = pid.Substring(0, pid.Length - 1);
+                }
                 Session["pid"] = pid;
 
 
@@ -144,13 +150,13 @@ public partial class ViewProducts : System.Web.UI.Page
                 //lvProd.DataBind();
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
 
         }
         finally { obj = null; }
     }
-    
+
     protected void btnViewProdfromList_Command(object sender, CommandEventArgs e)
     {
         string pid = e.CommandArgument.ToString();
@@ -164,43 +170,79 @@ public partial class ViewProducts : System.Web.UI.Page
             obj = new DB();
             if (Session["pid"].ToString() != "")
             {
-                
-                    if (rbtnPrice.SelectedValue == "a")
-                    {
-                        string qry = "select pd.pid,case when len(headertitle) <= 15 then headertitle else (left(HeaderTitle,15)+'...') end as headertitle,pd.sellingprice,pd.costprice,convert(varchar,cast(pd.discount as money))as discount,pd.cid,pd.SubCId,rinfo.RRank,rinfo.UserId from productdescription as pd inner join  RetailerInfo as rinfo on pd.UserId = rinfo.UserId where cast(pd.quantity as bigint) > 0 and pd.pid in (" + Session["pid"].ToString() + ") and cast(sellingprice as bigint) between 0 and 1000";
-                        DataSet ds1 = obj.fillDataSet(qry);
-                        lvProd.DataSource = ds1.Tables[0];
-                        lvProd.DataBind();
-                    }
-                
+
+                if (rbtnPrice.SelectedValue == "a")
+                {
+                    string query = "select pd.pid,case when len(headertitle) <= 15 then headertitle ";
+                    query = query + "else (left(HeaderTitle, 15) + '...') end as headertitle";
+                    query = query + ",PM.measurementTitle measurementTitle, PM.[measurementSellingPrice] sellingprice ,PM.[measurementPrice] costprice, PM.[measurementLeftQuantity] left_qty";
+                    query = query + ",convert(varchar, cast(pm.measurementDiscount as money))as discount,pd.cid,pd.SubCId,rinfo.RRank,rinfo.UserId ";
+                    query = query + "from productdescription as pd ";
+                    query = query + "inner join Brand_Category bc on bc.Brand_Id=pd.Brand_Id ";
+                    query = query + "inner join RetailerInfo as rinfo on pd.UserId = rinfo.UserId ";
+                    query = query + "INNER JOIN ProductMeasurementMapping pm ON pm.id=(SELECT top 1 id FROM ProductMeasurementMapping WHERE PRODUCTID=pd.PID and cast(measurementLeftQuantity as int)>0 ORDER BY cast([measurementSellingPrice] as float))  ";
+                    query = query + "where pd.pid<>0 and PM.[measurementSellingPrice] between 0 and 1000 ";
+
+                    DataSet ds1 = obj.fillDataSet(query);
+                    lvProd.DataSource = ds1.Tables[0];
+                    lvProd.DataBind();
+                }
+
                 else
-                    if(rbtnPrice.SelectedValue == "b")
-                    {
-                        string qry2 = "select pd.pid,case when len(headertitle) <= 15 then headertitle else (left(HeaderTitle,15)+'...') end as headertitle,pd.sellingprice,pd.costprice,convert(varchar,cast(pd.discount as money))as discount,pd.cid,pd.SubCId,rinfo.RRank,rinfo.UserId from productdescription as pd inner join  RetailerInfo as rinfo on pd.UserId = rinfo.UserId where cast(pd.quantity as bigint) > 0 and pd.pid in (" + Session["pid"].ToString() + ") and cast(sellingprice as bigint) between 1000 and 3000";
-                        DataSet dsmax = obj.fillDataSet(qry2);
-                        lvProd.DataSource = dsmax.Tables[0];
-                        lvProd.DataBind();
-                    }
+                if (rbtnPrice.SelectedValue == "b")
+                {
+                    string query = "select pd.pid,case when len(headertitle) <= 15 then headertitle ";
+                    query = query + "else (left(HeaderTitle, 15) + '...') end as headertitle";
+                    query = query + ",PM.measurementTitle measurementTitle, PM.[measurementSellingPrice] sellingprice ,PM.[measurementPrice] costprice, PM.[measurementLeftQuantity] left_qty";
+                    query = query + ",convert(varchar, cast(pm.measurementDiscount as money))as discount,pd.cid,pd.SubCId,rinfo.RRank,rinfo.UserId ";
+                    query = query + "from productdescription as pd ";
+                    query = query + "inner join Brand_Category bc on bc.Brand_Id=pd.Brand_Id ";
+                    query = query + "inner join RetailerInfo as rinfo on pd.UserId = rinfo.UserId ";
+                    query = query + "INNER JOIN ProductMeasurementMapping pm ON pm.id=(SELECT top 1 id FROM ProductMeasurementMapping WHERE PRODUCTID=pd.PID and cast(measurementLeftQuantity as int)>0 ORDER BY cast([measurementSellingPrice] as float))  ";
+                    query = query + "where pd.pid<>0 and PM.[measurementSellingPrice] between 1000 and 3000 ";
+
+                    DataSet dsmax = obj.fillDataSet(query);
+                    lvProd.DataSource = dsmax.Tables[0];
+                    lvProd.DataBind();
+                }
                 else
-                    if(rbtnPrice.SelectedValue == "c")
-                    {
-                        string qry3 = "select pd.pid,case when len(headertitle) <= 15 then headertitle else (left(HeaderTitle,15)+'...') end as headertitle,pd.sellingprice,pd.costprice,convert(varchar,cast(pd.discount as money))as discount,pd.cid,pd.SubCId,rinfo.RRank,rinfo.UserId from productdescription as pd inner join  RetailerInfo as rinfo on pd.UserId = rinfo.UserId where cast(pd.quantity as bigint) > 0 and pd.pid in (" + Session["pid"].ToString() + ") and cast(sellingprice as bigint) between 3000 and 5000";
-                        DataSet dsmax3 = obj.fillDataSet(qry3);
-                        lvProd.DataSource = dsmax3.Tables[0];
-                        lvProd.DataBind();
-                    }
+                if (rbtnPrice.SelectedValue == "c")
+                {
+                    string query = "select pd.pid,case when len(headertitle) <= 15 then headertitle ";
+                    query = query + "else (left(HeaderTitle, 15) + '...') end as headertitle";
+                    query = query + ",PM.measurementTitle measurementTitle, PM.[measurementSellingPrice] sellingprice ,PM.[measurementPrice] costprice, PM.[measurementLeftQuantity] left_qty";
+                    query = query + ",convert(varchar, cast(pm.measurementDiscount as money))as discount,pd.cid,pd.SubCId,rinfo.RRank,rinfo.UserId ";
+                    query = query + "from productdescription as pd ";
+                    query = query + "inner join Brand_Category bc on bc.Brand_Id=pd.Brand_Id ";
+                    query = query + "inner join RetailerInfo as rinfo on pd.UserId = rinfo.UserId ";
+                    query = query + "INNER JOIN ProductMeasurementMapping pm ON pm.id=(SELECT top 1 id FROM ProductMeasurementMapping WHERE PRODUCTID=pd.PID and cast(measurementLeftQuantity as int)>0 ORDER BY cast([measurementSellingPrice] as float))  ";
+                    query = query + "where pd.pid<>0 and PM.[measurementSellingPrice] between 3000 and 5000 ";
+
+                    DataSet dsmax3 = obj.fillDataSet(query);
+                    lvProd.DataSource = dsmax3.Tables[0];
+                    lvProd.DataBind();
+                }
                 else
-                    if(rbtnPrice.SelectedValue == "d")
-                    {
-                        string qry4 = "select pd.pid,case when len(headertitle) <= 15 then headertitle else (left(HeaderTitle,15)+'...') end as headertitle,pd.sellingprice,pd.costprice,convert(varchar,cast(pd.discount as money))as discount,pd.cid,pd.SubCId,rinfo.RRank,rinfo.UserId from productdescription as pd inner join  RetailerInfo as rinfo on pd.UserId = rinfo.UserId where cast(pd.quantity as bigint) > 0 and pd.pid in (" + Session["pid"].ToString() + ") and cast(sellingprice as bigint) between 5000 and 10000";
-                        DataSet dsmax4 = obj.fillDataSet(qry4);
-                        lvProd.DataSource = dsmax4.Tables[0];
-                        lvProd.DataBind();
-                    }
-                
+                if (rbtnPrice.SelectedValue == "d")
+                {
+                    string query = "select pd.pid,case when len(headertitle) <= 15 then headertitle ";
+                    query = query + "else (left(HeaderTitle, 15) + '...') end as headertitle";
+                    query = query + ",PM.measurementTitle measurementTitle, PM.[measurementSellingPrice] sellingprice ,PM.[measurementPrice] costprice, PM.[measurementLeftQuantity] left_qty";
+                    query = query + ",convert(varchar, cast(pm.measurementDiscount as money))as discount,pd.cid,pd.SubCId,rinfo.RRank,rinfo.UserId ";
+                    query = query + "from productdescription as pd ";
+                    query = query + "inner join Brand_Category bc on bc.Brand_Id=pd.Brand_Id ";
+                    query = query + "inner join RetailerInfo as rinfo on pd.UserId = rinfo.UserId ";
+                    query = query + "INNER JOIN ProductMeasurementMapping pm ON pm.id=(SELECT top 1 id FROM ProductMeasurementMapping WHERE PRODUCTID=pd.PID and cast(measurementLeftQuantity as int)>0 ORDER BY cast([measurementSellingPrice] as float))  ";
+                    query = query + "where pd.pid<>0 and PM.[measurementSellingPrice] between 5000 and 10000 ";
+
+                    DataSet dsmax4 = obj.fillDataSet(query);
+                    lvProd.DataSource = dsmax4.Tables[0];
+                    lvProd.DataBind();
+                }
+
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
 
         }

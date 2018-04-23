@@ -266,7 +266,7 @@
                    
                 </div>
 
-                <div class="related-row">
+                <div class="related-row" style="overflow-y:scroll;height:600px;">
                     <h4>Filter By Brand</h4>
                     
 

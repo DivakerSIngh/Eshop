@@ -90,7 +90,7 @@
            
             $scope.chartData = function () {
                 common.httpPost("RetailorDashboard.aspx/getSaleReport", "{'year':'" + 2018 + "','id':'" + loginUserId + "','action':'1'}", false, success = function (data) {
-
+                    debugger
                     $scope.model = data;
                     $.each(data, function (index, item) {
 

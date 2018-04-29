@@ -92,9 +92,7 @@
             });
         });
         $(window).load(function () {
-            
             $('.rating').rating();
-           
             var productId = '<%=hdnlastProductId.Value%>';
             var status = '<%=hdnStatusToCheck.Value %>';
            

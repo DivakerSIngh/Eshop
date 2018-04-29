@@ -30,7 +30,7 @@ public partial class CheckOut : System.Web.UI.Page
                         lblQuantity.Text = ds.Tables[0].Rows[0]["qty"].ToString();
                         lblprice.Text = ds.Tables[0].Rows[0]["totalamount"].ToString();
                         lblCouponAmt.Text = ds.Tables[0].Rows[0]["Coupon_Amt"].ToString();
-                        lblDeliveryAmt.Text = ds.Tables[0].Rows[0]["Delivery_Amount"].ToString();
+                        lblDeliveryAmt.Text = ds.Tables[0].Rows[0]["User_Shipping_Chrg"].ToString();
                         lblTotAmt.Text = (Convert.ToDecimal(lblprice.Text) + Convert.ToDecimal(lblDeliveryAmt.Text) - Convert.ToDecimal(lblCouponAmt.Text)).ToString();
                     }
                     Load_DefaultAddress(usersid[0]);

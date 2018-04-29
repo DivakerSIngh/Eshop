@@ -961,7 +961,7 @@ public class DB
     }
 
 
-    public int AddNewCartProdInfo(string pid, string userid, string rid, string amt, string size = "", string costprice = "", string discount = "", string qty = "", string deleveryamt = "", string lid = "")
+    public int AddNewCartProdInfo(string pid, string userid, string rid, string amt, string size = "", string costprice = "", string discount = "", string qty = "", string deleveryamt = "", string lid = "",string User_Shipping_Chrg="0")
     {
         int i = 0;
         try
@@ -988,6 +988,7 @@ public class DB
                 cmd.Parameters.AddWithValue("@discount", discount);
                 cmd.Parameters.AddWithValue("@qty", qty);
                 cmd.Parameters.AddWithValue("@lid", lid);
+                cmd.Parameters.AddWithValue("@User_Shipping_Chrg", User_Shipping_Chrg);
 
                 con.Open();
                 i = cmd.ExecuteNonQuery();
@@ -6173,6 +6174,37 @@ public class DB
             con.Close();
         }
         return ds;
+    }
+
+    public int Update_Shipping_Charges(string userid, decimal shp_chrg)
+    {
+        int i = 0;
+        try
+        {
+
+            con = new SqlConnection(DB.constr);
+            cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.CommandText = "EShop_Update_Shipping_Charges";
+
+            cmd.Parameters.AddWithValue("@USERID", userid);
+            cmd.Parameters.AddWithValue("@USER_SHIPPING_CHRG", shp_chrg);
+            con.Open();
+            i = cmd.ExecuteNonQuery();
+
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+        return i;
     }
     #endregion
 

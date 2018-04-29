@@ -90,7 +90,14 @@ public partial class CartInfo : System.Web.UI.Page
                 lblQuantity1.Text = qty.ToString();
                 lblMrpAmpt.Text = mrp_amt.ToString();
                 lblDiscount.Text = discount.ToString();
-                lblDeleiveryCharge.Text = ds.Tables[0].Rows[0]["Delivery_Amount"].ToString();
+                if((price_amt-discount)>=500)
+                {
+                    lblDeleiveryCharge.Text = "0.00";
+                }
+                else
+                {
+                    lblDeleiveryCharge.Text = "49";
+                }
                 lblPriceAmt.Text = price_amt.ToString();
                 lblCouponDiscount.Text = ds.Tables[0].Rows[0]["Coupon_Amt"].ToString();
 
@@ -223,6 +230,8 @@ public partial class CartInfo : System.Web.UI.Page
             }
             if (i > 0)
             {
+                string user = Session["loginid"].ToString().Split(',')[0];
+                obj.Update_Shipping_Charges(user, Convert.ToDecimal(lblDeleiveryCharge.Text.Trim()));
                 string finalRPin = RetailerPin.Remove(0, 1);
                 string finalWt = weight.Remove(0, 1);
                 Session["RPin"] = finalRPin;

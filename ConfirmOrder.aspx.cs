@@ -101,8 +101,8 @@ public partial class ConfirmOrder : System.Web.UI.Page
             //    amt += Convert.ToDecimal(ds.Tables[0].Rows[i]["sellingprice"].ToString());
             //}
             //lblPriceAmt.Text = amt.ToString();
-            lblTotAmt.Text = (Convert.ToDecimal(lblPriceAmt.Text) + Convert.ToDecimal(ds.Tables[0].Rows[0]["delivery_amount"].ToString()) - Convert.ToDecimal(ds.Tables[0].Rows[0]["coupon_amt"].ToString())).ToString();
-            lblDeliveryCharge.Text = ds.Tables[0].Rows[0]["delivery_amount"].ToString();
+            lblTotAmt.Text = (Convert.ToDecimal(lblPriceAmt.Text) + Convert.ToDecimal(ds.Tables[0].Rows[0]["USER_SHIPPING_CHRG"].ToString()) - Convert.ToDecimal(ds.Tables[0].Rows[0]["coupon_amt"].ToString())).ToString();
+            lblDeliveryCharge.Text = ds.Tables[0].Rows[0]["USER_SHIPPING_CHRG"].ToString();
             if (ds.Tables[0].Rows[0]["coupon_amt"].ToString() == "0.00")
             {
                 lblCouponInfo.Text = "No Coupon Applied.";

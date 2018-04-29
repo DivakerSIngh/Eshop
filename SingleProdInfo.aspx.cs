@@ -181,6 +181,7 @@ public partial class SingleProdInfo : System.Web.UI.Page
                 string qty = "1";
                 string deliveryamt = ViewState["delAmt"]==null ? "0" : ViewState["delAmt"].ToString();// hf_deliveryAmt.Value;//"150";
                 string lid = ViewState["lid"]==null ? "0" : ViewState["lid"].ToString(); //hf_logistic_id.Value;
+                string User_Shipping_Chrg = Session["User_Shipping_Chrg"] == null ? "0" : Session["User_Shipping_Chrg"].ToString();
 
                 obj = new DB();
                 string size = "";
@@ -192,7 +193,7 @@ public partial class SingleProdInfo : System.Web.UI.Page
                     size = ddlsize.SelectedValue;
                 }
                 string[] str = Session["loginid"].ToString().Split(',');
-                int i = obj.AddNewCartProdInfo(pid, str[0], rid, amt, size, costprice, discount, qty, deliveryamt, lid);
+                int i = obj.AddNewCartProdInfo(pid, str[0], rid, amt, size, costprice, discount, qty, deliveryamt, lid, User_Shipping_Chrg);
                 if (i > 0)
                 {
                     //this.Master.cartCount = (Convert.ToInt32(this.Master.cartCount) + 1).ToString();
@@ -287,11 +288,13 @@ public partial class SingleProdInfo : System.Web.UI.Page
             string UserPincode = "";
             double weight = 0.00;
             int cid = 0;
+            double selling_price = 0;
             foreach (DataListItem item in this.dlProdInfo.Items)
             {
                 UserPincode = (item.FindControl("txtLocation") as TextBox).Text;
                 weight = Convert.ToDouble((item.FindControl("lblWt") as Label).Text);
                 cid = Convert.ToInt32((item.FindControl("lblcid") as Label).Text);
+                selling_price = Convert.ToDouble((item.FindControl("lblSP") as Label).Text);
             }
             //TextBox txtuserpin = (TextBox)dlProdInfo.FindControl("txtLocation");
             //string ddl_selectedvalue = ((TextBox)txtRpin.NamingContainer.FindControl("txtLocation")).Text.Trim();
@@ -345,10 +348,19 @@ public partial class SingleProdInfo : System.Web.UI.Page
                         {
                             if (distance <= 12)
                             {
+                                if(selling_price<500)
+                                {
+                                    Session["User_Shipping_Chrg"] = "49";
+                                }
+                                else
+                                {
+                                    Session["User_Shipping_Chrg"] = "0";
+                                }
                                 count += 1;
                             }
                             else
                             {
+                                Session["User_Shipping_Chrg"] = "0";
                                 hf_CheckPin.Value = "";
                                 ViewState["CheckPin"] = "";
                                 hf_deliveryAmt.Value = "0";
@@ -358,6 +370,14 @@ public partial class SingleProdInfo : System.Web.UI.Page
                         }
                         else
                         {
+                            if (selling_price < 500)
+                            {
+                                Session["User_Shipping_Chrg"] = "49";
+                            }
+                            else
+                            {
+                                Session["User_Shipping_Chrg"] = "0";
+                            }
                             count += 1;
                         }
                         

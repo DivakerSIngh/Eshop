@@ -32,9 +32,9 @@ public partial class MyOrder : System.Web.UI.Page
         try
         {
             obj = new DB();
-            DataSet ds = obj.GetAllMyOrderList(userid);
-            rptMyOrder.DataSource = ds.Tables[0];
-            rptMyOrder.DataBind();
+            DataSet ds = obj.GetTransId(userid);
+            rptTrans.DataSource = ds.Tables[0];
+            rptTrans.DataBind();
             if(ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 pnlMsg.Visible=false;
@@ -57,10 +57,8 @@ public partial class MyOrder : System.Web.UI.Page
 
     protected void rptMyOrder_ItemDataBound(object sender, RepeaterItemEventArgs e)
     {
-        if (e.Item.ItemType == ListItemType.Item ||
-     e.Item.ItemType == ListItemType.AlternatingItem)
+        if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
         {
-
             var image = (HtmlImage)e.Item.FindControl("imgprod");
             var pid = (Label)e.Item.FindControl("lblpid");
             var cartid = (Label)e.Item.FindControl("lblCartId");
@@ -139,5 +137,21 @@ public partial class MyOrder : System.Web.UI.Page
             db.SendEmail(email, msg, "One order is return by User");
         }
         load_myorderList(usersid[0]);
+    }
+
+
+    protected void rptTrans_ItemDataBound(object sender, RepeaterItemEventArgs e)
+    {
+        if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+        {
+            Repeater rptMyOrder = (Repeater)e.Item.FindControl("rptMyOrder");
+            HiddenField id = (HiddenField)e.Item.FindControl("hdnTrans");
+            obj = new DB();
+            DataSet ds1 = obj.GetAllMyOrderList(id.Value);
+
+            //Need to assign the Data in datatable
+            rptMyOrder.DataSource = ds1;
+            rptMyOrder.DataBind();
+        }
     }
 }

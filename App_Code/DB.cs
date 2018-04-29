@@ -4868,12 +4868,37 @@ public class DB
     }
 
 
-    public DataSet GetAllMyOrderList(string userid)
+    public DataSet GetAllMyOrderList(string transid)
     {
         try
         {
             con = new SqlConnection(DB.constr);
             da = new SqlDataAdapter("EShop_GetAllMyOrderList", con);
+            da.SelectCommand.CommandType = CommandType.StoredProcedure;
+            da.SelectCommand.Parameters.Clear();
+            da.SelectCommand.Parameters.AddWithValue("@TRANSID", transid);
+
+            ds = new DataSet();
+            da.Fill(ds);
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+        return ds;
+    }
+
+    public DataSet GetTransId(string userid)
+    {
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            da = new SqlDataAdapter("EShop_GetTransactio_Id", con);
             da.SelectCommand.CommandType = CommandType.StoredProcedure;
             da.SelectCommand.Parameters.Clear();
             da.SelectCommand.Parameters.AddWithValue("@userid", userid);

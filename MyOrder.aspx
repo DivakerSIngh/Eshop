@@ -13,54 +13,56 @@
         }
     </script>
     <style>
-        .btn-return{
+        .btn-return {
             color: white;
-    float: right;
-    margin-top: -11%;
-    background: #337ab7;
-    border: none;
-    padding: 6px;
-    margin-right: 100px;
-        }
-
-        .btn-returned{
-            color: white;
-    float: right;
-    margin-top: -11%;
-    background: #f44336;
-    border: none;
-    padding: 6px;
-    margin-right: 100px;
-        }
-
-       .btn-cancel {
             float: right;
-    margin-top: -11%;
-    border: none;
-    padding: 6px;
+            margin-top: -11%;
+            background: #337ab7;
+            border: none;
+            padding: 6px;
+            margin-right: 100px;
         }
-       .btn-canceled{
-           color: white;
-    float: right;
-    margin-top: -11%;
-    background: #f44336;
-    border: none;
-    padding: 6px;
-       }
-       .seprate{
-           border-bottom: 2px dotted red;
-       }
+
+        .btn-returned {
+            color: white;
+            float: right;
+            margin-top: -11%;
+            background: #f44336;
+            border: none;
+            padding: 6px;
+            margin-right: 100px;
+        }
+
+        .btn-cancel {
+            float: right;
+            margin-top: -11%;
+            border: none;
+            padding: 6px;
+        }
+
+        .btn-canceled {
+            color: white;
+            float: right;
+            margin-top: -11%;
+            background: #f44336;
+            border: none;
+            padding: 6px;
+        }
+
+        .seprate {
+            border-bottom: 2px dotted red;
+        }
     </style>
     <script>
         $(function () {
-            
+
             var count = 0;
             var id = "";
             $('.transId-class').each(function () {
-                
-                
+
+
                 var transId = $(this).find('input[type=hidden]').val();
-                if (count == 0){
+                if (count == 0) {
                     id = transId;
                     count++;
                 }
@@ -72,11 +74,11 @@
                         $(this).addClass('seprate');
                         count = 0;
                         id = "";
-                    } 
+                    }
                 }
 
             })
-            
+
 
         })
     </script>
@@ -86,42 +88,42 @@
             var boolStatus = false;
             if (Convert.ToInt32(status) < 7)
             {
-            boolStatus = true;
+                boolStatus = true;
             }
 
             return boolStatus;
         }
-         private bool canceledOrderVisible(object status)
+        private bool canceledOrderVisible(object status)
         {
             var boolStatus = false;
-            if (Convert.ToInt32(status)==7)
+            if (Convert.ToInt32(status) == 7)
             {
-              boolStatus = true;
+                boolStatus = true;
             }
 
             return boolStatus;
         }
-         private bool returnProduct(object returnPolicy,object status)
+        private bool returnProduct(object returnPolicy, object status)
         {
             var boolStatus = false;
             if (returnPolicy.ToString() == "true")
             {
-              boolStatus = true;
+                boolStatus = true;
             }
 
             return boolStatus;
         }
-          private string productDetails(object title,object returnPolicy)
+        private string productDetails(object title, object returnPolicy)
         {
-            return Convert.ToString(title)+"        ("+ Convert.ToString(returnPolicy)+")";
+            return Convert.ToString(title) + "        (" + Convert.ToString(returnPolicy) + ")";
         }
 
-        
-        
-      
-        
 
-        
+
+
+
+
+
     </script>
 
 </asp:Content>
@@ -131,7 +133,8 @@
     <div class="cart-container">
         <div class="cart-left">
             <div class="head">
-                <asp:Label ID="lblCartNum" runat="server" Text="My Orders"></asp:Label></div>
+                <asp:Label ID="lblCartNum" runat="server" Text="My Orders"></asp:Label>
+            </div>
             <asp:Panel ID="pnlMsg" runat="server">
 
                 <div class="msg">
@@ -149,61 +152,71 @@
                 runat="server">
 
                 <ItemTemplate>
-                    <asp:Panel  CssClass="transId-class"  runat="server" >
+                    <asp:Panel CssClass="transId-class" runat="server">
                         <asp:HiddenField ID="hdnTrans" runat="server" Value='<%# Eval("TransId") %>' />
-                 
-                    <div class="boddy">
-                        <div class="boddy1">
-                            <a href="#" class="sheru">
-                                <img id="imgprod" runat="server" />
-                            </a>
-                            <div class="boddy11">
-                                <div class="boddy111">
-                                    <asp:Label ID="lblHeaderTitle" CssClass="headerText" runat="server" Text='<%# productDetails(Eval("headertitle"),Eval("returnpolicy"))%>'></asp:Label>
-                                    
-                                    <asp:Label ID="lblpid" Visible="false" runat="server" Text='<%# Eval("prodid") %>'></asp:Label>
-                                    <asp:Label ID="lblCartId" Visible="false" runat="server" Text='<%# Eval("CartId") %>'></asp:Label>
-                                </div>
-                                <div class="boddy112">
-                                    Size :
-                                    <asp:Label ID="lblSize" runat="server" Text='<%# Eval("size") %>'></asp:Label>
-                                </div>
-                                <div class="boddy113">
-                                    <asp:Label ID="lblSellerName" runat="server" Text='<%# Eval("Org_Name") %>'></asp:Label>
-                                </div>
-                                <div class="boddy114">
-                                    <div class="boddy1111">
-                                        ₹<asp:Label ID="lblSP" runat="server" Text='<%# Eval("sellingprice") %>'></asp:Label>
+                        <%--<asp:Label ID="lblTransid" runat="server" Text='<%# Eval("TransId") %>'></asp:Label>--%>
+                        <div class="boddy">
+                            <div class="boddy1">
+                                <a href="#" class="sheru">
+                                    <img id="imgprod" runat="server" />
+                                </a>
+                                <div class="boddy11">
+                                    <div class="boddy111">
+                                        <asp:Label ID="lblHeaderTitle" CssClass="headerText" runat="server" Text='<%# productDetails(Eval("headertitle"),Eval("returnpolicy"))%>'></asp:Label>
+
+                                        <asp:Label ID="lblpid" Visible="false" runat="server" Text='<%# Eval("prodid") %>'></asp:Label>
+                                        <asp:Label ID="lblCartId" Visible="false" runat="server" Text='<%# Eval("CartId") %>'></asp:Label>
                                     </div>
-                                    
+                                    <div class="boddy112">
+                                        Size :
+                                    <asp:Label ID="lblSize" runat="server" Text='<%# Eval("size") %>'></asp:Label>
+                                    </div>
+                                    <div class="boddy113">
+                                        <asp:Label ID="lblSellerName" runat="server" Text='<%# Eval("Org_Name") %>'></asp:Label>
+                                    </div>
+                                    <div class="boddy114">
+                                        <div class="boddy1111">
+                                            ₹<asp:Label ID="lblSP" runat="server" Text='<%# Eval("sellingprice") %>'></asp:Label>
+                                        </div>
+
+                                    </div>
+
                                 </div>
+                                <div class="body12"></div>
+                                <asp:HiddenField ID="hdnOrderId" runat="server" Value='<%# Eval("CartId") %>' />
+                                <asp:Button ID="btnCancelOrder" Visible='<%#cancelOrderVisible(Eval("Status")) %>' CommandArgument='<%# Eval("CartId")+"~"+Eval("LId")+"~"+Eval("headertitle")+"~"+Eval("prodid") %>' OnCommand="btnCancelOrder_Command" CssClass="btn-primary btn-cancel" Text="Cancel Order" runat="server" />
+                                <asp:Button ID="Button1" Visible='<%#canceledOrderVisible(Eval("Status")) %>' CssClass="btn-canceled" Text="Canceled" runat="server" />
+                                <asp:Button ID="btnReturn" Visible='<%# (Convert.ToInt32(Eval("Status"))==5)?true:false%>' CommandArgument='<%# Eval("CartId")+"~"+Eval("LId")+"~"+Eval("headertitle")+"~"+Eval("prodid") %>' CssClass="btn-return" Text="Return Product" runat="server" OnCommand="btnReturn_Command" />
+                                <asp:Button ID="Button2" Visible='<%# (Convert.ToInt32(Eval("ReturnStatus"))==1)?true:false%>' CssClass="btn-returned" Text="Returned" runat="server" />
+
 
                             </div>
-                            <div class="body12"></div>
-                            <asp:HiddenField ID="hdnOrderId" runat="server" Value='<%# Eval("CartId") %>' />
-                            <asp:Button ID="btnCancelOrder" Visible='<%#cancelOrderVisible(Eval("Status")) %>' CommandArgument='<%# Eval("CartId")+"~"+Eval("LId")+"~"+Eval("headertitle")+"~"+Eval("prodid") %>' OnCommand="btnCancelOrder_Command" CssClass="btn-primary btn-cancel" Text="Cancel Order" runat="server" />
-                             <asp:Button ID="Button1" Visible='<%#canceledOrderVisible(Eval("Status")) %>'  CssClass="btn-canceled" Text="Canceled" runat="server" />
-                             <asp:Button ID="btnReturn" Visible='<%# (Convert.ToInt32(Eval("Status"))==5)?true:false%>' CommandArgument='<%# Eval("CartId")+"~"+Eval("LId")+"~"+Eval("headertitle")+"~"+Eval("prodid") %>'  CssClass="btn-return" Text="Return Product" runat="server" OnCommand="btnReturn_Command" />
-                             <asp:Button ID="Button2" Visible='<%# (Convert.ToInt32(Eval("ReturnStatus"))==1)?true:false%>'  CssClass="btn-returned" Text="Returned" runat="server"    />
-                             
+                            <div class="boddy2">
 
-                        </div>
-                        <div class="boddy2">
-                            
-                            <div class="boddy22">
-                                <div class="boddy221">
-                                    Quantity : <asp:Label ID="Label1" runat="server" Text='<%# Eval("cquantity") %>'></asp:Label>
+                                <div class="boddy22">
+                                    <div class="boddy221">
+                                        Quantity :
+                                        <asp:Label ID="Label1" runat="server" Text='<%# Eval("cquantity") %>'></asp:Label>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="boddy2">
                                 <div class="boddy222">
-                                    
+                                    Delivery Address :
+                                    <asp:Label ID="Label2" runat="server" Text='<%# Eval("Address") %>'></asp:Label>
                                 </div>
                             </div>
                         </div>
-                       
-                    </div>
-                           </asp:Panel>
+                    </asp:Panel>
 
                 </ItemTemplate>
+                <SeparatorTemplate>
+                    <tr>
+                        <td colspan="2">
+                            <hr  class="seprate"/>
+                        </td>
+                    </tr>
+                </SeparatorTemplate>
             </asp:Repeater>
 
 

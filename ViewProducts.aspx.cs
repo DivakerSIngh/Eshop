@@ -166,7 +166,6 @@ public partial class ViewProducts : System.Web.UI.Page
     {
         try
         {
-
             obj = new DB();
             if (Session["pid"].ToString() != "")
             {

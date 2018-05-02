@@ -136,6 +136,12 @@
                                         <div class="boddy113">
                                             <asp:Label ID="lblSellerName" runat="server" Text='<%# Eval("Org_Name") %>'></asp:Label>
                                         </div>
+                                        <div class="boddy113">
+                                            <asp:Label ID="lblBrand" runat="server" Text='<%# Eval("brand_title") %>'></asp:Label>
+                                        </div>
+                                        <div class="boddy113">
+                                            <asp:Label ID="lblColors" runat="server" Text='<%# Eval("colors") %>'></asp:Label>
+                                        </div>
                                         <div class="boddy114">
                                             <div class="boddy1111">
                                                 ₹<asp:Label ID="lblSP" runat="server" Text='<%# Eval("sellingprice") %>'></asp:Label>

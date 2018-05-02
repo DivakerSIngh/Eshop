@@ -78,7 +78,7 @@ public partial class Admin_CreateEmp : System.Web.UI.Page
             obj = new DB();
             if (btnSave.Text == "Save")
             {
-                if (txtMob.Text.Trim() != "" && txtPwd.Text.Trim() != "" && txtName.Text.Trim() != "" && txtAddress.Text.Trim() != "" && txtEmail.Text.Trim() != "")
+                if (txtMob.Text.Trim() != "" && txtPwd.Text.Trim() != "" && txtName.Text.Trim() != "")
                 {
                 int i = obj.AddEmployeeInfo(txtMob.Text, txtPwd.Text, txtName.Text, txtAddress.Text, txtEmail.Text);
                 if (i > 0)
@@ -99,7 +99,7 @@ public partial class Admin_CreateEmp : System.Web.UI.Page
             }
             else
             {
-                if (txtMob.Text.Trim() != "" && txtPwd.Text.Trim() != "" && txtName.Text.Trim() != "" && txtAddress.Text.Trim() != "" && txtEmail.Text.Trim() != "")
+                if (txtMob.Text.Trim() != "" && txtPwd.Text.Trim() != "" && txtName.Text.Trim() != "")
                 {
                     string empid = Request.QueryString["empid"].ToString();
                     int i = 0;

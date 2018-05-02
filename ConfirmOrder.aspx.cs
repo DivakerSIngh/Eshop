@@ -206,12 +206,14 @@ public partial class ConfirmOrder : System.Web.UI.Page
                         SMS_USER = SMS_USER + " Item: " + dscart.Tables[0].Rows[k]["HeaderTitle"].ToString();
                         SMS_USER = SMS_USER + ", Qty: " + dscart.Tables[0].Rows[k]["OrderedQty"].ToString();
                         SMS_USER = SMS_USER + ", Price :" + dscart.Tables[0].Rows[k]["TotalAmount"].ToString();
+                        SMS_USER = SMS_USER + ", Size :" + dscart.Tables[0].Rows[k]["size"].ToString();
 
                         string SMS_RETAILER = "";
                         SMS_RETAILER = "One Product has been sold from your store.";
                         SMS_RETAILER = SMS_RETAILER + " Item: " + dscart.Tables[0].Rows[k]["HeaderTitle"].ToString();
                         SMS_RETAILER = SMS_RETAILER + ", Qty: " + dscart.Tables[0].Rows[k]["OrderedQty"].ToString();
                         SMS_RETAILER = SMS_RETAILER + ", Price: " + dscart.Tables[0].Rows[k]["TotalAmount"].ToString();
+                        SMS_RETAILER = SMS_RETAILER + ", Size: " + dscart.Tables[0].Rows[k]["size"].ToString();
                         //DataSet dslog = obj.GetLogisticEmailndMobileInfo(lidid[k]);
                         DataSet dsret = obj.GetReatilerEmailndMobileInfo(cart[k]);
 
@@ -292,12 +294,15 @@ public partial class ConfirmOrder : System.Web.UI.Page
                             SMS_USER = SMS_USER + " Item: " + dscart.Tables[0].Rows[k]["HeaderTitle"].ToString();
                             SMS_USER = SMS_USER + ", Qty: " + dscart.Tables[0].Rows[k]["OrderedQty"].ToString();
                             SMS_USER = SMS_USER + ", Price: " + dscart.Tables[0].Rows[k]["TotalAmount"].ToString();
+                            SMS_USER = SMS_USER + ", Size :" + dscart.Tables[0].Rows[k]["size"].ToString();
 
                             string SMS_RETAILER = "";
                             SMS_RETAILER = "One Product has been sold from your store.";
                             SMS_RETAILER = SMS_RETAILER + " Item: " + dscart.Tables[0].Rows[k]["HeaderTitle"].ToString();
                             SMS_RETAILER = SMS_RETAILER + ", Qty: " + dscart.Tables[0].Rows[k]["OrderedQty"].ToString();
                             SMS_RETAILER = SMS_RETAILER + ", Price: " + dscart.Tables[0].Rows[k]["TotalAmount"].ToString();
+                            SMS_RETAILER = SMS_RETAILER + ", Size: " + dscart.Tables[0].Rows[k]["size"].ToString();
+
                             //DataSet dslog = obj.GetLogisticEmailndMobileInfo(logisticId[k]);
                             DataSet dsret = obj.GetReatilerEmailndMobileInfo(cart[k]);
                             msgretailer = obj.createEmailBodyforRetailerndLogistic(tid, dsret.Tables[0].Rows[0]["raddress"].ToString(), dsret.Tables[0].Rows[0]["rname"].ToString(), dsret.Tables[0].Rows[0]["quantity"].ToString(), dsret.Tables[0].Rows[0]["headertitle"].ToString(), dsret.Tables[0].Rows[0]["mobile"].ToString(), dsret.Tables[0].Rows[0]["prodid"].ToString(), dsret.Tables[0].Rows[0]["org_email"].ToString(), dsret.Tables[0].Rows[0]["totalamount"].ToString(), dsret.Tables[0].Rows[0]["city"].ToString(), dsret.Tables[0].Rows[0]["landmark"].ToString(), dsret.Tables[0].Rows[0]["pincode"].ToString(), dsret.Tables[0].Rows[0]["rstate"].ToString(), billingaddress, "Wallet");
@@ -689,12 +694,15 @@ public partial class ConfirmOrder : System.Web.UI.Page
                 SMS_USER = SMS_USER + " Item: " + dscart.Tables[0].Rows[k]["HeaderTitle"].ToString();
                 SMS_USER = SMS_USER + ", Qty: " + dscart.Tables[0].Rows[k]["OrderedQty"].ToString();
                 SMS_USER = SMS_USER + ", Price :" + dscart.Tables[0].Rows[k]["TotalAmount"].ToString();
+                SMS_USER = SMS_USER + ", Size :" + dscart.Tables[0].Rows[k]["size"].ToString();
 
                 string SMS_RETAILER = "";
                 SMS_RETAILER = "One Product has been sold from your store.";
                 SMS_RETAILER = SMS_RETAILER + " Item: " + dscart.Tables[0].Rows[k]["HeaderTitle"].ToString();
                 SMS_RETAILER = SMS_RETAILER + ", Qty: " + dscart.Tables[0].Rows[k]["OrderedQty"].ToString();
                 SMS_RETAILER = SMS_RETAILER + ", Price: " + dscart.Tables[0].Rows[k]["TotalAmount"].ToString();
+                SMS_RETAILER = SMS_RETAILER + ", Size: " + dscart.Tables[0].Rows[k]["size"].ToString();
+
                 //DataSet dslog = obj.GetLogisticEmailndMobileInfo(lidid[k]);
                 DataSet dsret = obj.GetReatilerEmailndMobileInfo(cart[k]);
 

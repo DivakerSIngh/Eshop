@@ -1516,7 +1516,7 @@ public class DB
 
             }
             prodrow = prodrow.Replace("{Qty}", ds.Tables[0].Rows[i]["OrderedQty"].ToString());
-            prodrow = prodrow.Replace("{ProductName}", ds.Tables[0].Rows[i]["HeaderTitle"].ToString());
+            prodrow = prodrow.Replace("{ProductName}", ds.Tables[0].Rows[i]["HeaderTitle"].ToString()+ "( "+ ds.Tables[0].Rows[i]["size"].ToString()+" )");
             prodrow = prodrow.Replace("{Price}", ds.Tables[0].Rows[i]["TotalAmount"].ToString());
             div += prodrow;
         }

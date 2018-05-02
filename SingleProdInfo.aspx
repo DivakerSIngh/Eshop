@@ -235,22 +235,22 @@
                             <ul class="slides">
                                 <li data-thumb="" id="img11" runat="server">
                                     <div class="thumb-image detail_images">
-                                        <img src="" id="img1" runat="server" data-imagezoom="true" class="img-responsive" alt="" />
+                                        <img visible="false" src="" id="img1" runat="server" data-imagezoom="true" class="img-responsive" alt="" />
                                     </div>
                                 </li>
                                 <li data-thumb="" id="img12" runat="server">
                                     <div class="thumb-image">
-                                        <img src="" id="img2" runat="server" data-imagezoom="true" class="img-responsive" alt="" />
+                                        <img visible="false" src="" id="img2" runat="server" data-imagezoom="true" class="img-responsive" alt="" />
                                     </div>
                                 </li>
                                 <li data-thumb="" id="img13" runat="server">
                                     <div class="thumb-image">
-                                        <img src="" id="img3" runat="server" data-imagezoom="true" class="img-responsive" alt=""/>
+                                        <img visible="false" src="" id="img3" runat="server" data-imagezoom="true" class="img-responsive" alt=""/>
                                     </div>
                                 </li>
                                 <li data-thumb="" id="img14" runat="server">
                                     <div class="thumb-image">
-                                        <img src="" data-imagezoom="true" id="img4" runat="server" class="img-responsive" alt="" />
+                                        <img visible="false" src="" data-imagezoom="true" id="img4" runat="server" class="img-responsive" alt="" />
                                     </div>
                                 </li>
                             </ul>
@@ -292,7 +292,18 @@
                                         <li><a href="#"><i class="fa fa-gift" aria-hidden="true"></i>Coupon</a></li>--%>
                                     </ul>
                                 </div>
-                            <div class="size-dropdown"><label>Seller Name: &nbsp;</label><asp:Label ID="lblRname" runat="server" Text='<%# Eval("org_name") %>'></asp:Label></div>
+                            <div class="size-dropdown">
+                                <label>Seller Name: &nbsp;</label>
+                                <asp:Label ID="lblRname" runat="server" Text='<%# Eval("org_name") %>'></asp:Label>
+                            </div>
+                            <div class="size-dropdown">
+                                <label>Brand: &nbsp;</label>
+                                <asp:Label ID="lblBrand" runat="server" Text='<%# Eval("Brand_Title") %>'></asp:Label>
+                            </div>
+                            <div class="size-dropdown">
+                                <label>Color: &nbsp;</label>
+                                <asp:Label ID="lblColor" runat="server" Text='<%# Eval("colors") %>'></asp:Label>
+                            </div>
 
                                  <div class="size-dropdown">
                                      <label>Choose Size: &nbsp;</label>

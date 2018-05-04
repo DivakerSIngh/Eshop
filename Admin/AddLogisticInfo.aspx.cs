@@ -74,7 +74,9 @@ public partial class Logistic_AddLogisticInfo : System.Web.UI.Page
                     {
                         lbPincodeList.Items.Add(pin);
                     }
-                    
+                    lbPincodeList.SelectedIndex = 0;
+
+
                 }
             }
             else

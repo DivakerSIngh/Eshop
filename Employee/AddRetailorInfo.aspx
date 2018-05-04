@@ -51,7 +51,12 @@
                 
                 $scope.loading = true;
                 common.httpPost("AddRetailorInfo.aspx/addRetailer", "{'mobile':" + $scope.retailer.Mobile + ",'loginId':" + $('#hdnLoginId').val() + "}", false, success = function (data) {
-                    
+                    if ($scope.retailerList.length == JSON.parse(data).length) {
+                        toastr.error('Mobile no already exist !');
+                    } else {
+                        $scope.retailer.Mobile = "";
+                        toastr.success('Retailer added successfull !');
+                    }
                     $scope.retailerList = JSON.parse(data);
                     $scope.loading = false;
                 }, failure = function (response) { });

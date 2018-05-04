@@ -75,7 +75,12 @@
                 
                 $scope.loading = true;
                 common.httpPost("AddUsers.aspx/addUser", "{'mobile':" + $scope.User.Mobile + ",'loginId':" + $('#hdnLoginId').val() + "}", false, success = function (data) {
-                    
+                    if ($scope.UserList.length == JSON.parse(data).length) {
+                        toastr.error('Mobile no already exist !');
+                    } else {
+                        $scope.User.Mobile = "";
+                        toastr.success('User added successfull !');
+                    }
                     $scope.UserList = JSON.parse(data);
                     $scope.loading = false;
                 }, failure = function (response) { });

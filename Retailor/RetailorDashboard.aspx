@@ -86,7 +86,7 @@
             $scope.orderList = [];
             $scope.fromdate = "";
             $scope.todate = "";
-            $scope.status = "1"
+            $scope.status = "0"
            
             $scope.chartData = function () {
                 common.httpPost("RetailorDashboard.aspx/getSaleReport", "{'year':'" + 2018 + "','id':'" + loginUserId + "','action':'1'}", false, success = function (data) {
@@ -94,7 +94,7 @@
                     $scope.model = data;
                     $.each(data, function (index, item) {
 
-                        $scope.staticArray[item.SALESMONTH] = parseInt(item.TOTALSALES);
+                        $scope.staticArray[item.SALESMONTH-1] = parseInt(item.TOTALSALES);
                     });
 
                     Highcharts.chart('chartData', {
@@ -171,7 +171,7 @@
             }, true);
 
             $scope.getAllProduct = function (action) {
-               
+                debugger;
                 if ($scope.type == 1)
                 {
                     common.httpPost("RetailorDashboard.aspx/getAllOrderList",
@@ -333,7 +333,7 @@
        
         <asp:Panel ID="pnlOrderTracking" runat="server">
              <input type="text" class="txtSearch" ng-model="query" placeholder="Search any" />
-            <div class="table-wrapper clearfix" style="padding: 19px;">Order Tracking
+            <div class="table-wrapper clearfix" style="padding: 15px;">Order Tracking
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
@@ -357,11 +357,19 @@
                             <td class="text-center">{{item.MEASUREMENT}}</td>
                             <td class="text-center">{{item.QUANTITY}}</td>
                             <td ng-if="item.STATUS==1">Pending</td>
-                            <td ng-if="item.STATUS==2">Ready To Shipped</td>
-                            <td ng-if="item.STATUS==3">Delieverd</td>
+                            <td ng-if="item.STATUS==2">Shipped</td>
+                            <td ng-if="item.STATUS==3">Picked By Logistic</td>
+                            <td ng-if="item.STATUS==4">In-Transit</td>
+                            <td ng-if="item.STATUS==5" style="color:green">Delivered</td>
+                            <td ng-if="item.STATUS==6">Un-Delivered</td>
+                            <td ng-if="item.STATUS==7" style="color:red">Canceled</td>
                             <td ng-if="item.STATUS==1"><a ng-click="changeStatus(item.CART_ID,item)"><span class="dispatch">Ready To Shipped <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span></a></td>
-                            <td ng-if="item.STATUS==2">Ready To Shipped</td>
-                            <td ng-if="item.STATUS==3">Delieverd</td>
+                            <td ng-if="item.STATUS==2">Shipped</td>
+                            <td ng-if="item.STATUS==3">Picked By Logistic</td>
+                            <td ng-if="item.STATUS==4">In-Transit</td>
+                            <td ng-if="item.STATUS==5" style="color:green">Delivered</td>
+                            <td ng-if="item.STATUS==6">Un-Delivered</td>
+                            <td ng-if="item.STATUS==7" style="color:red">Canceled</td>
 
                         </tr>
 

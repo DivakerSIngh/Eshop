@@ -6237,11 +6237,11 @@ public class DB
 }
 public enum Status
 {
-    OrderPlaced = 1,
-    ReadyToDispatch = 2,
-    Picked = 3,
-    OutForDelievery = 4,
-    Delievered = 5,
-    UnDelievered = 6,
-    Cancel = 7
+    OrderPlaced = 1, // Pending
+    ReadyToDispatch = 2, // Shipped
+    Picked = 3, // Picked By Logistic
+    OutForDelievery = 4, // In-Transit
+    Delievered = 5, // Delivered
+    UnDelievered = 6, // Un-Delivered
+    Cancel = 7 // Canceled and if returnstatus=1 then Returned
 }

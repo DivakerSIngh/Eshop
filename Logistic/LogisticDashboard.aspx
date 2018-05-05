@@ -334,9 +334,17 @@
                              <td ng-if="item.STATUS==5">
                                 Deilievered
                              </td>
+                             <td ng-if="item.STATUS==6">
+                                UnDelievered
+                             </td>
+                             <td ng-if="item.STATUS==7">
+                                Canceled
+                             </td>
                             <td ng-if="item.STATUS==2"><a ng-click="changeStatus(item.CART_ID,3)"><span class="dispatch">Picked<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span></a></td>
                              <td ng-if="item.STATUS==3"><a ng-click="changeStatus(item.CART_ID,4)"><span class="dispatch">Out for deilievery<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span></a></td>
                              <td ng-if="item.STATUS==4"><a ng-click="changeStatus(item.CART_ID,5)"><span class="dispatch">Deilievered<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span></a></td>
+                             <td ng-if="item.STATUS==6">UnDelievered</td>
+                             <td ng-if="item.STATUS==7">Canceled</td>
                             <td ng-if="item.STATUS==5">
                                 <a href="UploadReceipt.aspx?tid={{item.TRANSACTION_ID}}&lid={{logisticId}}" target="_blank">
                                 Upload Receipt

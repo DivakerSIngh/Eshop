@@ -107,6 +107,7 @@ public partial class Logistic_AddLogisticInfo : System.Web.UI.Page
                     {
                         ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Record Added Successfully !');", true);
                         btnLogReset_Click(null, null);
+                        Response.Redirect("ViewLogisticList.aspx");
 
                     }
                     else
@@ -123,6 +124,7 @@ public partial class Logistic_AddLogisticInfo : System.Web.UI.Page
                         ScriptManager.RegisterClientScriptBlock((sender as Control), this.GetType(), "Toast Message", "toastr.success('Updation Done Successfully !');", true);
                         btnLogReset_Click(null, null);
                         btnLogSubmit.Text = "Submit";
+                        Response.Redirect("ViewLogisticList.aspx");
                     }
                     else
                     {
@@ -151,6 +153,8 @@ public partial class Logistic_AddLogisticInfo : System.Web.UI.Page
         btnLogSubmit.Text = "Submit";
         Server.Transfer("/Logistic/LogisticDashboard.aspx");
     }
+
+  
     protected void btnLogReset_Click(object sender, EventArgs e)
     {
         txtEmail.Text = "";

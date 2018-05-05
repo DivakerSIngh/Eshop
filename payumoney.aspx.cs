@@ -15,7 +15,7 @@ public partial class payumoney : System.Web.UI.Page
         {
             var payForm = (System.Collections.Hashtable)(Session["hastable"]);
 
-            var url = ConfigurationManager.AppSettings["PAYU_BASE_URL"] + "/_payment";
+            var url = "ccavanuRequestHandler.aspx";// ConfigurationManager.AppSettings["PAYU_BASE_URL"] + "/_payment";
             string strForm = PreparePOSTForm(url, payForm);
             Page.Controls.Add(new LiteralControl(strForm));
         }

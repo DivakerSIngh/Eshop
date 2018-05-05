@@ -10,6 +10,8 @@ using System.IO;
 using System.Web.UI.HtmlControls;
 using System.Configuration;
 using System.Text;
+
+using System.Collections.Specialized;
 using System.Security.Cryptography;
 
 public partial class ConfirmOrder : System.Web.UI.Page
@@ -28,6 +30,29 @@ public partial class ConfirmOrder : System.Web.UI.Page
                     {
                         if (Session["BuyPayumoney"] != null)
                         {
+                            string workingKey = "11A921C399E3C17BB9F8BFF432D803B2";//put in the 32bit alpha numeric key in the quotes provided here
+                            CCA.Util.CCACrypto ccaCrypto = new CCA.Util.CCACrypto();
+                            string encResponse = ccaCrypto.Decrypt(Request.Form["encResp"], workingKey);
+                            NameValueCollection Params = new NameValueCollection();
+                            string[] segments = encResponse.Split('&');
+                            foreach (string seg in segments)
+                            {
+                                string[] parts = seg.Split('=');
+                                if (parts.Length > 0)
+                                {
+                                    string Key = parts[0].Trim();
+                                    string Value = parts[1].Trim();
+                                    Params.Add(Key, Value);
+                                }
+                            }
+
+                            for (int i = 0; i < Params.Count; i++)
+                            {
+                                Response.Write(Params.Keys[i] + " = " + Params[i] + "<br>");
+                            }
+
+
+
                             string[] param = Session["BuyPayumoney"].ToString().Split('|');
                             ConfirmPayUMoneyOrder("PAID VIA PAYUMONEY", param[0], param[1], param[2], param[3]);
                             Session["BuyPayumoney"] = null;
@@ -402,214 +427,15 @@ public partial class ConfirmOrder : System.Web.UI.Page
 
     private void payuMoneyAction(string name, string phone1, string address, string city1, string state1, string pincode, string landmark, string amt, string email_id)
     {
-
-        string[] hashVarsSeq;
-        string hash_string = string.Empty;
-        try
-        {
-            Random rnd = new Random();
-            string strHash = Generatehash512(rnd.ToString() + DateTime.Now);
-            // hash.Value = strHash;
-            var txnid1 = strHash.ToString().Substring(0, 20);
-
-            txnid.Value = txnid1;
-            amount.Value = amt;
-            firstname.Value = name;
-            email.Value = email_id.Trim();
-            phone.Value = phone1;
-            productinfo.Value = "Test Dummay";
-            surl.Value = ConfigurationManager.AppSettings["surl"].ToString();
-            furl.Value = ConfigurationManager.AppSettings["furl"].ToString();
-            lastname.Value = "";
-            curl.Value = ConfigurationManager.AppSettings["curl"].ToString();
-            address1.Value = address;
-            address2.Value = "";
-            city.Value = city1;
-            state.Value = state1;
-            zipcode.Value = pincode;
-            country.Value = "";
-            udf1.Value = "";
-            udf2.Value = "";
-            udf3.Value = "";
-            udf4.Value = "";
-            udf5.Value = "";
-            pg.Value = "";
-
-
-
-            if (false)
-            {
-
-
-            }
-            else
-            {
-
-                hashVarsSeq = ConfigurationManager.AppSettings["hashSequence"].Split('|'); // spliting hash sequence from config
-                hash_string = "";
-                foreach (string hash_var in hashVarsSeq)
-                {
-                    if (hash_var == "key")
-                    {
-                        hash_string = hash_string + ConfigurationManager.AppSettings["MERCHANT_KEY"];
-                        hash_string = hash_string + '|';
-                    }
-                    else if (hash_var == "txnid")
-                    {
-                        hash_string = hash_string + txnid1;
-                        hash_string = hash_string + '|';
-                    }
-                    else if (hash_var == "amount")
-                    {
-                        hash_string = hash_string + Convert.ToDecimal(amt).ToString("g29");
-                        hash_string = hash_string + '|';
-                    }
-                    else if (hash_var == "productinfo")
-                    {
-                        hash_string = hash_string + productinfo.Value;
-                        hash_string = hash_string + '|';
-                    }
-                    else if (hash_var == "firstname")
-                    {
-                        hash_string = hash_string + firstname.Value;
-                        hash_string = hash_string + '|';
-                    }
-                    else if (hash_var == "email")
-                    {
-                        hash_string = hash_string + email.Value;
-                        hash_string = hash_string + '|';
-                    }
-                    else if (hash_var == "udf1")
-                    {
-                        hash_string = hash_string + udf1.Value;
-                        hash_string = hash_string + '|';
-                    }
-                    else if (hash_var == "udf2")
-                    {
-                        hash_string = hash_string + udf2.Value;
-                        hash_string = hash_string + '|';
-                    }
-                    else if (hash_var == "udf3")
-                    {
-                        hash_string = hash_string + udf3.Value;
-                        hash_string = hash_string + '|';
-                    }
-                    else if (hash_var == "udf4")
-                    {
-                        hash_string = hash_string + udf3.Value;
-                        hash_string = hash_string + '|';
-                    }
-                    else if (hash_var == "udf5")
-                    {
-                        hash_string = hash_string + udf3.Value;
-                        hash_string = hash_string + '|';
-                    }
-                    else if (hash_var == "udf6")
-                    {
-                        hash_string = hash_string + udf3.Value;
-                        hash_string = hash_string + '|';
-                    }
-                    else if (hash_var == "udf7")
-                    {
-                        hash_string = hash_string + udf3.Value;
-                        hash_string = hash_string + '|';
-                    }
-                    else if (hash_var == "udf8")
-                    {
-                        hash_string = hash_string + udf3.Value;
-                        hash_string = hash_string + '|';
-                    }
-                    else if (hash_var == "udf9")
-                    {
-                        hash_string = hash_string + udf3.Value;
-                        hash_string = hash_string + '|';
-                    }
-                    else if (hash_var == "udf10")
-                    {
-                        hash_string = hash_string + udf3.Value;
-                        hash_string = hash_string + '|';
-                    }
-                    else
-                    {
-                        hash_string = hash_string + "";// isset if else
-                        hash_string = hash_string + '|';
-                    }
-                }
-
-                hash_string += ConfigurationManager.AppSettings["SALT"];// appending SALT
-
-                hash1 = Generatehash512(hash_string).ToLower();         //generating hash
-                action1 = ConfigurationManager.AppSettings["PAYU_BASE_URL"] + "/_payment";// setting URL
-            }
-            if (!string.IsNullOrEmpty(Request.Form["hash"]))
-            {
-                hash1 = Request.Form["hash"];
-                action1 = ConfigurationManager.AppSettings["PAYU_BASE_URL"] + "/_payment";
-
-            }
-
-
-
-
-            if (!string.IsNullOrEmpty(hash1))
-            {
-                hash.Value = hash1;
-                txnid.Value = txnid1;
-
-                System.Collections.Hashtable data = new System.Collections.Hashtable(); // adding values in gash table for data post
-                data.Add("hash", hash.Value);
-                //data.Add("abc", hash_string);
-                data.Add("txnid", txnid.Value);
-                key.Value = ConfigurationManager.AppSettings["MERCHANT_KEY"].ToString();
-                data.Add("key", key.Value);
-                string AmountForm = Convert.ToDecimal(amt).ToString("g29");// eliminating trailing zeros
-
-                data.Add("amount", AmountForm);
-                data.Add("firstname", firstname.Value.Trim());
-                data.Add("email", email.Value.Trim());
-                data.Add("phone", phone.Value.Trim());
-                data.Add("productinfo", productinfo.Value.Trim());
-                data.Add("surl", surl.Value.Trim());//success url
-                data.Add("furl", furl.Value.Trim());//fail url
-                data.Add("lastname", lastname.Value.Trim());
-                data.Add("curl", curl.Value.Trim()); //cancel url
-                data.Add("address1", address1.Value.Trim());
-                data.Add("address2", address2.Value.Trim());
-                data.Add("city", city.Value.Trim());
-                data.Add("state", state.Value.Trim());
-                data.Add("country", country.Value.Trim());
-                data.Add("zipcode", zipcode.Value.Trim());
-                data.Add("udf1", udf1.Value.Trim());
-                data.Add("udf2", udf2.Value.Trim());
-                data.Add("udf3", udf3.Value.Trim());
-                data.Add("udf4", udf4.Value.Trim());
-                data.Add("udf5", udf5.Value.Trim());
-                data.Add("udf6", "");
-                data.Add("udf7", "");
-                data.Add("udf8", "");
-                data.Add("udf9", "");
-                data.Add("udf10", "");
-                data.Add("pg", pg.Value.Trim());
-                data.Add("service_provider", service_provider.Value.Trim());
-
-                Session["hastable"] = data;
-                //string strForm = PreparePOSTForm(action1, data);
-                //Session["payForm"] = strForm;
-                // Page.Controls.Add(new LiteralControl(strForm));
-
-            }
-            else
-            {
-                //no hash
-
-            }
-
-        }
-        catch (Exception ex)
-        {
-            Response.Write("<span style='color:red'>" + ex.Message + "</span>");
-        }
-
+        System.Collections.Hashtable data = new System.Collections.Hashtable(); // adding values in gash table for data post
+        data.Add("tid", txnid.Value);
+        data.Add("merchant_id", "162563");
+        data.Add("order_id", txnid.Value);
+        data.Add("amount", amt);
+        data.Add("currency", "INR");
+        data.Add("redirect_url", ConfigurationManager.AppSettings["surl"].ToString());
+        data.Add("cancel_url", ConfigurationManager.AppSettings["curl"].ToString());
+        Session["hastable"] = data;
     }
 
     private string PreparePOSTForm(string url, System.Collections.Hashtable data)      // post form

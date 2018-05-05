@@ -41,5 +41,6 @@ public partial class Logistic_LogisticPanel : System.Web.UI.MasterPage
         {
             lnkAddLogistic.Visible = false;
         }
+        
     }
 }

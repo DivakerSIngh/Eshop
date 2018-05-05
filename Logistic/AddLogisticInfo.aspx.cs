@@ -151,6 +151,8 @@ public partial class Logistic_AddLogisticInfo : System.Web.UI.Page
         btnLogSubmit.Text = "Submit";
         Server.Transfer("/Logistic/LogisticDashboard.aspx");
     }
+
+  
     protected void btnLogReset_Click(object sender, EventArgs e)
     {
         txtEmail.Text = "";

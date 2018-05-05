@@ -4972,6 +4972,31 @@ public class DB
         return ds;
     }
 
+    public DataSet GetUserEmailndMobileInfo(string userid)
+    {
+        try
+        {
+            con = new SqlConnection(DB.constr);
+            da = new SqlDataAdapter("EShop_GetUserInfoforMail", con);
+            da.SelectCommand.CommandType = CommandType.StoredProcedure;
+            da.SelectCommand.Parameters.Clear();
+            da.SelectCommand.Parameters.AddWithValue("@userid", userid);
+
+            ds = new DataSet();
+            da.Fill(ds);
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            con.Close();
+        }
+        return ds;
+    }
+
     public DataSet GetLogisticEmailndMobileInfo(string lid)
     {
         try

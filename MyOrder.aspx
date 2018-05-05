@@ -13,6 +13,10 @@
         }
     </script>
     <style>
+        b#bOrderDate {
+    float: right;
+    margin-right: 11px;
+}
         .btn-return {
             color: white;
             float: right;
@@ -117,7 +121,16 @@
         {
             return Convert.ToString(title) + "        (" + Convert.ToString(returnPolicy) + ")";
         }
-
+        private bool checkReturnPolicyDate(object date,object isReturnPolicy,object cancelStatus)
+        {
+            var returnProduct= false;
+            var currentdate =  DateTime.Now;
+            var orederdate = Convert.ToDateTime(date);
+            var calcDate = currentdate - orederdate;
+            if ((Convert.ToBoolean(isReturnPolicy) && Convert.ToInt16(cancelStatus) == 5)&& calcDate.Days<=15)
+                 returnProduct = true;
+            return returnProduct;
+        }
 
 
 
@@ -150,11 +163,9 @@
             <asp:Repeater ID="rptTrans" runat="server" OnItemDataBound="rptTrans_ItemDataBound">
                 <ItemTemplate>
                     <p style="margin-left: 10px">
-                        <b>
+                        <b id="bOrederNumber">
                             Order No. : <asp:Label ID="lblTransid" runat="server" Text='<%# Eval("TransId") %>'></asp:Label></b>
-                    </p>
-                    <p style="margin-left: 10px">
-                        <b>
+                         <b id="bOrderDate">
                             Order Date : <asp:Label ID="lblDate" runat="server" Text='<%# Eval("EMTRYDATE","{0: dd-MM-yyyy}") %>'></asp:Label></b>
                     </p>
                     <asp:HiddenField ID="hdnTrans" runat="server" Value='<%# Eval("TransId") %>' />
@@ -206,7 +217,7 @@
                                         <asp:HiddenField ID="hdnOrderId" runat="server" Value='<%# Eval("CartId") %>' />
                                         <asp:Button ID="btnCancelOrder" Visible='<%#cancelOrderVisible(Eval("Status")) %>' CommandArgument='<%# Eval("CartId")+"~"+Eval("LId")+"~"+Eval("headertitle")+"~"+Eval("prodid") %>' OnCommand="btnCancelOrder_Command" CssClass="btn-primary btn-cancel" Text="Cancel Order" runat="server" />
                                         <asp:Button ID="Button1" Visible='<%#canceledOrderVisible(Eval("Status")) %>' CssClass="btn-canceled" Text="Canceled" runat="server" />
-                                        <asp:Button ID="btnReturn" Visible='<%# (Convert.ToInt32(Eval("Status"))==5)?true:false%>' CommandArgument='<%# Eval("CartId")+"~"+Eval("LId")+"~"+Eval("headertitle")+"~"+Eval("prodid") %>' CssClass="btn-return" Text="Return Product" runat="server" OnCommand="btnReturn_Command" />
+                                        <asp:Button ID="btnReturn" Visible='<%# checkReturnPolicyDate(Eval("status_date"),Eval("IsReturnPolicy"),Eval("Status"))%>' CommandArgument='<%# Eval("CartId")+"~"+Eval("LId")+"~"+Eval("headertitle")+"~"+Eval("prodid")+"~"+Eval("Address")+"~"+Eval("TransId") %>' CssClass="btn-return" Text="Return Product" runat="server" OnCommand="btnReturn_Command" />
                                         <asp:Button ID="Button2" Visible='<%# (Convert.ToInt32(Eval("ReturnStatus"))==1)?true:false%>' CssClass="btn-returned" Text="Returned" runat="server" />
 
 

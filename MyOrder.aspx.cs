@@ -115,10 +115,13 @@ public partial class MyOrder : System.Web.UI.Page
 
         var logisticDetails = db.GetLogisticEmailndMobileInfo(e.CommandArgument.ToString().Split('~')[1]);
         var retailerDetails = db.GetReatilerEmailndMobileInfo(e.CommandArgument.ToString().Split('~')[0]);
+        var UserDetails= db.GetUserEmailndMobileInfo(usersid[0].ToString());
         var userId = usersid[0];
         var productId = e.CommandArgument.ToString().Split('~')[3];
         var productName = e.CommandArgument.ToString().Split('~')[2];
-        var msg = "User has requested to returend the product against the user: description userId:" + userId + ", productId:" + productId + ", productName:" + productName + "";
+        var Address = e.CommandArgument.ToString().Split('~')[4];
+        var TransId = e.CommandArgument.ToString().Split('~')[5];
+        var msg = "User has requested to returend the product against the user: description userId:" + userId + " , Order Id: " + TransId + ", productId:" + productId + ", productName:" + productName + ", Address: " + Address + "";
         if (logisticDetails.Tables.Count > 0)
         {
 
@@ -135,6 +138,14 @@ public partial class MyOrder : System.Web.UI.Page
             var email = retailerDetails.Tables[0].Rows[0]["org_email"].ToString();
             db.SendMessage(ratailerMobile, msg);
             db.SendEmail(email, msg, "One order is return by User");
+        }
+        if(UserDetails.Tables.Count>0)
+        {
+            var msg_user = "You have requested to returend the product against the Order Id: " + TransId + ", productId:" + productId + ", productName:" + productName + ", Address: " + Address + "";
+            var UserMobile = UserDetails.Tables[0].Rows[0]["Mobile"].ToString();
+            var UserEmail = UserDetails.Tables[0].Rows[0]["Emailid"].ToString();
+            db.SendMessage(UserMobile, msg_user);
+            db.SendEmail(UserEmail, msg_user, "One order is return");
         }
         load_myorderList(usersid[0]);
     }

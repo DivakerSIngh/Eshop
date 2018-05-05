@@ -5166,7 +5166,7 @@ public class DB
         try
         {
             con = new SqlConnection(DB.constr);
-            string str = "SELECT b.UserId, a.RName FROM RetailerInfo a right join Retailer_LoginInfo b on a.UserId=b.UserId where b.RStatus='Y' and a.RName is not null";
+            string str = "SELECT b.UserId, a.RName+'-'+a.UserId as RName  FROM RetailerInfo a right join Retailer_LoginInfo b on a.UserId=b.UserId where b.RStatus='Y' and a.RName is not null";
             cmd = new SqlCommand(str);
             cmd.Connection = con;
             con.Open();

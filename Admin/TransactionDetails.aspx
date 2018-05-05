@@ -54,7 +54,7 @@
 }
         .ddl,#ddlRetailer,#ddlSortBy{
           
-                width: 211px;
+                width: 230px;
         }
         .modal-body{
             border-bottom: 1px solid #ede9e9;

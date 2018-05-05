@@ -104,12 +104,12 @@
                 common.httpPost("SAdminDashboard.aspx/getSaleReportForRetailer", "{'year':'" + 2018 + "','action':'4'}", false, success = function (data) {
                     $scope.model = data;
                     $.each(data, function (index, item) {
-                        $scope.staticArray_Retailer[index] = parseInt(item.TOTALSALES);
-                        $scope.staticArray_Logistic[index] = parseInt(item.TOTALSALES_LOGISTIC);
+                        $scope.staticArray_Retailer[item.SALESMONTH-1] = parseInt(item.TOTALSALES);
+                        $scope.staticArray_Logistic[item.SALESMONTH - 1] = parseInt(item.TOTALSALES_LOGISTIC);
                     });
                     Highcharts.chart('chartData', {
                         chart: {
-                            type: 'line'
+                            type: 'column'
                         },
                         title: {
                             text: 'Dashboard Chart'

@@ -39,6 +39,8 @@ public  class Retailer
     public string L_MOBILE { get; set; }
     public string L_EMAIL { get; set; }
     public string L_USERID { get; set; }
+
+    public string R_ADDRESS { get; set; }
 }
 
 public class Measurment

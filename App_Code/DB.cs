@@ -5296,10 +5296,8 @@ public class DB
                     TRANSACTION_DATE = Convert.ToString(dr["TRANSACTION_DATE"]),
                     L_MOBILE = Convert.ToString(dr["L_MOBILE"]),
                     L_EMAIL = Convert.ToString(dr["L_EMAIL"]),
-                    L_USERID = Convert.ToString(dr["L_USERID"])
-                
-                    
-                    
+                    L_USERID = Convert.ToString(dr["L_USERID"]),
+                    R_ADDRESS= Convert.ToString(dr["RAddress"])
 
                 };
                 retailerList.Add(reatailer);

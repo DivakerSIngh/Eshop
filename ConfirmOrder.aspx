@@ -256,9 +256,9 @@
                     <div class="boddy table-mine">
                         <asp:RadioButtonList ID="rbtnAddress" OnSelectedIndexChanged="rbtnAddress_SelectedIndexChanged" runat="server" RepeatDirection="Horizontal">
                             <asp:ListItem Value="C">COD</asp:ListItem>
-                            <asp:ListItem Value="W" style="padding-left: 15%">Wallet Payment</asp:ListItem>
-                            <asp:ListItem Value="N">Card/Net Banking</asp:ListItem>
-                            <asp:ListItem Value="P">PayUMoney</asp:ListItem>
+                            <%--<asp:ListItem Value="W" style="padding-left: 15%">Wallet Payment</asp:ListItem>
+                            <asp:ListItem Value="N">Card/Net Banking</asp:ListItem>--%>
+                            <asp:ListItem Value="P">CCAvenue</asp:ListItem>
                         </asp:RadioButtonList>
                     </div>
                     <div class="foot">

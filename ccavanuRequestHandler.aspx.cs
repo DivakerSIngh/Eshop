@@ -9,10 +9,10 @@ using System.Web.UI.WebControls;
 public partial class ccavanuRequestHandler : System.Web.UI.Page
 {
     CCACrypto ccaCrypto = new CCACrypto();
-    string workingKey = "11A921C399E3C17BB9F8BFF432D803B2";//put in the 32bit alpha numeric key in the quotes provided here 	
+    string workingKey = "6495FC57F155EE0E038A040E4A5EDB08";//put in the 32bit alpha numeric key in the quotes provided here 	
     string ccaRequest = "";
     public string strEncRequest = "";
-    public string strAccessCode = "AVQF77FE84AK92FQKA";// put the access key in the quotes provided here.
+    public string strAccessCode = "AVDC77FE85AM47CDMA";// put the access key in the quotes provided here.
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)

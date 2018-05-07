@@ -24,60 +24,9 @@ public partial class ConfirmOrder : System.Web.UI.Page
         {
             if (!IsPostBack)
             {
-                if (Request.QueryString["type"] != null)
+                if (!string.IsNullOrEmpty(Convert.ToString(Request.Form["encResp"])))
                 {
-                    if (Request.QueryString["type"].ToString().ToLower() == "ts")
-                    {
-                        if (Session["BuyPayumoney"] != null)
-                        {
-                            string workingKey = "11A921C399E3C17BB9F8BFF432D803B2";//put in the 32bit alpha numeric key in the quotes provided here
-                            CCA.Util.CCACrypto ccaCrypto = new CCA.Util.CCACrypto();
-                            string encResponse = ccaCrypto.Decrypt(Request.Form["encResp"], workingKey);
-                            NameValueCollection Params = new NameValueCollection();
-                            string[] segments = encResponse.Split('&');
-                            foreach (string seg in segments)
-                            {
-                                string[] parts = seg.Split('=');
-                                if (parts.Length > 0)
-                                {
-                                    string Key = parts[0].Trim();
-                                    string Value = parts[1].Trim();
-                                    Params.Add(Key, Value);
-                                }
-                            }
-
-                            for (int i = 0; i < Params.Count; i++)
-                            {
-                                Response.Write(Params.Keys[i] + " = " + Params[i] + "<br>");
-                            }
-
-
-
-                            string[] param = Session["BuyPayumoney"].ToString().Split('|');
-                            ConfirmPayUMoneyOrder("PAID VIA PAYUMONEY", param[0], param[1], param[2], param[3]);
-                            Session["BuyPayumoney"] = null;
-                        }
-                        else
-                        {
-                            Response.Redirect("ConfirmOrder.aspx");
-                        }
-
-                    }
-                    else if (Request.QueryString["type"].ToString().ToLower() == "tf")
-                    {
-                        if (Session["BuyPayumoney"] != null)
-                        {
-                            obj = new DB();
-                            string[] usersid = Session["loginid"].ToString().Split(',');
-                            string[] param = Session["BuyPayumoney"].ToString().Split('|');
-                            obj.TransactionConfirmation(usersid[0], null, param[2], "PAY", param[1], "F", null, null, param[3]);
-                            Session["BuyPayumoney"] = null;
-                        }
-                        else
-                        {
-                            Response.Redirect("ConfirmOrder.aspx");
-                        }
-                    }
+                    getPaymentResponse();
                 }
                 else
                 {
@@ -94,6 +43,61 @@ public partial class ConfirmOrder : System.Web.UI.Page
             Server.Transfer("Login.aspx");
         }
 
+    }
+
+    private void getPaymentResponse()
+    {
+        string workingKey = "6495FC57F155EE0E038A040E4A5EDB08";//put in the 32bit alpha numeric key in the quotes provided here
+        CCA.Util.CCACrypto ccaCrypto = new CCA.Util.CCACrypto();
+        string encResponse = ccaCrypto.Decrypt(Request.Form["encResp"], workingKey);
+        NameValueCollection Params = new NameValueCollection();
+        string[] segments = encResponse.Split('&');
+        foreach (string seg in segments)
+        {
+            string[] parts = seg.Split('=');
+            if (parts.Length > 0)
+            {
+                string Key = parts[0].Trim();
+                string Value = parts[1].Trim();
+                Params.Add(Key, Value);
+            }
+        }
+
+        Dictionary<string, string> resp = new Dictionary<string, string>();
+        for (int i = 0; i < Params.Count; i++)
+        {
+            resp.Add(Params.Keys[i], Params[i]);
+        }
+
+        //"Aborted"
+        var payemtStatus = resp["order_status"];
+        // payement cancel
+        if(payemtStatus== "Aborted")
+        {
+
+        }
+        //payment success
+        if (payemtStatus == "Success")
+        {
+
+        }
+        //payment pending from bank
+        if (payemtStatus == "Awaited")
+        {
+
+        }
+
+        string[] param = Session["BuyPayumoney"].ToString().Split('|');
+        ConfirmPayUMoneyOrder("PAID VIA PAYUMONEY", param[0], param[1], param[2], param[3]);
+        Session["BuyPayumoney"] = null;
+
+
+
+        obj = new DB();
+        string[] usersid = Session["loginid"].ToString().Split(',');
+        string[] param1 = Session["BuyPayumoney"].ToString().Split('|');
+        obj.TransactionConfirmation(usersid[0], null, param1[2], "PAY", param1[1], "F", null, null, param1[3]);
+        Session["BuyPayumoney"] = null;
     }
 
     private void load_cartlist(string userid)
@@ -240,7 +244,7 @@ public partial class ConfirmOrder : System.Web.UI.Page
                         SMS_RETAILER = SMS_RETAILER + ", Price: " + dscart.Tables[0].Rows[k]["TotalAmount"].ToString();
                         SMS_RETAILER = SMS_RETAILER + ", Size: " + dscart.Tables[0].Rows[k]["size"].ToString();
                         //DataSet dslog = obj.GetLogisticEmailndMobileInfo(lidid[k]);
-                        DataSet dsret = obj.GetReatilerEmailndMobileInfo(cart[k]);
+                        DataSet dsret = obj.GetReatilerEmailndMobileInfo(cart[k]); 
 
                         msgretailer = obj.createEmailBodyforRetailerndLogistic(tid, dsret.Tables[0].Rows[0]["raddress"].ToString(), dsret.Tables[0].Rows[0]["rname"].ToString(), dsret.Tables[0].Rows[0]["quantity"].ToString(), dsret.Tables[0].Rows[0]["headertitle"].ToString()+" ("+ dsret.Tables[0].Rows[0]["size"].ToString()+")", dsret.Tables[0].Rows[0]["mobile"].ToString(), dsret.Tables[0].Rows[0]["prodid"].ToString(), dsret.Tables[0].Rows[0]["org_email"].ToString(), dsret.Tables[0].Rows[0]["totalamount"].ToString(), dsret.Tables[0].Rows[0]["city"].ToString(), dsret.Tables[0].Rows[0]["landmark"].ToString(), dsret.Tables[0].Rows[0]["pincode"].ToString(), dsret.Tables[0].Rows[0]["rstate"].ToString(), billingaddress, "COD");
                         obj.SendEmail(dsret.Tables[0].Rows[0]["org_email"].ToString(), msgretailer, "Order Confirmation Mail");
@@ -428,9 +432,11 @@ public partial class ConfirmOrder : System.Web.UI.Page
     private void payuMoneyAction(string name, string phone1, string address, string city1, string state1, string pincode, string landmark, string amt, string email_id)
     {
         System.Collections.Hashtable data = new System.Collections.Hashtable(); // adding values in gash table for data post
-        data.Add("tid", txnid.Value);
+        Random r = new Random();
+        int n = r.Next();
+        data.Add("tid", n.ToString());
         data.Add("merchant_id", "162563");
-        data.Add("order_id", txnid.Value);
+        data.Add("order_id", n.ToString());
         data.Add("amount", amt);
         data.Add("currency", "INR");
         data.Add("redirect_url", ConfigurationManager.AppSettings["surl"].ToString());

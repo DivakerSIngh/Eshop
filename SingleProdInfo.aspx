@@ -380,7 +380,7 @@
                                     </div>
                                 </div>
 
-                                <div class="panel panel-default">
+                                <div class="panel panel-default" style="overflow-x:auto;">
                                     <div class="panel-heading" role="tab" id="headingTwo">
                                         <h4 class="panel-title">
                                             <a class="collapsed pa_italic" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -392,10 +392,10 @@
                                         <div class="panel-body">
 
 
-                                            <table style="width: 780px;">
+                                            <table>
 
                                                 <tr>
-                                                    <td style="width: 50%;">
+                                                    <td>
                                                         <asp:Label ID="lblt1" runat="server" Text='<%# Eval("Title1") %>'></asp:Label>
                                                     </td>
                                                     <td>

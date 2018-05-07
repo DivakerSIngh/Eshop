@@ -81,7 +81,8 @@ public partial class MyOrder : System.Web.UI.Page
         var userId = usersid[0];
         var productId = e.CommandArgument.ToString().Split('~')[3];
         var productName = e.CommandArgument.ToString().Split('~')[2];
-        var msg = "Product has beeen canceled by the user: description userId:" + userId + ", productId:" + productId + ", productName:" + productName + "";
+        var transid = e.CommandArgument.ToString().Split('~')[4];
+        var msg = "Product has beeen canceled by the user: description OrderId: "+ transid + ", userId:" + userId + ", productId:" + productId + ", productName:" + productName + "";
         
         if (logisticDetails.Tables.Count > 0)
         {

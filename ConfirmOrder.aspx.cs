@@ -69,35 +69,31 @@ public partial class ConfirmOrder : System.Web.UI.Page
             resp.Add(Params.Keys[i], Params[i]);
         }
 
-        //"Aborted"
         var payemtStatus = resp["order_status"];
         // payement cancel
         if(payemtStatus== "Aborted")
         {
-
+            string[] usersid = Session["loginid"].ToString().Split(',');
+            string[] param1 = Session["BuyPayumoney"].ToString().Split('|');
+            obj = new DB();
+            obj.TransactionConfirmation(usersid[0], null, param1[2], "PAY", param1[1], "F", null, null, param1[3]);
+            Session["BuyPayumoney"] = null;
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "popup", "openPopUp('tf');", true);
         }
         //payment success
         if (payemtStatus == "Success")
         {
-
+            string[] param = Session["BuyPayumoney"].ToString().Split('|');
+            ConfirmPayUMoneyOrder("PAID VIA CCAVENUE", "", param[1], param[2], param[3]);
+            Session["BuyPayumoney"] = null;
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "popup", "openPopUp('ts');", true);
         }
         //payment pending from bank
         if (payemtStatus == "Awaited")
         {
 
         }
-
-        string[] param = Session["BuyPayumoney"].ToString().Split('|');
-        ConfirmPayUMoneyOrder("PAID VIA PAYUMONEY", param[0], param[1], param[2], param[3]);
-        Session["BuyPayumoney"] = null;
-
-
-
-        obj = new DB();
-        string[] usersid = Session["loginid"].ToString().Split(',');
-        string[] param1 = Session["BuyPayumoney"].ToString().Split('|');
-        obj.TransactionConfirmation(usersid[0], null, param1[2], "PAY", param1[1], "F", null, null, param1[3]);
-        Session["BuyPayumoney"] = null;
+        
     }
 
     private void load_cartlist(string userid)
@@ -538,7 +534,7 @@ public partial class ConfirmOrder : System.Web.UI.Page
                 //DataSet dslog = obj.GetLogisticEmailndMobileInfo(lidid[k]);
                 DataSet dsret = obj.GetReatilerEmailndMobileInfo(cart[k]);
 
-                msgretailer = obj.createEmailBodyforRetailerndLogistic(tid, dsret.Tables[0].Rows[0]["raddress"].ToString(), dsret.Tables[0].Rows[0]["rname"].ToString(), dsret.Tables[0].Rows[0]["quantity"].ToString(), dsret.Tables[0].Rows[0]["headertitle"].ToString() + " (" + dsret.Tables[0].Rows[0]["size"].ToString() + ")", dsret.Tables[0].Rows[0]["mobile"].ToString(), dsret.Tables[0].Rows[0]["prodid"].ToString(), dsret.Tables[0].Rows[0]["org_email"].ToString(), dsret.Tables[0].Rows[0]["totalamount"].ToString(), dsret.Tables[0].Rows[0]["city"].ToString(), dsret.Tables[0].Rows[0]["landmark"].ToString(), dsret.Tables[0].Rows[0]["pincode"].ToString(), dsret.Tables[0].Rows[0]["rstate"].ToString(), billingaddress, "PAID VIA PAYUMONEY");
+                msgretailer = obj.createEmailBodyforRetailerndLogistic(tid, dsret.Tables[0].Rows[0]["raddress"].ToString(), dsret.Tables[0].Rows[0]["rname"].ToString(), dsret.Tables[0].Rows[0]["quantity"].ToString(), dsret.Tables[0].Rows[0]["headertitle"].ToString() + " (" + dsret.Tables[0].Rows[0]["size"].ToString() + ")", dsret.Tables[0].Rows[0]["mobile"].ToString(), dsret.Tables[0].Rows[0]["prodid"].ToString(), dsret.Tables[0].Rows[0]["org_email"].ToString(), dsret.Tables[0].Rows[0]["totalamount"].ToString(), dsret.Tables[0].Rows[0]["city"].ToString(), dsret.Tables[0].Rows[0]["landmark"].ToString(), dsret.Tables[0].Rows[0]["pincode"].ToString(), dsret.Tables[0].Rows[0]["rstate"].ToString(), billingaddress, "PAID VIA CCAVENUE");
                 obj.SendEmail(dsret.Tables[0].Rows[0]["org_email"].ToString(), msgretailer, "Order Confirmation Mail");
 
                 obj.SendMessage(dscart.Tables[0].Rows[0]["User_Mobile"].ToString(), SMS_USER);

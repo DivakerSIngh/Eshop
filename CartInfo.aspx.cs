@@ -212,12 +212,15 @@ public partial class CartInfo : System.Web.UI.Page
             int i = 0;
             string RetailerPin = "";
             string weight = "";
+            string cid = "";
             foreach (RepeaterItem item in rptCart.Items)
             {
                 Label lblPin = item.FindControl("lblRetalorPin") as Label;
                 Label lblWt = item.FindControl("lblWt") as Label;
+                Label lblCid = item.FindControl("lblCid") as Label;
                 RetailerPin = RetailerPin + "," + lblPin.Text;
                 weight = weight + "," + lblWt.Text;
+                cid = cid + "," + lblCid.Text;
 
                 Label lab = item.FindControl("lblCartId") as Label;
                 Label labsp = item.FindControl("lblSP") as Label;
@@ -234,8 +237,10 @@ public partial class CartInfo : System.Web.UI.Page
                 obj.Update_Shipping_Charges(user, Convert.ToDecimal(lblDeleiveryCharge.Text.Trim()));
                 string finalRPin = RetailerPin.Remove(0, 1);
                 string finalWt = weight.Remove(0, 1);
+                string finalCid = cid.Remove(0, 1);
                 Session["RPin"] = finalRPin;
                 Session["Wt"] = finalWt;
+                Session["cid"] = finalCid;
                 Response.Redirect("CheckOut.aspx");
             }
             else

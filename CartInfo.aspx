@@ -52,6 +52,7 @@
                             <asp:Label ID="lblSize" runat="server" Text='<%# Eval("size") %>'></asp:Label>
                             <asp:Label ID="lblRetalorPin" runat="server" Visible="false" Text='<%# Eval("Pincode") %>'></asp:Label>
                             <asp:Label ID="lblWt" runat="server" Visible="false" Text='<%# Eval("weight") %>'></asp:Label>
+                            <asp:Label ID="lblCid" runat="server" Visible="false" Text='<%# Eval("cid") %>'></asp:Label>
                         </div>
                         <div class="boddy113">
                             <asp:Label ID="lblSellerName" runat="server" Text='<%# Eval("Org_Name") %>'></asp:Label>

@@ -30,7 +30,7 @@ public partial class CheckOut : System.Web.UI.Page
                         lblQuantity.Text = ds.Tables[0].Rows[0]["qty"].ToString();
                         lblprice.Text = ds.Tables[0].Rows[0]["totalamount"].ToString();
                         lblCouponAmt.Text = ds.Tables[0].Rows[0]["Coupon_Amt"].ToString();
-                        lblDeliveryAmt.Text = ds.Tables[0].Rows[0]["User_Shipping_Chrg"].ToString();
+                        lblDeliveryAmt.Text = ds.Tables[0].Rows[0]["Delivery_Amount"].ToString();
                         lblTotAmt.Text = (Convert.ToDecimal(lblprice.Text) + Convert.ToDecimal(lblDeliveryAmt.Text) - Convert.ToDecimal(lblCouponAmt.Text)).ToString();
                     }
                     Load_DefaultAddress(usersid[0]);
@@ -126,6 +126,7 @@ public partial class CheckOut : System.Web.UI.Page
                     string stringToCheck = txtPincode.Text;
                     string[] rPin = Session["RPin"].ToString().Split(',');
                     string[] pWt = Session["Wt"].ToString().Split(',');
+                    string[] cid= Session["cid"].ToString().Split(',');
                     double distance = 0;
                     string dist = "0";
                     if (stringArray.Any(stringToCheck.Contains) && stringArray.Any(rPin[0].Contains))
@@ -164,6 +165,46 @@ public partial class CheckOut : System.Web.UI.Page
                         }
 
                         count += 1;
+                        break;
+                    }
+                    else
+                    {
+                        for (int j = 0; j < rPin.Length; j++)
+                        {
+                            if (cid[j] == "1")
+                            {
+                                DataSet ds1 = new DataSet();
+                                ds1 = obj.getLatitudeLongitude(txtPincode.Text, rPin[j].ToString());
+                                if (ds1.Tables[0].Rows.Count > 0 && !string.IsNullOrEmpty(ds1.Tables[0].Rows[0][0].ToString()))
+                                {
+                                    double user_lat = Convert.ToDouble(ds1.Tables[0].Rows[0]["USER_LATITUDE"].ToString());
+                                    double user_lon = Convert.ToDouble(ds1.Tables[0].Rows[0]["USER_LONGITUDE"].ToString());
+                                    double r_lat = Convert.ToDouble(ds1.Tables[0].Rows[0]["R_LATITUDE"].ToString());
+                                    double r_lon = Convert.ToDouble(ds1.Tables[0].Rows[0]["R_LONGITUDE"].ToString());
+                                    distance = getDistanceUsinLongAndLat(r_lat, r_lon, user_lat, user_lon, 'K');
+                                    dist = String.Format("{0:0.00}", distance);
+                                }
+                                else
+                                {
+                                    //================================================================//
+                                    // latitude and longitude
+                                    var pincode1 = rPin[j];
+                                    var pincode2 = txtPincode.Text;
+                                    var locationService = new GoogleLocationService();
+                                    var point1 = locationService.GetLatLongFromAddress(pincode1);
+                                    var point2 = locationService.GetLatLongFromAddress(pincode2);
+                                    distance = getDistanceUsinLongAndLat(point1.Latitude, point1.Longitude, point2.Latitude, point2.Longitude, 'K');
+                                    dist = String.Format("{0:0.00}", distance);
+                                    //=================================================================//
+                                }
+
+                                double wt = Convert.ToDouble(pWt[j]);
+                                hf_logistic_id.Value = ds.Tables[0].Rows[i]["userid"].ToString();
+                                //updateLogistcInCart(hf_logistic_id.Value, string cart_id)
+                                hf_Delivery_Rate.Value = Convert.ToString(Convert.ToDecimal(hf_Delivery_Rate.Value) + getDeliveryAmt(hf_logistic_id.Value, wt, Convert.ToDouble(dist)));
+                                count += 1;
+                            }
+                        }
                         break;
                     }
                 }

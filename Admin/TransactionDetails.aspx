@@ -403,10 +403,10 @@
                                                                          </select> 
                         </div>
 
-                         <div  class="td-details">
+                        <%-- <div  class="td-details">
                           <span class="spnLable"> Sattelment Amount</span> <input type="text" ng-click="openSettlementAmount();" readonly />
                             
-                        </div>
+                        </div>--%>
                         <div  class="td-details">
                           <span class="spnLable">  Date : </span><input type="date" mg-model="date"/>
                         </div>

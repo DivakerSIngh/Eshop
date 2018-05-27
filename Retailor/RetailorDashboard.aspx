@@ -50,6 +50,15 @@
     padding:0px !important;
     margin: -23px !important;
 }
+
+        .items{
+            border-bottom: 1px solid white;
+}
+
+
+
+
+
     </style>
     <script>
 
@@ -255,6 +264,7 @@
                 $scope.GST_Amount = item.GST_Amount
                 $scope.Total_Deduction = item.Total_Deduction
                 $scope.RETAILOR_PAY_AMOUNT = item.RETAILOR_PAY_AMOUNT
+                $scope.Cid = item.Cid;
                 $('#settlementAmount').modal('show');
 
 
@@ -303,9 +313,9 @@
 
                 <div class="col-sm-9 items">Commision fee(various across subcategory/verticals)</div>
                <div class="col-sm-3" style="font-weight: bold;"> {{Commision_Fee}}</div>
-
-                <div class="col-sm-9 items">Shipping Fee (Local Shiping,weight 500 grams)</div>
-               <div class="col-sm-3" style="font-weight: bold;"> {{DELIVERY_AMOUNT}}</div>
+               
+                <div class="col-sm-9 items" ng-if="Cid==1">Shipping Fee (Local Shiping,weight 500 grams)</div>
+               <div class="col-sm-3" style="font-weight: bold;" ng-if="Cid==1"> {{DELIVERY_AMOUNT}}</div>
 
                 <div class="col-sm-9 items">Collection Fee (2.9% on the order item value)</div>
                <div class="col-sm-3" style="font-weight: bold;"> {{Collection_Fee}}</div>

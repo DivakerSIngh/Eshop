@@ -5366,6 +5366,7 @@ public class DB
                     RETAILOR_PAY_STATUS = Convert.ToString(dr["RETAILOR_PAY_STATUS"]),
                     RETAILOR_PAY_MODE = Convert.ToString(dr["RETAILOR_PAY_MODE"]),
                     RETAILOR_PAY_TRANSACTION_NO = Convert.ToString(dr["RETAILOR_PAY_TRANSACTION_NO"]),
+                    RETAILOR_PAY_AMOUNT= Convert.ToString(dr["RETAILOR_PAY_AMOUNT"]),
 
 
 
@@ -5387,6 +5388,7 @@ public class DB
 
 
     }
+
 
     public static List<Retailer> getRetalerPaymentStatus(string id, int action)
     {
@@ -5424,6 +5426,7 @@ public class DB
                     TotalAmount = Convert.ToString(dr["TotalAmount"]),
                     DELIVERY_AMOUNT = Convert.ToString(dr["DELIVERY_AMOUNT"]),
                     RETAILOR_PAY_AMOUNT = Convert.ToString(dr["RETAILOR_PAY_AMOUNT"]),
+                    Cid = Convert.ToString(dr["cid"])
 
                 };
                 retailerList.Add(reatailer);

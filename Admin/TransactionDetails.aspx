@@ -181,6 +181,22 @@
 
 
             }
+
+            $scope.showDescSettlement = function (item) {
+
+                $scope.TotalAmount = item.TotalAmount
+                $scope.Commision_Fee = item.Commision_Fee
+                $scope.DELIVERY_AMOUNT = item.DELIVERY_AMOUNT
+                $scope.Collection_Fee = item.Collection_Fee
+                $scope.Total_Marketplace_Fee = item.Total_Marketplace_Fee
+                $scope.GST_Amount = item.GST_Amount
+                $scope.Total_Deduction = item.Total_Deduction
+                $scope.RETAILOR_PAY_AMOUNT = item.RETAILOR_PAY_AMOUNT
+                $('#settlementAmount').modal('show');
+
+
+            }
+
             $scope.updateStatus = function () {
                 
                 $scope.transactionId
@@ -209,6 +225,64 @@
 
        
     <div ng-app="myApp" ng-controller="myCtrl">
+        
+        <div class="modal fade" id="settlementAmount" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="background: #a8cff0;padding: 42px;">
+        <div class="modal-header">
+           <%-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>--%>
+        </div>
+      <div class="modal-body clsmodal">
+       
+           <div class="col-sm-12">
+               <div class="col-sm-9 "></div>
+               <div class="col-sm-3" style="font-weight: bold;"></div>
+
+                <div class="col-sm-8">Item</div>
+               <div class="col-sm-4">Amount (Rs.)</div>
+
+
+               <div class="col-sm-9 items">Selling Price (decided by you)</div>
+               <div class="col-sm-3" style="font-weight: bold;">{{TotalAmount}}</div>
+
+                <div class="col-sm-9 items">Commision fee(various across subcategory/verticals)</div>
+               <div class="col-sm-3" style="font-weight: bold;"> {{Commision_Fee}}</div>
+
+                <div class="col-sm-9 items">Shipping Fee (Local Shiping,weight 500 grams)</div>
+               <div class="col-sm-3" style="font-weight: bold;"> {{DELIVERY_AMOUNT}}</div>
+
+                <div class="col-sm-9 items">Collection Fee (2.9% on the order item value)</div>
+               <div class="col-sm-3" style="font-weight: bold;"> {{Collection_Fee}}</div>
+
+
+                <div class="col-sm-9 items">Total market fee</div>
+               <div class="col-sm-3" style="font-weight: bold;"> {{Total_Marketplace_Fee}}</div>
+
+
+                <div class="col-sm-9 items">GST(18% of marketplace fee including swachh bharat & krishi kalyan cess)</div>
+               <div class="col-sm-3" style="font-weight: bold;"> {{GST_Amount}}</div>
+
+
+                <div class="col-sm-9 items">Total deduction</div>
+               <div class="col-sm-3" style="font-weight: bold;"> {{Total_Deduction}}</div>
+
+                 <div class="col-sm-9 items">Settlement value(Amount credited to you)</div>
+               <div class="col-sm-3" style="font-weight: bold;"> {{RETAILOR_PAY_AMOUNT}}</div>
+
+               
+
+           
+       </div>
+      </div>
+      <div class="modal-footer">
+      <%--  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>--%>
+      </div>
+    </div>
+  </div>
+</div>
         <asp:HiddenField ID="hdnType" runat="server" ClientIDMode="Static" Value="1" />
         <asp:HiddenField runat="server" ID="hdnUserId" ClientIDMode="Static" />
         <div class="wallet-buttons">
@@ -269,7 +343,7 @@
 
                             </td>
                             <td class="text-center">{{item.RETAILOR_PAY_STATUS}}</td>
-                            <td class="text-center">{{item.RETAILOR_PAY_AMOUNT}}</td>
+                            <td class="text-center"> {{item.RETAILOR_PAY_AMOUNT}}</td>
                              <td class="text-center">{{item.RETAILOR_PAY_DATE}}</td>
                             
                             <td >{{item.RETAILOR_PAY_STATUS}}</td>

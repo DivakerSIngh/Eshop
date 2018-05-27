@@ -41,6 +41,15 @@ public  class Retailer
     public string L_USERID { get; set; }
 
     public string R_ADDRESS { get; set; }
+
+    public string TotalAmount { get; set; }
+
+
+    public string Commision_Fee { get; set; }
+    public string Collection_Fee { get; set; }
+    public string Total_Marketplace_Fee { get; set; }
+    public string GST_Amount { get; set; }
+    public string Total_Deduction { get; set; }
 }
 
 public class Measurment

@@ -5414,6 +5414,16 @@ public class DB
                     
                     TRANSACTION_ID = Convert.ToString(dr["TRANSACTION_ID"]),
                     RETAILOR_PAY_STATUS = Convert.ToString(dr["RETAILOR_PAY_STATUS"]),
+                    Commision_Fee= Convert.ToString(dr["Commision_Fee"]),
+                    Collection_Fee = Convert.ToString(dr["Collection_Fee"]),
+                    Total_Marketplace_Fee = Convert.ToString(dr["Total_Marketplace_Fee"]),
+                    GST_Amount = Convert.ToString(dr["GST_Amount"]),
+                    Total_Deduction = Convert.ToString(dr["Total_Deduction"]),
+
+
+                    TotalAmount = Convert.ToString(dr["TotalAmount"]),
+                    DELIVERY_AMOUNT = Convert.ToString(dr["DELIVERY_AMOUNT"]),
+                    RETAILOR_PAY_AMOUNT = Convert.ToString(dr["RETAILOR_PAY_AMOUNT"]),
 
                 };
                 retailerList.Add(reatailer);

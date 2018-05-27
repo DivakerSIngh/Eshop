@@ -42,6 +42,14 @@
             margin-left: 19px;
 
         }
+        .items1 {
+    background: #2083d863;
+}
+        .clsmodal {
+    position: relative;
+    padding:0px !important;
+    margin: -23px !important;
+}
     </style>
     <script>
 
@@ -90,7 +98,7 @@
            
             $scope.chartData = function () {
                 common.httpPost("RetailorDashboard.aspx/getSaleReport", "{'year':'" + 2018 + "','id':'" + loginUserId + "','action':'1'}", false, success = function (data) {
-                    debugger
+                    
                     $scope.model = data;
                     $.each(data, function (index, item) {
 
@@ -171,7 +179,7 @@
             }, true);
 
             $scope.getAllProduct = function (action) {
-                debugger;
+                ;
                 if ($scope.type == 1)
                 {
                     common.httpPost("RetailorDashboard.aspx/getAllOrderList",
@@ -236,6 +244,23 @@
 
 
             }
+
+            $scope.showDescSettlement = function (item) {
+
+                $scope.TotalAmount = item.TotalAmount
+                $scope.Commision_Fee = item.Commision_Fee
+                $scope.DELIVERY_AMOUNT = item.DELIVERY_AMOUNT
+                $scope.Collection_Fee = item.Collection_Fee
+                $scope.Total_Marketplace_Fee = item.Total_Marketplace_Fee
+                $scope.GST_Amount = item.GST_Amount
+                $scope.Total_Deduction = item.Total_Deduction
+                $scope.RETAILOR_PAY_AMOUNT = item.RETAILOR_PAY_AMOUNT
+                $('#settlementAmount').modal('show');
+
+
+            }
+
+            
         });
         app.filter('startFrom', function () {
             return function (input, start) {
@@ -255,6 +280,64 @@
     <div ng-app="myApp" ng-controller="myCtrl">
 
 
+        <div class="modal fade" id="settlementAmount" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="background: #a8cff0;padding: 42px;">
+        <div class="modal-header">
+           <%-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>--%>
+        </div>
+      <div class="modal-body clsmodal">
+       
+           <div class="col-sm-12">
+               <div class="col-sm-9 "></div>
+               <div class="col-sm-3" style="font-weight: bold;"></div>
+
+                <div class="col-sm-8">Item</div>
+               <div class="col-sm-4">Amount (Rs.)</div>
+
+
+               <div class="col-sm-9 items">Selling Price (decided by you)</div>
+               <div class="col-sm-3" style="font-weight: bold;">{{TotalAmount}}</div>
+
+                <div class="col-sm-9 items">Commision fee(various across subcategory/verticals)</div>
+               <div class="col-sm-3" style="font-weight: bold;"> {{Commision_Fee}}</div>
+
+                <div class="col-sm-9 items">Shipping Fee (Local Shiping,weight 500 grams)</div>
+               <div class="col-sm-3" style="font-weight: bold;"> {{DELIVERY_AMOUNT}}</div>
+
+                <div class="col-sm-9 items">Collection Fee (2.9% on the order item value)</div>
+               <div class="col-sm-3" style="font-weight: bold;"> {{Collection_Fee}}</div>
+
+
+                <div class="col-sm-9 items">Total market fee</div>
+               <div class="col-sm-3" style="font-weight: bold;"> {{Total_Marketplace_Fee}}</div>
+
+
+                <div class="col-sm-9 items">GST(18% of marketplace fee including swachh bharat & krishi kalyan cess)</div>
+               <div class="col-sm-3" style="font-weight: bold;"> {{GST_Amount}}</div>
+
+
+                <div class="col-sm-9 items">Total deduction</div>
+               <div class="col-sm-3" style="font-weight: bold;"> {{Total_Deduction}}</div>
+
+                 <div class="col-sm-9 items">Settlement value(Amount credited to you)</div>
+               <div class="col-sm-3" style="font-weight: bold;"> {{RETAILOR_PAY_AMOUNT}}</div>
+
+               
+
+           
+       </div>
+      </div>
+      <div class="modal-footer">
+      <%--  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>--%>
+      </div>
+    </div>
+  </div>
+</div>
+
         <div class="wallet-buttons">
             <div class="col-sm-10 bot">
 
@@ -262,6 +345,7 @@
                 <asp:LinkButton PostBackUrl="~/Retailor/RetailorDashboard.aspx?type=2" ID="btnPayment" class="btn btn-primary" runat="server">Payment</asp:LinkButton>
                 <asp:LinkButton PostBackUrl="~/Retailor/RetailorDashboard.aspx?type=3" ID="btnPassbook" class="btn btn-primary" runat="server">Passbook</asp:LinkButton>
                 <%-- <asp:LinkButton ID="btnPassbook" class="btn btn-primary" runat="server" OnClick="btnPassbook_Click" >Passbook</asp:LinkButton>--%>
+              
             </div>
         </div>
 
@@ -393,6 +477,8 @@
                       <tr>
                           <th class="text-center" width="50">S.N.</th>
                           <th>Transaction No</th>
+                           <th>Settlement Amount</th>
+                           <th>Delivery Amount</th>
                           <th>Status</th>
                       </tr>
                   </thead>
@@ -400,6 +486,8 @@
                       <tr ng-repeat="item in model  | filter:query | orderBy: orderList | startFrom:currentPage*pageSize | limitTo:pageSize"" ng-cloak>
                           <td class="text-center">{{$index+1}}</td>
                           <td><a ng-click="showDesc(item)">{{item.TRANSACTION_ID}}</a></td>
+                           <td><a ng-click="showDescSettlement(item)">{{item.RETAILOR_PAY_AMOUNT}}</a></td>
+                             <td>{{item.DELIVERY_AMOUNT}}</td>
                           <td>{{item.RETAILOR_PAY_STATUS}}</td>
                       </tr>
                   </tbody>

@@ -269,7 +269,7 @@
 
                             </td>
                             <td class="text-center">{{item.RETAILOR_PAY_STATUS}}</td>
-                            <td class="text-center">{{item.DELIVERY_AMOUNT}}</td>
+                            <td class="text-center">{{item.RETAILOR_PAY_AMOUNT}}</td>
                              <td class="text-center">{{item.RETAILOR_PAY_DATE}}</td>
                             
                             <td >{{item.RETAILOR_PAY_STATUS}}</td>
@@ -327,6 +327,11 @@
                                <option>Dispute</option>
                                   <option>Refund</option>
                                                                          </select> 
+                        </div>
+
+                         <div  class="td-details">
+                          <span class="spnLable"> Sattelment Amount</span> <input type="text" ng-click="openSettlementAmount();" readonly />
+                            
                         </div>
                         <div  class="td-details">
                           <span class="spnLable">  Date : </span><input type="date" mg-model="date"/>

@@ -82,7 +82,8 @@ public partial class MyOrder : System.Web.UI.Page
         var productId = e.CommandArgument.ToString().Split('~')[3];
         var productName = e.CommandArgument.ToString().Split('~')[2];
         var transid = e.CommandArgument.ToString().Split('~')[4];
-        var msg = "Product has beeen canceled by the user: description OrderId: "+ transid + ", userId:" + userId + ", productId:" + productId + ", productName:" + productName + "";
+        var size = e.CommandArgument.ToString().Split('~')[5];
+        var msg = "Product has beeen canceled by the user: description OrderId: " + transid + ", userId:" + userId + ", productId:" + productId + ", productName:" + productName + ", Size:" + size + "";
         
         if (logisticDetails.Tables.Count > 0)
         {
@@ -122,7 +123,8 @@ public partial class MyOrder : System.Web.UI.Page
         var productName = e.CommandArgument.ToString().Split('~')[2];
         var Address = e.CommandArgument.ToString().Split('~')[4];
         var TransId = e.CommandArgument.ToString().Split('~')[5];
-        var msg = "User has requested to returend the product against the user: description userId:" + userId + " , Order Id: " + TransId + ", productId:" + productId + ", productName:" + productName + ", Address: " + Address + "";
+        var size = e.CommandArgument.ToString().Split('~')[6];
+        var msg = "User has requested to returend the product against the user: description userId:" + userId + " , Order Id: " + TransId + ", productId:" + productId + ", productName:" + productName + ",Size:"+size+", Address: " + Address + "";
         if (logisticDetails.Tables.Count > 0)
         {
 

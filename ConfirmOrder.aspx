@@ -258,7 +258,7 @@
                             <asp:ListItem Value="C">COD</asp:ListItem>
                             <%--<asp:ListItem Value="W" style="padding-left: 15%">Wallet Payment</asp:ListItem>
                             <asp:ListItem Value="N">Card/Net Banking</asp:ListItem>--%>
-                            <asp:ListItem Value="P">CCAvenue</asp:ListItem>
+                            <asp:ListItem Value="P">Online Payment</asp:ListItem>
                         </asp:RadioButtonList>
                     </div>
                     <div class="foot">

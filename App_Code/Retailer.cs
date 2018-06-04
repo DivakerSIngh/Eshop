@@ -111,5 +111,14 @@ public class Logistic
     public string R_PHONE { get; set; }
     public string CART_ID { get; set; }
     public string STATUS { get; set; }
-    
+    public string USER_NAME { get; set; }
+    public string ADDRESS { get; set; }
+    public string PRODUCT_TITLE { get; set; }
+    public string PRODUCT_DECSRIPTION { get; set; }
+    public string MEASUREMENT { get; set; }
+    public string SELLINGPRICE { get; set; }
+    public string QUANTITY { get; set; }
+    public string TRANSACTION_DATE { get; set; }
+
+
 }

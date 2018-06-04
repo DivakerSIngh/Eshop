@@ -139,7 +139,7 @@
                     loginUserId = $scope.retailerId;
                    
                     common.httpPost("TransactionDetails.aspx/getPaymentDetail",
-                   "{'id':'" + loginUserId + "', 'action':'" + parseInt(5) + "','fromdate':'" + $scope.fromdate + "','todate':'" + $scope.todate + "','status':'" + $scope.status + "','sortBy':'" + $scope.sortBy + "'}", false, success = function (data) {
+                   "{'id':'" + loginUserId + "', 'action':'" + parseInt(8) + "','fromdate':'" + $scope.fromdate + "','todate':'" + $scope.todate + "','status':'" + $scope.status + "','sortBy':'" + $scope.sortBy + "'}", false, success = function (data) {
 
                        $scope.model = data;
                       // $('.loader').hide();
@@ -177,6 +177,7 @@
                 $scope.productMeasurement = item.MEASUREMENT
                 $scope.quantity = item.QUANTITY
                 $scope.price = item.SELLINGPRICE
+                $scop.cartid = item.CART_ID
                 $('#transactionDetails').modal('show');
 
 
@@ -327,7 +328,6 @@
                             <th>Payment Status</th>
                             <th>Amount</th>
                             <th>Payment Date</th>  
-                             <th>Action</th>                         
                         </tr>
                     </thead>
                     <tbody>
@@ -345,8 +345,6 @@
                             <td class="text-center">{{item.RETAILOR_PAY_STATUS}}</td>
                             <td class="text-center"> {{item.RETAILOR_PAY_AMOUNT}}</td>
                              <td class="text-center">{{item.RETAILOR_PAY_DATE}}</td>
-                            
-                            <td >{{item.RETAILOR_PAY_STATUS}}</td>
                         </tr>
 
                     </tbody>
@@ -380,6 +378,7 @@
                         <div class="td-details">
                            <span class="spnLable"> Transaction Id  :</span>
                             <input type="text" readonly="readonly" ng-model="transactionId" value="{{transactionId}}" /> 
+                            <span style="display:none;"><input type="text" ng-model="cartid" value="{{cartid}}" /> </span>
                         </div>
                         <div  class="td-details">
                           <span class="spnLable">  Payment Mode :</span> 

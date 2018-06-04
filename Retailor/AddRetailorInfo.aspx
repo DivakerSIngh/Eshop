@@ -289,9 +289,9 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-group" style="display:none;">
                                             <label for="focusedinput" class="col-sm-2 control-label" style="text-align: left;">Org Registration
-                                                <asp:Label ID="Label10" runat="server" Text="*" ForeColor="Red" /></label>
+                                                <asp:Label ID="Label10" runat="server"  /></label>
                                             <div class="col-sm-6">
                                                 <asp:TextBox Visible="false" ID="txtServiceNum" class="form-control1" placeholder="Enter Service Tax Number" runat="server"></asp:TextBox>
                                                 <asp:FileUpload ID="FileUpload1" runat="server" />
@@ -303,7 +303,7 @@
                                           
                                             <br />
                                             <label for="focusedinput" class="col-sm-2 control-label" style="text-align: left;">GST certificate
-                                                <asp:Label ID="Labelgst" runat="server" Text="*" ForeColor="Red" /></label>
+                                                <asp:Label ID="Labelgst" runat="server"  /></label>
                                             <div class="col-sm-6">
                                                 <asp:FileUpload ID="FileUpload2" runat="server" />
                                             </div>
@@ -312,7 +312,7 @@
                                             </div>
                                             <br />
                                             <label for="focusedinput" class="col-sm-2 control-label" style="text-align: left;">PAN card
-                                                <asp:Label ID="Labpanel9" runat="server" Text="*" ForeColor="Red" /></label>
+                                                <asp:Label ID="Labpanel9" runat="server"  /></label>
                                             <div class="col-sm-6">
 
                                                 <asp:FileUpload ID="FileUpload3" runat="server" />
@@ -323,7 +323,7 @@
                                             </div>
                                             <br />
                                             <label for="focusedinput" class="col-sm-2 control-label" style="text-align: left;">ADhar card
-                                                <asp:Label ID="Labeladha26" runat="server" Text="*" ForeColor="Red" /></label>
+                                                <asp:Label ID="Labeladha26" runat="server" /></label>
                                             <div class="col-sm-6">
 
                                                 <asp:FileUpload ID="FileUpload4" runat="server" />
@@ -339,7 +339,7 @@
                                            
                                         </div>
 
- <p style="color:blue;">Note : File size can be of 2MB maximum and only .jpg,.jpge,.png,.pdf are allowed.</p>
+ <p style="color:blue;display:none;">Note : File size can be of 2MB maximum and only .jpg,.jpge,.png,.pdf are allowed.</p>
                                        
 
                                     </fieldset>

@@ -202,11 +202,12 @@
                 
                 $scope.transactionId
                 $scope.date = $('input[type=date]').val();
-                $scope.payementType
+                $scope.payementType;
+                var trasno = $scope.transactionNo ? $scope.transactionNo : "";
                 
                 
                 common.httpPost("TransactionDetails.aspx/updatePaymentStatus",
-                "{'Rid':'" + $scope.retailerId + "', 'transaction_id':'" + $scope.transactionId + "','RETAILOR_PAY_TRANSACTION_NO':'" + $scope.transactionNo + "','RETAILOR_PAY_DATE':'" + $scope.date + "','RETAILOR_PAY_AMOUNT':'" + 0 + "','RETAILOR_PAY_STATUS':'" + $scope.payementStatus + "','RETAILOR_PAY_MODE':'" + $scope.payementType + "'}", false, success = function (data) {
+                "{'Rid':'" + $scope.retailerId + "', 'transaction_id':'" + $scope.transactionId + "','RETAILOR_PAY_TRANSACTION_NO':'" + trasno + "','RETAILOR_PAY_DATE':'" + $scope.date + "','RETAILOR_PAY_AMOUNT':'" + 0 + "','RETAILOR_PAY_STATUS':'" + $scope.payementStatus + "','RETAILOR_PAY_MODE':'" + $scope.payementType + "'}", false, success = function (data) {
                     //$scope.model = data;
                     $scope.getAllProduct(1);
                     $('#transactionDetails').modal('hide');
@@ -326,7 +327,7 @@
                             <th>Order Date</th>
                             <th>Delievered Status</th>
                             <th>Payment Status</th>
-                            <th>Amount</th>
+                            <th>Settle Amount</th>
                             <th>Payment Date</th>  
                         </tr>
                     </thead>

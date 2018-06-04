@@ -325,7 +325,7 @@
                             <th>Order Date</th>
                             <th>Delievered Status</th>
                             <th>Payment Status</th>
-                            <th>Amount</th>
+                            <th>Settle Amount</th>
                             <th>Payment Date</th>  
                              <th>Action</th>                         
                         </tr>

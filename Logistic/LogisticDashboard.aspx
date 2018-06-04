@@ -202,7 +202,7 @@
 
             }
             $scope.showDesc = function (item) {
-
+                console.log(item);
                 $scope.transactionId = item.TRANSACTION_ID
                 $scope.transactionDate = item.TRANSACTION_DATE
                 $scope.userName = item.USER_NAME

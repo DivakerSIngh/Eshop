@@ -6127,7 +6127,7 @@ public class DB
     }
 
     // get order detail when we click on transaction id in retailer
-    public DataSet getOrderDetail(string tid)
+    public DataSet getOrderDetail(string tid,string rid)
     {
         try
         {
@@ -6136,6 +6136,7 @@ public class DB
             da.SelectCommand.CommandType = CommandType.StoredProcedure;
             da.SelectCommand.Parameters.Clear();
             da.SelectCommand.Parameters.AddWithValue("@TRANSID", tid);
+            da.SelectCommand.Parameters.AddWithValue("@RID", rid);
             da.SelectCommand.Parameters.AddWithValue("@ACTION", 7);
             ds = new DataSet();
             da.Fill(ds);

@@ -6038,7 +6038,7 @@ public class DB
         return i;
     }
 
-    public int Update_Retailer_Payment(string Rid, string transaction_id, string RETAILOR_PAY_TRANSACTION_NO, DateTime RETAILOR_PAY_DATE, string RETAILOR_PAY_AMOUNT, string RETAILOR_PAY_STATUS, string RETAILOR_PAY_MODE)
+    public int Update_Retailer_Payment(string Rid, string cartid, string RETAILOR_PAY_TRANSACTION_NO, DateTime RETAILOR_PAY_DATE, string RETAILOR_PAY_AMOUNT, string RETAILOR_PAY_STATUS, string RETAILOR_PAY_MODE)
     {
         int i = 0;
         try
@@ -6054,7 +6054,7 @@ public class DB
             cmd.Parameters.AddWithValue("@RETAILOR_PAY_AMOUNT", RETAILOR_PAY_AMOUNT);
             cmd.Parameters.AddWithValue("@RETAILOR_PAY_STATUS", RETAILOR_PAY_STATUS);
             cmd.Parameters.AddWithValue("@RETAILOR_PAY_MODE", RETAILOR_PAY_MODE);
-            cmd.Parameters.AddWithValue("@TRANSACTION_ID", transaction_id);
+            cmd.Parameters.AddWithValue("@CARTID", cartid);
             cmd.Parameters.AddWithValue("@RID", Rid);
             cmd.Parameters.AddWithValue("@ACTION", 1);
             con.Open();

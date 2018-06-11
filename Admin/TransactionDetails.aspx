@@ -167,7 +167,7 @@
             }
 
             $scope.showDesc = function (item) {
-
+                
                 $scope.transactionId = item.TRANSACTION_ID
                 $scope.paymentStatus = 'Pending'
                 $scope.userName = item.USER_NAME
@@ -177,7 +177,7 @@
                 $scope.productMeasurement = item.MEASUREMENT
                 $scope.quantity = item.QUANTITY
                 $scope.price = item.SELLINGPRICE
-                $scop.cartid = item.CART_ID
+                $scope.cartid = item.CART_ID //line added by amit
                 $('#transactionDetails').modal('show');
 
 
@@ -207,7 +207,7 @@
                 
                 
                 common.httpPost("TransactionDetails.aspx/updatePaymentStatus",
-                "{'Rid':'" + $scope.retailerId + "', 'transaction_id':'" + $scope.transactionId + "','RETAILOR_PAY_TRANSACTION_NO':'" + trasno + "','RETAILOR_PAY_DATE':'" + $scope.date + "','RETAILOR_PAY_AMOUNT':'" + 0 + "','RETAILOR_PAY_STATUS':'" + $scope.payementStatus + "','RETAILOR_PAY_MODE':'" + $scope.payementType + "'}", false, success = function (data) {
+                "{'Rid':'" + $scope.retailerId + "', 'cartid':'" + $scope.cartid + "','RETAILOR_PAY_TRANSACTION_NO':'" + trasno + "','RETAILOR_PAY_DATE':'" + $scope.date + "','RETAILOR_PAY_AMOUNT':'" + 0 + "','RETAILOR_PAY_STATUS':'" + $scope.payementStatus + "','RETAILOR_PAY_MODE':'" + $scope.payementType + "'}", false, success = function (data) {
                     //$scope.model = data;
                     $scope.getAllProduct(1);
                     $('#transactionDetails').modal('hide');
@@ -325,6 +325,8 @@
                             <th class="text-center" width="50">S.No order</th>
                             <th>Order Id.</th>
                             <th>Order Date</th>
+                             <th>Product Id</th>
+                             <th>Product Title</th>
                             <th>Delievered Status</th>
                             <th>Payment Status</th>
                             <th>Settle Amount</th>
@@ -339,6 +341,8 @@
                               
                             </td>
                             <td class="text-center">{{item.TRANSACTION_DATE}}</td>
+                             <td class="text-center">{{item.PRODUCT_ID}}</td>
+                             <td class="text-center">{{item.PRODUCT_TITLE}}</td>
                             <td class="text-center">
                                Delievered
 
@@ -380,6 +384,11 @@
                            <span class="spnLable"> Transaction Id  :</span>
                             <input type="text" readonly="readonly" ng-model="transactionId" value="{{transactionId}}" /> 
                             <span style="display:none;"><input type="text" ng-model="cartid" value="{{cartid}}" /> </span>
+                        </div>
+
+                         <div class="td-details">
+                           <span class="spnLable"> Product Title :</span>
+                            <input type="text" readonly="readonly" ng-model="productTitle" value="{{productTitle}}" /> 
                         </div>
                         <div  class="td-details">
                           <span class="spnLable">  Payment Mode :</span> 
